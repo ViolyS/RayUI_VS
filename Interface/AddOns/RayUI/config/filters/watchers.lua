@@ -1345,6 +1345,8 @@ R["Watcher"] = {
                 { spellID = 145193, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 剑刃乱舞
                 { spellID = 13877, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死亡徵兆
+                { spellID = 212283, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标buff&debuff",
@@ -1423,8 +1425,6 @@ R["Watcher"] = {
                 { spellID = 193357, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 赤紅藥瓶
                 { spellID = 185311, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 死亡徵兆
-                { spellID = 212283, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 暗影之刃
                 { spellID = 121471, unitId = "player", caster = "player", filter = "BUFF" },
             },

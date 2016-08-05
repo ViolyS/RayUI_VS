@@ -85,6 +85,9 @@ local function LoadSkin()
 	S:ReskinCheck(LFDQueueFrameRoleButtonHealer:GetChildren())
 	S:ReskinCheck(LFDQueueFrameRoleButtonDPS:GetChildren())
 	S:ReskinCheck(LFDQueueFrameRoleButtonLeader:GetChildren())
+	for i = 1, 20 do
+		S:ReskinCheck(_G["LFDQueueFrameSpecificListButton"..i.."EnableButton"])
+	end
 	S:ReskinCheck(RaidFinderQueueFrameRoleButtonTank:GetChildren())
 	S:ReskinCheck(RaidFinderQueueFrameRoleButtonHealer:GetChildren())
 	S:ReskinCheck(RaidFinderQueueFrameRoleButtonDPS:GetChildren())
