@@ -88,30 +88,9 @@ local function LoadSkin()
 
 	-- [[ Side tabs ]]
 
-	EncounterJournalEncounterFrameInfoOverviewTab:ClearAllPoints()
-	EncounterJournalEncounterFrameInfoOverviewTab:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", 9, -35)
-	EncounterJournalEncounterFrameInfoLootTab:ClearAllPoints()
-	EncounterJournalEncounterFrameInfoLootTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoOverviewTab, "BOTTOM", 0, 1)
-	EncounterJournalEncounterFrameInfoBossTab:ClearAllPoints()
-	EncounterJournalEncounterFrameInfoBossTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoLootTab, "BOTTOM", 0, 1)
-
 	local tabs = {EncounterJournalEncounterFrameInfoOverviewTab, EncounterJournalEncounterFrameInfoLootTab, EncounterJournalEncounterFrameInfoBossTab, EncounterJournalEncounterFrameInfoModelTab}
 	for _, tab in pairs(tabs) do
-		tab:SetScale(.75)
-
-		tab:SetBackdrop({
-			bgFile = R["media"].gloss,
-			edgeFile = R["media"].gloss,
-			edgeSize = 1 / .75,
-		})
-
-		tab:SetBackdropColor(0, 0, 0, .5)
-		tab:SetBackdropBorderColor(0, 0, 0)
-
-		tab:SetNormalTexture("")
-		tab:SetPushedTexture("")
-		tab:SetDisabledTexture("")
-		tab:SetHighlightTexture("")
+		tab:SetScale(.5)
 	end
 
 	-- [[ Instance select ]]
@@ -294,8 +273,7 @@ local function LoadSkin()
 		select(i, EncounterJournalSearchResults:GetRegions()):Hide()
 	end
 
-	S:CreateBD(EncounterJournalSearchResults)
-	EncounterJournalSearchResults:SetBackdropColor(.15, .15, .15, .9)
+	S:SetBD(EncounterJournalSearchResults)
 
 	EncounterJournal.searchBox.searchPreviewContainer.botLeftCorner:Hide()
 	EncounterJournal.searchBox.searchPreviewContainer.botRightCorner:Hide()
@@ -548,11 +526,38 @@ local function LoadSkin()
 
 	EncounterJournal.LootJournal:GetRegions():Hide()
 
+	for k, bu in pairs(EncounterJournal.LootJournal.LegendariesFrame.buttons) do
+		bu.Background:Hide()
+		S:Reskin(bu)
+		S:ReskinIcon(bu.Icon)
+		bu.Icon:SetDrawLayer("ARTWORK")
+	end
+	for k, bu in pairs(EncounterJournal.LootJournal.LegendariesFrame.rightSideButtons) do
+		bu.Background:Hide()
+		S:Reskin(bu)
+		S:ReskinIcon(bu.Icon)
+		bu.Icon:SetDrawLayer("ARTWORK")
+	end
+
 	S:ReskinDropDown(LootJournalViewDropDown)
-	EncounterJournal.LootJournal.LegendariesFrame.ClassButton:StripTextures()
-	S:Reskin(EncounterJournal.LootJournal.LegendariesFrame.ClassButton)
-	EncounterJournal.LootJournal.LegendariesFrame.SlotButton:StripTextures()
-	S:Reskin(EncounterJournal.LootJournal.LegendariesFrame.SlotButton)
+	for _, EJ_Button in pairs({EncounterJournal.LootJournal.LegendariesFrame.ClassButton, EncounterJournal.LootJournal.LegendariesFrame.SlotButton, EncounterJournal.LootJournal.ItemSetsFrame.ClassButton}) do
+		EJ_Button.UpLeft:Hide()
+		EJ_Button.UpLeft.Show = function() end
+		EJ_Button.UpRight:Hide()
+		EJ_Button.UpRight.Show = function() end
+		EJ_Button.DownLeft:Hide()
+		EJ_Button.DownLeft.Show = function() end
+		EJ_Button.DownRight:Hide()
+		EJ_Button.DownRight.Show = function() end
+		EJ_Button.HighLeft:Hide()
+		EJ_Button.HighRight:Hide()
+		
+		local text = EJ_Button:GetFontString()
+		text:SetPoint("CENTER")
+		text:SetTextColor(1, 1, 1)
+		
+		S:Reskin(EJ_Button)
+	end
 	S:ReskinScroll(EncounterJournalScrollBar)
 
 	-- EncounterJournalScrollChild
