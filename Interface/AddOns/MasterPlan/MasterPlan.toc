@@ -1,0 +1,27 @@
+## Interface: 70000
+## Title: Master Plan
+## Notes: Garrision missions UI tweaks.
+## Author: foxlit
+## X-Website: https://www.townlong-yak.com/master-plan/
+## LoadOnDemand: 1
+## LoadWith: Blizzard_GarrisonUI
+## RequiredDeps: Blizzard_GarrisonUI
+## SavedVariablesPerCharacter: MasterPlanPC
+## Version: 0.98
+## X-Version-Key: duchess
+## Globe-Pre: MasterPlanA
+Libs/Evie.lua
+Libs/Reframe.lua
+PlanA\PlanA.xml
+Locale.lua
+Mark-50.lua
+GarrisonAPI-Data.lua
+GarrisonAPI.lua
+MasterPlan.lua
+MissionsUI.lua
+GarrisonMissions.lua
+GarrisonFollowers.lua
+FollowerSummary.lua
+ShipMoI.lua
+LandingCache.lua
+LandingAlts.lua

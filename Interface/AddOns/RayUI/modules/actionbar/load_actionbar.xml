@@ -1,0 +1,11 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="actionbar.lua"/>
+	<Script file="stancebar.lua"/>
+	<Script file="petbar.lua"/>
+	<Script file="vehicleexit.lua"/>
+	<Script file="extra.lua"/>
+	<Script file="overridebar.lua"/>
+	<Script file="cooldown.lua"/>
+	<Script file="bind.lua"/>
+	<Script file="autohide.lua"/>
+</Ui>
