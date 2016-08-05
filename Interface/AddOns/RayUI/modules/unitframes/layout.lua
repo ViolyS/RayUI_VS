@@ -242,6 +242,9 @@ function UF:DPSLayout(frame, unit)
 			frame.AuraBars:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 33)
 			frame.AuraBars:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", 0, 33)
 		end
+
+		frame.SpeedText = self:Construct_SpeedText(frame)
+		self:ScheduleRepeatingTimer("SpeedDisplayUpdate", 0.25, frame)
 	end
 
 	if unit == "target" then
@@ -318,6 +321,7 @@ function UF:DPSLayout(frame, unit)
 		end
 
 		frame.RangeText = self:Construct_RangeText(frame)
+		self:ScheduleRepeatingTimer("RangeDisplayUpdate", 0.25, frame)
 	end
 
 	if unit == "party" or unit == "focus" then
@@ -618,8 +622,6 @@ function UF:DPSLayout(frame, unit)
 			tinsert(frame.mouseovers, frame.Power)
 		end
 	end
-
-	self:ScheduleRepeatingTimer("RangeDisplayUpdate", 0.25, frame)
 end
 
 function UF:LoadUnitFrames()
