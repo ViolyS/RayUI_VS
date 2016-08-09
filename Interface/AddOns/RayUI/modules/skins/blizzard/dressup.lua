@@ -61,7 +61,7 @@ local function LoadSkin()
 		local cb = _G["DressUpModelControlFrame"..buttons[i].."Button"]
 		_G["DressUpModelControlFrame"..buttons[i].."ButtonBg"]:Hide()
 
-		S:CreateBD(cb, .25)
+		S:Reskin(cb)
 	end
 end
 

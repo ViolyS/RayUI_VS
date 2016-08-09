@@ -528,8 +528,10 @@ local function LoadSkin()
 		local cb = _G["WardrobeTransmogFrameControlFrame"..buttons[i].."Button"]
 		_G["WardrobeTransmogFrameControlFrame"..buttons[i].."ButtonBg"]:Hide()
 
-		S:CreateBD(cb, .25)
+		S:Reskin(cb)
 	end
+
+	S:Reskin(WardrobeTransmogFrame.Model.ClearAllPendingButton)
 end
 
 S:RegisterSkin("Blizzard_Collections", LoadSkin)

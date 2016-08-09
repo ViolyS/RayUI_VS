@@ -94,7 +94,7 @@ local function LoadSkin()
 		local cb = _G["CharacterModelFrameControlFrame"..buttons[i].."Button"]
 		_G["CharacterModelFrameControlFrame"..buttons[i].."ButtonBg"]:Hide()
 
-		S:CreateBD(cb, .25)
+		S:Reskin(cb)
 	end
 
 	-- [[ Stats pane ]]

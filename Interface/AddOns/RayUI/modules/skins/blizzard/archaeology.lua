@@ -79,6 +79,9 @@ local function LoadSkin()
 
 	ArchaeologyFrameArtifactPageIcon:SetTexCoord(.08, .92, .08, .92)
 	S:CreateBG(ArchaeologyFrameArtifactPageIcon)
+
+	ArcheologyDigsiteProgressBar:ClearAllPoints()
+	ArcheologyDigsiteProgressBar:SetPoint("TOP", UIParent, "TOP", 0, 100)
 end
 
 S:RegisterSkin("Blizzard_ArchaeologyUI", LoadSkin)

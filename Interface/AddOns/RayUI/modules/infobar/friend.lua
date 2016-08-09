@@ -122,7 +122,7 @@ local function LoadFriend()
                         )
                     else
                         cname = string.format(
-                            "|cff%02x%02x%02x%s|r |cffcccccc(|r|cff%02x%02x%02x%s|r|cffcccccc)|r",
+                            "|cff%02x%02x%02x%s|r |cffcccccc|r",
                             FRIENDS_BNET_NAME_COLOR.r * 255, FRIENDS_BNET_NAME_COLOR.g * 255, FRIENDS_BNET_NAME_COLOR.b * 255,
                             presenceName,
                             r * 255, g * 255, b * 255,
