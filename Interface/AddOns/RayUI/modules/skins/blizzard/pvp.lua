@@ -148,6 +148,31 @@ local function LoadSkin()
 		bu.Icon.bg:SetDrawLayer("BACKGROUND", 1)
 		bu.Icon:SetPoint("TOPLEFT", 5, -3)
 	end
+
+	HonorFrame.XPBar.Frame:Hide()
+	
+	local bg = CreateFrame("Frame", nil, HonorFrame.XPBar.Bar)
+	bg:SetPoint("TOPLEFT", 0, 1)
+	bg:SetPoint("BOTTOMRIGHT", 0, -1)
+	bg:SetFrameLevel(HonorFrame.XPBar.Bar:GetFrameLevel()-1)
+	S:CreateBD(bg, .3)
+	HonorFrame.XPBar.Bar.Background:Hide()
+	
+	HonorFrame.XPBar.NextAvailable.Frame:Hide()
+	S:CreateBD(HonorFrame.XPBar.NextAvailable, .5)
+	HonorFrame.XPBar.NextAvailable:ClearAllPoints()
+	HonorFrame.XPBar.NextAvailable:SetPoint("LEFT", HonorFrame.XPBar.Bar, "RIGHT")
+	HonorFrame.XPBar.NextAvailable:SetSize(25, 25)
+	HonorFrame.XPBar.NextAvailable.Icon:SetAllPoints()
+	
+	HonorFrame.XPBar.NextAvailable.Frame.Show = R.dummy
+	HonorFrame.XPBar.Levelbg = CreateFrame("Frame", nil, HonorFrame.XPBar)
+	HonorFrame.XPBar.Levelbg:SetPoint("RIGHT", HonorFrame.XPBar.Bar, "LEFT")
+	HonorFrame.XPBar.Levelbg:SetSize(25, 25)
+	HonorFrame.XPBar.Levelbg:SetFrameLevel(1)
+	HonorFrame.XPBar.Level:SetPoint("CENTER", HonorFrame.XPBar.Levelbg, "CENTER")
+	HonorFrame.XPBar.Level:SetJustifyH("CENTER")
+	S:CreateBD(HonorFrame.XPBar.Levelbg, .5)
 end
 
 S:RegisterSkin("Blizzard_PVPUI", LoadSkin)
