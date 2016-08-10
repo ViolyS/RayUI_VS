@@ -864,6 +864,8 @@ R["Watcher"] = {
                 { spellID = 498, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 戰爭藝術
                 { spellID = 59578, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 炽热决心
+                { spellID = 166831, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 復仇之怒
                 { spellID = 31884, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 精通光環
@@ -2158,6 +2160,8 @@ R["Watcher"] = {
                 { spellID = 1022, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 虔誠光環
                 { spellID = 31821, unitId = "player", caster = "all", filter = "BUFF" },
+                -- 希望象征
+                { spellID = 64901, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 守护之魂
                 { spellID = 47788, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 痛苦镇压
