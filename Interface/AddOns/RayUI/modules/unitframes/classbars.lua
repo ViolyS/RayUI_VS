@@ -193,10 +193,10 @@ function UF:Construct_DeathKnightResourceBar(frame)
 		runes[i]:GetStatusBarTexture():SetHorizTile(false)
 
 		runes[i].bg = runes[i]:CreateTexture(nil, "BACKGROUND")
-        runes[i].bg:SetAllPoints(runes[i])
-        runes[i].bg:SetTexture(R["media"].normal)
-        runes[i].bg:SetVertexColor(0, 0, 0)
-        runes[i].bg.multiplier = .2
+		runes[i].bg:SetAllPoints(runes[i])
+		runes[i].bg:SetTexture(R["media"].normal)
+		runes[i].bg:SetVertexColor(0, 0, 0)
+		runes[i].bg.multiplier = .2
 	end
 
 	runes.PostUpdateVisibility = UF.PostVisibilityRunes
