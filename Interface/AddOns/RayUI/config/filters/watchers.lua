@@ -1826,6 +1826,79 @@ R["Watcher"] = {
                 {slotID = 14, filter = "CD" },
             },
         },
+        ["DEMONHUNTER"] = {
+            {
+                name = "玩家buff&debuff",
+                direction = "LEFT",
+                setpoint = positions.player_buff_icon,
+                size = 28,
+
+                -- 生命之花
+                -- { spellID = 33763, unitId = "player", caster = "player", filter = "BUFF" },
+            },
+            {
+                name = "目标buff&debuff",
+                direction = "RIGHT",
+                setpoint = positions.target_buff_icon,
+                size = 28,
+
+                -- 生命之花
+                -- { spellID = 33763, unitId = "target", caster = "player", filter = "BUFF" },
+            },
+            {
+                name = "玩家重要buff&debuff",
+                direction = "LEFT",
+                setpoint = positions.player_proc_icon,
+                size = 38,
+
+                -- 恶魔变身
+                { spellID = 162264, unitId = "player", caster = "player", filter = "BUFF" },
+            },
+            {
+                name = "目标重要buff&debuff",
+                direction = "RIGHT",
+                setpoint = positions.target_proc_icon,
+                size = 38,
+
+                -- 糾纏根鬚
+                -- { spellID = 339, unitId = "target", caster = "all", filter = "DEBUFF" },
+            },
+            {
+                name = "焦点buff&debuff",
+                direction = "UP",
+                setpoint = positions.focus_buff_icon,
+                size = 24,
+                mode = "BAR",
+                iconSide = "LEFT",
+                barWidth = 170,
+
+                -- 糾纏根鬚
+                -- { spellID = 339, unitId = "focus", caster = "all", filter = "DEBUFF" },
+            },
+            {
+                name = "CD",
+                iconSide = "LEFT",
+                size = 28,
+                barWidth = 170,
+                direction = function() return R:IsDeveloper() and "RIGHT" or "DOWN" end,
+                mode = function() return R:IsDeveloper() and "ICON" or "BAR" end,
+                setpoint = positions.cd_icon,
+
+                -- 狂暴
+                -- { spellID = 50334, filter = "CD" },
+
+                -- 物品
+                -- 手套
+                {slotID = 10, filter = "CD" },
+                -- 腰带
+                {slotID = 6, filter = "CD" },
+                -- 披风
+                {slotID = 15, filter = "CD" },
+                -- 饰品
+                {slotID = 13, filter = "CD" },
+                {slotID = 14, filter = "CD" },
+            },
+        },
         ["ALL"]={
             {
                 name = "玩家特殊buff&debuff",
