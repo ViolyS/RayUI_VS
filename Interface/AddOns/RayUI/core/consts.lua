@@ -21,6 +21,7 @@ RayUF["colors"].class = {
 	["WARLOCK"]     = { 0.6,	0.47,		0.85 },
 	["WARRIOR"]     = { 0.9,	0.65,		0.45 },
 	["MONK"]        = { 0,		1,			0.59 },
+	["DEMONHUNTER"]     = { 0.64,	0.19,		0.39 },
 }
 
 RayUF["colors"].reaction = {
@@ -35,9 +36,9 @@ RayUF["colors"].reaction = {
 }
 
 RayUF["colors"].ComboPoints = {
-	[1] = {1, 0, 0},
-	[2] = {1, 1, 0},
-	[3] = {0, 1, 0},
+	[1] = {1, 0, 0}, -- Red
+	[2] = {1, 1, 0}, -- Yellow
+	[3] = {0, 1, 0}, -- Green
 }
 
 R.colors = {
