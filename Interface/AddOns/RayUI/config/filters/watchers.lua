@@ -1853,6 +1853,8 @@ R["Watcher"] = {
 
                 -- 恶魔变身
                 { spellID = 162264, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 恶魔之魂
+                { spellID = 163073, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标重要buff&debuff",
