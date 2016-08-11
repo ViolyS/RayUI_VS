@@ -95,6 +95,7 @@ local function LoadSkin()
 		"InterfaceOptionsSocialPanelTwitterLoginButton",
 		"ChatConfigFrameOkayButton",
 		"ChatConfigFrameDefaultButton",
+		"ChatConfigFrameRedockButton",
 		"StackSplitOkayButton",
 		"StackSplitCancelButton",
 		"GameMenuButtonHelp",
@@ -764,6 +765,7 @@ local function LoadSkin()
 
 	ChatConfigFrameDefaultButton:SetWidth(125)
 	ChatConfigFrameDefaultButton:SetPoint("TOPLEFT", ChatConfigCategoryFrame, "BOTTOMLEFT", 0, -4)
+	ChatConfigFrameRedockButton:SetPoint("TOPLEFT", ChatConfigCategoryFrame, "BOTTOMLEFT", 127, -4)
 	ChatConfigFrameOkayButton:SetPoint("TOPRIGHT", ChatConfigBackgroundFrame, "BOTTOMRIGHT", 0, -4)
 
 	TicketStatusFrame:ClearAllPoints()
