@@ -1857,10 +1857,16 @@ R["Watcher"] = {
                 setpoint = positions.player_proc_icon,
                 size = 38,
 
-                -- 恶魔变身
+                -- 恶魔变身（浩劫）
                 { spellID = 162264, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 恶魔变形（复仇）
+                { spellID = 187827, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 恶魔之魂
                 { spellID = 163073, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 恶魔尖刺
+                { spellID = 203819, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 献祭光环
+                { spellID = 178740, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标重要buff&debuff",
@@ -1868,8 +1874,8 @@ R["Watcher"] = {
                 setpoint = positions.target_proc_icon,
                 size = 38,
 
-                -- 糾纏根鬚
-                -- { spellID = 339, unitId = "target", caster = "all", filter = "DEBUFF" },
+                -- 烈火烙印
+                { spellID = 207744, unitId = "target", caster = "all", filter = "DEBUFF" },
             },
             {
                 name = "焦点buff&debuff",
@@ -1892,8 +1898,10 @@ R["Watcher"] = {
                 mode = function() return R:IsDeveloper() and "ICON" or "BAR" end,
                 setpoint = positions.cd_icon,
 
-                -- 狂暴
-                -- { spellID = 50334, filter = "CD" },
+                -- 恶魔变身（浩劫）
+                { spellID = 191427, filter = "CD" },
+                -- 恶魔变身（复仇）
+                { spellID = 187827, filter = "CD" },
 
                 -- 物品
                 -- 手套
