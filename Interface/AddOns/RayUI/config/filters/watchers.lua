@@ -1704,6 +1704,8 @@ R["Watcher"] = {
                 { spellID = 124274, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 酒仙大緩勁
                 { spellID = 124273, unitId = "player", caster = "all", filter = "DEBUFF" },
+                -- 猛虎之眼（治疗）
+                { spellID = 196608, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标buff&debuff",
@@ -1717,6 +1719,8 @@ R["Watcher"] = {
                 { spellID = 132120, unitId = "target", caster = "player", filter = "BUFF" },
                 -- 舒和之霧
                 { spellID = 115175, unitId = "target", caster = "player", filter = "BUFF" },
+                -- 猛虎之眼（伤害）
+                { spellID = 196608, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
             {
                 name = "玩家重要buff&debuff",
@@ -1760,6 +1764,8 @@ R["Watcher"] = {
                 { spellID = 197908, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 金鐘絕釀
                 { spellID = 215479, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 散魔功
+                { spellID = 122783, unitId = "player", caster = "player", filter = "BUFF" },
 								
             },
             {
