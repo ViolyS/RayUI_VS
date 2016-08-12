@@ -216,14 +216,14 @@ R["Watcher"] = {
 
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["HUNTER"] = {
@@ -365,14 +365,14 @@ R["Watcher"] = {
 
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["MAGE"] = {
@@ -519,14 +519,14 @@ R["Watcher"] = {
 
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["WARRIOR"] = {
@@ -795,14 +795,14 @@ R["Watcher"] = {
 
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["PALADIN"] = {
@@ -960,14 +960,14 @@ R["Watcher"] = {
 
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["PRIEST"] = {
@@ -1155,14 +1155,14 @@ R["Watcher"] = {
 
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["WARLOCK"]={
@@ -1322,14 +1322,14 @@ R["Watcher"] = {
 
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["ROGUE"] = {
@@ -1537,14 +1537,14 @@ R["Watcher"] = {
 
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["DEATHKNIGHT"] = {
@@ -1665,9 +1665,9 @@ R["Watcher"] = {
                 setpoint = positions.cd_icon,
 				
                 -- 大軍
-                {slotID = 42650, filter = "CD" },
+                { spellID = 42650, filter = "CD" },
                 -- 黑暗仲裁者
-                {slotID = 207349, filter = "CD" },
+                { spellID = 207349, filter = "CD" },
                 -- 滅體抹殺
                 { spellID = 207256, filter = "CD" },
                 -- 符文武器
@@ -1675,14 +1675,14 @@ R["Watcher"] = {
 				
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["MONK"] = {
@@ -1822,14 +1822,14 @@ R["Watcher"] = {
 
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["DEMONHUNTER"] = {
@@ -1897,14 +1897,14 @@ R["Watcher"] = {
 
                 -- 物品
                 -- 手套
-                {slotID = 10, filter = "CD" },
+                { slotID = 10, filter = "CD" },
                 -- 腰带
-                {slotID = 6, filter = "CD" },
+                { slotID = 6, filter = "CD" },
                 -- 披风
-                {slotID = 15, filter = "CD" },
+                { slotID = 15, filter = "CD" },
                 -- 饰品
-                {slotID = 13, filter = "CD" },
-                {slotID = 14, filter = "CD" },
+                { slotID = 13, filter = "CD" },
+                { slotID = 14, filter = "CD" },
             },
         },
         ["ALL"]={
