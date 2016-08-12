@@ -32,6 +32,7 @@
 	<Script file='inspect.lua'/>
 	<Script file='itemsocketing.lua'/>
 	<Script file='itemupgrade.lua'/>
+	<Script file='lookingforguild.lua'/>
 	<Script file='loot.lua'/>
 	<Script file='loothistory.lua'/>
 	<Script file='lossofcontrol.lua'/>
