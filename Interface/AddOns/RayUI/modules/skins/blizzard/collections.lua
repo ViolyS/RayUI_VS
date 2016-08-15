@@ -215,7 +215,7 @@ local function LoadSkin()
 		select(i, card.xpBar:GetRegions()):Hide()
 	end
 
-	-- card.xpBar:SetStatusBarTexture(R["media"].gloss)
+	card.xpBar:SetStatusBarTexture(R["media"].gloss)
 	S:CreateBDFrame(card.xpBar, .25)
 
 	PetJournalPetCardHealthFramehealthStatusBarLeft:Hide()
@@ -223,7 +223,7 @@ local function LoadSkin()
 	PetJournalPetCardHealthFramehealthStatusBarMiddle:Hide()
 	PetJournalPetCardHealthFramehealthStatusBarBGMiddle:Hide()
 
-	-- card.HealthFrame.healthBar:SetStatusBarTexture(R["media"].gloss)
+	card.HealthFrame.healthBar:SetStatusBarTexture(R["media"].gloss)
 	S:CreateBDFrame(card.HealthFrame.healthBar, .25)
 
 	for i = 1, 6 do
@@ -273,7 +273,7 @@ local function LoadSkin()
 			select(i, bu.xpBar:GetRegions()):Hide()
 		end
 
-		-- bu.xpBar:SetStatusBarTexture(R["media"].gloss)
+		bu.xpBar:SetStatusBarTexture(R["media"].gloss)
 		S:CreateBDFrame(bu.xpBar, .25)
 
 		_G["PetJournalLoadoutPet"..i.."HealthFramehealthStatusBarLeft"]:Hide()
@@ -281,7 +281,7 @@ local function LoadSkin()
 		_G["PetJournalLoadoutPet"..i.."HealthFramehealthStatusBarMiddle"]:Hide()
 		_G["PetJournalLoadoutPet"..i.."HealthFramehealthStatusBarBGMiddle"]:Hide()
 
-		-- bu.healthFrame.healthBar:SetStatusBarTexture(R["media"].gloss)
+		bu.healthFrame.healthBar:SetStatusBarTexture(R["media"].gloss)
 		S:CreateBDFrame(bu.healthFrame.healthBar, .25)
 
 		for j = 1, 3 do
