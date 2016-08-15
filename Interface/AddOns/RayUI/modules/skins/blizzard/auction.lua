@@ -295,6 +295,9 @@ local function LoadSkin()
 	S:ReskinPortraitFrame(WowTokenGameTimeTutorial, true)
 	S:Reskin(StoreButton)
 
+	WowTokenGameTimeTutorial.LeftDisplay.Label:SetVertexColor(1, 1, 1)
+	WowTokenGameTimeTutorial.RightDisplay.Label:SetVertexColor(1, 1, 1)
+
 	-- Token
 
 	do
