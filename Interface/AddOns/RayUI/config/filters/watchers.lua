@@ -1875,7 +1875,7 @@ R["Watcher"] = {
                 size = 38,
 
                 -- 烈火烙印
-                { spellID = 207744, unitId = "target", caster = "all", filter = "DEBUFF" },
+                { spellID = 207744, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
             {
                 name = "焦点buff&debuff",
