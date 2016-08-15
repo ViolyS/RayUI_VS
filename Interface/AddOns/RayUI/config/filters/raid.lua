@@ -30,6 +30,7 @@ G.Raid.AuraWatch = {
 		ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}), -- Power Infusion
 		ClassBuff(47788, "LEFT", {221/255, 117/255, 0}, true), -- Guardian Spirit
 		ClassBuff(33206, "LEFT", {227/255, 23/255, 13/255}, true), -- Pain Suppression
+		ClassBuff(194384, "TOPRIGHT", {0.4, 0.7, 0.2}), -- 贖罪
 	},
 	DRUID = {
 		ClassBuff(774, "TOPRIGHT", {0.8, 0.4, 0.8}),	 -- Rejuvenation
@@ -84,8 +85,8 @@ G.Raid.RaidDebuffs = {
 	-- Add spells to this list to have the aura time count up from 0
 	-- NOTE: This does not show the aura, it needs to be in one of the other list too.
 	ascending = {
-		[SpellName(89435)] = Defaults(5),
-		[SpellName(89421)] = Defaults(5),
+		[SpellName(89435)] = Defaults(),
+		[SpellName(89421)] = Defaults(),
 	},
 
 	-- Any Zone
@@ -101,104 +102,387 @@ G.Raid.RaidDebuffs = {
 
 	-- Raid Debuffs
 	instances = {
-		[1026] = { 
-			-- Hellfire Citadel
+	
+	    [1094] = { 
+			-- 翡翠夢境 
+			--奈珊卓拉 
+			
+			[SpellName(204504)] = Defaults(2), -- 寄生 任何瘟疫都疊，10層心控 
+			[SpellName(203045)] = Defaults(5), -- 感染之地 踩到屎 
+			[SpellName(203096)] = Defaults(1), -- 腐爛 點名角落放屎
+            [SpellName(204463)] = Defaults(3), -- 烈性腐爛 坦克5層換			
+			[SpellName(203646)] = Defaults(8), -- 腐化爆裂 被炸易傷 
+			[SpellName(202978)] = Defaults(3), -- 感染之息 正在被噴
+			[SpellName(205043)] = Defaults(1), -- 心智寄生 M
 
-			-- Hellfire Assault
-				[SpellName(184369)] = Defaults(5), -- Howling Axe (Target)
-				[SpellName(180079)] = Defaults(5), -- Felfire Munitions
+			--腐化之心伊蓋諾斯 
 			
-			-- Iron Reaver
-				[SpellName(179897)] = Defaults(5), -- Blitz
-				[SpellName(185978)] = Defaults(5), -- Firebomb Vulnerability
-				[SpellName(182373)] = Defaults(5), -- Flame Vulnerability
-				[SpellName(182280)] = Defaults(5), -- Artillery (Target)
-				[SpellName(182074)] = Defaults(5), -- Immolation
-				[SpellName(182001)] = Defaults(5), -- Unstable Orb
+			[SpellName(210099)] = Defaults(2), -- 鎖定  軟泥盯你
+			[SpellName(209469)] = Defaults(2), -- 腐化之觸  魔法 軟泥咬你，驅散
+			[SpellName(210984)] = Defaults(3), -- 命運之眼  坦克2層換
+			[SpellName(208929)] = Defaults(4), -- 噴吐腐化  去外面放水
+			[SpellName(208697)] = Defaults(6), -- 精神鞭笞 眼梗瞪你，打斷
+			[SpellName(212886)] = Defaults(6), -- 夢魘腐化 踩到紅水
+			[SpellName(215128)] = Defaults(4), -- 詛咒之血 點名11碼分散
+			[SpellName(215836)] = Defaults(4), -- 死亡綻放 不踩爆炸
+			[SpellName(215845)] = Defaults(6), -- 散化孢子 爆炸dot
+			[SpellName(209471)] = Defaults(6), -- 夢魘爆炸 軟泥爆炸dot
 			
-			-- Kormrok
-				[SpellName(187819)] = Defaults(5), -- Crush
-				[SpellName(181345)] = Defaults(5), -- Foul Crush
 			
-			-- Hellfire High Council
-				[SpellName(184360)] = Defaults(5), -- Fel Rage
-				[SpellName(184449)] = Defaults(5), -- Mark of the Necromancer
-				[SpellName(185065)] = Defaults(5), -- Mark of the Necromancer
-				[SpellName(184450)] = Defaults(5), -- Mark of the Necromancer
-				[SpellName(185066)] = Defaults(5), -- Mark of the Necromancer
-				[SpellName(184676)] = Defaults(5), -- Mark of the Necromancer
-				[SpellName(184652)] = Defaults(5), -- Reap
+
+			--艾樂瑞斯雷弗拉爾 
 			
-			-- Kilrogg Deadeye
-				[SpellName(181488)] = Defaults(5), -- Vision of Death
-				[SpellName(188929)] = Defaults(5), -- Heart Seeker (Target)
-				[SpellName(180389)] = Defaults(5), -- Heart Seeker (DoT)
+			[SpellName(210228)] = Defaults(6), -- 滴毒尖牙 小怪 咬人疊dot
+			[SpellName(215300)] = Defaults(4), -- 痛苦蛛網 坦克連線
+			[SpellName(215307)] = Defaults(4), -- 痛苦蛛網 坦克連線
+			[SpellName(213124)] = Defaults(6), -- 毒液之池 踩到綠水 
+			[SpellName(215489)] = Defaults(6), -- 毒液之池 踩到綠水
+			[SpellName(215460)] = Defaults(4), -- 亡域毒液 角落放水 
+			[SpellName(215582)] = Defaults(4), -- 掃擊之爪 坦克 
+			[SpellName(210850)] = Defaults(5), -- 扭曲暗影 角落放風或消水 
+			[SpellName(218124)] = Defaults(6), -- 猛烈強風 擊飛M 
+			[SpellName(218144)] = Defaults(6), -- 猛烈強風 擊飛M
+			[SpellName(218519)] = Defaults(6), -- 風之灼傷 強風易傷 
 			
-			-- Gorefiend
-				[SpellName(179867)] = Defaults(5), -- Gorefiend's Corruption
-				[SpellName(181295)] = Defaults(5), -- Digest
-				[SpellName(179977)] = Defaults(5), -- Touch of Doom
-				[SpellName(179864)] = Defaults(5), -- Shadow of Death
-				[SpellName(179909)] = Defaults(5), -- Shared Fate (self root)
-				[SpellName(179908)] = Defaults(5), -- Shared Fate (other players root)
+
+			--厄索克 
 			
-			-- Shadow-Lord Iskar
-				[SpellName(181957)] = Defaults(5), -- Phantasmal Winds
-				[SpellName(182200)] = Defaults(5), -- Fel Chakram
-				[SpellName(182178)] = Defaults(5), -- Fel Chakram
-				[SpellName(182325)] = Defaults(5), -- Phantasmal Wounds
-				[SpellName(185239)] = Defaults(5), -- Radiance of Anzu
-				[SpellName(185510)] = Defaults(5), -- Dark Bindings
-				[SpellName(182600)] = Defaults(5), -- Fel Fire
-				[SpellName(179219)] = Defaults(5), -- Phantasmal Fel Bomb
-				[SpellName(181753)] = Defaults(5), -- Fel Bomb
+			[SpellName(197943)] = Defaults(3), -- 全面壓制 坦克易傷 
+			[SpellName(204859)] = Defaults(3), -- 撕裂血肉 坦克dot 
+			[SpellName(198006)] = Defaults(1), -- 專注凝視 點名衝鋒 
+			[SpellName(198108)] = Defaults(2), -- 衝力 分攤易傷 
+			[SpellName(198392)] = Defaults(4), -- 不諧回音 咆哮轟鳴增傷 
+			[SpellName(205611)] = Defaults(6), -- 瘴氣 踩水
+            [SpellName(197980)] = Defaults(6), -- 惡夢絕叫 分身恐懼			
+
+			--夢魘之龍 
 			
-			-- Soulbound Construct (Socrethar)
-				[SpellName(182038)] = Defaults(5), -- Shattered Defenses
-				[SpellName(188666)] = Defaults(5), -- Eternal Hunger (Add fixate, Mythic only)
-				[SpellName(189627)] = Defaults(5), -- Volatile Fel Orb (Fixated)
-				[SpellName(180415)] = Defaults(5), -- Fel Prison
+			[SpellName(207681)] = Defaults(3), -- 夢魘之花 踩花 
+			[SpellName(204731)] = Defaults(6), -- 恐懼破壞力 減傷光環 
+			[SpellName(204044)] = Defaults(6), -- 暗影衝擊 10%減速 
+			[SpellName(205341)] = Defaults(3), -- 迷霧蔓延 魔法 沉睡 
+			[SpellName(203110)] = Defaults(8), -- 夢魘沉睡 昏迷 
+			[SpellName(203770)] = Defaults(4), -- 褻瀆藤蔓 魔法 定身 
+			[SpellName(203787)] = Defaults(1), -- 快速傳染 10碼aoe
+			[SpellName(204078)] = Defaults(5), -- 低沉咆哮 恐懼3秒
+			[SpellName(214543)] = Defaults(8), -- 崩塌夢魘 內場減傷
+
+			--塞納留斯 
 			
-			-- Tyrant Velhari
-				[SpellName(185237)] = Defaults(5), -- Touch of Harm
-				[SpellName(185238)] = Defaults(5), -- Touch of Harm
-				[SpellName(185241)] = Defaults(5), -- Edict of Condemnation
-				[SpellName(180526)] = Defaults(5), -- Font of Corruption
+			[SpellName(210315)] = Defaults(1), -- 夢魘刺藤 魔法 跑 驅散 
+			[SpellName(211612)] = Defaults(6), -- 治癒樹根 回魔 
+			[SpellName(211989)] = Defaults(5), -- 解縛之觸 
+			[SpellName(216516)] = Defaults(4), -- 先祖夢境 +30%治療量 
+			[SpellName(210279)] = Defaults(8), -- 蔓延夢魘 常註光環DOT
+			[SpellName(213162)] = Defaults(4), -- 夢魘衝擊 坦克
+
+			--薩維斯
 			
-			-- Fel Lord Zakuun
-				[SpellName(181508)] = Defaults(5), -- Seed of Destruction
-				[SpellName(181653)] = Defaults(5), -- Fel Crystals (Too Close)
-				[SpellName(179428)] = Defaults(5), -- Rumbling Fissure (Soak)
-				[SpellName(182008)] = Defaults(5), -- Latent Energy (Cannot soak)
-				[SpellName(179407)] = Defaults(5), -- Disembodied (Player in Shadow Realm)
+			[SpellName(206651)] = Defaults(2), -- 暗蝕靈魂 坦克魔法 p1驅散爆炸
+            [SpellName(209158)] = Defaults(2), -- 黑蝕靈魂 坦克魔法 p2p3驅散爆炸			
+			[SpellName(210451)] = Defaults(2), -- 恐懼束縛 連線撞掉
+            [SpellName(209034)] = Defaults(2), -- 恐懼束縛 連線撞掉			
+			[SpellName(208431)] = Defaults(6), -- 腐化：墜入瘋狂 準備心控 
+			[SpellName(207409)] = Defaults(6), -- 腐化：瘋狂 心控 
+			[SpellName(211802)] = Defaults(1), -- 夢魘之刃 飛刀出人群 
+			[SpellName(224508)] = Defaults(1), -- 腐化隕石 人群分擔 
+			[SpellName(205771)] = Defaults(2), -- 痛苦凝視 小怪追人 
+			[SpellName(211634)] = Defaults(6), -- 無限黑暗 
+		
+		},
+		[1088] = { 
+			-- 暗夜堡 
+			--斯寇派隆 
 			
-			-- Xhul'horac
-				[SpellName(188208)] = Defaults(5), -- Ablaze
-				[SpellName(186073)] = Defaults(5), -- Felsinged
-				[SpellName(186407)] = Defaults(5), -- Fel Surge
-				[SpellName(186500)] = Defaults(5), -- Chains of Fel
-				[SpellName(186063)] = Defaults(5), -- Wasting Void
-				[SpellName(186333)] = Defaults(5), -- Void Surge
+			[SpellName(211659)] = Defaults(2), -- 秘法束鍊 坦克 10碼消除 
+			[SpellName(204766)] = Defaults(8), -- 能量奔騰 
+			[SpellName(204483)] = Defaults(3), -- 集中爆炸 被暈
+            [SpellName(204744)] = Defaults(6), -- 有毒甲殼 小怪放水	 M		
+			[SpellName(214718)] = Defaults(8), -- 酸液碎片 綠階段dot M 
+
+			--時光異象 
 			
-			-- Mannoroth
-				[SpellName(181275)] = Defaults(5), -- Curse of the Legion
-				[SpellName(181099)] = Defaults(5), -- Mark of Doom
-				[SpellName(181597)] = Defaults(5), -- Mannoroth's Gaze
-				[SpellName(182006)] = Defaults(5), -- Empowered Mannoroth's Gaze
-				[SpellName(181841)] = Defaults(5), -- Shadowforce
-				[SpellName(182088)] = Defaults(5), -- Empowered Shadowforce
+			[SpellName(206607)] = Defaults(2), -- 時光粒子 疊10爆炸
+			[SpellName(206617)] = Defaults(2), -- 定時炸彈 跑遠
+			[SpellName(205707)] = Defaults(3), -- 時光球體 碰到小圈
 			
-			-- Archimonde
-				[SpellName(184964)] = Defaults(5), -- Shackled Torment
-				[SpellName(186123)] = Defaults(5), -- Wrought Chaos
-				[SpellName(185014)] = Defaults(5), -- Focused Chaos
-				[SpellName(186952)] = Defaults(5), -- Nether Banish
-				[SpellName(186961)] = Defaults(5), -- Nether Banish
-				[SpellName(189891)] = Defaults(5), -- Nether Tear
-				[SpellName(183634)] = Defaults(5), -- Shadowfel Burst
-				[SpellName(189895)] = Defaults(5), -- Void Star Fixate
-				[SpellName(190049)] = Defaults(5), -- Nether Corruption
-		 },
+			
+
+			--提里埃斯 
+			
+			[SpellName(214573)] = Defaults(4), -- 塞滿滿  吃過毒蛋糕
+			[SpellName(206488)] = Defaults(5), -- 秘法滲流 踩到
+			[SpellName(206838)] = Defaults(2), -- 多汁盛宴 吃到好蛋糕有盾
+			[SpellName(208910)] = Defaults(3), -- 毒液之池 踩到綠水 
+			[SpellName(215489)] = Defaults(1), -- 弧光連結 靠近
+			[SpellName(208915)] = Defaults(1), -- 弧光連結 靠近
+			
+			
+
+			--法刃艾露莉亞 
+			
+			[SpellName(212531)] = Defaults(3), -- 冰霜印記 P1 
+			[SpellName(212587)] = Defaults(3), -- 冰霜印記 P1
+			[SpellName(212647)] = Defaults(2), -- 冰霜咬噬 P1易傷 
+			[SpellName(213148)] = Defaults(3), -- 灼燒烙印 P2 
+			[SpellName(213181)] = Defaults(3), -- 灼燒烙印 P2 
+			[SpellName(213166)] = Defaults(3), -- 灼燒烙印 P2
+			[SpellName(213504)] = Defaults(3), -- 秘法魔霧 P3
+			[SpellName(212736)] = Defaults(4), -- 冰霜之池 P1踩水 
+			[SpellName(213278)] = Defaults(4), -- 燃燒大地 P2踩火
+            		
+
+			--提克迪奧斯 
+			
+			[SpellName(206480)] = Defaults(1), -- 腐屍瘟疫 
+			[SpellName(208230)] = Defaults(2), -- 血肉盛宴 
+			[SpellName(212794)] = Defaults(4), -- 阿古斯烙印 集合爆掉 
+			[SpellName(215988)] = Defaults(3), -- 腐肉夢魘 p2被暈 
+			[SpellName(206466)] = Defaults(2), -- 夜之精華 +30%傷害量和治療量並回魔 
+			[SpellName(216024)] = Defaults(2), -- 易變之傷 坦克 
+			[SpellName(216040)] = Defaults(4), -- 燃燒之魂 魔法 p1-3大怪抽魔
+			[SpellName(216685)] = Defaults(5), -- 阿古斯之焰 炸圈出火
+			
+
+			--克羅索斯 
+			
+			[SpellName(206677)] = Defaults(1), -- 灼燒烙印 坦克5層換 
+			[SpellName(205344)] = Defaults(2), -- 毀滅之球 遠離人群 
+			
+
+			--大植物學家泰亞恩
+			
+			[SpellName(218342)] = Defaults(2), -- 寄生專注 花追人
+            [SpellName(218503)] = Defaults(2), -- 遞迴打擊 坦克7-10層換			
+			[SpellName(218304)] = Defaults(2), -- 寄生束縛 魔法 定身驅散出花
+			
+			
+			
+			--星占師伊催斯
+			
+			[SpellName(206464)] = Defaults(2), -- 星環噴發 坦克P1
+			[SpellName(206388)] = Defaults(2), -- 魔化爆發 坦克P2
+			[SpellName(206965)] = Defaults(2), -- 虛無爆發 坦克P3
+            [SpellName(214167)] = Defaults(3), -- 重力牽引 坦克P3/P2/P4	
+            [SpellName(205984)] = Defaults(3), -- 重力牽引 坦克P3/P2/P4	
+            [SpellName(214335)] = Defaults(3), -- 重力牽引 坦克P3/P2/P4			
+			[SpellName(206398)] = Defaults(6), -- 魔焰 踩火
+			[SpellName(205649)] = Defaults(3), -- 魔化轟擊 角落放火
+			[SpellName(206936)] = Defaults(4), -- 寒冰彈射 P1分散
+			[SpellName(207720)] = Defaults(4), -- 見證虛無 P3被恐
+			[SpellName(206585)] = Defaults(4), -- 絕對零度 P1砸圈
+			[SpellName(206589)] = Defaults(3), -- 冰凍 P1冰塊
+			[SpellName(207831)] = Defaults(6), -- 大三角 星座易傷 M
+			[SpellName(205445)] = Defaults(6), -- 星座：貪狼 星座配對 M
+			[SpellName(205429)] = Defaults(6), -- 星座：巨蟹 星座配對 M
+			[SpellName(217046)] = Defaults(6), -- 遺骸吞噬中 P4 M
+			[SpellName(216345)] = Defaults(6), -- 星座：獵戶 星座配對 M
+			[SpellName(216344)] = Defaults(6), -- 星座：飛龍 星座配對 M
+			
+			
+			
+			--大博學者艾莉珊德
+			
+			[SpellName(209166)] = Defaults(5), -- 時光加快 30%加速
+			[SpellName(209165)] = Defaults(5), -- 時光遲緩 30%減速
+			[SpellName(208659)] = Defaults(3), -- 秘法之環 碰到圈
+            [SpellName(211261)] = Defaults(4), -- 恆增折磨 P3
+            [SpellName(209244)] = Defaults(3), -- 滅時光束 p2 箭頭別穿人
+            [SpellName(209598)] = Defaults(3), -- 交映爆發 p3 爆炸			
+			[SpellName(209615)] = Defaults(2), -- 燒蝕 坦克 p1 2-5層換
+			[SpellName(209973)] = Defaults(2), -- 燒蝕爆炸 坦克 P2
+			[SpellName(211885)] = Defaults(2), -- 燒蝕 p3 易傷(打斷就沒)
+			
+			--古爾丹
+			
+			
+			
+           
+		
+		},
+	    [1026] = {
+		    -- 地獄火堡壘
+			-- #1 地獄火突襲戰/奇袭地狱火 
+         [SpellName(186016)] = Defaults(4), -- 魔焰彈藥/邪火弹药 拿彈藥的dot 
+         [SpellName(184379)] = Defaults(1), -- 哀嚎之斧/啸风战斧 點名出人群三角站位 
+         [SpellName(184238)] = Defaults(3), -- 畏縮！/颤抖！ 減速 
+         [SpellName(184243)] = Defaults(2), -- 猛擊/猛击 坦克 易傷 
+         [SpellName(185806)] = Defaults(1), -- 傳導震波衝擊/导电冲击脉冲 魔法 擊暈 
+         [SpellName(180022)] = Defaults(1), -- 鑽洞/钻孔 你要被車碾了 
+         [SpellName(185157)] = Defaults(4), -- 燃燒/灼烧 正面錐形aoe dot 
+         [SpellName(187655)] = Defaults(4), -- 腐化虹吸/腐化虹吸 M 
+
+         -- #2 鋼鐵劫奪者/钢铁掠夺者 
+         [SpellName(182074)] = Defaults(4), -- 焚燒/献祭 踩到火 
+         [SpellName(182001)] = Defaults(3), -- 不穩定的球體/不稳定的宝珠 8碼分散 
+         [SpellName(182280)] = Defaults(1), -- 砲擊/炮击 離boss越遠傷害越低，p1只點坦，p2點全部 
+         [SpellName(182003)] = Defaults(4), -- 燃料污漬/燃料尾痕 踩到水減速 
+         [SpellName(179897)] = Defaults(4), -- 閃擊/迅猛突袭 被夾住啦 
+         [SpellName(185242)] = Defaults(4), -- 閃擊/迅猛突袭 被夾住啦 
+         [SpellName(185978)] = Defaults(2), -- 火焰彈易傷/易爆火焰炸弹 M 火焰炸彈爆炸易傷 
+		 [SpellName(182373)] = Defaults(2), -- 火焰易傷/易爆火焰炸弹 M 火焰彈對附近的易傷 
+
+         -- #3 寇姆洛克/考莫克 
+         [SpellName(181345)] = Defaults(2), -- 邪惡碎擊/攫取之手 坦克 被手抓 
+         [SpellName(181321)] = Defaults(2), -- 魔化之觸/邪能之触 坦克 擊飛+50%法易傷 
+         [SpellName(181306)] = Defaults(2), -- 炸裂爆發/爆裂冲击 坦克 定身，10秒爆炸，40碼aoe 
+         [SpellName(187819)] = Defaults(3), -- 粉碎/邪污碾压 被手抓 
+         [SpellName(180270)] = Defaults(4), -- 暗影團塊/暗影血球 強化紫色暗影波 
+         [SpellName(185519)] = Defaults(4), -- 熾熱團塊/炽热血球 強化黃色暗影波 
+         [SpellName(185521)] = Defaults(4), -- 邪惡團塊/邪污血球 強化綠色暗影波 
+         [SpellName(181082)] = Defaults(6), -- 暗影池/暗影之池 掉進水池 
+         [SpellName(186559)] = Defaults(6), -- 熾焰火池/火焰之池 掉進水池 
+         [SpellName(186560)] = Defaults(6), -- 邪惡池塘/邪污之池 掉進水池 
+         [SpellName(181208)] = Defaults(1), -- 暗影殘渣/暗影残渣 M 接水dot 
+         [SpellName(185686)] = Defaults(1), -- 熾熱殘渣/爆炸残渣 M 接水dot 
+         [SpellName(185687)] = Defaults(1), -- 腐惡殘渣/邪恶残渣 M 接水dot 
+
+         -- #4 地獄火高階議會/地狱火高阶议会 
+         [SpellName(184449)] = Defaults(1), -- 死靈法師印記/死灵印记 魔法 
+         [SpellName(184450)] = Defaults(1), -- 死靈法師印記/死灵印记 魔法 
+         [SpellName(184676)] = Defaults(1), -- 死靈法師印記/死灵印记 魔法 
+         [SpellName(185065)] = Defaults(1), -- 死靈法師印記/死灵印记 魔法 
+         [SpellName(185066)] = Defaults(1), -- 死靈法師印記/死灵印记 魔法 
+         [SpellName(184360)] = Defaults(2), -- 惡魔之怒/堕落狂怒 血沸點名 
+         [SpellName(184847)] = Defaults(2), -- 強酸創傷/酸性创伤 坦克 破甲 
+         [SpellName(184652)] = Defaults(3), -- 收割/暗影收割 踩圈 
+         [SpellName(184355)] = Defaults(5), -- 血液沸騰/血液沸腾 M 血沸對最遠的5人上流血dot 
+
+         -- #5 基爾羅格·亡眼/基尔罗格·死眼 
+         [SpellName(188929)] = Defaults(1), -- 追心飛刀/剖心飞刀 點名飛刀 
+         [SpellName(180389)] = Defaults(3), -- 追心飛刀/剖心飞刀 流血DOT 
+         [SpellName(182159)] = Defaults(4), -- 惡魔腐化/邪能腐蚀 特殊能量 
+         [SpellName(184396)] = Defaults(3), -- 惡魔腐化/邪能腐蚀 疊滿被心控 
+         [SpellName(180313)] = Defaults(4), -- 惡魔附身/恶魔附身 被心控 
+         [SpellName(180718)] = Defaults(3), -- 不朽決心/永痕的决心 玩家 增傷，可疊20層 
+         [SpellName(181488)] = Defaults(6), -- 死亡幻象/死亡幻象 
+         [SpellName(185563)] = Defaults(3), -- 不死救贖/永恒的救赎 玩家debuff 一個光圈，站進去清腐化 
+         [SpellName(180200)] = Defaults(2), -- 撕碎護甲/碎甲 坦克 不該中；身上有主動減傷就不會中(同萊登) 
+         [SpellName(180575)] = Defaults(6), -- 魔化烈焰/邪能烈焰 
+         [SpellName(183917)] = Defaults(5), -- 撕裂嚎叫/撕裂嚎叫 玩家 流血dot 
+         [SpellName(188852)] = Defaults(6), -- 濺血/溅血 踩水 
+         [SpellName(184067)] = Defaults(6), -- 魔化之沼/邪能腐液  踩水 
+
+         -- #6 血魔/血魔 
+         [SpellName(180093)] = Defaults(4), -- 靈魂箭雨/灵魂箭雨 緩速 
+         [SpellName(179864)] = Defaults(1), -- 死亡之影/死亡之影 點名進場 
+         [SpellName(179867)] = Defaults(6), -- 血魔的腐化/血魔的腐化 進過場，不能再次進場 
+         [SpellName(181295)] = Defaults(2), -- 消化/消化 內場，debuff結束秒殺，剩3秒出場 
+         [SpellName(180148)] = Defaults(1), -- 嗜命/生命渴望 玩家 傀儡(小怪)盯人，追上10碼爆炸 
+         [SpellName(179977)] = Defaults(1), -- 末日之觸/毁灭之触 去角落放圈 
+         [SpellName(179995)] = Defaults(6), -- 末日之井/末日井 踩到圈 
+         [SpellName(185190)] = Defaults(6), -- 魔化烈焰/邪能烈焰 大怪buff 
+         [SpellName(185189)] = Defaults(4), -- 魔化之怒/邪能之怒 大怪dot 
+         [SpellName(179908)] = Defaults(3), -- 命運共享/命运相连 找被定身的集合消連線，能動 
+         [SpellName(179909)] = Defaults(3), -- 命運共享/命运相连 找被定身的集合消連線，定身 
+         [SpellName(186770)] = Defaults(6), -- 碰到血魔的洗澡水 
+
+         -- #7 暗影領主伊斯卡/暗影领主伊斯卡 
+         [SpellName(185239)] = Defaults(1), -- 安祖烈光/安苏之光 拿球疊dot 
+         [SpellName(182325)] = Defaults(4), -- dot，hp90%以上消失或拿球消 
+         [SpellName(182600)] = Defaults(6), -- 魔化火焰/邪能焚化 踩火 
+         [SpellName(181957)] = Defaults(5), -- 吹下去，拿球消 
+         [SpellName(182200)] = Defaults(1), -- 魔化戰輪/邪能飞轮 出人群 
+         [SpellName(182178)] = Defaults(1), -- 魔化戰輪/邪能飞轮 出人群 
+         [SpellName(179219)] = Defaults(6), -- 幻魅魔化炸彈/幻影邪能炸弹 魔法 別驅 
+         [SpellName(181753)] = Defaults(1), -- 魔化炸彈/邪能炸弹 魔法 拿球驅散 
+         [SpellName(181824)] = Defaults(2), -- 幻魅腐化/幻影腐蚀 坦克 10秒後爆炸，拿球清 
+         [SpellName(187344)] = Defaults(3), -- 幻魅火葬/幻影焚化 近戰 幻魅腐化給附近的人的易傷 
+         [SpellName(185456)] = Defaults(2), -- 絕望之鍊/绝望之链 M 配對(無誤) 
+         [SpellName(185510)] = Defaults(2), -- 黑暗束縛/暗影之缚 M 把鍊子綁在一起，沒有鍊子的人靠近會引爆 
+
+         -- #8永恆者索奎薩爾/永恒者索克雷萨 
+         [SpellName(182038)] = Defaults(2), -- 粉碎防禦/粉碎防御 迴盪之擊易傷，分攤，坦克2次換 
+         [SpellName(189627)] = Defaults(1), -- 烈性魔珠/易爆的邪能宝珠 點名球追人，追到爆炸 
+         [SpellName(182218)] = Defaults(4), -- 魔炎殘渣/邪炽冲锋 衝鋒留下綠火，75%減速 
+         [SpellName(180415)] = Defaults(4), -- 魔化牢籠/邪能牢笼 水晶暈人 
+         [SpellName(189540)] = Defaults(5), -- 極限威能/压倒能量 傀儡隨便電人，6秒dot 
+         [SpellName(184124)] = Defaults(1), -- 曼那瑞之賜/堕落者之赐 綠圈aoe，別靠近別人 
+         [SpellName(182769)] = Defaults(2), -- 恐怖凝視/魅影重重 p2被小怪追 
+         [SpellName(184239)] = Defaults(3), -- 暗言術：痛苦/暗言术：恶 魔法 喚影師施放，驅散 
+         [SpellName(182900)] = Defaults(4), -- 惡性糾纏/恶毒鬼魅 小怪恐懼 
+         [SpellName(188666)] = Defaults(2), -- 永世饑渴/无尽饥渴 M 玩家 潛獵者追人，正面秒殺 
+         [SpellName(190776)] = Defaults(4), -- 索奎薩爾的應變之計/索克雷萨之咒 M 潛獵者傀儡易傷 
+
+         -- #9 女暴君維哈里/暴君维哈里 
+         [SpellName(180000)] = Defaults(2), -- 凋零徽印/凋零契印 坦克   2-4層換坦 
+         [SpellName(179987)] = Defaults(6), -- 蔑視光環/蔑视光环 
+         [SpellName(181683)] = Defaults(6), -- 壓迫光環/抑制光环 
+         [SpellName(179993)] = Defaults(6), -- 惡意光環/怨恨光环 
+         [SpellName(180526)] = Defaults(1), -- 腐化洗禮/腐蚀序列 P2 aoe標記，被標記的人會5碼aoe 
+         [SpellName(180166)] = Defaults(3), -- 魔法 吸收治療量，驅散跳到別人身上 
+         [SpellName(180164)] = Defaults(3), -- 魔法 吸收治療量，驅散跳到別人身上 
+         [SpellName(182459)] = Defaults(2), -- 定罪赦令/谴责法令 分攤 
+         [SpellName(180604)] = Defaults(4), -- 剝奪之地/亵渎之地 P3地板紫圈 
+
+         -- #10 惡魔領主札昆/邪能领主扎昆 
+         [SpellName(189260)] = Defaults(3), -- 裂魂/破碎之魂 進場的暗影易傷 
+         [SpellName(179407)] = Defaults(4), -- 虛體/魂不附体 進場debuff 
+         [SpellName(182008)] = Defaults(4), -- 潛在能量/潜伏能量 撞到波爆炸 
+         [SpellName(189032)] = Defaults(4), -- 被污染/玷污 吸收盾，分別是綠/黃/紅燈，刷滿6碼爆炸 
+         [SpellName(189031)] = Defaults(3), -- 被污染/玷污 吸收盾，分別是綠/黃/紅燈，刷滿6碼爆炸 
+         [SpellName(189030)] = Defaults(2), -- 被污染/玷污 吸收盾，分別是綠/黃/紅燈，刷滿6碼爆炸 
+         [SpellName(179428)] = Defaults(3), -- 轟隆裂隙/轰鸣的裂隙 站在漩渦上，一個漩渦只要一個人踩 
+         [SpellName(181508)] = Defaults(1), -- 毀滅種子/毁灭之种 出人群 
+         [SpellName(181515)] = Defaults(1), -- 毀滅種子/毁灭之种 出人群 
+         [SpellName(181653)] = Defaults(4), -- 惡魔水晶/邪能水晶 
+         [SpellName(188998)] = Defaults(2), -- 耗竭靈魂/枯竭灵魂 M 不能再次進場 
+
+         -- #11 祖霍拉克/祖霍拉克 
+         [SpellName(186134)] = Defaults(3), -- 魔化之觸/邪蚀 受到火焰傷害的標記，持續15秒，碰到暗影傷害會爆炸 
+         [SpellName(186135)] = Defaults(3), -- 魔化之觸/邪蚀 受到火焰傷害的標記，持續15秒，碰到暗影傷害會爆炸 
+         [SpellName(185656)] = Defaults(3), -- 影魔殲滅/邪影屠戮 
+         [SpellName(186073)] = Defaults(6), -- 魔化焦灼/邪能炙烤 踩到綠火 
+         [SpellName(186063)] = Defaults(6), -- 破滅虛空/虚空消耗 踩到紫水 
+         [SpellName(186407)] = Defaults(1), -- 惡魔奔騰/魔能喷涌 點名，5秒後腳下出綠火 
+         [SpellName(186333)] = Defaults(1), -- 虛無怒濤/灵能涌动 點名，5秒後腳下出紫水 
+         [SpellName(186448)] = Defaults(6), -- 魔炎亂舞/邪焰乱舞 
+         [SpellName(186453)] = Defaults(6), -- 魔炎亂舞/邪焰乱舞 
+         [SpellName(186785)] = Defaults(6), -- 枯萎凝視/凋零凝视 
+         [SpellName(186783)] = Defaults(6), -- 枯萎凝視/凋零凝视 
+         [SpellName(188208)] = Defaults(5), -- 著火/点燃 小鬼火球砸中的dot 
+         [SpellName(186547)] = Defaults(6), -- 黑洞/黑洞 全團aoe直到踩掉為止 
+         [SpellName(186500)] = Defaults(4), -- 魔化鎖鍊/邪能锁链 跑遠拉斷 
+		 [SpellName(189775)] = Defaults(4), -- 強化魔化鎖鍊 跑遠拉斷
+
+         -- #12 瑪諾洛斯/玛诺洛斯 
+         [SpellName(181275)] = Defaults(4), -- 軍團的詛咒/军团诅咒 詛咒 驅散召喚領主 
+         [SpellName(181099)] = Defaults(1), -- 毀滅印記/末日印记 玩家 受到傷害移除並爆炸，20碼AOE 
+         [SpellName(181119)] = Defaults(2), -- 末日尖刺/末日之刺 坦克 層數越高，結束時的傷害越高 
+         [SpellName(189717)] = Defaults(2), -- 末日尖刺/末日之刺 坦克層數越高，結束時的傷害越高 
+         [SpellName(182171)] = Defaults(6), -- 瑪諾洛斯之血/玛洛诺斯之血 踩到P1綠水 
+         [SpellName(184252)] = Defaults(2), -- 刺傷/穿刺之伤 坦克 (p2p3/p4)不該中；旋刃戳刺時身上有主動減傷就不會中(同萊登) 
+         [SpellName(191231)] = Defaults(2), -- 刺傷/穿刺之伤 坦克 (p2p3/p4)不該中；旋刃戳刺時身上有主動減傷就不會中(同萊登) 
+         [SpellName(181359)] = Defaults(2), -- 巨力衝擊/巨力冲击 坦克 擊飛 
+         [SpellName(181597)] = Defaults(4), -- 瑪諾洛斯的凝視/玛诺洛斯凝视 恐懼，分攤傷害 
+         [SpellName(181841)] = Defaults(4), -- 暗影之力/暗影之力 推人(小心加速) 
+         [SpellName(182006)] = Defaults(4), -- 瑪諾洛斯的強力凝視/强化玛诺洛斯凝视 恐懼，分攤傷害產生白水 
+         [SpellName(182088)] = Defaults(4), -- 強化暗影之力/强化暗影之力 p4推人 
+         [SpellName(182031)] = Defaults(6), -- 凝視之影/凝视暗影 踩到白色 
+         [SpellName(190482)] = Defaults(3), -- 擁抱暗影/束缚暗影 M 
+
+         -- #13 阿克蒙德/阿克蒙德 
+         [SpellName(183634)] = Defaults(4), -- 影魔衝擊/暗影冲击 擊飛，分攤落地傷害 
+         [SpellName(187742)] = Defaults(2), -- 暗影爆破/暗影冲击 玩家/坦克   大怪易傷，坦克2層換 
+         [SpellName(183864)] = Defaults(2), -- 暗影爆破/暗影冲击 玩家/坦克   大怪易傷，坦克2層換 
+         [SpellName(183828)] = Defaults(5), -- 死亡烙印/死亡烙印 坦克 dot 大怪死才消失 
+         [SpellName(183586)] = Defaults(5), -- 毀滅之火/魔火 踩火dot 
+         [SpellName(182879)] = Defaults(2), -- 毀滅之火鎖定/魔火锁定 追人 
+         [SpellName(183963)] = Defaults(3), -- 那魯之光/纳鲁之光 伊芮爾的小球，免疫暗影傷害 
+         [SpellName(185014)] = Defaults(4), -- 聚集混沌/聚焦混乱 即將被傳遞塑形混沌 
+         [SpellName(186123)] = Defaults(3), -- 塑型混沌/精炼混乱 正面直線aoe，傳遞給箭頭指向的人 
+         [SpellName(184964)] = Defaults(4), -- 束縛折磨/枷锁酷刑 遠離靈魂30碼消除 
+         [SpellName(186952)] = Defaults(2), -- 虛空放逐/虚空放逐 坦克 進場 
+         [SpellName(186961)] = Defaults(2), -- 虛空放逐/虚空放逐 坦克 進場 
+         [SpellName(187047)] = Defaults(4), -- 吞噬生命/吞噬声明 內場，降低受到的治療量 
+         [SpellName(189891)] = Defaults(6), -- 虛空裂隙/虚空撕裂 傳送門在外場變成的水池 
+         [SpellName(190049)] = Defaults(3), -- 虛空腐化/虚空腐化 內場易傷 
+         [SpellName(188796)] = Defaults(6), -- 惡魔腐化/邪能腐蚀 場邊綠水 
+		 [SpellName(190400)] = Defaults(6), -- 軍團之觸 分攤印記獲得易傷
+		 [SpellName(187050)] = Defaults(6), -- 燃燒軍團印記 分別有11/9/7/5秒4種，需分攤，結束時擊飛，人越少飛越高
+			
+			
+		},
 		[988] = { 
 			-- 黑石铸造厂 
 			--格鲁尔 
