@@ -142,6 +142,22 @@ local function LoadSkin()
 	end)
 
 	S:ReskinScroll(QuestNPCModelTextScrollFrameScrollBar)
+
+	--[[ Item text ]]
+	
+	select(18, ItemTextFrame:GetRegions()):Hide()
+	ItemTextFramePageBg:SetAlpha(0)
+	ItemTextPrevPageButton:GetRegions():Hide()
+	ItemTextNextPageButton:GetRegions():Hide()
+	ItemTextMaterialTopLeft:SetAlpha(0)
+	ItemTextMaterialTopRight:SetAlpha(0)
+	ItemTextMaterialBotLeft:SetAlpha(0)
+	ItemTextMaterialBotRight:SetAlpha(0)
+	ItemTextScrollFrameScrollBar:Hide()
+
+	S:ReskinPortraitFrame(ItemTextFrame, true)
+	S:ReskinArrow(ItemTextPrevPageButton, "left")
+	S:ReskinArrow(ItemTextNextPageButton, "right")
 end
 
 S:RegisterSkin("RayUI", LoadSkin)
