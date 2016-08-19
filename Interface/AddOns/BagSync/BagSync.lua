@@ -1,17 +1,9 @@
 --[[
 	BagSync.lua
-		A item tracking addon similar to Bagnon_Forever (special thanks to Tuller).
-		Works with practically any Bag mod available, Bagnon not required.
-
-	NOTE: Parts of this mod were inspired by code from Bagnon_Forever by Tuller.
-	
-	This project was originally done a long time ago when I used the default blizzard bags.  I wanted something like what
-	was available in Bagnon for tracking items, but I didn't want to use Bagnon.  So I decided to code one that works with
-	pretty much any inventory addon.
-	
-	It was intended to be a beta addon as I never really uploaded it to a interface website.  Instead I used the
-	SVN of wowace to work on it.  The last revision done on the old BagSync was r50203.11 (29 Sep 2007).
-	Note: This addon has been completely rewritten. 
+		A item tracking addon that works with practically any bag addon available.
+		This addon has been heavily rewritten several times since it's creation back in 2007.
+		
+		This addon was inspired by Tuller and his Bagnon addon.  (Thanks Tuller!)
 
 	Author: Xruptor
 
@@ -24,6 +16,7 @@ local currentPlayer
 local currentRealm
 local playerClass
 local playerFaction
+local crossRealmNames = {}
 local NUM_EQUIPMENT_SLOTS = 19
 local BS_DB
 local BS_GD
@@ -94,6 +87,10 @@ BagSync:SetScript('OnEvent', function(self, event, ...)
 	end
 end)
 
+function BagSync:Debug(...)
+	Debug(...)
+end
+
 if IsLoggedIn() then BagSync:PLAYER_LOGIN() else BagSync:RegisterEvent('PLAYER_LOGIN') end
 
 ----------------------
@@ -114,6 +111,8 @@ local function StartupDB()
 	if BagSyncOpt.tooltipOnlySearch == nil then BagSyncOpt.tooltipOnlySearch = false end
 	if BagSyncOpt.enableTooltips == nil then BagSyncOpt.enableTooltips = true end
 	if BagSyncOpt.enableTooltipSeperator == nil then BagSyncOpt.enableTooltipSeperator = true end
+	if BagSyncOpt.enableCrossRealmsItems == nil then BagSyncOpt.enableCrossRealmsItems = true end
+	if BagSyncOpt.enableBNetAccountItems == nil then BagSyncOpt.enableBNetAccountItems = false end
 	
 	--new format, get rid of old
 	if not BagSyncOpt.dbversion or not tonumber(BagSyncOpt.dbversion) or tonumber(BagSyncOpt.dbversion) < 7 then
@@ -152,6 +151,7 @@ function BagSync:FixDB_Data(onlyChkGuild)
 	--Removes obsolete characters from tokens db
 	--Removes obsolete profession information
 	--Will only check guild related information if the paramater is passed as true
+	--Adds realm name to characters profiles if missing, v8.6
 
 	local storeUsers = {}
 	local storeGuilds = {}
@@ -163,6 +163,7 @@ function BagSync:FixDB_Data(onlyChkGuild)
 		for k, v in pairs(rd) do
 			--users
 			storeUsers[realm][k] = storeUsers[realm][k] or 1
+			if v.realm == nil then v.realm = realm end  --Adds realm name to characters profiles if missing, v8.6
 			for q, r in pairs(v) do
 				if q == 'guild' then
 					storeGuilds[realm][r] = true
@@ -231,6 +232,89 @@ function BagSync:FixDB_Data(onlyChkGuild)
 	end
 end
 
+function BagSync:getFilteredDB()
+
+	local xIndex = {}
+
+	--add more realm names if necessary based on BNet or Cross Realms
+	if BagSyncOpt.enableBNetAccountItems then
+		for k, v in pairs(BagSyncDB) do
+			for q, r in pairs(v) do
+				--we do this incase there are multiple characters with same name
+				xIndex[q.."^"..k] = r
+			end
+		end
+	elseif BagSyncOpt.enableCrossRealmsItems then
+		for k, v in pairs(BagSyncDB) do
+			if k == currentRealm or crossRealmNames[k] then
+				for q, r in pairs(v) do
+					----we do this incase there are multiple characters with same name
+					xIndex[q.."^"..k] = r
+				end
+			end
+		end
+	else
+		xIndex = BagSyncDB[currentRealm]
+	end
+	
+	return xIndex
+end
+
+function BagSync:getCharacterRealmInfo(charName, charRealm)
+
+	local yName, yRealm  = strsplit('^', charName)
+
+	--add Cross-Realm and BNet identifiers to Characters not on same realm
+	if BagSyncOpt.enableBNetAccountItems then
+		if charRealm and charRealm ~= currentRealm then
+			if not crossRealmNames[charRealm] then
+				charName = yName.." |cff3588ff[BNet-"..charRealm.."]|r"
+			else
+				charName = yName.." |cffff7d0a[XR-"..charRealm.."]|r"
+			end
+		else
+			charName = yName
+		end
+	elseif BagSyncOpt.enableCrossRealmsItems then
+		if charRealm and charRealm ~= currentRealm then
+			charName = yName.." |cffff7d0a[XR-"..charRealm.."]|r"
+		else
+			charName = yName
+		end
+	else
+		--to cover our buttocks lol, JUST IN CASE
+		charName = yName
+	end
+		
+	return charName
+end
+
+function BagSync:getGuildRealmInfo(guildName, guildRealm)
+
+	--add Cross-Realm and BNet identifiers to Guilds not on same realm
+	if BagSyncOpt.enableBNetAccountItems then
+		if guildRealm and guildRealm ~= currentRealm then
+			if not crossRealmNames[guildRealm] then
+				guildName = guildName.." |cff3588ff[BNet-"..guildRealm.."]|r"
+			else
+				guildName = guildName.." |cffff7d0a[XR-"..guildRealm.."]|r"
+			end
+		else
+			guildName = guildName
+		end
+	elseif BagSyncOpt.enableCrossRealmsItems then
+		if guildRealm and guildRealm ~= currentRealm then
+			guildName = guildName.." |cffff7d0a[XR-"..guildRealm.."]|r"
+		else
+			guildName = guildName
+		end
+	else
+		--to cover our buttocks lol, JUST IN CASE
+		guildName = guildName
+	end
+		
+	return guildName
+end
 ----------------------
 --      Local       --
 ----------------------
@@ -246,6 +330,7 @@ local function ToShortLink(link)
 	if not link then return nil end
 	return link:match("item:(%d+):") or nil
 end
+
 
 ----------------------
 --  Bag Functions   --
@@ -410,7 +495,7 @@ local function ScanMailbox()
 	if (numInbox > 0) then
 		for mailIndex = 1, numInbox do
 			for i=1, ATTACHMENTS_MAX_RECEIVE do
-				local name, itemTexture, count, quality, canUse = GetInboxItem(mailIndex, i)
+				local name, itemID, itemTexture, count, quality, canUse = GetInboxItem(mailIndex, i)
 				local link = GetInboxItemLink(mailIndex, i)
 				
 				if name and link and ToShortLink(link) then
@@ -581,9 +666,12 @@ function BagSync:ShowMoneyTooltip()
 	tooltip:AddLine(" ")
 	
 	--loop through our characters
-	for k, v in pairs(BagSyncDB[currentRealm]) do
-		if BagSyncDB[currentRealm][k].gold then
-			table.insert(usrData, { name=k, gold=BagSyncDB[currentRealm][k].gold } )
+	local xDB = BagSync:getFilteredDB()
+
+	for k, v in pairs(xDB) do
+		if v.gold then
+			k = BagSync:getCharacterRealmInfo(k, v.realm)
+			table.insert(usrData, { name=k, gold=v.gold } )
 		end
 	end
 	table.sort(usrData, function(a,b) return (a.name < b.name) end)
@@ -694,7 +782,7 @@ local function CountsToInfoString(countTable)
 	end
 	
 	if countTable['reagentbank'] > 0 then
-		local count = L["ReagentBank: %d"]:format(countTable['reagentbank'])
+		local count = L["Reagent: %d"]:format(countTable['reagentbank'])
 		if info then
 			info = strjoin(', ', info, count)
 		else
@@ -704,7 +792,7 @@ local function CountsToInfoString(countTable)
 	end
 
 	if countTable['equip'] > 0 then
-		local count = L["Equipped: %d"]:format(countTable['equip'])
+		local count = L["Equip: %d"]:format(countTable['equip'])
 		if info then
 			info = strjoin(', ', info, count)
 		else
@@ -724,7 +812,7 @@ local function CountsToInfoString(countTable)
 	end
 	
 	if countTable['mailbox'] > 0 and BagSyncOpt.enableMailbox then
-		local count = L["Mailbox: %d"]:format(countTable['mailbox'])
+		local count = L["Mail: %d"]:format(countTable['mailbox'])
 		if info then
 			info = strjoin(', ', info, count)
 		else
@@ -832,33 +920,14 @@ local function AddCurrencyToTooltip(frame, currencyName)
 end
 
 local function AddItemToTooltip(frame, link) --workaround
-	if (link) then
-		local itemId = tonumber(string.match(link, "item:(%d+):"))	-- get itemID // itemID seems to be "0" for every reagent in profession window?!
-		if ((itemId == nil or itemId == 0) and (TradeSkillFrame ~= nil and TradeSkillFrame:IsVisible())) then -- some other frames show ID = 0 aswell, so limit this workaround to the profession window || IMPORTANT: TradeSkillFrame ~= nil has to be checked BEFORE TradeSkillFrame:IsVisible()
-			local newItemId
-			if (GetMouseFocus() == TradeSkillFrame.DetailsFrame.Contents.ResultIcon) then 			--replace TradeSkill
-				newItemId = tonumber(C_TradeSkillUI.GetRecipeItemLink(TradeSkillFrame.RecipeList.selectedRecipeID):match("item:(%d+):"))
-			else 		-- could check if a reagent is under mouse, but since we have to check it 3 lines later again...
-				for i = 1, 12 do 													-- how many reagents can a reciepe have? lets assume not more than 12
-					if (GetMouseFocus() == TradeSkillFrame.DetailsFrame.Contents["Reagent" .. i]) then 	--replace TradeSkillReagents
-						newItemId = tonumber(C_TradeSkillUI.GetRecipeReagentItemLink(TradeSkillFrame.RecipeList.selectedRecipeID, i):match("item:(%d+):"))
-						break 			--end loop if correct one already found
-					end
-				end
-			end
-			if newItemId then
-				link = select(2, GetItemInfo(newItemId)) -- replace original link with our found link
-			end
-		end	
-	end
-	
+
 	--if we can't convert the item link then lets just ignore it altogether	
 	local itemLink = ToShortLink(link)
 	if not itemLink then
 		frame:Show()
 		return
 	end
-	
+
 	--only show tooltips in search frame if the option is enabled
 	if BagSyncOpt.tooltipOnlySearch and frame:GetOwner() and frame:GetOwner():GetName() and string.sub(frame:GetOwner():GetName(), 1, 16) ~= "BagSyncSearchRow" then
 		frame:Show()
@@ -870,13 +939,15 @@ local function AddItemToTooltip(frame, link) --workaround
 		frame:Show()
 		return
 	end
-
+	
 	--lag check (check for previously displayed data) if so then display it
 	if lastItem and itemLink and itemLink == lastItem then
-		for i = 1, #lastDisplayed do
-			local ename, ecount  = strsplit('@', lastDisplayed[i])
-			if ename and ecount then
-				frame:AddDoubleLine(ename, ecount)
+		if table.getn(lastDisplayed) > 0 then
+			for i = 1, #lastDisplayed do
+				local ename, ecount  = strsplit('@', lastDisplayed[i])
+				if ename and ecount then
+					frame:AddDoubleLine(ename, ecount)
+				end
 			end
 		end
 		frame:Show()
@@ -891,10 +962,12 @@ local function AddItemToTooltip(frame, link) --workaround
 	local previousGuilds = {}
 	local grandTotal = 0
 	local first = true
-
+	
+	local xDB = BagSync:getFilteredDB()
+	
 	--loop through our characters
 	--k = player, v = stored data for player
-	for k, v in pairs(BagSyncDB[currentRealm]) do
+	for k, v in pairs(xDB) do
 
 		local allowList = {
 			["bag"] = 0,
@@ -912,7 +985,7 @@ local function AddItemToTooltip(frame, link) --workaround
 		
 		--check if we should show both factions or not
 		if BagSyncOpt.enableFaction or pFaction == playerFaction then
-
+		
 			--now count the stuff for the user
 			--q = bag name, r = stored data for bag name
 			for q, r in pairs(v) do
@@ -938,12 +1011,15 @@ local function AddItemToTooltip(frame, link) --workaround
 				local guildN = v.guild or nil
 			
 				--check the guild bank if the character is in a guild
-				if BS_GD and guildN and BS_GD[guildN] then
+				if BagSyncGUILD_DB and guildN and BagSyncGUILD_DB[v.realm][guildN] then
 					--check to see if this guild has already been done through this run (so we don't do it multiple times)
-					if not previousGuilds[guildN] then
+					--check for XR/B.Net support
+					local gName = BagSync:getGuildRealmInfo(guildN, v.realm)
+					
+					if not previousGuilds[gName] then
 						--we only really need to see this information once per guild
 						local tmpCount = 0
-						for q, r in pairs(BS_GD[guildN]) do
+						for q, r in pairs(BagSyncGUILD_DB[v.realm][guildN]) do
 							local dblink, dbcount = strsplit(',', r)
 							if dblink and dblink == itemLink then
 								allowList["guild"] = allowList["guild"] + (dbcount or 1)
@@ -951,7 +1027,7 @@ local function AddItemToTooltip(frame, link) --workaround
 								grandTotal = grandTotal + (dbcount or 1)
 							end
 						end
-						previousGuilds[guildN] = tmpCount
+						previousGuilds[gName] = tmpCount
 					end
 				end
 			end
@@ -961,14 +1037,7 @@ local function AddItemToTooltip(frame, link) --workaround
 			infoString = CountsToInfoString(allowList)
 
 			if infoString and infoString ~= '' then
-				--check for seperator
-				if first and BagSyncOpt.enableTooltipSeperator then
-					first = false
-					frame:AddDoubleLine(" ", " ")
-					table.insert(lastDisplayed, " @ ")
-				end
-
-				frame:AddDoubleLine(getNameColor(k, pClass), infoString)
+				k = BagSync:getCharacterRealmInfo(k, v.realm)
 				table.insert(lastDisplayed, getNameColor(k or 'Unknown', pClass).."@"..(infoString or 'unknown'))
 			end
 			
@@ -976,12 +1045,14 @@ local function AddItemToTooltip(frame, link) --workaround
 		
 	end
 	
+	--sort it
+	table.sort(lastDisplayed, function(a,b) return (a < b) end)
+	
 	--show guildnames last
 	if BagSyncOpt.enableGuild and BagSyncOpt.showGuildNames then
 		for k, v in pairsByKeys(previousGuilds) do
 			--only print stuff higher then zero
 			if v > 0 then
-				frame:AddDoubleLine(format(GN_C, k), format(SILVER, v))
 				table.insert(lastDisplayed, format(GN_C, k).."@"..format(SILVER, v))
 			end
 		end
@@ -990,27 +1061,141 @@ local function AddItemToTooltip(frame, link) --workaround
 	--show grand total if we have something
 	--don't show total if there is only one item
 	if BagSyncOpt.showTotal and grandTotal > 0 and getn(lastDisplayed) > 1 then
-		frame:AddDoubleLine(format(TTL_C, L["Total:"]), format(SILVER, grandTotal))
 		table.insert(lastDisplayed, format(TTL_C, L["Total:"]).."@"..format(SILVER, grandTotal))
 	end
 	
+	--now check for seperater and only add if we have something in the table already
+	if table.getn(lastDisplayed) > 0 and BagSyncOpt.enableTooltipSeperator then
+		table.insert(lastDisplayed, 1 , " @ ")
+	end
+	
+	--add it all together now
+	if table.getn(lastDisplayed) > 0 then
+		for i = 1, #lastDisplayed do
+			local ename, ecount  = strsplit('@', lastDisplayed[i])
+			if ename and ecount then
+				frame:AddDoubleLine(ename, ecount)
+			end
+		end
+	end
+		
 	frame:Show()
 end
 
 --simplified tooltip function, similar to the past HookTip that was used before Jan 06, 2011 (commit:a89046f844e24585ab8db60d10f2f168498b9af4)
 --Honestly we aren't going to care about throttleing or anything like that anymore.  The lastdisplay array token should take care of that
 --Special thanks to Tuller for tooltip hook function
+
 local function hookTip(tooltip)
 	local modified = false
+	
+	tooltip:HookScript("OnHide", function(self)
+		modified = false
+		self.lastHyperLink = nil
+	end)	
 	tooltip:HookScript('OnTooltipCleared', function(self)
 		modified = false
 	end)
+
 	tooltip:HookScript('OnTooltipSetItem', function(self)
 		if modified or not BagSyncOpt.enableTooltips then return end
-		modified = true
 		local name, link = self:GetItem()
-		AddItemToTooltip(self, link)
+		if link and ToShortLink(link) then
+			modified = true
+			AddItemToTooltip(self, link)
+			return
+		end
+		--sometimes we have a tooltip but no link because GetItem() returns nil, this is the case for recipes
+		--so lets try something else to see if we can get the link.  Doesn't always work!  Thanks for breaking GetItem() Blizzard... you ROCK! :P
+		if not modified and self.lastHyperLink then
+			local xName, xLink = GetItemInfo(self.lastHyperLink)
+			--local title = _G[tooltip:GetName().."TextLeft1"]
+			-- if xName and xLink and title and title:GetText() and title:GetText() == xName and ToShortLink(xLink) then  --only show info if the tooltip text matches the link
+				-- modified = true
+				-- AddItemToTooltip(self, xLink)
+			-- end
+			if xLink and ToShortLink(xLink) then  --only show info if the tooltip text matches the link
+				modified = true
+				AddItemToTooltip(self, xLink)
+			end		
+		end
 	end)
+	---------------------------------
+	--Special thanks to GetItem() being broken we need to capture the ItemLink before the tooltip shows sometimes
+	hooksecurefunc(tooltip, 'SetBagItem', function(self, tab, slot)
+		if not BagSyncOpt.enableTooltips then return end
+		local link = GetContainerItemLink(tab, slot)
+		if link and ToShortLink(link) then
+			self.lastHyperLink = link
+		end
+	end)
+	hooksecurefunc(tooltip, 'SetInventoryItem', function(self, tab, slot)
+		if not BagSyncOpt.enableTooltips then return end
+		local link = GetInventoryItemLink(tab, slot)
+		if link and ToShortLink(link) then
+			self.lastHyperLink = link
+		end
+	end)
+	hooksecurefunc(tooltip, 'SetGuildBankItem', function(self, tab, slot)
+		if not BagSyncOpt.enableTooltips then return end
+		local link = GetGuildBankItemLink(tab, slot)
+		if link and ToShortLink(link) then
+			self.lastHyperLink = link
+		end
+	end)
+	hooksecurefunc(tooltip, 'SetHyperlink', function(self, link)
+		if modified or not BagSyncOpt.enableTooltips then return end
+		if link and ToShortLink(link) then
+			--I'm pretty sure there is a better way to do this but since Recipes fire OnTooltipSetItem with empty/nil GetItem().  There is really no way to my knowledge to grab the current itemID
+			--without storing the ItemLink from the bag parsing or at least grabbing the current SetHyperLink.
+			if tooltip:IsVisible() then modified = true end --only do the modifier if the tooltip is showing, because this interferes with ItemRefTooltip if someone clicks it twice in chat
+			AddItemToTooltip(self, link)
+		end
+	end)
+	---------------------------------
+
+	--lets hook other frames so we can show tooltips there as well
+	hooksecurefunc(tooltip, 'SetRecipeReagentItem', function(self, recipeID, reagentIndex)
+		if modified or not BagSyncOpt.enableTooltips then return end
+		local link = C_TradeSkillUI.GetRecipeReagentItemLink(recipeID, reagentIndex)
+		if link and ToShortLink(link) then
+			modified = true
+			AddItemToTooltip(self, link)
+		end
+	end)
+	hooksecurefunc(tooltip, 'SetRecipeResultItem', function(self, recipeID)
+		if modified or not BagSyncOpt.enableTooltips then return end
+		local link = C_TradeSkillUI.GetRecipeItemLink(recipeID)
+		if link and ToShortLink(link) then
+			modified = true
+			AddItemToTooltip(self, link)
+		end
+	end)	
+	hooksecurefunc(tooltip, 'SetQuestLogItem', function(self, itemType, index)
+		if modified or not BagSyncOpt.enableTooltips then return end
+		local link = GetQuestLogItemLink(itemType, index)
+		if link and ToShortLink(link) then
+			modified = true
+			AddItemToTooltip(self, link)
+		end
+	end)
+	hooksecurefunc(tooltip, 'SetQuestItem', function(self, itemType, index)
+		if modified or not BagSyncOpt.enableTooltips then return end
+		local link = GetQuestItemLink(itemType, index)
+		if link and ToShortLink(link) then
+			modified = true
+			AddItemToTooltip(self, link)
+		end
+	end)	
+	-- hooksecurefunc(tooltip, 'SetItemByID', function(self, link)
+		-- if modified or not BagSyncOpt.enableTooltips then return end
+		-- if link and ToShortLink(link) then
+			-- modified = true
+			-- AddItemToTooltip(self, link)
+		-- end
+	-- end)
+	
+	--------------------------------------------------
 	hooksecurefunc(tooltip, 'SetCurrencyToken', function(self, index)
 		if modified or not BagSyncOpt.enableTooltips then return end
 		modified = true
@@ -1035,9 +1220,8 @@ local function hookTip(tooltip)
 		-- local currencyName = GetTradeSkillReagentInfo(index,1)
 		-- AddCurrencyToTooltip(self, currencyName)
 	-- end)
+	
 end
---GameTooltip:SetTradeSkillItem(skillIndex [, reagentIndex])
-
 
 hookTip(GameTooltip)
 hookTip(ItemRefTooltip)
@@ -1063,6 +1247,14 @@ function BagSync:PLAYER_LOGIN()
 	playerClass = select(2, UnitClass("player"))
 	playerFaction = UnitFactionGroup("player")
 
+	local autoCompleteRealms = GetAutoCompleteRealms() or { currentRealm }
+
+	for k, v in pairs(autoCompleteRealms) do
+		if v ~= currentRealm then
+			crossRealmNames[v] = true
+		end
+	end
+	
 	--initiate the db
 	StartupDB()
 	
@@ -1081,6 +1273,9 @@ function BagSync:PLAYER_LOGIN()
 	--save the faction information
 	--"Alliance", "Horde" or nil
 	BS_DB.faction = playerFaction
+	
+	--save player Realm for quick access later
+	BS_DB.realm = currentRealm
 	
 	--check for player not in guild
 	if IsInGuild() or GetNumGuildMembers(true) > 0 then
@@ -1225,6 +1420,7 @@ function BagSync:PLAYER_LOGIN()
 	
 	self:UnregisterEvent("PLAYER_LOGIN")
 	self.PLAYER_LOGIN = nil
+		
 end
 
 ------------------------------
