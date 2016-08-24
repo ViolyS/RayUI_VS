@@ -917,7 +917,7 @@ end
 
 function UF:SpeedDisplayUpdate(frame)
 	if GetUnitSpeed("player") > 0 then
-		frame.SpeedText:SetFormattedText("%d%%", (GetUnitSpeed("player") / 7 * 100)+0.5)
+		frame.SpeedText:SetFormattedText("%d%%", (GetUnitSpeed("player") / 7 * 100) + 0.5)
 	else
 		frame.SpeedText:SetText("")
 	end
