@@ -69,8 +69,10 @@ R["Watcher"] = {
                 { spellID = 52610, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 求生本能
                 { spellID = 61336, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 節能施法
+                -- 節能施法（野性）
                 { spellID = 135700, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 節能施法（恢復）
+                { spellID = 16870, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 樹皮術
                 { spellID = 22812, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 狂暴
@@ -87,12 +89,8 @@ R["Watcher"] = {
                 { spellID = 48505, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 星穹大連線
                 { spellID = 194223, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 化身:艾露恩之眷
-                { spellID = 102560, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 野性之心
                 { spellID = 108294, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 化身:丛林之王
-                { spellID = 102543, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 猛虎之怒
                 { spellID = 5217, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 野蛮咆哮雕文
@@ -109,11 +107,8 @@ R["Watcher"] = {
                 { spellID = 102352, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 狂暴:熊形态
                 { spellID = 50334, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 化身:乌索克之子
-                { spellID = 102558, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 巨熊之力
                 { spellID = 159233, unitId = "player", caster = "player", filter = "BUFF" },
-
                 -- 落日余晖
                 { spellID = 155592, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 伊露恩的守護者
@@ -128,8 +123,16 @@ R["Watcher"] = {
                 { spellID = 202739, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 伊露恩的祝福
                 { spellID = 202737, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 化身:生命之树
+                -- 化身：叢林之王
+                { spellID = 102543, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 化身：厄索克守護者
+                { spellID = 102558, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 化身：伊露恩天選者
+                { spellID = 102560, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 化身：生命之树
                 { spellID = 117679, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 突進
+                { spellID = 1850, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标重要buff&debuff",
@@ -161,6 +164,8 @@ R["Watcher"] = {
                 { spellID = 106830, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 星光閃焰
                 { spellID = 202347, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 鐵樹皮術
+                { spellID = 102342, unitId = "target", caster = "player", filter = "BUFF" },
             },
             {
                 name = "焦点buff&debuff",
@@ -187,12 +192,16 @@ R["Watcher"] = {
 
                 -- 狂暴
                 { spellID = 50334, filter = "CD" },
+                -- 星穹大連線
+                { spellID = 194223, filter = "CD" },
                 -- 狂暴恢復
                 { spellID = 22842, filter = "CD" },
                 -- 複生
                 { spellID = 20484, filter = "CD" },
                 -- 樹皮術
                 { spellID = 22812, filter = "CD" },
+                -- 鐵樹皮術
+                { spellID = 102342, filter = "CD" },
                 -- 寧靜
                 { spellID = 740, filter = "CD" },
                 -- 自然戒備
@@ -201,13 +210,21 @@ R["Watcher"] = {
                 { spellID = 112071, filter = "CD" },
                 -- 野性位移
                 { spellID = 102280, filter = "CD" },
-                -- 化身:艾露恩之眷
+                -- 狂暴
+                { spellID = 106951, filter = "CD" },
+                -- 化身：叢林之王
+                { spellID = 102543, filter = "CD" },
+                -- 化身：厄索克守護者
+                { spellID = 102558, filter = "CD" },
+                -- 化身：伊露恩天選者
                 { spellID = 102560, filter = "CD" },
+                -- 化身：生命之樹
+                { spellID = 33891, filter = "CD" },
                 -- 狂奔怒吼
                 { spellID = 106898, filter = "CD" },
-                -- 急奔
+                -- 突進
                 { spellID = 1850, filter = "CD" },
-                -- 日光术
+                -- 太陽光束
                 { spellID = 78675, filter = "CD" },
                 -- 猛虎之怒
                 { spellID = 5217, filter = "CD" },
@@ -268,6 +285,8 @@ R["Watcher"] = {
                 { spellID = 105919, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 稳固集中
                 { spellID = 193534, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 荷枪实弹
+                { spellID = 194594, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 野性守護
                 { spellID = 193530, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 箭雨
@@ -312,6 +331,8 @@ R["Watcher"] = {
                 { spellID = 185365, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 割裂
                 { spellID = 185855, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 易伤
+                { spellID = 187131, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
             {
                 name = "焦点buff&debuff",
@@ -1098,6 +1119,8 @@ R["Watcher"] = {
                 { spellID = 152118, unitId = "target", caster = "all", filter = "BUFF" },
                 -- 虚空熵能
                 { spellID = 155361, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 心灵尖刺
+                { spellID = 217673, unitId = "target", caster = "player", filter = "DEBUFF" },
 				
             },
             {
@@ -1557,7 +1580,9 @@ R["Watcher"] = {
                 -- 冰結之爪
                 { spellID = 194879, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 寒冰之盾
-                { spellID = 207203, unitId = "player", caster = "player", filter = "BUFF" }
+                { spellID = 207203, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 枯萎凋零
+                { spellID = 188290, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标buff&debuff",
@@ -1642,8 +1667,6 @@ R["Watcher"] = {
                 -- 靈魂收割者
                 { spellID = 130736, unitId = "target", caster = "player", filter = "DEBUFF" },
                 { spellID = 114866, unitId = "target", caster = "player", filter = "DEBUFF" },
-                -- 血魄印記
-                { spellID = 206940, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
             {
                 name = "焦点buff&debuff",
@@ -1902,6 +1925,10 @@ R["Watcher"] = {
                 { spellID = 191427, filter = "CD" },
                 -- 恶魔变身（复仇）
                 { spellID = 187827, filter = "CD" },
+                -- 幽灵视觉
+                { spellID = 188501, filter = "CD" },
+                -- 烈火烙印
+                { spellID = 204021, filter = "CD" },
 
                 -- 物品
                 -- 手套
@@ -2206,6 +2233,10 @@ R["Watcher"] = {
                 -- 黑石之印
                 { spellID = 159679, unitId = "player", caster = "all", filter = "BUFF" },
 
+                -- 远程附魔
+                -- 兆瓦纤维
+                { spellID = 156060, unitId = "player", caster = "all", filter = "BUFF" },
+
                 -- 藥水
                 -- Draenic Agility Potion
                 { spellID = 156423, unitId = "player", caster = "player", filter = "BUFF" },
@@ -2235,11 +2266,11 @@ R["Watcher"] = {
                 { spellID = 80353, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 上古狂亂
                 { spellID = 90355, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 警戒
+                -- 戒備守護
                 { spellID = 114030, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 群体法术反射
+                -- 群體法術反射
                 { spellID = 114028, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 振奮咆哮
+                -- 命令之吼
                 { spellID = 97463, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 反魔法力场
                 { spellID = 145629, unitId = "player", caster = "all", filter = "BUFF" },
@@ -2251,26 +2282,23 @@ R["Watcher"] = {
                 { spellID = 31821, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 希望象征
                 { spellID = 64901, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 守护之魂
+                -- 守護聖靈
                 { spellID = 47788, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 痛苦镇压
+                -- 痛苦鎮壓
                 { spellID = 33206, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 真言術：壁
                 { spellID = 81782, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 吸血鬼的拥抱
-                { spellID = 15286, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 灵魂链接图腾
                 { spellID = 98008, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 气茧护体
+                -- 氣繭護體
                 { spellID = 116849, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 铁木树皮
+                -- 鐵樹皮術
                 { spellID = 102342, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 奔窜咆哮
+                -- 奔竄咆哮
                 { spellID = 106898, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 灵狐守护
-                { spellID = 172106, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 魔法增效
                 { spellID = 159916, unitId = "player", caster = "all", filter = "BUFF" },
+
                 -- 橙色多彩
                 -- 不屈之源钻 (耐力, 减伤)
                 { spellID = 137593, unitId = "player", caster = "all", filter = "BUFF" },
