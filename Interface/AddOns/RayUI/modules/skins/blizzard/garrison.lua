@@ -955,7 +955,9 @@ local function LoadSkin()
 					S:CreateTab(GarrisonMissionFrameTab4)
 				end
 
-				S:ReskinClose(MissionPage.CloseButton)
+				local cb = GarrisonMissionFrame.MissionTab.MissionPage.CloseButton
+				S:ReskinClose(cb)
+				cb:Point("TOPRIGHT", -14, -4)
 
 				S:CreateTab(GarrisonShipyardFrameTab3)
 				S:CreateTab(GarrisonLandingPageTab4)
