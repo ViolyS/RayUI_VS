@@ -2,9 +2,8 @@ local R, L, P = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, loc
 local S = R:GetModule("Skins")
 
 local function LoadSkin()
-	--[[OrderHall CommandBar]]--
+	--[[ OrderHall CommandBar ]]
 	OrderHallCommandBar:StripTextures()
-	OrderHallCommandBar:SetTemplate("Transparent")
 	OrderHallCommandBar:ClearAllPoints()
 	OrderHallCommandBar:SetPoint("TOP", UIParent, 0, 0)
 	OrderHallCommandBar:SetWidth(480)
@@ -15,7 +14,7 @@ local function LoadSkin()
 	OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 10, 0)
 	OrderHallCommandBar.WorldMapButton:Hide()
 	
-	--[[MissionFrame]]--
+	--[[ MissionFrame ]]
 	S:SetBD(OrderHallMissionFrame)
 	OrderHallMissionFrame:StripTextures()
 	
@@ -44,25 +43,18 @@ local function LoadSkin()
 	local ZoneSupportMissionPage = OrderHallMissionFrame.MissionTab.ZoneSupportMissionPage
 	S:ReskinClose(ZoneSupportMissionPage.CloseButton, "TOPRIGHT", ZoneSupportMissionPage.CombatAllyLabel, "TOPRIGHT", 14, -4)
 
-	--[[MissionTab]]--
-	local Follower = OrderHallMissionFrameFollowers
-	Follower:StripTextures()
-	Follower.SearchBox:SkinEditBox()
-	S:CreateBD(Follower.MaterialFrame)
-	OrderHallMissionFrame.MissionTab.MissionPage.StartMissionButton:SkinButton()
+	--[[ MissionTab ]]
 	
-	--[[FollowerTab]]--
-	local FollowerList = OrderHallMissionFrame.FollowerTab
-	FollowerList:StripTextures()
-	FollowerList.ModelCluster:StripTextures()
-	FollowerList.Class:SetSize(50, 43)
-	FollowerList.XPBar:StripTextures()
-	FollowerList.XPBar:SetStatusBarTexture(R["media"].blank)
-	FollowerList.XPBar:CreateBackdrop()
+	--[[ FollowerTab ]]
 	
-	--[[MissionStage]]--
+	--[[ MissionStage ]]
 
-	--[[TalentFrame]]--
+	--[[ TalentFrame ]]
+	S:SetBD(OrderHallTalentFrame)
+	OrderHallTalentFrame:StripTextures()
+	S:ReskinClose(OrderHallTalentFrameCloseButton)
+	ClassHallTalentInset:StripTextures()
+	OrderHallTalentFrame.CurrencyIcon:SetAtlas("legionmission-icon-currency", false)
 end
 
 S:RegisterSkin("Blizzard_OrderHallUI", LoadSkin)
