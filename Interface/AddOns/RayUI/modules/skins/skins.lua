@@ -498,6 +498,7 @@ end
 
 function S:ReskinClose(f, a1, p, a2, x, y)
 	if not f then return end
+	f:StripTextures()
 	f:Size(17, 17)
 
 	if not a1 then
