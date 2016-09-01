@@ -56,8 +56,8 @@ local function LoadSkin()
 		end
 	end)
 	
-	S:ReskinTab(ArtifactFrame.PerksTabButton)
-	S:ReskinTab(ArtifactFrame.AppearancesTabButton)
+	S:CreateTab(ArtifactFrame.PerksTabButton)
+	S:CreateTab(ArtifactFrame.AppearancesTabButton)
 	
 	ArtifactFrame.PerksTabButton:ClearAllPoints()
 	ArtifactFrame.PerksTabButton:SetPoint("TOPLEFT", ArtifactFrame, "BOTTOMLEFT", 11, 2)

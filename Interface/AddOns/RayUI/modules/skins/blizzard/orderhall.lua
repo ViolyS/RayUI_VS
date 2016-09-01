@@ -13,6 +13,7 @@ local function LoadSkin()
 	OrderHallCommandBar.AreaName:ClearAllPoints()
 	OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 10, 0)
 	OrderHallCommandBar.WorldMapButton:Hide()
+	S:CreateBD(OrderHallCommandBar)
 	
 	--[[ MissionFrame ]]
 	S:SetBD(OrderHallMissionFrame)
