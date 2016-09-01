@@ -13,8 +13,10 @@
 
 /Interface/AddOns*/*
 /Interface/AddOns/RayUI/core/test.lua
+!/Interface/AddOns/!BugGrabber/
 !/Interface/AddOns/BagSync/
 !/Interface/AddOns/Bimbo/
+!/Interface/AddOns/BugSack/
 !/Interface/AddOns/GnomishVendorShrinker/
 !/Interface/AddOns/MasterPlan/
 !/Interface/AddOns/ncShadow/
