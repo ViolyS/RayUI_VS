@@ -2,60 +2,122 @@ local R, L, P = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, loc
 local S = R:GetModule("Skins")
 
 local function LoadSkin()
-	--[[ OrderHall CommandBar ]]
+	local classColor = S["media"].classcolours[R.myclass]
+
+	-- CommandBar
 	OrderHallCommandBar:StripTextures()
-	OrderHallCommandBar:ClearAllPoints()
-	OrderHallCommandBar:SetPoint("TOP", UIParent, 0, 0)
-	OrderHallCommandBar:SetWidth(480)
+	OrderHallCommandBar:CreateShadow("Background")
 	OrderHallCommandBar.ClassIcon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
 	OrderHallCommandBar.ClassIcon:SetSize(46, 20)
 	OrderHallCommandBar.CurrencyIcon:SetAtlas("legionmission-icon-currency", false)
-	OrderHallCommandBar.AreaName:ClearAllPoints()
-	OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 10, 0)
-	OrderHallCommandBar.WorldMapButton:Hide()
-	S:CreateBD(OrderHallCommandBar)
-	
-	--[[ MissionFrame ]]
-	S:SetBD(OrderHallMissionFrame)
+	OrderHallCommandBar.AreaName:SetVertexColor(classColor.r, classColor.g, classColor.b)
+	OrderHallCommandBar:ClearAllPoints()
+	OrderHallCommandBar:SetPoint("TOP")
+	OrderHallCommandBar:SetWidth(350)
+	OrderHallCommandBar.WorldMapButton:Kill()
+
+	-- MissionFrame
+	OrderHallMissionFrame.ClassHallIcon:Kill()
 	OrderHallMissionFrame:StripTextures()
-	
-	for i = 1, 3 do
-		S:CreateTab(_G["OrderHallMissionFrameTab"..i])
-	end
-
 	OrderHallMissionFrame.GarrCorners:Hide()
-	OrderHallMissionFrame.ClassHallIcon:Hide()
-
-	OrderHallMissionFrameMissions:StripTextures()
-	OrderHallMissionFrameMissions.CombatAllyUI:StripTextures()
-	OrderHallMissionFrame.MissionTab:StripTextures()
-	S:CreateBD(OrderHallMissionFrameMissions.CombatAllyUI, .25)
-
-	S:ReskinScroll(OrderHallMissionFrameMissionsListScrollFrameScrollBar)
-
-	for i = 1, 2 do
-		local tab = _G["OrderHallMissionFrameMissionsTab" .. i]
-		tab:StripTextures()
-		S:CreateTab(tab)
-	end
-	
+	S:SetBD(OrderHallMissionFrame)
 	S:ReskinClose(OrderHallMissionFrame.CloseButton)
 
-	local ZoneSupportMissionPage = OrderHallMissionFrame.MissionTab.ZoneSupportMissionPage
-	S:ReskinClose(ZoneSupportMissionPage.CloseButton, "TOPRIGHT", ZoneSupportMissionPage.CombatAllyLabel, "TOPRIGHT", 14, -4)
+	for i = 1, 3 do 
+		S:CreateTab(_G["OrderHallMissionFrameTab" .. i])
+	end
 
-	--[[ MissionTab ]]
-	
-	--[[ FollowerTab ]]
-	
-	--[[ MissionStage ]]
+	OrderHallMissionFrameMissions:StripTextures()
+	OrderHallMissionFrameMissionsListScrollFrame:StripTextures()
+	OrderHallMissionFrame.MissionTab:StripTextures()
 
-	--[[ TalentFrame ]]
-	S:SetBD(OrderHallTalentFrame)
-	OrderHallTalentFrame:StripTextures()
-	S:ReskinClose(OrderHallTalentFrameCloseButton)
-	ClassHallTalentInset:StripTextures()
-	OrderHallTalentFrame.CurrencyIcon:SetAtlas("legionmission-icon-currency", false)
+	S:ReskinScroll(OrderHallMissionFrameMissionsListScrollFrameScrollBar)
+	S:Reskin(OrderHallMissionFrameMissions.CombatAllyUI.InProgress.Unassign)
+	S:ReskinClose(OrderHallMissionFrame.MissionTab.ZoneSupportMissionPage.CloseButton)
+	S:Reskin(OrderHallMissionFrame.MissionTab.ZoneSupportMissionPage.StartMissionButton)
+
+	for _, Button in pairs(OrderHallMissionFrame.MissionTab.MissionList.listScroll.buttons) do
+		if not Button.isSkinned then
+			Button:StripTextures()
+			-- Button:SetTemplate()
+			S:Reskin(Button)
+			Button.LocBG:Hide()
+			Button.isSkinned = true
+		end
+	end
+
+	-- Followers
+	local FollowerList = OrderHallMissionFrame.FollowerList
+	local FollowerTab = OrderHallMissionFrame.FollowerTab
+	FollowerList:StripTextures()
+	FollowerList.MaterialFrame:StripTextures()
+	S:ReskinInput(FollowerList.SearchBox)
+	S:ReskinScroll(OrderHallMissionFrame.FollowerList.listScroll.scrollBar)
+	hooksecurefunc(FollowerList, "ShowFollower", function(self)
+		local abilities = self.followerTab.AbilitiesFrame.Abilities
+		if self.numAbilitiesStyled == nil then
+			self.numAbilitiesStyled = 1
+		end
+		local numAbilitiesStyled = self.numAbilitiesStyled
+		local ability = abilities[numAbilitiesStyled]
+		while ability do
+			local icon = ability.IconButton.Icon
+			S:ReskinIcon(icon)
+			icon:SetDrawLayer("BORDER", 0)
+			numAbilitiesStyled = numAbilitiesStyled + 1
+			ability = abilities[numAbilitiesStyled]
+		end
+		self.numAbilitiesStyled = numAbilitiesStyled
+
+		local weapon = self.followerTab.ItemWeapon
+		local armor = self.followerTab.ItemArmor
+		if not weapon.skinned then
+			S:ReskinIcon(weapon.Icon)
+			weapon.Border:SetTexture(nil)
+			weapon.skinned = true
+		end
+		if not armor.skinned then
+			S:ReskinIcon(armor.Icon)
+			armor.Border:SetTexture(nil)
+			armor.skinned = true
+		end
+
+		local xpbar = self.followerTab.XPBar
+		xpbar:StripTextures()
+		xpbar:SetStatusBarTexture(R["media"].gloss)
+		-- xpbar:CreateShadow("Background")
+	end)
+	FollowerTab:StripTextures()
+	FollowerTab.Class:SetSize(50, 43)
+	FollowerTab.XPBar:StripTextures()
+	FollowerTab.XPBar:SetStatusBarTexture(.08, .92, .08, .92)
+	FollowerTab.XPBar:CreateShadow("Background")
+
+	-- Missions
+	local MissionTab = OrderHallMissionFrame.MissionTab
+	local MissionList = MissionTab.MissionList
+	local MissionPage = MissionTab.MissionPage
+	local ZoneSupportMissionPage = MissionTab.ZoneSupportMissionPage
+	S:ReskinScroll(MissionList.listScroll.scrollBar)
+	MissionList.CompleteDialog:StripTextures()
+	S:SetBD(MissionList.CompleteDialog)
+	S:Reskin(MissionList.CompleteDialog.BorderFrame.ViewButton)
+	MissionList:StripTextures()
+	MissionList.listScroll:StripTextures()
+	S:Reskin(OrderHallMissionFrameMissions.CombatAllyUI.InProgress.Unassign)
+	S:ReskinClose(MissionPage.CloseButton)
+	S:Reskin(MissionPage.StartMissionButton)
+	S:ReskinClose(ZoneSupportMissionPage.CloseButton)
+	S:Reskin(ZoneSupportMissionPage.StartMissionButton)
+	S:Reskin(OrderHallMissionFrame.MissionComplete.NextMissionButton)
+
+	-- TalentFrame
+	local TalentFrame = OrderHallTalentFrame
+	TalentFrame:StripTextures()
+	TalentFrame.LeftInset:StripTextures()
+	S:SetBD(TalentFrame)
+	TalentFrame.CurrencyIcon:SetAtlas("legionmission-icon-currency", false)
+	S:ReskinClose(TalentFrame.CloseButton)
 end
 
 S:RegisterSkin("Blizzard_OrderHallUI", LoadSkin)

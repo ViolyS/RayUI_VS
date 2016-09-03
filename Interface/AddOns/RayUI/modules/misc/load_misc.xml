@@ -21,6 +21,7 @@
 	<Script file="raidmarker.lua"/>
 	<Script file="raidUtility.lua"/>
 	<Script file="setrole.lua"/>
+	<Script file="talkinghead.lua"/>
 	<Script file="timerTracker.lua"/>
 	<Script file="totemBar.lua"/>
 	<Script file="vehicle.lua"/>
