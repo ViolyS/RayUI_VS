@@ -1452,6 +1452,8 @@ R["Watcher"] = {
                 { spellID = 185311, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 暗影之刃
                 { spellID = 121471, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 恐惧之刃诅咒（狂徒神器）
+                { spellID = 202665, unitId = "player", caster = "player", filter = "DEBUFF" },
             },
             {
                 name = "目标重要buff&debuff",
@@ -1557,6 +1559,8 @@ R["Watcher"] = {
                 { spellID = 13750, filter = "CD" },
                 -- 奧術之流
                 { spellID = 25046, filter = "CD" },
+                -- 恐惧之刃诅咒（狂徒神器）
+                { spellID = 202665, filter = "CD" },
 
                 -- 物品
                 -- 手套

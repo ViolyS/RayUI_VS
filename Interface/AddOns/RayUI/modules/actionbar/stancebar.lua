@@ -47,6 +47,9 @@ function AB:CreateStanceBar()
 			local previous = _G["PossessButton"..i-1]
 			button:SetPoint("LEFT", previous, "RIGHT", AB.db.buttonspacing, 0)
 		end
+
+		local bg = _G["PossessBackground"..i]
+		bg:Kill()
 	end
 
 	local function RayUIMoveShapeshift()
