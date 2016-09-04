@@ -2,8 +2,8 @@ local R, L, P = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, loc
 local IF = R:GetModule("InfoBar")
 
 local function LoadMemory()
-	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Memory", 80)
-	infobar:SetPoint("RIGHT", RayUI_InfoPanel_Currency, "LEFT", 0, 0)
+	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Memory", 70)
+	infobar:SetPoint("LEFT", RayUI_InfoPanel_FPS, "RIGHT", 0, 0)
 	local scriptProfile = GetCVar("scriptProfile") == "1"
 
     local maxMemorySize = 35

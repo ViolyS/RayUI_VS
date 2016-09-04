@@ -2,7 +2,7 @@ local R, L, P = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, loc
 local IF = R:GetModule("InfoBar")
 
 local function LoadGuild()
-	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Guild", 80)
+	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Guild", 70)
 	infobar:SetPoint("LEFT", RayUI_InfoPanel_Friend, "RIGHT", 0, 0)
 	infobar.Text:SetText(GUILD)
 

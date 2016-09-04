@@ -3,8 +3,8 @@ local IF = R:GetModule("InfoBar")
 
 local function LoadLatency()
 	local stringText = "MS: %d"
-	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Latency", 80)
-	infobar:SetPoint("LEFT", RayUI_InfoPanel_FPS, "RIGHT", 0, 0)
+	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Latency", 70)
+	infobar:SetPoint("LEFT", RayUI_InfoPanel_Memory, "RIGHT", 0, 0)
 	infobar.Text:SetText(string.format(stringText, 0))
 
 	---- SysInfo

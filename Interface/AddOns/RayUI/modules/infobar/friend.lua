@@ -2,7 +2,7 @@ local R, L, P = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, loc
 local IF = R:GetModule("InfoBar")
 
 local function LoadFriend()
-	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Friend", 80)
+	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Friend", 70)
 	infobar:SetPoint("LEFT", RayUI_InfoPanel_Durability, "RIGHT", 0, 0)
 	infobar.Text:SetText(FRIEND)
 

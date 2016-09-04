@@ -5,7 +5,7 @@ local function LoadArtifactwatch()
 	LoadAddOn("Blizzard_ArtifactUI")
 
 	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Artifactwatch", 80)
-	infobar:SetPoint("LEFT", RayUI_InfoPanel_Talent, "RIGHT", 0, 0)
+	infobar:SetPoint("RIGHT", RayUI_InfoPanel_Currency, "LEFT", 0, 0)
 	
 	infobar:SetScript("OnUpdate", function(self)
 		if HasArtifactEquipped() then
@@ -25,7 +25,7 @@ local function LoadArtifactwatch()
 			local points, xp, xpMax = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP)
 
 			GameTooltip:SetOwner(self, "ANCHOR_NONE")
-			GameTooltip:SetPoint("BOTTOMLEFT", infobar, "TOPLEFT", 0, 0)
+			GameTooltip:SetPoint("BOTTOMRIGHT", infobar, "TOPRIGHT", 0, 0)
 			GameTooltip:AddLine(title,r,g,b,false)
 			--GameTooltip:AddDivider()
 			GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_TITLE:format(BreakUpLargeNumbers(ArtifactWatchBar.totalXP), BreakUpLargeNumbers(ArtifactWatchBar.xp), BreakUpLargeNumbers(ArtifactWatchBar.xpForNextPoint)), 1, 1, 1)
