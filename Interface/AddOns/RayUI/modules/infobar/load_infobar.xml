@@ -8,7 +8,7 @@
 	<Script file="friend.lua"/>
 	<Script file="guild.lua"/>
 	<Script file="currency.lua"/>
-	<Script file="artifactwatch.lua"/>
+	<Script file="artifact.lua"/>
 	<Script file="specswitch.lua"/>
 	<Script file="calltoarms.lua"/>
 	<Script file="stat1.lua"/>

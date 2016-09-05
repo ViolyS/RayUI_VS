@@ -1,10 +1,10 @@
 local R, L, P = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, local
 local IF = R:GetModule("InfoBar")
 
-local function LoadArtifactwatch()
+local function LoadArtifact()
 	LoadAddOn("Blizzard_ArtifactUI")
 
-	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Artifactwatch", 80)
+	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Artifact", 80)
 	infobar:SetPoint("RIGHT", RayUI_InfoPanel_Currency, "LEFT", 0, 0)
 	
 	infobar:SetScript("OnUpdate", function(self)
@@ -54,4 +54,4 @@ local function LoadArtifactwatch()
 	end)
 end
 
-IF:RegisterInfoText("Artifactwatch", LoadArtifactwatch)
+IF:RegisterInfoText("Artifact", LoadArtifact)

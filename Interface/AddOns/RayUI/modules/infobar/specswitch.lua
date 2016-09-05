@@ -13,7 +13,7 @@ local menuList = {
 
 local function LoadTalent()
 	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Talent", 70)
-	infobar:SetPoint("RIGHT", RayUI_InfoPanel_Artifactwatch, "LEFT", 0, 0)
+	infobar:SetPoint("RIGHT", RayUI_InfoPanel_Artifact, "LEFT", 0, 0)
 	infobar.Text:SetText(NONE..TALENTS)
 
 	local spec = LibStub("Tablet-2.0")
