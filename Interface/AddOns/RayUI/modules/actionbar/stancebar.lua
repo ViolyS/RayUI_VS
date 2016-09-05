@@ -22,6 +22,9 @@ function AB:CreateStanceBar()
 	StanceBarFrame:SetParent(bar)
 	StanceBarFrame:EnableMouse(false)
 
+	StanceBarLeft:Kill()
+	StanceBarRight:Kill()
+
 	for i=1, num do
 		local button = _G["StanceButton"..i]
 		button:SetSize(AB.db.buttonsize, AB.db.buttonsize)
