@@ -23,6 +23,7 @@ function AB:CreateStanceBar()
 	StanceBarFrame:EnableMouse(false)
 
 	StanceBarLeft:Kill()
+	StanceBarMiddle:Kill()
 	StanceBarRight:Kill()
 
 	for i=1, num do
