@@ -736,10 +736,6 @@ R["Watcher"] = {
                 setpoint = positions.player_proc_icon,
                 size = 38,
 
-                -- Maelstorm Weapon / Waffe des Mahlstroms
-                { spellID = 53817, unitId = "player", caster = "player", filter = "BUFF" },
-                -- Shamanistic Rage / Schamanistische Wut
-                { spellID = 30823, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 冰怒
                 { spellID = 210714, unitId = "player", caster = "player", filter = "BUFF" },
 		-- 熔岩奔腾
@@ -758,10 +754,24 @@ R["Watcher"] = {
                 { spellID = 16166, unitId = "player", caster = "player", filter = "BUFF" },
 	        -- 灵魂行者的恩赐
                 { spellID = 79206, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 怒火释放（增强）
-                { spellID = 118472, unitId = "player", caster = "player", filter = "BUFF" },
-                -- Riptide / Springflut
+                -- 激流
                 { spellID = 61295, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 火舌
+                { spellID = 194084, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 风歌
+                { spellID = 201898, unitId = "player", caster = "player", filter = "BUFF" },
+		-- 风暴使者
+                { spellID = 201846, unitId = "player", caster = "player", filter = "BUFF" },
+		-- 毁灭之风
+                { spellID = 204945, unitId = "player", caster = "player", filter = "BUFF" },
+		-- 冰封
+                { spellID = 196834, unitId = "player", caster = "player", filter = "BUFF" },
+		-- 漩涡之力
+                { spellID = 191877, unitId = "player", caster = "player", filter = "BUFF" },
+		-- 风暴守护者
+                { spellID = 205495, unitId = "player", caster = "player", filter = "BUFF" },
+		-- 女王的崛起
+                { spellID = 207288, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标重要buff&debuff",
@@ -769,17 +779,13 @@ R["Watcher"] = {
                 setpoint = positions.target_proc_icon,
                 size = 38,
 
-                -- Hex / Verhexen
+                -- 妖术
                 { spellID = 51514, unitId = "target", caster = "all", filter = "DEBUFF" },
-                -- Storm Strike / Sturmschlag
-                { spellID = 17364, unitId = "target", caster = "player", filter = "DEBUFF" },
-                -- Frost Shock / Frostschock
-                { spellID = 8056, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 烈焰震击
                 { spellID = 188389, unitId = "target", caster = "player", filter = "DEBUFF" },
 		-- 烈焰震击（治疗）
                 { spellID = 188838, unitId = "target", caster = "player", filter = "DEBUFF" },
-                 -- Riptide / Springflut
+                 -- 激流
                 { spellID = 61295, unitId = "target", caster = "player", filter = "BUFF" },
                 -- 地震术
                 { spellID = 182387, unitId = "target", caster = "player", filter = "DEBUFF" },
@@ -795,6 +801,10 @@ R["Watcher"] = {
 
                 -- Hex / Verhexen
                 { spellID = 51514, unitId = "focus", caster = "all", filter = "DEBUFF" },
+                -- 烈焰震击
+                { spellID = 188389, unitId = "target", caster = "player", filter = "DEBUFF" },
+		-- 烈焰震击（治疗）
+                { spellID = 188838, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
             {
                 name = "CD",
@@ -813,6 +823,12 @@ R["Watcher"] = {
                 { spellID = 114050, filter = "CD" },
 		-- 岩浆图腾
                 { spellID = 192222, filter = "CD" },
+                -- 野性狼魂
+                { spellID = 51533, filter = "CD" },
+		-- 毁灭之风
+                { spellID = 204945, filter = "CD" },
+		-- 女王的恩赐
+                { spellID = 207778, filter = "CD" },
 
                 -- 物品
                 -- 手套
