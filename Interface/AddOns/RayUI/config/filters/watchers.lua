@@ -725,9 +725,9 @@ R["Watcher"] = {
 
                 -- 冰霜震击
                 { spellID = 196840, unitId = "target", caster = "player", filter = "DEBUFF" },
-		-- 引雷针
+                -- 引雷针
                 { spellID = 197209, unitId = "target", caster = "player", filter = "DEBUFF" },
-		-- 陷地图腾(可能不好用)
+                -- 陷地图腾(可能不好用)
                 { spellID = 64695, unitId = "target", caster = "all", filter = "DEBUFF" },
             },
             {
@@ -738,7 +738,7 @@ R["Watcher"] = {
 
                 -- 冰怒
                 { spellID = 210714, unitId = "player", caster = "player", filter = "BUFF" },
-		-- 熔岩奔腾
+                -- 熔岩奔腾
                 { spellID = 77762, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 治療之潮
                 { spellID = 53390, unitId = "player", caster = "player", filter = "BUFF" },
@@ -760,17 +760,17 @@ R["Watcher"] = {
                 { spellID = 194084, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 风歌
                 { spellID = 201898, unitId = "player", caster = "player", filter = "BUFF" },
-		-- 风暴使者
+                -- 风暴使者
                 { spellID = 201846, unitId = "player", caster = "player", filter = "BUFF" },
-		-- 毁灭之风
+                -- 毁灭之风
                 { spellID = 204945, unitId = "player", caster = "player", filter = "BUFF" },
-		-- 冰封
+                -- 冰封
                 { spellID = 196834, unitId = "player", caster = "player", filter = "BUFF" },
-		-- 漩涡之力
+                -- 漩涡之力
                 { spellID = 191877, unitId = "player", caster = "player", filter = "BUFF" },
-		-- 风暴守护者
+                -- 风暴守护者
                 { spellID = 205495, unitId = "player", caster = "player", filter = "BUFF" },
-		-- 女王的崛起
+                -- 女王的崛起
                 { spellID = 207288, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
@@ -783,9 +783,9 @@ R["Watcher"] = {
                 { spellID = 51514, unitId = "target", caster = "all", filter = "DEBUFF" },
                 -- 烈焰震击
                 { spellID = 188389, unitId = "target", caster = "player", filter = "DEBUFF" },
-		-- 烈焰震击（治疗）
+                -- 烈焰震击（治疗）
                 { spellID = 188838, unitId = "target", caster = "player", filter = "DEBUFF" },
-                 -- 激流
+                -- 激流
                 { spellID = 61295, unitId = "target", caster = "player", filter = "BUFF" },
                 -- 地震术
                 { spellID = 182387, unitId = "target", caster = "player", filter = "DEBUFF" },
@@ -803,7 +803,7 @@ R["Watcher"] = {
                 { spellID = 51514, unitId = "focus", caster = "all", filter = "DEBUFF" },
                 -- 烈焰震击
                 { spellID = 188389, unitId = "target", caster = "player", filter = "DEBUFF" },
-		-- 烈焰震击（治疗）
+                -- 烈焰震击（治疗）
                 { spellID = 188838, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
             {
@@ -821,13 +821,13 @@ R["Watcher"] = {
                 { spellID = 198103, filter = "CD" },
                 -- 升腾
                 { spellID = 114050, filter = "CD" },
-		-- 岩浆图腾
+                -- 岩浆图腾
                 { spellID = 192222, filter = "CD" },
                 -- 野性狼魂
                 { spellID = 51533, filter = "CD" },
-		-- 毁灭之风
+                -- 毁灭之风
                 { spellID = 204945, filter = "CD" },
-		-- 女王的恩赐
+                -- 女王的恩赐
                 { spellID = 207778, filter = "CD" },
 
                 -- 物品
@@ -1137,7 +1137,6 @@ R["Watcher"] = {
                 { spellID = 155361, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 心灵尖刺
                 { spellID = 217673, unitId = "target", caster = "player", filter = "DEBUFF" },
-				
             },
             {
                 name = "焦点buff&debuff",
@@ -1184,7 +1183,6 @@ R["Watcher"] = {
                 { spellID = 10060, filter = "CD" },
                 -- 絕望禱言
                 { spellID = 19236, filter = "CD" },
-				
                 -- 狂喜
                 { spellID = 47536, filter = "CD" },
                 -- 希望象徵
@@ -1610,9 +1608,9 @@ R["Watcher"] = {
                 setpoint = positions.target_buff_icon,
                 size = 28,
 
-		-- 冷酷寒冬
+                -- 冷酷寒冬
                 { spellID = 211793, unitId = "target", caster = "player", filter = "DEBUFF" },
-		-- 锋锐之霜
+                -- 锋锐之霜
                 { spellID = 51714, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
             {
@@ -1706,7 +1704,7 @@ R["Watcher"] = {
                 direction = function() return R:IsDeveloper() and "RIGHT" or "DOWN" end,
                 mode = function() return R:IsDeveloper() and "ICON" or "BAR" end,
                 setpoint = positions.cd_icon,
-				
+
                 -- 大軍
                 { spellID = 42650, filter = "CD" },
                 -- 黑暗仲裁者
@@ -1715,7 +1713,7 @@ R["Watcher"] = {
                 { spellID = 207256, filter = "CD" },
                 -- 符文武器
                 { spellID = 47568, filter = "CD" },
-				
+
                 -- 物品
                 -- 手套
                 { slotID = 10, filter = "CD" },
@@ -1809,7 +1807,6 @@ R["Watcher"] = {
                 { spellID = 215479, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 散魔功
                 { spellID = 122783, unitId = "player", caster = "player", filter = "BUFF" },
-								
             },
             {
                 name = "目标重要buff&debuff",
@@ -1823,7 +1820,6 @@ R["Watcher"] = {
                 { spellID = 116330, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 旭日东升踢
                 { spellID = 130320, unitId = "target", caster = "player", filter = "DEBUFF" },
-				
                 -- 幽冥掌
                 { spellID = 115080, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
