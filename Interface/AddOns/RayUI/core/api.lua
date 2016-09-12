@@ -45,12 +45,12 @@ local function CreateShadow(f, t, thickness)
 	local border = CreateFrame("Frame", nil, f)
 	border:SetFrameLevel(frameLevel)
 	border:SetOutside(f, 1, 1)
-    border:SetTemplate("Border")
-    hooksecurefunc(border, "SetFrameLevel", function(self, value)
-    	if value > frameLevel + 1 then
-    		border:SetFrameLevel(frameLevel)
-    	end
-    end)
+	border:SetTemplate("Border")
+	hooksecurefunc(border, "SetFrameLevel", function(self, value)
+    		if value > frameLevel + 1 then
+    			border:SetFrameLevel(frameLevel)
+    		end
+	end)
 	f.border = f.border or border
 
 	local shadow = CreateFrame("Frame", nil, border)
@@ -67,10 +67,10 @@ local function CreateShadow(f, t, thickness)
 	shadow:SetBackdropColor( backdropr, backdropg, backdropb, backdropa )
 	shadow:SetBackdropBorderColor( borderr, borderg, borderb )
 	hooksecurefunc(shadow, "SetFrameLevel", function(self, value)
-    	if value > frameLevel then
-    		shadow:SetFrameLevel(frameLevel - 1)
-    	end
-    end)
+    		if value > frameLevel then
+    			shadow:SetFrameLevel(frameLevel - 1)
+    		end
+	end)
 	f.shadow = shadow
 end
 
