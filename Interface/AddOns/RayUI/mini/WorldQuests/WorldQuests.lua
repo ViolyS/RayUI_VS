@@ -122,7 +122,7 @@ BWQ:SetBackdrop({
 		edgeSize = 2,
 		insets = { left = 0, right = 0, top = 0, bottom = 0 },
 	})
-BWQ:SetBackdropColor(0, 0, 0, .9)
+BWQ:SetBackdropColor(0, 0, 0, .75)
 BWQ:SetBackdropBorderColor(0, 0, 0, 1)
 BWQ:SetClampedToScreen(true)
 BWQ:Hide()
@@ -805,9 +805,13 @@ function BWQ:UpdateBlock()
 				if button.quest.reward.itemName or button.quest.reward.artifactPower then
 					local itemText
 					if button.quest.reward.artifactPower then
-						itemText = string.format("|cffe5cc80[%s Artifact Power]|r", button.quest.reward.artifactPower)
+						if ( GetLocale() == "zhCN" ) then
+							itemText = string.format("|cffe5cc80%s 神器能量|r", button.quest.reward.artifactPower)
+						else
+							itemText = string.format("|cffe5cc80%s Artifact Power|r", button.quest.reward.artifactPower)
+						end
 					else
-						itemText = string.format("%s[%s]|r", ITEM_QUALITY_COLORS[button.quest.reward.itemQuality].hex, button.quest.reward.itemName)
+						itemText = string.format("%s%s|r", ITEM_QUALITY_COLORS[button.quest.reward.itemQuality].hex, button.quest.reward.itemName)
 					end
 
 					rewardText = string.format(
@@ -971,6 +975,64 @@ function BWQ:SetupConfigMenu()
 	configMenu = CreateFrame("Frame", "BWQ_ConfigMenu")
 	configMenu.displayMode = "MENU"
 
+	if ( GetLocale() == "zhCN" ) then
+	options = {
+		{ text = "依附于世界地图", check = "attachToWorldMap" },
+		{ text = "总是显示活跃的任务", check = "alwaysShowBountyQuests" },
+		{ text = "隐藏宠物战斗任务即使是活跃的任务", check = "hidePetBattleBountyQuests" },
+		{ text = "" },
+		{ text = "筛选战利品...", isTitle = true },
+		{ text = ("|T%1$s:16:16|t  神器能量"):format("Interface\\Icons\\inv_enchant_shardradientlarge"), check = "showArtifactPower" },
+		{ text = ("|T%1$s:16:16|t  物品"):format("Interface\\Minimap\\Tracking\\Banker"), check = "showItems", submenu = {
+				{ text = ("|T%1$s:16:16|t  装备"):format("Interface\\Icons\\Inv_chest_plate_legionendgame_c_01"), check = "showGear" },
+				{ text = ("|T%1$s:16:16|t  神器圣物"):format("Interface\\Icons\\inv_misc_statue_01"), check = "showRelics" },
+				{ text = ("|T%s$s:16:16|t  制作材料"):format("1417744"), check = "showCraftingMaterials" },
+				{ text = "其他", check = "showOtherItems" },
+			}
+		},
+		{ text = ("|T%1$s:16:16|t  少量金币奖励"):format("Interface\\GossipFrame\\auctioneerGossipIcon"), check = "showLowGold" },
+		{ text = ("|T%1$s:16:16|t  大量金币奖励"):format("Interface\\GossipFrame\\auctioneerGossipIcon"), check = "showHighGold" },
+		{ text = "资源", check = "showResources", submenu = {
+				{ text = ("|T%1$s:16:16|t  职业大厅资源"):format("Interface\\Icons\\inv_orderhall_orderresources"), check = "showOrderHallResources" },
+				{ text = ("|T%1$s:16:16|t  远古魔力"):format("Interface\\Icons\\inv_misc_ancient_mana"), check = "showAncientMana" },
+				{ text = "其他", check = "showOtherResources" },
+			}
+		},
+		{ text = "" },
+		{ text = "筛选类型...", isTitle = true },
+		{ text = ("|T%1$s:16:16|t  专业任务"):format("Interface\\Minimap\\Tracking\\Profession"), check = "showProfession", submenu = {
+				{ text = "炼金术", check="showProfessionAlchemy" },
+				{ text = "锻造", check="showProfessionBlacksmithing" },
+				{ text = "附魔", check="showProfessionEnchanting" },
+				{ text = "工程", check="showProfessionEngineering" },
+				{ text = "铭文", check="showProfessionInscription" },
+				{ text = "珠宝加工", check="showProfessionJewelcrafting" },
+				{ text = "制皮", check="showProfessionLeatherworking" },
+				{ text = "裁缝", check="showProfessionTailoring" },
+				{ text = "" },
+				{ text = "草药学", check="showProfessionHerbalism" },
+				{ text = "采矿", check="showProfessionMining" },
+				{ text = "剥皮", check="showProfessionSkinning" },
+				{ text = "" },
+				{ text = "考古", check="showProfessionArchaeology" },
+				{ text = "烹饪", check="showProfessionCooking" },
+				{ text = "钓鱼", check="showProfessionFishing" },
+				{ text = "急救", check="showProfessionFirstAid" },
+			}
+		},
+		{ text = ("|T%1$s:16:16|t  宠物战斗任务"):format("Interface\\Icons\\tracking_wildpet"), check = "showPetBattle" },
+		{ text = "地下城任务", check = "showDungeon" },
+		{ text = "PvP 任务", check = "showPvP" },
+		{ text = "" },
+		{ text = "总是显示声望任务...", isTitle = true },
+		{ text = "法罗迪斯宫廷", check="alwaysShowCourtOfFarondis" },
+		{ text = "织梦者", check="alwaysShowDreamweavers" },
+		{ text = "高岭部族", check="alwaysShowHighmountainTribe" },
+		{ text = "堕夜精灵", check="alwaysShowNightfallen" },
+		{ text = "守望者", check="alwaysShowWardens" },
+		{ text = "瓦拉加尔", check="alwaysShowValarjar" },
+	}
+	else
 	options = {
 		{ text = "Attach list frame to world map", check = "attachToWorldMap" },
 		{ text = "Always show quests for active bounty", check = "alwaysShowBountyQuests" },
@@ -1026,9 +1088,8 @@ function BWQ:SetupConfigMenu()
 		{ text = "The Nightfallen", check="alwaysShowNightfallen" },
 		{ text = "The Wardens", check="alwaysShowWardens" },
 		{ text = "Valarjar", check="alwaysShowValarjar" },
-
-
 	}
+	end
 
 	configMenu.initialize = function(self, level)
 		if not level then return end
