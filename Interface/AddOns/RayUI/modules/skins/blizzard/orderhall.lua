@@ -14,7 +14,7 @@ local function LoadSkin()
 	OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 10, 0)
 	OrderHallCommandBar:ClearAllPoints()
 	OrderHallCommandBar:SetPoint("TOP")
-	OrderHallCommandBar:SetWidth(480)
+	OrderHallCommandBar:SetWidth(550)
 	OrderHallCommandBar.WorldMapButton:Kill()
 
 	-- MissionFrame
