@@ -925,10 +925,14 @@ R["Watcher"] = {
                 { spellID = 87173, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 十字軍
                 { spellID = 224668, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 神圣意志
+                { spellID = 223819, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 正義怒火
                 { spellID = 209785, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 以眼還眼
                 { spellID = 205191, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 复仇之盾
+                { spellID = 184662, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 神圣意圖
                 { spellID = 216413, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 熾熱殉難者
