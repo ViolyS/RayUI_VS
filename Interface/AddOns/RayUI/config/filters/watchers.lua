@@ -911,8 +911,6 @@ R["Watcher"] = {
                 { spellID = 642, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 忠誠防衛者
                 { spellID = 31850, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 光速
-                { spellID = 85499, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 公正之盾
                 { spellID = 132403, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 榮耀壁壘
@@ -1401,8 +1399,8 @@ R["Watcher"] = {
                 { spellID = 2818, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 致殘毒藥
                 { spellID = 3409, unitId = "target", caster = "player", filter = "DEBUFF" },
-                -- 吸血毒藥
-                { spellID = 112961, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 痛苦毒藥
+                { spellID = 200803, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 致傷毒藥
                 { spellID = 8680, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 手枪射击
@@ -1503,6 +1501,8 @@ R["Watcher"] = {
                 { spellID = 79140, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 出血
                 { spellID = 16511, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 君王之灾（刺杀神器）
+                { spellID = 192759, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 找尋弱點
                 { spellID = 91021, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 制裁之錘
@@ -1577,8 +1577,12 @@ R["Watcher"] = {
                 { spellID = 13750, filter = "CD" },
                 -- 奧術之流
                 { spellID = 25046, filter = "CD" },
+                -- 君王之灾（刺杀神器）
+                { spellID = 192759, filter = "CD" },
                 -- 恐惧之刃诅咒（狂徒神器）
                 { spellID = 202665, filter = "CD" },
+                -- 恐惧之刃诅咒（敏锐神器）
+                { spellID = 209782, filter = "CD" },
 
                 -- 物品
                 -- 手套
@@ -1974,9 +1978,6 @@ R["Watcher"] = {
                 { spellID = 126697, unitId = "player", caster = "all", filter = "BUFF" },
                 -- PvP 飾品 (全能)
                 { spellID = 170397, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 炼金 飾品 (敏捷)
-                { spellID = 60233, unitId = "player", caster = "all", filter = "BUFF" },
-
 
                 -- 錮法索銀指環
                 -- 大法師的白熱光 (智力)
@@ -1993,6 +1994,7 @@ R["Watcher"] = {
                 { spellID = 177175, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 大法師的白熱強光 (敏捷)
                 { spellID = 177172, unitId = "player", caster = "player", filter = "BUFF" },
+
                 -- 暗月卡牌
                 -- 玉珑圣物 (智力, 触发)
                 { spellID = 128985, unitId = "player", caster = "all", filter = "BUFF" },
@@ -2238,8 +2240,6 @@ R["Watcher"] = {
                 { spellID = 104993, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 钢铁之舞
                 { spellID = 120032, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 爆裂领主的毁灭瞄准镜
-                { spellID = 109085, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 雷神之印
                 { spellID = 159234, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 战歌之印
@@ -2254,6 +2254,8 @@ R["Watcher"] = {
                 { spellID = 159679, unitId = "player", caster = "all", filter = "BUFF" },
 
                 -- 远程附魔
+                -- 爆裂领主的毁灭瞄准镜
+                { spellID = 109085, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 兆瓦纤维
                 { spellID = 156060, unitId = "player", caster = "all", filter = "BUFF" },
 
@@ -2358,6 +2360,17 @@ R["Watcher"] = {
                 -- 法師T16, 冰凍意念
                 { spellID = 146557, unitId = "player", caster = "all", filter = "BUFF" },
                 { spellID = 145252, unitId = "player", caster = "all", filter = "BUFF" },
+
+                -- 7.0 军团再临
+                -- 饰品
+                -- 通用
+                -- 敏捷
+                -- 安格博达的回忆
+                { spellID = 214802, unitId = "player", caster = "all", filter = "BUFF" }, -- 因格瓦尔的嚎叫（爆击，红脸）
+                { spellID = 214803, unitId = "player", caster = "all", filter = "BUFF" }, -- 席瓦拉的哀号（急速，绿脸）
+                { spellID = 214807, unitId = "player", caster = "all", filter = "BUFF" }, -- 安格博达的挽歌（精通，蓝脸）
+                -- 力量
+                -- 智力
             },
             {
                 name = "PVE/PVP玩家buff&debuff",
