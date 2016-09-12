@@ -2362,15 +2362,10 @@ R["Watcher"] = {
                 { spellID = 145252, unitId = "player", caster = "all", filter = "BUFF" },
 
                 -- 7.0 军团再临
-                -- 饰品
-                -- 通用
-                -- 敏捷
-                -- 安格博达的回忆
+                -- 安格博达的回忆（力量/敏捷）
                 { spellID = 214802, unitId = "player", caster = "all", filter = "BUFF" }, -- 因格瓦尔的嚎叫（爆击，红脸）
                 { spellID = 214803, unitId = "player", caster = "all", filter = "BUFF" }, -- 席瓦拉的哀号（急速，绿脸）
                 { spellID = 214807, unitId = "player", caster = "all", filter = "BUFF" }, -- 安格博达的挽歌（精通，蓝脸）
-                -- 力量
-                -- 智力
             },
             {
                 name = "PVE/PVP玩家buff&debuff",
