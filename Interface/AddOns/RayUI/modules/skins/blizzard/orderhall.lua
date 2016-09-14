@@ -84,6 +84,9 @@ local function LoadSkin()
 		end
 		self.numAbilitiesStyled = numAbilitiesStyled
 
+		local combat = self.followerTab.AbilitiesFrame.CombatAllySpell1
+		S:ReskinIcon(combat.iconTexture)
+
 		local weapon = self.followerTab.ItemWeapon
 		local armor = self.followerTab.ItemArmor
 		if not weapon.skinned then
