@@ -88,10 +88,28 @@ local function LoadSkin()
 
 	-- [[ Side tabs ]]
 
-	local tabs = {EncounterJournalEncounterFrameInfoOverviewTab, EncounterJournalEncounterFrameInfoLootTab, EncounterJournalEncounterFrameInfoBossTab, EncounterJournalEncounterFrameInfoModelTab}
+	local tabs = {
+		EncounterJournalEncounterFrameInfoOverviewTab,
+		EncounterJournalEncounterFrameInfoLootTab,
+		EncounterJournalEncounterFrameInfoBossTab,
+		EncounterJournalEncounterFrameInfoModelTab
+	}
 	for _, tab in pairs(tabs) do
+		S:CreateBD(tab)
 		tab:SetScale(.5)
+
+		tab:SetNormalTexture("")
+		tab:SetPushedTexture("")
+		tab:SetDisabledTexture("")
+		tab:SetHighlightTexture("")
 	end
+
+	EncounterJournalEncounterFrameInfoOverviewTab:ClearAllPoints()
+	EncounterJournalEncounterFrameInfoOverviewTab:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", 9, -35)
+	EncounterJournalEncounterFrameInfoLootTab:ClearAllPoints()
+	EncounterJournalEncounterFrameInfoLootTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoOverviewTab, "BOTTOM", 0, 1)
+	EncounterJournalEncounterFrameInfoBossTab:ClearAllPoints()
+	EncounterJournalEncounterFrameInfoBossTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoLootTab, "BOTTOM", 0, 1)
 
 	-- [[ Instance select ]]
 
