@@ -137,6 +137,15 @@ hooksecurefunc(GameTooltip, "SetCurrencyToken", function(self, idx)
 		self:Show()
 	end
 end)
+hooksecurefunc(GarrisonLandingPage.Report.shipmentsPool, "ReleaseAll", function(self)
+	local o = self.inactiveObjects
+	for i=1,o and #o or 0 do
+		if o[i].Swipe then
+			-- Subsequent Aquire/Setup might not reset the swipe
+			o[i].Swipe:Hide()
+		end
+	end
+end)
 
 hooksecurefunc("GarrisonLandingPageReportList_UpdateAvailable", function()
 	local items, buttons = GarrisonLandingPageReport.List.AvailableItems, GarrisonLandingPageReport.List.listScroll.buttons
