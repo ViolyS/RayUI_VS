@@ -820,7 +820,12 @@ hooksecurefunc("GarrisonRecruiterFrame_Init", function(_, level)
 end)
 
 local GarrisonFollowerList_SortFollowers = GarrisonFollowerList_SortFollowers
-local specialSearchQueries = {["duplicate counters"]="dup", [(L"Duplicate counters"):lower()]="dup", ["upgradable gear"]="up", [(L"Upgradable gear"):lower()]="up", ["redundant"]="red", [(L"Redundant"):lower()]="red"}
+local specialSearchQueries = {["duplicate counters"]="dup", [(L"Duplicate counters"):lower()]="dup", ["upgradable gear"]="up", [(L"Upgradable gear"):lower()]="up", ["redundant"]="red", [(L"Redundant"):lower()]="red"} do
+	local sc = C_Garrison.GetFollowerAbilityName(79)
+	if sc then
+		specialSearchQueries[sc:lower()] = "scavenger"
+	end
+end
 local searchLoader = T.MissionsUI.CreateLoader(nil, 12, 4, 3)
 function searchLoader:OnFinish()
 	local sb = self.list and self.list.SearchBox
@@ -860,10 +865,10 @@ function _G.GarrisonFollowerList_SortFollowers(followerList)
 		end
 	elseif (searchString:match("[!;+]") and searchString:match("[^%s;+!]")) or specialSearchQueries[searchString:lower()] then
 		local showUncollected, list, q, ns, s = followerList.showUncollected, followerList.followersList, {}, {}
-		local filterADup, filterIDup, filterRed, dupSet, filterUp, upW, upA, redFollowers, badQuery
+		local filterADup, filterIDup, filterRed, filterScav, dupSet, filterUp, upW, upA, redFollowers, badQuery
 		
-		for qs in searchString:gmatch("[^;]+") do
-			local neg, pl, qs = qs:match("^%s*(!?)(%+?)%s*(.-)%s*$")
+		for rqs in searchString:gmatch("[^;]+") do
+			local neg, pl, qs = rqs:match("^%s*(!?)(%+?)%s*(.-)%s*$")
 			local ql = qs:lower()
 			local sq = specialSearchQueries[ql]
 			if (qs or "") == "" then
@@ -877,6 +882,8 @@ function _G.GarrisonFollowerList_SortFollowers(followerList)
 				filterUp, showUncollected, badQuery = neg == "", false, badQuery or (filterUp == (neg ~= ""))
 			elseif sq == "red" then
 				filterRed, showUncollected, badQuery = neg == "", false, badQuery or (filterRed == (neg ~= ""))
+			elseif sq == "scavenger" and rqs ~= searchString then
+				filterScav, showUncollected, badQuery = neg == "", false, badQuery or (filterScav == (neg ~= ""))
 			elseif pl == "+" then
 				s = s or {}
 				s[#s+1] = ql:gsub("[-%%%[%]().+*?]", "%%%0")
@@ -889,7 +896,7 @@ function _G.GarrisonFollowerList_SortFollowers(followerList)
 		
 		if badQuery then
 			wipe(list)
-		elseif hasDupFilter or filterUp ~= nil or filterRed ~= nil or #q > 1 or ns[1] or (s and #s > 0) then
+		elseif hasDupFilter or filterUp ~= nil or filterRed ~= nil or filterScav ~= nil or #q > 1 or ns[1] or (s and #s > 0) then
 			local nf, ni = #followerList.followers, 1
 			wipe(list)
 			for i=1,nf do
@@ -911,6 +918,14 @@ function _G.GarrisonFollowerList_SortFollowers(followerList)
 						local _weaponItemID, weaponItemLevel, _armorItemID, armorItemLevel = C_Garrison.GetFollowerItems(f.followerID)
 						ok = (weaponItemLevel < upW or armorItemLevel < upA) == filterUp
 					end
+				end
+				if ok and (filterScav ~= nil) then
+					if f.hasScavengerTrait == nil then
+						local id = f.followerID
+						local a, b, c = C_Garrison.GetFollowerTraitAtIndex(id, 1), C_Garrison.GetFollowerTraitAtIndex(id, 2), C_Garrison.GetFollowerTraitAtIndex(id, 3)
+						f.hasScavengerTrait = (a == 79) or (b == 79) or (c == 79)
+					end
+					ok = f.hasScavengerTrait == filterScav
 				end
 				for i=1,s and ok and #s or 0 do
 					local ok2, qm = false, s[i]
