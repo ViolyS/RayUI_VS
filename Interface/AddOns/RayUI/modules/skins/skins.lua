@@ -161,8 +161,8 @@ function S:CreateGradient(f)
 	local tex = f:CreateTexture(nil, "BORDER")
 	tex:SetPoint("TOPLEFT", 1, -1)
 	tex:SetPoint("BOTTOMRIGHT", -1, 1)
-	tex:SetTexture([[Interface\AddOns\RayUI\media\gradient.tga]])
-	tex:SetVertexColor(0, 0, 0, .15)
+	tex:SetTexture([[Interface\AddOns\RayUI\media\gradient.tga"]])
+	tex:SetVertexColor(.3, .3, .3, .15)
 
 	return tex
 end
@@ -809,7 +809,10 @@ function S:PLAYER_ENTERING_WORLD(event, addon)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	for t, skinfunc in pairs(self.SkinFuncs["RayUI"]) do
 		if skinfunc then
-			skinfunc()
+			local _, catch = pcall(skinfunc)
+			if(catch and GetCVarBool("scriptErrors") == true) then
+				ScriptErrorsFrame_OnError(catch, false)
+			end
 		end
 	end
 	wipe(self.SkinFuncs["RayUI"])
@@ -822,8 +825,11 @@ function S:Initialize()
 	for addon, loadFunc in pairs(self.SkinFuncs) do
 		if addon ~= "RayUI" then
 			if IsAddOnLoaded(addon) then
-				loadFunc()
 				self.SkinFuncs[addon] = nil
+				local _, catch = pcall(loadFunc)
+				if(catch and GetCVarBool("scriptErrors") == true) then
+					ScriptErrorsFrame_OnError(catch, false)
+				end
 			end
 		end
 	end
