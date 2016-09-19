@@ -12,7 +12,7 @@ local function LoadArtifact()
 			local name, icon, totalXP, pointsSpent = select(3, C_ArtifactUI.GetEquippedArtifactInfo())
 			local numPointsAvailableToSpend, xp, xpForNextPoint = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP)
 
-			infobar.Text:SetText(totalXP.." "..ITEM_QUALITY6_DESC..POWER_TYPE_POWER)
+			infobar.Text:SetText(totalXP.." "..ARTIFACT_POWER)
 		else
 			infobar.Text:SetText(ITEM_QUALITY6_DESC)
 		end
@@ -27,7 +27,6 @@ local function LoadArtifact()
 			GameTooltip:SetOwner(self, "ANCHOR_NONE")
 			GameTooltip:SetPoint("BOTTOMRIGHT", infobar, "TOPRIGHT", 0, 0)
 			GameTooltip:AddLine(title,r,g,b,false)
-			--GameTooltip:AddDivider()
 			GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_TITLE:format(BreakUpLargeNumbers(ArtifactWatchBar.totalXP), BreakUpLargeNumbers(ArtifactWatchBar.xp), BreakUpLargeNumbers(ArtifactWatchBar.xpForNextPoint)), 1, 1, 1)
 			if ArtifactWatchBar.numPointsAvailableToSpend > 0 then
 				GameTooltip:AddLine(" ")
