@@ -108,6 +108,7 @@ function M:GetOptions()
 				},
 			},
 		},
+		--[[
 		remindergroup = {
 			order = 11,
 			type = "group",
@@ -155,6 +156,7 @@ function M:GetOptions()
 				},
 			},
 		},
+		]]
 		autoinvitegroup = {
 			order = 13,
 			type = "group",
@@ -282,16 +284,30 @@ function M:GetOptions()
 	return options
 end
 
-function M:RegisterMiscModule(name, func)
-	self.Modules[name] = func
+function M:RegisterMiscModule(name)
+	table.insert(M.Modules, name)
 end
 
 function M:Initialize()
-	for module, func in pairs(self.Modules) do
-		local _, catch = pcall(func)
-		if catch then
-			tinsert(self.OnLoadErrors, catch)
+	local errList, errText = {}, ""
+	for _, name in pairs(self.Modules) do
+		local module = self:GetModule(name, true)
+		if module then
+			module:Initialize()
+		else
+			table.insert(errList, name)
 		end
+	end
+	if #errList > 0 then
+		for i = 1, #errList do
+			if i == 1 then
+				errText = "Misc Modules: " .. errList[i]
+			else
+				errText = errText .. ", " .. errList[i]
+			end
+		end
+		errText = errText .. " not loaded"
+		R:Print(errText)
 	end
 end
 
