@@ -1446,8 +1446,8 @@ R["Watcher"] = {
                 { spellID = 121153, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 狂舞殘殺
                 { spellID = 51690, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 毒藥師
-                { spellID = 145249, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 精密計畫
+                { spellID = 193641, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 欺敵
                 { spellID = 115192, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 絕對方位
