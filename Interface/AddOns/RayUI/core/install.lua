@@ -1,4 +1,3 @@
-local R, L, P = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, local
 local hooked = false
 
 local function ShowFinish(text, subtext)
