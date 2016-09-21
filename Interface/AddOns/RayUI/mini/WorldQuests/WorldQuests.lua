@@ -219,7 +219,11 @@ function BWQ:WorldQuestsUnlocked()
 		if not BWQ.errorFS then CreateErrorFS() end
 
 		BWQ.errorFS:SetPoint("TOP", BWQ, "TOP", 0, -10)
-		BWQ.errorFS:SetText("You need to reach Level 110 and complete the\nquest \124cffffff00\124Hquest:43341:-1\124h[Uniting the Isles]\124h\124r to unlock World Quests.")
+		if ( GetLocale() == "zhCN" ) then
+			BWQ.errorFS:SetText("你必须要达到 110 级，\n并且完成 \124cffffff00\124Hquest:43341:-1\124h[联合势力]\124h\124r 来解锁世界任务。")
+		else
+			BWQ.errorFS:SetText("You need to reach Level 110 and complete the\nquest \124cffffff00\124Hquest:43341:-1\124h[Uniting the Isles]\124h\124r to unlock World Quests.")
+		end
 		BWQ:SetSize(BWQ.errorFS:GetStringWidth() + 20, BWQ.errorFS:GetStringHeight() + 20)
 		BWQ.errorFS:Show()
 
@@ -239,7 +243,11 @@ function BWQ:ShowNoWorldQuestsInfo()
 	BWQ.errorFS:ClearAllPoints()
 	BWQ.errorFS:SetPoint("TOP", BWQ, "TOP", 0, offsetTop - 10)
 
-	BWQ.errorFS:SetText("There are no world quests available that match your filter settings.")
+	if ( GetLocale() == "zhCN" ) then
+		BWQ.errorFS:SetText("当前筛选类型没有任何可进行的世界任务。")
+	else
+		BWQ.errorFS:SetText("There are no world quests available that match your filter settings.")
+	end
 	BWQ.errorFS:Show()
 end
 
@@ -978,8 +986,8 @@ function BWQ:SetupConfigMenu()
 	if ( GetLocale() == "zhCN" ) then
 	options = {
 		{ text = "依附于世界地图", check = "attachToWorldMap" },
-		{ text = "总是显示活跃的任务", check = "alwaysShowBountyQuests" },
-		{ text = "隐藏宠物战斗任务即使是活跃的任务", check = "hidePetBattleBountyQuests" },
+		{ text = "总是显示使者任务", check = "alwaysShowBountyQuests" },
+		{ text = "隐藏宠物战斗任务即使是使者任务", check = "hidePetBattleBountyQuests" },
 		{ text = "" },
 		{ text = "筛选战利品...", isTitle = true },
 		{ text = ("|T%1$s:16:16|t  神器能量"):format("Interface\\Icons\\inv_enchant_shardradientlarge"), check = "showArtifactPower" },
