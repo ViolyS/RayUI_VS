@@ -293,6 +293,36 @@ local function LoadSkin()
 			end
 		end
 	end)
+
+	--Create portrait element for the PvP Talent Frame so we can see prestige
+	local portrait = PlayerTalentFramePVPTalents:CreateTexture(nil, "OVERLAY")
+	portrait:SetSize(57,57)
+	portrait:SetPoint("CENTER", PlayerTalentFramePVPTalents.PortraitBackground, "CENTER", 0, 0);
+	--Kill background
+	PlayerTalentFramePVPTalents.PortraitBackground:Kill()
+	--Reposition portrait by repositioning the background
+	PlayerTalentFramePVPTalents.PortraitBackground:ClearAllPoints()
+	PlayerTalentFramePVPTalents.PortraitBackground:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPLEFT", 5, -5)
+	--Reposition the wreath
+	PlayerTalentFramePVPTalents.SmallWreath:ClearAllPoints()
+	PlayerTalentFramePVPTalents.SmallWreath:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPLEFT", -2, -25)
+	--Update texture according to prestige
+	hooksecurefunc("PlayerTalentFramePVPTalents_SetUp", function()
+		local prestigeLevel = UnitPrestige("player")
+		if (prestigeLevel > 0) then
+			portrait:SetTexture(GetPrestigeInfo(prestigeLevel))
+		end
+	end)
+
+	-- Prestige Level Dialog
+	PVPTalentPrestigeLevelDialog:StripTextures()
+	S:SetBD(PVPTalentPrestigeLevelDialog)
+	PVPTalentPrestigeLevelDialog.Laurel:SetAtlas("honorsystem-prestige-laurel", true) --Re-add textures removed by StripTextures()
+	PVPTalentPrestigeLevelDialog.TopDivider:SetAtlas("honorsystem-prestige-rewardline", true)
+	PVPTalentPrestigeLevelDialog.BottomDivider:SetAtlas("honorsystem-prestige-rewardline", true)
+	S:Reskin(PVPTalentPrestigeLevelDialog.Accept)
+	S:Reskin(PVPTalentPrestigeLevelDialog.Cancel)
+	S:ReskinClose(PVPTalentPrestigeLevelDialog.CloseButton) --There are 2 buttons with the exact same name, may not be able to skin it properly until fixed by Blizzard.
 end
 
 S:RegisterSkin("Blizzard_TalentUI", LoadSkin)
