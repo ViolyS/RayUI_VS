@@ -14,10 +14,9 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, eventType, hideCaster
 
 		if eventType=="SPELL_INTERRUPT" then
 			if IsInRaid() then
- 				SendChatMessage(msg..": "..destName.." \124cff71d5ff\124Hspell:"..id..":0\124h["..effect.."]\124h\124r!", (not IsInRaid(LE_PARTY_CATEGORY_HOME) and IsInRaid(LE_PARTY_CATEGORY_INSTANCE)) and "INSTANCE_CHAT" or "RAID")
- 			elseif IsInGroup() then
- 				SendChatMessage(msg..": "..destName.." \124cff71d5ff\124Hspell:"..id..":0\124h["..effect.."]\124h\124r!", (not IsInGroup(LE_PARTY_CATEGORY_HOME) and IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) and "INSTANCE_CHAT" or "PARTY")
-				end
+				SendChatMessage(msg..": "..destName.." \124cff71d5ff\124Hspell:"..id..":0\124h["..effect.."]\124h\124r!", (not IsInRaid(LE_PARTY_CATEGORY_HOME) and IsInRaid(LE_PARTY_CATEGORY_INSTANCE)) and "INSTANCE_CHAT" or "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(msg..": "..destName.." \124cff71d5ff\124Hspell:"..id..":0\124h["..effect.."]\124h\124r!", (not IsInGroup(LE_PARTY_CATEGORY_HOME) and IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) and "INSTANCE_CHAT" or "PARTY")
 			end
 		end
 
