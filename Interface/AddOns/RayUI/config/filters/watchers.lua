@@ -305,7 +305,6 @@ R["Watcher"] = {
                 { spellID = 201081, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 貓鼬撕咬
                 { spellID = 190931, unitId = "player", caster = "player", filter = "BUFF" },
-
                 -- 擊殺命令
                 { spellID = 34026, filter = "CD" },
                 -- 爆裂射擊
@@ -905,8 +904,6 @@ R["Watcher"] = {
                 { spellID = 166831, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 復仇之怒
                 { spellID = 31884, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 精通光環
-                { spellID = 31821, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 圣盾術
                 { spellID = 642, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 忠誠防衛者
@@ -996,6 +993,12 @@ R["Watcher"] = {
                 { spellID = 105809, filter = "CD" },
                 -- 遠古諸王守護者
                 { spellID = 86659, filter = "CD" },
+                -- 提尔的拯救（神圣神器）
+                { spellID = 200652, filter = "CD" },
+                -- 提尔之眼（防护神器）
+                { spellID = 209202, filter = "CD" },
+                -- 灰烬觉醒（惩戒神器）
+                { spellID = 205273, filter = "CD" },
 
                 -- 物品
                 -- 手套
@@ -1503,6 +1506,8 @@ R["Watcher"] = {
                 { spellID = 16511, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 君王之灾（刺杀神器）
                 { spellID = 192759, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 遇刺者之血（刺杀神器）
+                { spellID = 192925, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 找尋弱點
                 { spellID = 91021, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 制裁之錘
@@ -1953,6 +1958,10 @@ R["Watcher"] = {
                 { spellID = 188501, filter = "CD" },
                 -- 烈火烙印
                 { spellID = 204021, filter = "CD" },
+                -- 伊利达雷之怒（浩劫神器）
+                { spellID = 201467, filter = "CD" },
+                -- 灵魂切削（复仇神器）
+                { spellID = 207407, filter = "CD" },
 
                 -- 物品
                 -- 手套
@@ -2300,7 +2309,7 @@ R["Watcher"] = {
                 { spellID = 6940, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 保護聖禦
                 { spellID = 1022, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 虔誠光環
+                -- 精通光環
                 { spellID = 31821, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 希望象征
                 { spellID = 64901, unitId = "player", caster = "all", filter = "BUFF" },
@@ -2317,9 +2326,7 @@ R["Watcher"] = {
                 -- 鐵樹皮術
                 { spellID = 102342, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 奔竄咆哮
-                { spellID = 106898, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 魔法增效
-                { spellID = 159916, unitId = "player", caster = "all", filter = "BUFF" },
+                { spellID = 77761, unitId = "player", caster = "all", filter = "BUFF" },
 
                 -- 橙色多彩
                 -- 不屈之源钻 (耐力, 减伤)
