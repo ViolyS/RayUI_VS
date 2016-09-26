@@ -327,7 +327,7 @@ local function SkinDBM()
 	loadOptions:SetScript("OnEvent", ForceOptions)
 end
 
-S:RegisterSkin("DBM-Core", SkinDBM)
+S:AddCallbackForAddon("DBM-Core", "DBM-Core", SkinDBM)
 
 local function SkinGUI()
 	DBM_GUI_OptionsFrameHeader:SetTexture(nil)
@@ -396,4 +396,4 @@ local function SkinGUI()
 	S:ReskinScroll(DBM_GUI_OptionsFrameBossModsListScrollBar)
 end
 
-S:RegisterSkin("DBM-GUI", SkinGUI)
+S:AddCallbackForAddon("DBM-GUI", "DBM-GUI", SkinGUI)

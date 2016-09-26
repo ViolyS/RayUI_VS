@@ -138,4 +138,4 @@ local function LoadSkin()
 	S:ReskinClose(TalentFrame.CloseButton)
 end
 
-S:RegisterSkin("Blizzard_OrderHallUI", LoadSkin)
+S:AddCallbackForAddon("Blizzard_OrderHallUI", "OrderHall", LoadSkin)
