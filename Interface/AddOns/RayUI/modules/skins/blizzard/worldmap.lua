@@ -123,6 +123,10 @@ local function LoadSkin()
 	TrackingOptions.Background:Hide()
 	TrackingOptions.IconOverlay:SetTexture("")
 	TrackingOptions.Button.Border:Hide()
+
+	-- [[ World Quest Reward Icon ]]
+ 	WorldMapTooltip.ItemTooltip.IconBorder:Kill()
+ 	S:ReskinIcon(WorldMapTooltip.ItemTooltip.Icon)
 end
 
 S:AddCallback("WorldMap", LoadSkin)
