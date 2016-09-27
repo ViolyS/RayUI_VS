@@ -191,20 +191,12 @@ local function LoadSkin()
 	S:ReskinPortraitFrame(FriendsFrame, true)
 	S:ReskinDropDown(FriendsFrameStatusDropDown)
 
-	-- Battletag invite frame
-	-- for i = 1, 9 do
-	-- select(i, BattleTagInviteFrame.NoteFrame:GetRegions()):Hide()
-	-- end
-
 	S:CreateBD(BattleTagInviteFrame)
 	S:CreateSD(BattleTagInviteFrame)
-	-- S:CreateBD(BattleTagInviteFrame.NoteFrame, .25)
 
 	local send, cancel = BattleTagInviteFrame:GetChildren()
 	S:Reskin(send)
 	S:Reskin(cancel)
-
-	S:ReskinScroll(BattleTagInviteFrameScrollFrameScrollBar)
 
 	FriendsTabHeaderRecruitAFriendButton:SetTemplate("Default")
 	FriendsTabHeaderRecruitAFriendButton:StyleButton(true)
