@@ -125,8 +125,11 @@ local function LoadSkin()
 	TrackingOptions.Button.Border:Hide()
 
 	-- [[ World Quest Reward Icon ]]
- 	WorldMapTooltip.ItemTooltip.IconBorder:Kill()
- 	S:ReskinIcon(WorldMapTooltip.ItemTooltip.Icon)
+	WorldMapTooltip.ItemTooltip.IconBorder:Kill()
+	WorldMapTooltip.ItemTooltip.Icon:SetTexCoord(0.08, .92, .08, .92)
+	WorldMapTooltip.ItemTooltip.b = CreateFrame("Frame", nil, WorldMapTooltip.ItemTooltip)
+	WorldMapTooltip.ItemTooltip.b:SetAllPoints(WorldMapTooltip.ItemTooltip.Icon)
+	WorldMapTooltip.ItemTooltip.b:CreateShadow("Background")
 end
 
 S:AddCallback("WorldMap", LoadSkin)

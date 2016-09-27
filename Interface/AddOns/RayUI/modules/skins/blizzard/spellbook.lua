@@ -5,7 +5,6 @@ local function LoadSkin()
 	S:SetBD(SpellBookFrame)
 	S:ReskinArrow(SpellBookPrevPageButton, "left")
 	S:ReskinArrow(SpellBookNextPageButton, "right")
-	S:Reskin(SpellBookCompanionSummonButton)
 	S:ReskinClose(SpellBookFrameCloseButton)
 	SpellBookFrame:DisableDrawLayer("BACKGROUND")
 	SpellBookFrame:DisableDrawLayer("BORDER")
@@ -79,13 +78,13 @@ local function LoadSkin()
 			local tab = _G["SpellBookSkillLineTab"..i]
 
 			if not tab.styled then
-				tab:StripTextures()
+				--tab:StripTextures()
  				-- Avoid a lua error when using the character boost. The spells are learned through "combat training" and are not ready to be skinned.
  				if tab:GetNormalTexture() then
  					tab:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
 				end
 				tab.pushed = true
- 				tab:CreateShadow("Background")
+				S:SetBD(tab, -1, 1, 1, -1)
  				tab:StyleButton(true)
  				hooksecurefunc(tab:GetHighlightTexture(), "SetTexture", function(self, texPath)
  					if texPath ~= nil then

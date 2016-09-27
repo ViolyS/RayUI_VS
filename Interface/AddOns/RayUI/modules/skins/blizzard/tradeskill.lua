@@ -5,7 +5,7 @@ local function LoadSkin()
 	-- MainFrame
 	TradeSkillFramePortrait:Kill()
 	TradeSkillFrame:StripTextures(true)
-	S:CreateBDFrame(TradeSkillFrame)
+	S:SetBD(TradeSkillFrame)
 	TradeSkillFrame:Height(TradeSkillFrame:GetHeight() + 12)
 	TradeSkillFrame.RankFrame:StripTextures()
 	TradeSkillFrame.RankFrame:SetStatusBarTexture(R["media"].gloss)

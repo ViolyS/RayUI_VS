@@ -81,7 +81,7 @@ function TradeTabs:Initialize()
 	-- if player is a DK, insert runeforging at the top
 	if select(2, UnitClass("player")) == "DEATHKNIGHT" then
 		prev = self:CreateTab(i, parent, RUNEFORGING)
-		prev:SetPoint("TOPLEFT", parent, "TOPRIGHT", 10, -44)
+		prev:SetPoint("TOPLEFT", parent, "TOPRIGHT", 5, -36)
 		i = i + 1
 	end
 
@@ -92,7 +92,7 @@ function TradeTabs:Initialize()
 		
 		local point,relPoint,x,y = "TOPLEFT", "BOTTOMLEFT", 0, -17
 		if not prev then
-			prev, relPoint, x, y = parent, "TOPRIGHT", 10, -44
+			prev, relPoint, x, y = parent, "TOPRIGHT", 5, -36
 		end
 		tab:SetPoint(point, prev, relPoint, x, y)
 		
