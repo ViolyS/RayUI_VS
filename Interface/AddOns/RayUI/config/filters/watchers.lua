@@ -932,6 +932,10 @@ R["Watcher"] = {
                 { spellID = 216413, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 熾熱殉難者
                 { spellID = 223316, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 賦予信念
+                { spellID = 223306, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 依法而治
+                { spellID = 214202, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标重要buff&debuff",
