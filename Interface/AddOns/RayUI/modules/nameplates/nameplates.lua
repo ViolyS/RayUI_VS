@@ -505,7 +505,7 @@ end
 function mod:UpdateCVars()
 	SetCVar("nameplateShowSelf", "0")
 	SetCVar("nameplateMotion", self.db.motionType == "STACKED" and "1" or "0")
-	SetCVar("nameplateShowAll", "1")
+	-- SetCVar("nameplateShowAll", "1")
 	SetCVar("nameplateShowFriendlyMinions", self.db.units.FRIENDLY_PLAYER.minions == true and "1" or "0")
 	SetCVar("nameplateShowEnemyMinions", self.db.units.ENEMY_PLAYER.minions == true and "1" or "0")
 	SetCVar("nameplateShowEnemyMinus", self.db.units.ENEMY_NPC.minors == true and "1" or "0")
@@ -552,7 +552,18 @@ function mod:Initialize()
 	self:UpdateVehicleStatus()	
 	
 	self:UpdateCVars()
-	InterfaceOptionsNamesPanelUnitNameplates:Kill()
+
+	-- InterfaceOptionsNamesPanelUnitNameplates:Kill() -- 开放[单位姓名板]选项，锁定下列选项
+	InterfaceOptionsNamesPanelUnitNameplatesPersonalResource:Disable() -- 显示个人资源
+	InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:Disable() -- 显示地方特殊资源
+	InterfaceOptionsNamesPanelUnitNameplatesMakeLarger:Disable() -- 大姓名板
+	InterfaceOptionsNamesPanelUnitNameplatesShowAll:Enable() -- 显示所有姓名板
+	InterfaceOptionsNamesPanelUnitNameplatesAggroFlash:Enable() -- 失去怪物威胁时闪烁
+	InterfaceOptionsNamesPanelUnitNameplatesMotionDropDownButton:Disable() -- 姓名板排列方式
+	InterfaceOptionsNamesPanelUnitNameplatesFriendlyMinions:Enable() -- 友方单位（仆从）
+	InterfaceOptionsNamesPanelUnitNameplatesEnemyMinions:Enable() -- 敌对单位（仆从）
+	InterfaceOptionsNamesPanelUnitNameplatesEnemyMinus:Enable() -- 敌对单位（杂兵）
+
 	NamePlateDriverFrame:UnregisterAllEvents()
 	NamePlateDriverFrame.ApplyFrameOptions = R.dummy
 	self:RegisterEvent("NAME_PLATE_CREATED");
