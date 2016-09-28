@@ -263,14 +263,14 @@ local function SkinAce3()
 end
 
 local function attemptSkin()
- 	local AceGUI = LibStub("AceGUI-3.0", true)
- 	if AceGUI and (AceGUI.RegisterAsContainer ~= RegisterAsContainer or AceGUI.RegisterAsWidget ~= RegisterAsWidget) then
- 		SkinAce3()
- 	end
- end
- 
- local f = CreateFrame("Frame")
- f:RegisterEvent("ADDON_LOADED")
- f:SetScript("OnEvent", attemptSkin)
- 
- S:AddCallback("Ace3", attemptSkin)
+	local AceGUI = LibStub("AceGUI-3.0", true)
+	if AceGUI and (AceGUI.RegisterAsContainer ~= RegisterAsContainer or AceGUI.RegisterAsWidget ~= RegisterAsWidget) then
+		SkinAce3()
+	end
+end
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("ADDON_LOADED")
+-- f:SetScript("OnEvent", attemptSkin) -- 对美化有影响
+
+S:AddCallback("Ace3", attemptSkin)
