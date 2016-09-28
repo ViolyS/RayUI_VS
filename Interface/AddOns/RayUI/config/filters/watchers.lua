@@ -854,6 +854,8 @@ R["Watcher"] = {
                 { spellID = 114163, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 無私治療者
                 { spellID = 114250, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 虔信信標
+                { spellID = 156910, unitId = "target", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标buff&debuff",
@@ -863,16 +865,8 @@ R["Watcher"] = {
 
                 -- 聖光信標
                 { spellID = 53563, unitId = "target", caster = "player", filter = "BUFF" },
-                -- 纯净之手
-                { spellID = 114039, unitId = "target", caster = "player", filter = "BUFF" },
                 -- 永恒之火
                 { spellID = 114163, unitId = "target", caster = "player", filter = "BUFF" },
-                -- 处决审判
-                { spellID = 114157, unitId = "target", caster = "player", filter = "BUFF" },
-                -- 圣洁护盾
-                { spellID = 20925, unitId = "target", caster = "player", filter = "BUFF" },
-                -- 譴責
-                { spellID = 31803, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 虔信信標
                 { spellID = 156910, unitId = "target", caster = "player", filter = "BUFF" },
             },
@@ -882,25 +876,15 @@ R["Watcher"] = {
                 setpoint = positions.player_proc_icon,
                 size = 38,
 
-                -- 神聖之盾
-                { spellID = 20925, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 神圣意志
-                { spellID = 90174, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 破晓
-                { spellID = 88819, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 神恩術
+                -- 復仇之怒（神聖）
                 { spellID = 31842, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 神圣复仇者
                 { spellID = 105809, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 破曉之光
-                { spellID = 88819, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 聖光灌注
                 { spellID = 54149, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 聖佑術
                 { spellID = 498, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 戰爭藝術
-                { spellID = 59578, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 炽热决心
+                -- 熾烈決心
                 { spellID = 166831, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 復仇之怒
                 { spellID = 31884, unitId = "player", caster = "player", filter = "BUFF" },
@@ -910,25 +894,23 @@ R["Watcher"] = {
                 { spellID = 31850, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 公正之盾
                 { spellID = 132403, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 榮耀壁壘
-                { spellID = 114637, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 大十字軍
                 { spellID = 85416, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 遠古諸王守護者
                 { spellID = 86659, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 道高一丈
-                { spellID = 87173, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 十字軍
                 { spellID = 224668, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 神圣意志
+                -- 神圣意圖（懲戒）
                 { spellID = 223819, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 正義怒火
                 { spellID = 209785, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 以眼還眼
                 { spellID = 205191, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 复仇之盾
+                -- 復仇聖盾
                 { spellID = 184662, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 神圣意圖
+                -- 神圣意圖（神聖震擊）
+                { spellID = 216411, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 神圣意圖（黎明曙光）
                 { spellID = 216413, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 熾熱殉難者
                 { spellID = 223316, unitId = "player", caster = "player", filter = "BUFF" },
@@ -945,16 +927,10 @@ R["Watcher"] = {
 
                 -- 制裁之錘
                 { spellID = 853, unitId = "target", caster = "all", filter = "DEBUFF" },
-                -- 制裁之拳
-                { spellID = 105593, unitId = "target", caster = "all", filter = "DEBUFF" },
                 -- 自律
                 { spellID = 25771, unitId = "target", caster = "all", filter = "DEBUFF" },
-                -- 罪之重擔
-                { spellID = 110300, unitId = "target", caster = "player", filter = "DEBUFF" },
-                -- 公正聖印
-                { spellID = 20170, unitId = "target", caster = "player", filter = "DEBUFF" },
-                -- 問罪
-                { spellID = 2812, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 封阻之手
+                { spellID = 183218, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 審判
                 { spellID = 197277, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
@@ -969,8 +945,6 @@ R["Watcher"] = {
 
                 -- 制裁之錘
                 { spellID = 853, unitId = "focus", caster = "all", filter = "DEBUFF" },
-                -- 制裁之拳
-                { spellID = 105593, unitId = "focus", caster = "all", filter = "DEBUFF" },
             },
             {
                 name = "CD",
@@ -991,12 +965,14 @@ R["Watcher"] = {
                 { spellID = 642, filter = "CD" },
                 -- 復仇之怒
                 { spellID = 31884, filter = "CD" },
-                -- 復仇之怒（奶騎）
+                -- 復仇之怒（神聖）
                 { spellID = 31842, filter = "CD" },
                 -- 神圣复仇者
                 { spellID = 105809, filter = "CD" },
                 -- 遠古諸王守護者
                 { spellID = 86659, filter = "CD" },
+                -- 復仇聖盾
+                { spellID = 184662, filter = "CD" },
                 -- 提尔的拯救（神圣神器）
                 { spellID = 200652, filter = "CD" },
                 -- 提尔之眼（防护神器）
@@ -1410,7 +1386,7 @@ R["Watcher"] = {
                 { spellID = 200803, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 致傷毒藥
                 { spellID = 8680, unitId = "target", caster = "player", filter = "DEBUFF" },
-                -- 手枪射击
+                -- 手槍射擊
                 { spellID = 185763, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
             {
@@ -1433,8 +1409,6 @@ R["Watcher"] = {
                 { spellID = 74001, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 毒化
                 { spellID = 32645, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 極限殺戮
-                { spellID = 58426, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 切割
                 { spellID = 5171, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 偷天換日
@@ -1449,20 +1423,16 @@ R["Watcher"] = {
                 { spellID = 31665, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 毀滅者之怒
                 { spellID = 109949, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 洞悉要害
-                { spellID = 121153, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 狂舞殘殺
-                { spellID = 51690, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 精密計畫
                 { spellID = 193641, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 欺敵
                 { spellID = 115192, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 絕對方位
-                { spellID = 193359, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 絕地寶藏
-                { spellID = 199600, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 大好機會
                 { spellID = 195627, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 絕對方位
+                { spellID = 193359, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 地底藏寶
+                { spellID = 199600, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 側舷截擊
                 { spellID = 193356, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 黑旗
@@ -1502,8 +1472,6 @@ R["Watcher"] = {
                 { spellID = 1330, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 鑿擊
                 { spellID = 1776, unitId = "target", caster = "player", filter = "DEBUFF" },
-                -- 出血
-                { spellID = 89775, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 宿怨
                 { spellID = 79140, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 出血
@@ -1516,10 +1484,6 @@ R["Watcher"] = {
                 { spellID = 91021, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 制裁之錘
                 { spellID = 853, unitId = "target", caster = "all", filter = "DEBUFF" },
-                -- 制裁之拳
-                { spellID = 105593, unitId = "target", caster = "all", filter = "DEBUFF" },
-                -- 暗影反射
-                { spellID = 156745, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 夜刃
                 { spellID = 195452, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
@@ -1548,22 +1512,16 @@ R["Watcher"] = {
 
                 -- 死亡標記
                 { spellID = 137619, filter = "CD" },
-                -- 暗影步
+                -- 暗影閃現
                 { spellID = 36554, filter = "CD" },
-                -- 抓钩
+                -- 繩鉤
                 { spellID = 195457, filter = "CD" },
-                -- 预备
-                { spellID = 14185, filter = "CD" },
                 -- 疾跑
                 { spellID = 2983, filter = "CD" },
                 -- 斗篷
                 { spellID = 31224, filter = "CD" },
                 -- 闪避
                 { spellID = 5277, filter = "CD" },
-                -- 影舞
-                { spellID = 51713, filter = "CD" },
-                -- 預謀
-                { spellID = 14183, filter = "CD" },
                 -- 猩红血瓶
                 { spellID = 185311, filter = "CD" },
                 -- 還擊
@@ -2493,8 +2451,6 @@ R["Watcher"] = {
                 -- 聖騎士
                 -- 制裁之錘
                 { spellID = 853, unitId = "player", caster = "all", filter = "DEBUFF" },
-                -- 制裁之拳
-                { spellID = 105593, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 懺悔
                 { spellID = 20066, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 盲目之光
@@ -2503,12 +2459,8 @@ R["Watcher"] = {
                 { spellID = 31935, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 暈眩 - 復仇之盾
                 { spellID = 63529, unitId = "player", caster = "all", filter = "DEBUFF" },
-                -- 公正聖印
-                { spellID = 20170, unitId = "player", caster = "all", filter = "DEBUFF" },
-                -- 罪之重擔
-                { spellID = 110300, unitId = "player", caster = "all", filter = "DEBUFF" },
-                -- 問罪
-                { spellID = 2812, unitId = "player", caster = "all", filter = "DEBUFF" },
+                -- 封阻之手
+                { spellID = 183218, unitId = "player", caster = "all", filter = "DEBUFF" },
 
                 -- 牧師
                 -- 支配心智
