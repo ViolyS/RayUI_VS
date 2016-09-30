@@ -269,8 +269,4 @@ local function attemptSkin()
 	end
 end
 
-local f = CreateFrame("Frame")
-f:RegisterEvent("ADDON_LOADED")
--- f:SetScript("OnEvent", attemptSkin) -- 对美化有影响
-
 S:AddCallback("Ace3", attemptSkin)

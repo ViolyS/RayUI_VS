@@ -36,6 +36,7 @@ local function LoadSkin()
 	hooksecurefunc("QuestChoiceFrame_ShowRewards", function(numOptions)
 		for i = 1, numOptions do
 			local rewards = QuestChoiceFrame["Option"..i].Rewards
+			rewards.Item.bg:SetVertexColor(rewards.Item.IconBorder:GetVertexColor())
 			rewards.Item.Name:SetTextColor(rewards.Item.IconBorder:GetVertexColor())
 			rewards.Item.IconBorder:Hide()
 		end

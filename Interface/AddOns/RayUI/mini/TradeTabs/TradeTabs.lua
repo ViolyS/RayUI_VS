@@ -19,7 +19,9 @@ local whitelist = {
 
 local onlyPrimary = {
 	[171] = true, -- Alchemy
+	[202] = true, -- Engineering
 	[182] = true, -- Herbalism
+	[393] = true, -- Skinning
 }
 
 local RUNEFORGING = 53428 -- Runeforging spellid
