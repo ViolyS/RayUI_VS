@@ -4,6 +4,22 @@
 local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, GlobalDB
 local LSM = LibStub("LibSharedMedia-3.0")
 
+local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, GlobalDB
+
+--Cache global variables
+--Lua functions
+local _G = _G
+local type = type
+local hooksecurefunc = hooksecurefunc
+local unpack = unpack
+local select = select
+local getmetatable = getmetatable
+
+--WoW API / Variables
+local CreateFrame = CreateFrame
+local UIFrameFadeIn = UIFrameFadeIn
+local UIFrameFadeOut = UIFrameFadeOut
+
 local function Size(frame, width, height)
 	frame:SetSize(R:Scale(width), R:Scale(height or width))
 end
@@ -31,25 +47,25 @@ local function CreateShadow(f, t, thickness)
 	if f.shadow then return end
 
 	local borderr, borderg, borderb = 0, 0, 0
-    local backdropr, backdropg, backdropb, backdropa = unpack(R["media"].backdropcolor)
+	local backdropr, backdropg, backdropb, backdropa = unpack(R["media"].backdropcolor)
 	local frameLevel = f:GetFrameLevel() > 1 and f:GetFrameLevel() - 1 or 1
 	local thickness = thickness or 4
 	local offset = thickness - 1
 
-    if t == "Background" then
-        backdropr, backdropg, backdropb, backdropa = unpack(R["media"].backdropfadecolor)
-    else
-        backdropa = 0
-    end
+	if t == "Background" then
+		backdropr, backdropg, backdropb, backdropa = unpack(R["media"].backdropfadecolor)
+	else
+		backdropa = 0
+	end
 
 	local border = CreateFrame("Frame", nil, f)
 	border:SetFrameLevel(frameLevel)
 	border:SetOutside(f, 1, 1)
 	border:SetTemplate("Border")
 	hooksecurefunc(border, "SetFrameLevel", function(self, value)
-    		if value > frameLevel + 1 then
-    			border:SetFrameLevel(frameLevel)
-    		end
+		if value > frameLevel + 1 then
+			border:SetFrameLevel(frameLevel)
+		end
 	end)
 	f.border = f.border or border
 
@@ -58,18 +74,18 @@ local function CreateShadow(f, t, thickness)
 	shadow:SetOutside(border, offset, offset)
 	shadow:SetBackdrop( { 
 		edgeFile = R.global.general.theme == "Shadow" and R["media"].glow or nil,
-        bgFile = R["media"].blank, 
+		bgFile = R["media"].blank, 
 		edgeSize = R:Scale(thickness),
-        tile = false,
-        tileSize = 0,
+		tile = false,
+		tileSize = 0,
 		insets = {left = R:Scale(thickness), right = R:Scale(thickness), top = R:Scale(thickness), bottom = R:Scale(thickness)},
 	})
 	shadow:SetBackdropColor( backdropr, backdropg, backdropb, backdropa )
 	shadow:SetBackdropBorderColor( borderr, borderg, borderb )
 	hooksecurefunc(shadow, "SetFrameLevel", function(self, value)
-    		if value > frameLevel then
-    			shadow:SetFrameLevel(frameLevel - 1)
-    		end
+		if value > frameLevel then
+			shadow:SetFrameLevel(frameLevel - 1)
+		end
 	end)
 	f.shadow = shadow
 end
@@ -80,34 +96,34 @@ local function SetTemplate(f, t, glossTex)
 		r, g, b, alpha = unpack(R["media"].backdropfadecolor)
 	end
 
-    if t == "Border" then
-        f:SetBackdrop({
-            edgeFile = R["media"].blank, 
-            edgeSize = R.mult, 
-            tile = false,
-            tileSize = 0,
-        })
-    else
-        f:SetBackdrop({
-            bgFile = R["media"].blank, 
-            edgeFile = R["media"].blank, 
-            edgeSize = R.mult, 
-            tile = false,
-            tileSize = 0,
-        })
-    end
-
-	if glossTex then 
-        f.backdropTexture = f:CreateTexture(nil, "BACKGROUND")
-        f.backdropTexture:SetDrawLayer("BACKGROUND", 1)
-        f.backdropTexture:SetInside(f, 1, 1)
-        f.backdropTexture:SetTexture(R["media"].gloss)
-        f.backdropTexture:SetVertexColor(unpack(R["media"].backdropcolor))
-        f.backdropTexture:SetAlpha(.8)
-        alpha = 0
+	if t == "Border" then
+		f:SetBackdrop({
+			edgeFile = R["media"].blank, 
+			edgeSize = R.mult, 
+			tile = false,
+			tileSize = 0,
+		})
+	else
+		f:SetBackdrop({
+			bgFile = R["media"].blank, 
+			edgeFile = R["media"].blank, 
+			edgeSize = R.mult, 
+			tile = false,
+			tileSize = 0,
+		})
 	end
 
-	f:SetBackdropColor(backdropfadecolorr, backdropfadecolorg, backdropfadecolorb, alpha)
+	if glossTex then 
+		f.backdropTexture = f:CreateTexture(nil, "BACKGROUND")
+		f.backdropTexture:SetDrawLayer("BACKGROUND", 1)
+		f.backdropTexture:SetInside(f, 1, 1)
+		f.backdropTexture:SetTexture(R["media"].gloss)
+		f.backdropTexture:SetVertexColor(unpack(R["media"].backdropcolor))
+		f.backdropTexture:SetAlpha(.8)
+		alpha = 0
+	end
+
+	f:SetBackdropColor(r, g, b, alpha)
 	f:SetBackdropBorderColor(unpack(R["media"].bordercolor))
 end
 
