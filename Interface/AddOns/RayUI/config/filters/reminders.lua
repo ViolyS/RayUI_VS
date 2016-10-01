@@ -3,6 +3,19 @@
 P["Reminder"] = {}
 
 P["Reminder"]["filters"] = {
+	PALADIN = {
+		["强效祝福"] = {
+			["spellGroup"] = {
+				[203528] = true, -- 强效力量祝福
+				[203538] = true, -- 强效王者祝福
+				[203539] = true, -- 强效智慧祝福
+				["defaultIcon"] = 203528
+			},
+			["enable"] = true,
+			["strictFilter"] = true,
+			["tree"] = 3,
+		}
+	},
 	ROGUE = {
 		["伤害性毒药"] = {
 			["spellGroup"] = {
