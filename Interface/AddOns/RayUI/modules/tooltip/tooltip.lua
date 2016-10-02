@@ -318,8 +318,14 @@ local function GetPlayerScore(unit)
 					-- Artifact Fix
 					local name, _, itemRarity = GetItemInfo(iLink)
 					ilvlAdd = TT:GetItemScore(iLink)
-					if itemRarity == 6 and i == 17 and GetItemInfo(GetInventoryItemLink(unit, 16)) == name then
-						ilvlAdd = TT:GetItemScore(GetInventoryItemLink(unit, 16))
+					if itemRarity == 6 and GetInventoryItemLink(unit, 17) ~= nil then
+						local Score16 = TT:GetItemScore(GetInventoryItemLink(unit, 16))
+						local Score17 = TT:GetItemScore(GetInventoryItemLink(unit, 17))
+						if Score16 > Score17 then
+							ilvlAdd = Score16	
+						else
+							ilvlAdd = Score17
+						end
 					end
 					if ilvlAdd then
 						ilvl = ilvl + ilvlAdd
