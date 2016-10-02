@@ -3,7 +3,7 @@ local myname, ns = ...
 
 local links = {}
 local slots = {"BackSlot", "ChestSlot", "FeetSlot", "Finger0Slot", "Finger1Slot", "HandsSlot", "HeadSlot", "LegsSlot", "MainHandSlot", "NeckSlot", "SecondaryHandSlot", "ShoulderSlot", "Trinket0Slot", "Trinket1Slot", "WaistSlot", "WristSlot"}
-local enchantables = {BackSlot = true, Finger0Slot = true, Finger1Slot = true, NeckSlot = true, MainHandSlot = false}
+local enchantables = {BackSlot = true, Finger0Slot = true, Finger1Slot = true, NeckSlot = true, MainHandSlot = true}
 local _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, wands = GetAuctionItemSubClasses(1)
 local sockets = {
 	"EMPTY_SOCKET_META",
@@ -54,9 +54,17 @@ local function Check(unit, report)
 	for _,v in pairs(slots) do links[v] = GetInventoryItemLink(unit, GetInventorySlotInfo(v)) end
 	for _,f in pairs(glows) do f:Hide() end
 
+	if links.MainHandSlot then
+		local _, _, itemRarity = GetItemInfo(links.MainHandSlot)
+		if itemRarity == 6 then
+			enchantables.MainHandSlot = false
+		end
+	end
+
 	if links.SecondaryHandSlot then
 		-- Can't enchant offhand frills
-		local _, _, _, _, _, _, _, _, slottype = GetItemInfo(links.SecondaryHandSlot)
+		local _, _, itemRarity, _, _, _, _, _, slottype = GetItemInfo(links.SecondaryHandSlot)
+		if itemRarity == 6 then return end
 		enchantables.SecondaryHandSlot = slottype ~= "INVTYPE_HOLDABLE"
 	end
 
