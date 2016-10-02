@@ -3,7 +3,7 @@ local myname, ns = ...
 
 local links = {}
 local slots = {"BackSlot", "ChestSlot", "FeetSlot", "Finger0Slot", "Finger1Slot", "HandsSlot", "HeadSlot", "LegsSlot", "MainHandSlot", "NeckSlot", "SecondaryHandSlot", "ShoulderSlot", "Trinket0Slot", "Trinket1Slot", "WaistSlot", "WristSlot"}
-local enchantables = {BackSlot = true, Finger0Slot = true, Finger1Slot = true, NeckSlot = true, MainHandSlot = true}
+local enchantables = {BackSlot = true, Finger0Slot = true, Finger1Slot = true, NeckSlot = true, MainHandSlot = false}
 local _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, wands = GetAuctionItemSubClasses(1)
 local sockets = {
 	"EMPTY_SOCKET_META",
@@ -63,7 +63,7 @@ local function Check(unit, report)
 	local found = false
 	for slot,check in pairs(enchantables) do
 		local link = check and links[slot]
-		if link and link:match("item:%d+:0") then
+		if link and link:match("item:%d+::") then
 			found = true
 			glows[slot]:Show()
 			if report then print(link, "没有附魔") end

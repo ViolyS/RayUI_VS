@@ -22,7 +22,7 @@ P["Reminder"]["filters"] = {
 				[200802] = true, -- 苦痛毒藥
 				[8679] = true, -- 致傷毒藥
 				[2823] = true, -- 致命毒藥
-				["defaultIcon"] = 2823
+				["defaultIcon"] = 76803
 			},
 			["enable"] = true,
 			["strictFilter"] = true,

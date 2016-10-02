@@ -250,10 +250,12 @@ R["Watcher"] = {
 				setpoint = positions.player_buff_icon,
 				size = 28,
 
-				-- 治療寵物
-				{ spellID = 136, unitId = "pet", caster = "player", filter = "BUFF" },
 				-- 凶暴野獸
 				{ spellID = 120694, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 治療寵物
+				{ spellID = 136, unitId = "pet", caster = "player", filter = "BUFF" },
+				-- 獸劈斬
+				{ spellID = 118455, unitId = "pet", caster = "player", filter = "BUFF" },
 			},
 			{
 				name = "目标buff&debuff",
