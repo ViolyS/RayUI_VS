@@ -725,6 +725,8 @@ R["Watcher"] = {
 
 				-- 治疗之雨
 				{ spellID = 73920, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 石拳（山崩省略）
+				{ spellID = 218825, unitId = "player", caster = "player", filter = "BUFF" },
 			},
 			{
 				name = "目标buff&debuff",
@@ -2125,6 +2127,8 @@ R["Watcher"] = {
 				{ spellID = 126679, unitId = "player", caster = "all", filter = "BUFF" },
 				-- PvP飾品 (力量, 觸發)
 				{ spellID = 126700, unitId = "player", caster = "all", filter = "BUFF" },
+				-- 残次的反制机关
+				{ spellID = 214962, unitId = "player", caster = "all", filter = "BUFF" },
 
 				-- 法系通用
 				-- 科普兰的清醒
