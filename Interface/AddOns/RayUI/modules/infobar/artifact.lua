@@ -4,7 +4,7 @@ local IF = R:GetModule("InfoBar")
 local function LoadArtifact()
 	LoadAddOn("Blizzard_ArtifactUI")
 
-	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Artifact", 100)
+	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Artifact", 120)
 	infobar:SetPoint("RIGHT", RayUI_InfoPanel_Currency, "LEFT", 0, 0)
 	
 	infobar:SetScript("OnUpdate", function(self)
@@ -12,9 +12,15 @@ local function LoadArtifact()
 			local name, icon, totalXP, pointsSpent = select(3, C_ArtifactUI.GetEquippedArtifactInfo())
 			local numPointsAvailableToSpend, xp, xpForNextPoint = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP)
 
-			infobar.Text:SetText(totalXP.." "..ARTIFACT_POWER)
+			if totalXP > 1e6 then
+				infobar.Text:SetText(ARTIFACT_POWER.."：|cffe5cc80"..(floor(totalXP / 1e5) / 10).."m|r")
+			elseif  totalXP > 1e3 then
+				infobar.Text:SetText(ARTIFACT_POWER.."：|cffe5cc80"..(floor(totalXP / 1e2) / 10).."k|r")
+			else
+				infobar.Text:SetText(ARTIFACT_POWER.."：|cffe5cc80"..totalXP.."|r")
+			end
 		else
-			infobar.Text:SetText(ITEM_QUALITY6_DESC)
+			infobar.Text:SetText("|cffe5cc80"..ITEM_QUALITY6_DESC.."|r")
 		end
 	end)
 
