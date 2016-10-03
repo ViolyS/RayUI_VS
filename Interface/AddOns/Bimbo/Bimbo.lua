@@ -3,7 +3,7 @@ local myname, ns = ...
 
 local links = {}
 local slots = {"BackSlot", "ChestSlot", "FeetSlot", "Finger0Slot", "Finger1Slot", "HandsSlot", "HeadSlot", "LegsSlot", "MainHandSlot", "NeckSlot", "SecondaryHandSlot", "ShoulderSlot", "Trinket0Slot", "Trinket1Slot", "WaistSlot", "WristSlot"}
-local enchantables = {BackSlot = true, Finger0Slot = true, Finger1Slot = true, NeckSlot = true, MainHandSlot = true}
+local enchantables = {BackSlot = true, Finger0Slot = true, Finger1Slot = true, NeckSlot = true, MainHandSlot = true, SecondaryHandSlot = true}
 local _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, wands = GetAuctionItemSubClasses(1)
 local sockets = {
 	"EMPTY_SOCKET_META",
@@ -62,10 +62,10 @@ local function Check(unit, report)
 	end
 
 	if links.SecondaryHandSlot then
-		-- Can't enchant offhand frills
-		local _, _, itemRarity, _, _, _, _, _, slottype = GetItemInfo(links.SecondaryHandSlot)
-		if itemRarity == 6 then return end
-		enchantables.SecondaryHandSlot = slottype ~= "INVTYPE_HOLDABLE"
+		local _, _, itemRarity, iLvl, _, _, _, _, slottype = GetItemInfo(links.SecondaryHandSlot)
+		if itemRarity == 6 or ((slottype == "INVTYPE_HOLDABLE" or slottype == "INVTYPE_SHIELD") and iLvl <= 600) then
+			enchantables.SecondaryHandSlot = false
+		end
 	end
 
 	local found = false
