@@ -1,5 +1,12 @@
 ﻿local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, GlobalDB
 
+--Cache global variables
+--Lua functions
+local unpack = unpack
+
+--WoW API / Variables
+local GetSpellInfo = GetSpellInfo
+
 local function ClassBuff(id, point, color, anyUnit, onlyShowMissing)
 	local r, g, b = unpack(color)
 	return {["enabled"] = true, ["id"] = id, ["point"] = point, ["color"] = {["r"] = r, ["g"] = g, ["b"] = b}, ["anyUnit"] = anyUnit, ["onlyShowMissing"] = onlyShowMissing}
@@ -72,6 +79,10 @@ G.Raid.AuraWatch = {
 	WARLOCK = {},
 	MAGE = {},
 	DEATHKNIGHT = {},
+}
+
+G.ReverseTimer = {
+
 }
 
 G.Raid.RaidDebuffs = {
