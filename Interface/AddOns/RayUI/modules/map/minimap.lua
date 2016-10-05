@@ -1,9 +1,67 @@
 ﻿local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, GlobalDB
 local MM = R:NewModule("MiniMap", "AceEvent-3.0", "AceHook-3.0")
+
+--Cache global variables
+--Lua functions
+local _G = _G
+local select, unpack, pairs, string, math = select, unpack, pairs, string, math
+local strfind, gsub = string.find, string.gsub
+local floor = math.floor
+local sqrt = math.sqrt
+
+--WoW API / Variables
+local CreateFrame = CreateFrame
+local GetWorldPVPAreaInfo = GetWorldPVPAreaInfo
+local GameTime_UpdateTooltip = GameTime_UpdateTooltip
+local GetMinimapShape = GetMinimapShape
+local UIFrameFadeIn = UIFrameFadeIn
+local UIFrameFadeOut = UIFrameFadeOut
+local CalendarGetNumPendingInvites = CalendarGetNumPendingInvites
+local ToggleCharacter = ToggleCharacter
+local ShowUIPanel = ShowUIPanel
+local HideUIPanel = HideUIPanel
+local TalentFrame_LoadUI = TalentFrame_LoadUI
+local ToggleAchievementFrame = ToggleAchievementFrame
+local ToggleFriendsFrame = ToggleFriendsFrame
+local IsInGuild = IsInGuild
+local GuildFrame_LoadUI = GuildFrame_LoadUI
+local GuildFrame_Toggle = GuildFrame_Toggle
+local LookingForGuildFrame_LoadUI = LookingForGuildFrame_LoadUI
+local LookingForGuildFrame_Toggle = LookingForGuildFrame_Toggle
+local EncounterJournal_LoadUI = EncounterJournal_LoadUI
+local ToggleFrame = ToggleFrame
+local IsAddOnLoaded = IsAddOnLoaded
+local LoadAddOn = LoadAddOn
+local ToggleCollectionsJournal = ToggleCollectionsJournal
+local PVEFrame_ToggleFrame = PVEFrame_ToggleFrame
+local ToggleHelpFrame = ToggleHelpFrame
+local GarrisonLandingPageMinimapButton_OnClick = GarrisonLandingPageMinimapButton_OnClick
+local Calendar_Toggle = Calendar_Toggle
+local IsShiftKeyDown = IsShiftKeyDown
+local ToggleDropDownMenu = ToggleDropDownMenu
+local EasyMenu = EasyMenu
+local GetCursorPosition = GetCursorPosition
+local Minimap_SetPing = Minimap_SetPing
+local TimeManager_Toggle = TimeManager_Toggle
+local Minimap_ZoomIn = Minimap_ZoomIn
+local Minimap_ZoomOut = Minimap_ZoomOut
+
+--Global variables that we don't cache, list them here for the mikk's Find Globals script
+-- GLOBALS: GameTooltip, Minimap, HIGHLIGHT_FONT_COLOR, NORMAL_FONT_COLOR, TimeManagerClockButton, Settings
+-- GLOBALS: TIMEMANAGER_ALARM_TOOLTIP_TURN_OFF, GAMETIME_TOOLTIP_TOGGLE_CLOCK, GarrisonLandingPageMinimapButton
+-- GLOBALS: MinimapCluster, MiniMapTrackingBackground, MiniMapTrackingButton, MiniMapTracking, MiniMapInstanceDifficulty
+-- GLOBALS: GuildInstanceDifficulty, MiniMapChallengeMode, MiniMapMailFrame, MiniMapMailIcon, GameTimeCalendarInvitesTexture
+-- GLOBALS: FeedbackUIButton, StreamingIcon, MinimapZoneText, DropDownList1, LFGDungeonReadyStatus, HelpOpenTicketButton
+-- GLOBALS: CHARACTER_BUTTON, SPELLBOOK_ABILITIES_BUTTON, TALENTS_BUTTON, ACHIEVEMENT_BUTTON, SOCIAL_BUTTON
+-- GLOBALS: LookingForGuildFrame, StopwatchFrame, ACHIEVEMENTS_GUILD_TAB, ENCOUNTER_JOURNAL, COLLECTIONS
+-- GLOBALS: LFG_TITLE, RAID_FINDER, BLIZZARD_STORE, HELP_BUTTON, GARRISON_LANDING_PAGE_TITLE, CALENDAR, LOOT_ROLLS
+-- GLOBALS: SpellBookFrame, PlayerTalentFrame, GuildFrame, EncounterJournal, RaidFinderFrame, StoreMicroButton
+-- GLOBALS: CalendarFrame, LootHistoryFrame, MiniMapTrackingDropDown, BlizzardStopwatchOptions
+
 MM.modName = L["小地图"]
 
 local function ConvertSecondstoTime(value)
-	local hours, minues, seconds
+	local hours, minutes, seconds
 	hours = floor(value / 3600)
 	minutes = floor((value - (hours * 3600)) / 60)
 	seconds = floor(value - ((hours * 3600) + (minutes * 60)))
@@ -56,24 +114,15 @@ function MM:TimeManagerClockButton_UpdateTooltip()
 end
 
 local function PositionGarrisonButton(self, screenQuadrant)
-	local GLPMB = GarrisonLandingPageMinimapButton
-	GLPMB:SetScale(0.7)
+	GarrisonLandingPageMinimapButton:SetScale(0.7)
 	screenQuadrant = screenQuadrant or R:GetScreenQuadrant(self)
 	if strfind(screenQuadrant, "RIGHT") then
-		GLPMB:ClearAllPoints()
-		GLPMB:SetPoint("TOPLEFT", Minimap, "TOPLEFT", -100, 10)
+		GarrisonLandingPageMinimapButton:ClearAllPoints()
+		GarrisonLandingPageMinimapButton:SetPoint("TOPLEFT", Minimap, "TOPLEFT", -100, 10)
 	else
-		GLPMB:ClearAllPoints()
-		GLPMB:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 100, 10)
+		GarrisonLandingPageMinimapButton:ClearAllPoints()
+		GarrisonLandingPageMinimapButton:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 100, 10)
 	end
-
-	GLPMB:SetAlpha(0)
-	GLPMB:SetScript("OnEnter", function(self)
-		UIFrameFadeIn(self, .5, self:GetAlpha(), 1)
-	end)
-	GLPMB:SetScript("OnLeave", function(self)
-		UIFrameFadeOut(self, .5, self:GetAlpha(), 0)
-	end)
 end
 
 function MM:SkinMiniMap()
@@ -132,7 +181,7 @@ function MM:SkinMiniMap()
 		return "SQUARE"
 	end
 	Minimap:SetMaskTexture("Interface\\Buttons\\WHITE8X8")
-	local zoneTextFrame = CreateFrame("Frame", nil, UIParent)
+	local zoneTextFrame = CreateFrame("Frame", nil, R.UIParent)
 	zoneTextFrame:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 10)
 	zoneTextFrame:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 0, 10)
 	zoneTextFrame:SetHeight(19)
@@ -179,7 +228,7 @@ function MM:CheckMail()
 end
 
 function MM:CreateMenu()
-	local menuFrame = CreateFrame("Frame", "RayUI_MinimapRightClickMenu", UIParent, "UIDropDownMenuTemplate")
+	local menuFrame = CreateFrame("Frame", "RayUI_MinimapRightClickMenu", R.UIParent, "UIDropDownMenuTemplate")
 	local menuList = {
 		{text = CHARACTER_BUTTON, notCheckable = true,
 		func = function() ToggleCharacter("PaperDollFrame") end},
@@ -190,7 +239,7 @@ function MM:CreateMenu()
 			if not PlayerTalentFrame then
 				TalentFrame_LoadUI()
 			end
-			
+
 			if not PlayerTalentFrame:IsShown() then
 				ShowUIPanel(PlayerTalentFrame)
 			else
@@ -259,9 +308,9 @@ function MM:CreateMenu()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "CheckMail")
 	MM:HookScript(MiniMapMailFrame, "OnHide", "CheckMail")
 	MM:HookScript(MiniMapMailFrame, "OnShow", "CheckMail")
-	Minimap.shadow:SetBackdrop( { 
+	Minimap.shadow:SetBackdrop( {
 		edgeFile = R["media"].glow,
-        bgFile = R["media"].blank, 
+        bgFile = R["media"].blank,
 		edgeSize = R:Scale(4),
         tile = false,
         tileSize = 0,
@@ -287,10 +336,10 @@ function MM:Initialize()
 
 		if ( BlizzardStopwatchOptions.position ) then
 			StopwatchFrame:ClearAllPoints()
-			StopwatchFrame:SetPoint("CENTER", "UIParent", "BOTTOMLEFT", BlizzardStopwatchOptions.position.x, BlizzardStopwatchOptions.position.y)
+			StopwatchFrame:SetPoint("CENTER", R.UIParent, "BOTTOMLEFT", BlizzardStopwatchOptions.position.x, BlizzardStopwatchOptions.position.y)
 			StopwatchFrame:SetUserPlaced(true)
 		else
-			StopwatchFrame:SetPoint("TOPRIGHT", "UIParent", "TOPRIGHT", -250, -300)
+			StopwatchFrame:SetPoint("TOPRIGHT", R.UIParent, "TOPRIGHT", -250, -300)
 		end
 	end
 	self:SkinMiniMap()
@@ -298,7 +347,7 @@ function MM:Initialize()
 	self:ButtonCollector()
 	self:RawHook("TimeManagerClockButton_UpdateTooltip", true)
 	Minimap:ClearAllPoints()
-	Minimap:Point("TOPLEFT", "UIParent", "TOPLEFT", 10, -20)
+	Minimap:Point("TOPLEFT", R.UIParent, "TOPLEFT", 10, -20)
 	Minimap:SetFrameLevel(10)
 	local clockFrame, clockTime = TimeManagerClockButton:GetRegions()
 	clockFrame:Hide()
