@@ -254,18 +254,21 @@ function UF:DPSLayout(frame, unit)
         frame.Combat:SetTexture("Interface\\AddOns\\RayUI\\media\\combat")
         frame.Combat:SetVertexColor(0.6, 0, 0)
 
-        local Resting = frame:CreateFontString(nil, "OVERLAY")
-        Resting:SetFont(R["media"].font, 10, R["media"].fontflag)
-        Resting:Point("BOTTOM", Combat, "BOTTOM", 0, 25)
-        Resting:SetText("zZz")
-        Resting:SetTextColor(255/255, 255/255, 255/255, 0.70)
-        frame.Resting = Resting
+        local Resting = frame:CreateTexture(nil, "OVERLAY")
+	Resting:Size(20, 20)
+	Resting:Point("BOTTOM", Combat, "BOTTOM", 0, 25)
+	frame.Resting = Resting
+	frame.Resting:SetTexture("Interface\\AddOns\\RayUI\\media\\rested")
+	frame.Resting:SetVertexColor(0.8, 0.8, 0.8)
 
         if UF.db.aurabar then
             frame.AuraBars = self:Construct_AuraBarHeader(frame)
             frame.AuraBars:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 33)
             frame.AuraBars:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", 0, 33)
         end
+
+	frame.SpeedText = self:Construct_SpeedText(frame)
+	self:ScheduleRepeatingTimer("SpeedDisplayUpdate", 0.25, frame)
     end
 
     if unit == "target" then
@@ -342,6 +345,7 @@ function UF:DPSLayout(frame, unit)
         end
 
         frame.RangeText = self:Construct_RangeText(frame)
+	self:ScheduleRepeatingTimer("RangeDisplayUpdate", 0.25, frame)
     end
 
     if unit == "party" or unit == "focus" then
@@ -642,8 +646,6 @@ function UF:DPSLayout(frame, unit)
             tinsert(frame.mouseovers, frame.Power)
         end
     end
-
-    self:ScheduleRepeatingTimer("RangeDisplayUpdate", 0.25, frame)
 end
 
 function UF:LoadUnitFrames()

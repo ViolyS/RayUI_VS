@@ -1502,6 +1502,23 @@ function UF:SetCastTicks(frame, numTicks, extraTick)
         end
     end
 
+    function UF:Construct_SpeedText(frame)
+        local text = frame.textframe:CreateFontString(nil, "OVERLAY")
+        text:SetFont(R["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
+	text:SetJustifyH("RIGHT")
+	text:SetParent(frame.textframe)
+	text:Point("TOPLEFT", frame.textframe, "TOPLEFT", 2, 3)
+	return text
+    end
+
+    function UF:SpeedDisplayUpdate(frame)
+	if GetUnitSpeed("player") > 0 then
+		frame.SpeedText:SetFormattedText("%d%%", (GetUnitSpeed("player") / 7 * 100) + 0.5)
+	else
+		frame.SpeedText:SetText("")
+	end
+    end
+
     function UF:Construct_AuraBars()
         local bar = self.statusBar
 
