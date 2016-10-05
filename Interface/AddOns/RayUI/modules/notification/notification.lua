@@ -2,6 +2,38 @@
 local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, GlobalDB
 local NF = R:NewModule("Notification", "AceEvent-3.0", "AceHook-3.0")
 
+--Cache global variables
+--Lua functions
+local select, unpack, type = select, unpack, type
+local table = table
+local tinsert = table.insert
+local floor = math.floor
+local format = string.format
+
+--WoW API / Variables
+local CreateFrame = CreateFrame
+local UnitIsAFK = UnitIsAFK
+local GetScreenWidth = GetScreenWidth
+local IsShiftKeyDown = IsShiftKeyDown
+local HasNewMail = HasNewMail
+local GetInventoryItemLink = GetInventoryItemLink
+local GetInventoryItemDurability = GetInventoryItemDurability
+local CalendarGetDate = CalendarGetDate
+local CalendarGetNumGuildEvents = CalendarGetNumGuildEvents
+local CalendarGetGuildEventInfo = CalendarGetGuildEventInfo
+local CalendarGetNumDayEvents = CalendarGetNumDayEvents
+local CalendarGetDayEvent = CalendarGetDayEvent
+local LoadAddOn = LoadAddOn
+local Calendar_Toggle = Calendar_Toggle
+local CalendarGetNumPendingInvites = CalendarGetNumPendingInvites
+local C_Vignettes = C_Vignettes
+local PlaySoundFile = PlaySoundFile
+local PlaySound = PlaySound
+
+--Global variables that we don't cache, list them here for the mikk's Find Globals script
+-- GLOBALS: SLASH_TESTNOTIFICATION1, MAIL_LABEL, HAVE_MAIL, MINIMAP_TRACKING_REPAIR, CalendarFrame
+-- GLOBALS: CALENDAR
+
 local f
 local playSounds = true
 local animations = true
@@ -168,7 +200,7 @@ end
 -- Test function
 
 local function testCallback()
-	print("Banner clicked!")
+	R:Print("Banner clicked!")
 end
 
 SlashCmdList.TESTNOTIFICATION = function(b)
@@ -178,10 +210,10 @@ SLASH_TESTNOTIFICATION1 = "/testnotification"
 
 function NF:Initialize()
 	local S = R:GetModule("Skins")
-	f = CreateFrame("Frame", "RayUINotifications", UIParent)
+	f = CreateFrame("Frame", "RayUINotifications", R.UIParent)
 	f:SetFrameStrata("FULLSCREEN_DIALOG")
 	f:SetSize(bannerWidth, 50)
-	f:SetPoint("TOP", UIParent, "TOP")
+	f:SetPoint("TOP", R.UIParent, "TOP")
 	f:Hide()
 	f:SetAlpha(0.1)
 	f:SetScale(0.1)
@@ -295,7 +327,7 @@ function NF:PLAYER_REGEN_ENABLED()
 	for i = 1, 11 do
 		if GetInventoryItemLink("player", Slots[i][1]) ~= nil then
 			current, max = GetInventoryItemDurability(Slots[i][1])
-			if current then 
+			if current then
 				Slots[i][3] = current/max
 			end
 		end
@@ -310,7 +342,7 @@ function NF:PLAYER_REGEN_ENABLED()
 	end
 end
 
-local numInvites = 0 
+local numInvites = 0
 local function GetGuildInvites()
 	local numGuildInvites = 0
 	local _, currentMonth = CalendarGetDate()
