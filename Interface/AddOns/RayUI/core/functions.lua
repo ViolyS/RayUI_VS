@@ -58,6 +58,7 @@ local SECOND_NUMBER_CAP = SECOND_NUMBER_CAP
 --Global variables that we don't cache, list them here for the mikk's Find Globals script
 -- GLOBALS: UIParent, LibStub, MAX_PLAYER_LEVEL, ScriptErrorsFrame_OnError, BaudErrorFrameHandler, UISpecialFrames
 -- GLOBALS: QuestDifficultyColors, Advanced_UIScaleSlider, Advanced_UseUIScale, RayUIConfigTutorial, RayUIWarningFrameScrollScrollBar
+-- GLOBALS: SLASH_RELOAD1
 
 SlashCmdList["RELOAD"] = function() ReloadUI() end
 SLASH_RELOAD1 = "/rl"
@@ -70,6 +71,12 @@ R.mult                 = 1
 
 R.HiddenFrame = CreateFrame("Frame")
 R.HiddenFrame:Hide()
+
+R.UIParent = CreateFrame("Frame", "RayUIParent", UIParent)
+R.UIParent:SetFrameLevel(UIParent:GetFrameLevel())
+R.UIParent:SetPoint("CENTER", UIParent, "CENTER")
+R.UIParent:SetSize(UIParent:GetSize())
+R.UIParent.origHeight = R.UIParent:GetHeight()
 
 local AddonNotSupported = {}
 local BlackList = {"bigfoot", "duowan", "163ui", "neavo", "sora"}
@@ -119,11 +126,46 @@ function R:UIScale()
 		R.ResScale = 1
 	end
 
+	self.UIParent:SetSize(UIParent:GetSize())
+	self.UIParent.origHeight = self.UIParent:GetHeight()
+	self.UIParent:ClearAllPoints()
+	self.UIParent:Point("BOTTOM")
 	self.mult = 768/string.match(self.resolution, "%d+x(%d+)")/self.global.general.uiscale
 end
 
 function R:Scale(x)
 	return (self.mult*math.floor(x/self.mult+.5))
+end
+
+R.LockedCVars = {}
+function R:PLAYER_REGEN_ENABLED(_)
+	if(self.CVarUpdate) then
+		for cvarName, value in pairs(self.LockedCVars) do
+			if(GetCVar(cvarName) ~= value) then
+				SetCVar(cvarName, value)
+			end
+		end
+		self.CVarUpdate = nil
+	end
+end
+
+local function CVAR_UPDATE(cvarName, value)
+	if(R.LockedCVars[cvarName] and R.LockedCVars[cvarName] ~= value) then
+		if(InCombatLockdown()) then
+			R.CVarUpdate = true
+			return
+		end
+
+		SetCVar(cvarName, R.LockedCVars[cvarName])
+	end
+end
+
+hooksecurefunc("SetCVar", CVAR_UPDATE)
+function R:LockCVar(cvarName, value)
+	if(GetCVar(cvarName) ~= value) then
+		SetCVar(cvarName, value)
+	end
+	self.LockedCVars[cvarName] = value
 end
 
 function R:RegisterModule(name)
@@ -156,10 +198,10 @@ local function CreateWarningFrame()
 		R:Print(GetAddOnInfo(index))
 	end
 	local S = R:GetModule("Skins")
-	local frame = CreateFrame("Frame", "RayUIWarningFrame", UIParent)
+	local frame = CreateFrame("Frame", "RayUIWarningFrame", R.UIParent)
 	S:SetBD(frame)
 	frame:Size(400, 400)
-	frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+	frame:SetPoint("CENTER", R.UIParent, "CENTER", 0, 0)
 	frame:EnableMouse(true)
 	frame:SetFrameStrata("DIALOG")
 
@@ -337,31 +379,31 @@ local roles = {
 	WARRIOR = {
 		[1] = "Melee",
 		[2] = "Melee",
-		[3] = "Tank",	
+		[3] = "Tank",
 	},
 	HUNTER = "Melee",
 	SHAMAN = {
 		[1] = "Caster",
 		[2] = "Melee",
-		[3] = "Caster",	
+		[3] = "Caster",
 	},
 	ROGUE = "Melee",
 	MAGE = "Caster",
 	DEATHKNIGHT = {
 		[1] = "Tank",
 		[2] = "Melee",
-		[3] = "Melee",	
+		[3] = "Melee",
 	},
 	DRUID = {
 		[1] = "Caster",
 		[2] = "Melee",
-		[3] = "Tank",	
+		[3] = "Tank",
 		[4] = "Caster"
 	},
 	MONK = {
 		[1] = "Tank",
 		[2] = "Caster",
-		[3] = "Melee",	
+		[3] = "Melee",
 	},
 	DEMONHUNTER = {
 		[1] = "Melee",
@@ -485,7 +527,7 @@ function R:Delay(delay, func, ...)
 		return false
 	end
 	if(waitFrame == nil) then
-		waitFrame = CreateFrame("Frame","WaitFrame", UIParent)
+		waitFrame = CreateFrame("Frame","WaitFrame", R.UIParent)
 		waitFrame:SetScript("onUpdate",function (self,elapse)
 			local count = #waitTable
 			local i = 1
@@ -670,7 +712,7 @@ end
 --[[
 LE_ITEM_CLASS_WEAPON    2
 LE_ITEM_CLASS_ARMOR     4
- 
+
 LE_ITEM_WEAPON_AXE1H        0
 LE_ITEM_WEAPON_AXE2H        1
 LE_ITEM_WEAPON_BOWS         2
@@ -692,7 +734,7 @@ Spears?                     17  (Not in game)
 LE_ITEM_WEAPON_CROSSBOW     18
 LE_ITEM_WEAPON_WAND         19
 LE_ITEM_WEAPON_FISHINGPOLE  20
- 
+
 LE_ITEM_ARMOR_GENERIC   0
 LE_ITEM_ARMOR_CLOTH     1
 LE_ITEM_ARMOR_LEATHER   2
@@ -715,7 +757,7 @@ for i, class in ipairs({LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR}) do
 	for _, subclass in ipairs(Unusable[i]) do
 		list[subclass] = true
 	end
-	
+
 	R.unusable[class] = list
 end
 
