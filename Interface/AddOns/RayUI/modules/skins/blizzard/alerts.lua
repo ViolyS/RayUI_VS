@@ -2,10 +2,10 @@ local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, 
 local S = R:GetModule("Skins")
 
 local function LoadSkin()
-	local AlertFrameHolder = CreateFrame("Frame", "AlertFrameHolder", UIParent)
+	local AlertFrameHolder = CreateFrame("Frame", "AlertFrameHolder", R.UIParent)
 	AlertFrameHolder:SetWidth(180)
 	AlertFrameHolder:SetHeight(20)
-	AlertFrameHolder:SetPoint("CENTER", UIParent, "CENTER", 0, 150)
+	AlertFrameHolder:SetPoint("CENTER", R.UIParent, "CENTER", 0, 150)
 
 	--[[ SKINNING FUNCTIONS ]]--
 	local function SkinAchievementAlert(frame)

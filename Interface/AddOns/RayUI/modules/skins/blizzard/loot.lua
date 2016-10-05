@@ -50,7 +50,7 @@ local function LoadSkin()
 
 		local slotsize = 36
 		lootSlots = {}
-		local anchorframe = CreateFrame("Frame", "ItemLoot", UIParent)
+		local anchorframe = CreateFrame("Frame", "ItemLoot", R.UIParent)
 		anchorframe:SetSize(200, 15)
 		anchorframe:SetPoint("TOPLEFT", 300, -300)
 
@@ -255,7 +255,7 @@ local function LoadSkin()
 			end
 		end
 
-		local loot = CreateFrame("Frame", nil, UIParent)
+		local loot = CreateFrame("Frame", nil, R.UIParent)
 		loot:SetScript("OnEvent", OnEvent)
 		loot:RegisterEvent("LOOT_OPENED")
 		loot:RegisterEvent("LOOT_SLOT_CLEARED")

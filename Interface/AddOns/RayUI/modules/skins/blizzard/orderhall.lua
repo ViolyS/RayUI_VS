@@ -1,10 +1,38 @@
 local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, GlobalDB
 local S = R:GetModule("Skins")
 
+local function HandleCommandBar()
+	R.UIParent:SetPoint("BOTTOM", UIParent, "BOTTOM");
+	OrderHallCommandBar:HookScript("OnShow", function()
+			local height = R.UIParent.origHeight - OrderHallCommandBar:GetHeight()
+			R.UIParent:SetHeight(height)
+		end)
+	OrderHallCommandBar:HookScript("OnHide", function()
+			R.UIParent:SetHeight(R.UIParent.origHeight)
+		end)
+end
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("ADDON_LOADED")
+f:SetScript("OnEvent", function(self, event, addon)
+		if event == "ADDON_LOADED" and addon == "Blizzard_OrderHallUI" then
+			if InCombatLockdown() then
+				self:RegisterEvent("PLAYER_REGEN_ENABLED")
+			else
+				HandleCommandBar()
+			end
+			self:UnregisterEvent(event)
+		elseif event == "PLAYER_REGEN_ENABLED" then
+			HandleCommandBar()
+			self:UnregisterEvent(event)
+		end
+	end)
+
 local function LoadSkin()
 	local classColor = S["media"].classcolours[R.myclass]
 
 	-- CommandBar
+	HandleCommandBar()
 	OrderHallCommandBar:StripTextures()
 	OrderHallCommandBar:CreateShadow("Background")
 	OrderHallCommandBar.ClassIcon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
@@ -12,24 +40,7 @@ local function LoadSkin()
 	OrderHallCommandBar.CurrencyIcon:SetAtlas("legionmission-icon-currency", false)
 	OrderHallCommandBar.AreaName:SetVertexColor(classColor.r, classColor.g, classColor.b)
 	OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 10, 0)
-	OrderHallCommandBar:ClearAllPoints()
-	OrderHallCommandBar:SetPoint("TOP")
-	--OrderHallCommandBar:SetWidth(350)
-	OrderHallCommandBar:SetWidth(550)
 	OrderHallCommandBar.WorldMapButton:Kill()
-
-	RaidUtilityShowButton:SetPoint("TOP", OrderHallCommandBar, "BOTTOM", 0, 2)
-	RaidUtilityPanel:Point("TOP", OrderHallCommandBar, "BOTTOM", 0, 1)
-
-	OrderHallCommandBar:HookScript("OnShow", function(self)
-		RaidUtilityShowButton:SetPoint("TOP", self, "BOTTOM", 0, 0)
-		RaidUtilityPanel:Point("TOP", self, "BOTTOM", 0, 0)
-	end)
-
-	OrderHallCommandBar:HookScript("OnHide", function(self)
-		RaidUtilityShowButton:SetPoint("TOP", UIParent, "TOP", 0, 2)
-		RaidUtilityPanel:Point("TOP", UIParent, "TOP", 0, 1)
-	end)
 
 	-- MissionFrame
 	OrderHallMissionFrame.ClassHallIcon:Kill()
@@ -38,7 +49,7 @@ local function LoadSkin()
 	S:SetBD(OrderHallMissionFrame)
 	S:ReskinClose(OrderHallMissionFrame.CloseButton)
 
-	for i = 1, 3 do 
+	for i = 1, 3 do
 		S:CreateTab(_G["OrderHallMissionFrameTab" .. i])
 	end
 
@@ -69,42 +80,38 @@ local function LoadSkin()
 	S:ReskinInput(FollowerList.SearchBox)
 	S:ReskinScroll(OrderHallMissionFrame.FollowerList.listScroll.scrollBar)
 	hooksecurefunc(FollowerList, "ShowFollower", function(self)
-		local abilities = self.followerTab.AbilitiesFrame.Abilities
-		if self.numAbilitiesStyled == nil then
-			self.numAbilitiesStyled = 1
-		end
-		local numAbilitiesStyled = self.numAbilitiesStyled
-		local ability = abilities[numAbilitiesStyled]
-		while ability do
-			local icon = ability.IconButton.Icon
-			S:ReskinIcon(icon)
-			icon:SetDrawLayer("BORDER", 0)
-			numAbilitiesStyled = numAbilitiesStyled + 1
-			ability = abilities[numAbilitiesStyled]
-		end
-		self.numAbilitiesStyled = numAbilitiesStyled
+			local abilities = self.followerTab.AbilitiesFrame.Abilities
+			if self.numAbilitiesStyled == nil then
+				self.numAbilitiesStyled = 1
+			end
+			local numAbilitiesStyled = self.numAbilitiesStyled
+			local ability = abilities[numAbilitiesStyled]
+			while ability do
+				local icon = ability.IconButton.Icon
+				S:ReskinIcon(icon)
+				icon:SetDrawLayer("BORDER", 0)
+				numAbilitiesStyled = numAbilitiesStyled + 1
+				ability = abilities[numAbilitiesStyled]
+			end
+			self.numAbilitiesStyled = numAbilitiesStyled
+			local weapon = self.followerTab.ItemWeapon
+			local armor = self.followerTab.ItemArmor
+			if not weapon.skinned then
+				S:ReskinIcon(weapon.Icon)
+				weapon.Border:SetTexture(nil)
+				weapon.skinned = true
+			end
+			if not armor.skinned then
+				S:ReskinIcon(armor.Icon)
+				armor.Border:SetTexture(nil)
+				armor.skinned = true
+			end
+			local xpbar = self.followerTab.XPBar
+			xpbar:StripTextures()
+			xpbar:SetStatusBarTexture(R["media"].gloss)
+			-- xpbar:CreateShadow("Background")
+		end)
 
-		local combat = self.followerTab.AbilitiesFrame.CombatAllySpell1
-		S:ReskinIcon(combat.iconTexture)
-
-		local weapon = self.followerTab.ItemWeapon
-		local armor = self.followerTab.ItemArmor
-		if not weapon.skinned then
-			S:ReskinIcon(weapon.Icon)
-			weapon.Border:SetTexture(nil)
-			weapon.skinned = true
-		end
-		if not armor.skinned then
-			S:ReskinIcon(armor.Icon)
-			armor.Border:SetTexture(nil)
-			armor.skinned = true
-		end
-
-		local xpbar = self.followerTab.XPBar
-		xpbar:StripTextures()
-		xpbar:SetStatusBarTexture(R["media"].gloss)
-		-- xpbar:CreateShadow("Background")
-	end)
 	FollowerTab:StripTextures()
 	FollowerTab.Class:SetSize(50, 43)
 	FollowerTab.XPBar:StripTextures()
