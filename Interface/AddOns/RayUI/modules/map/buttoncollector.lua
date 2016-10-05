@@ -219,8 +219,18 @@ function MM:ButtonCollector()
 	MinimapButtonCollect:RegisterEvent("ADDON_LOADED")
 	MinimapButtonCollect:SetScript("OnEvent", function(self)
 		GrabMinimapButtons()
-		if #buttons == 0 then
-			MBCF:Hide()
+		if #buttons == 0 then 
+			MBCF:Hide() 
+		else
+			MBCF:SetAlpha(0)
+			for _, child in ipairs(buttons) do
+				child:HookScript("OnEnter", function()
+					UIFrameFadeIn(MBCF, .5, MBCF:GetAlpha(), 1)
+				end)
+				child:HookScript("OnLeave", function()
+					UIFrameFadeOut(MBCF, .5, MBCF:GetAlpha(), 0)
+				end)
+			end
 		end
 		MM:PositionButtonCollector(Minimap)
 	end)

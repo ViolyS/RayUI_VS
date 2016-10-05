@@ -61,14 +61,14 @@ end
 function IF:SlideDown()
 	local bottom = tonumber(R:Round(RayUI_BottomInfoBar:GetBottom()))
 	if bottom <= -height then return end
-	RayUI_BottomInfoBar:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 0)
+	RayUI_BottomInfoBar:SetPoint("BOTTOM", R.UIParent, "BOTTOM", 0, 0)
 	R:Slide(RayUI_BottomInfoBar, "DOWN", height, speed)
 end
 
 function IF:SlideUp()
 	local bottom = tonumber(R:Round(RayUI_BottomInfoBar:GetBottom()))
 	if bottom >= 0 then return end
-	RayUI_BottomInfoBar:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, -height)
+	RayUI_BottomInfoBar:SetPoint("BOTTOM", R.UIParent, "BOTTOM", 0, -height)
 	R:Slide(RayUI_BottomInfoBar, "UP", height, speed)
 end
 
@@ -164,7 +164,7 @@ function IF:PLAYER_LOGIN()
 end
 
 function IF:Initialize()
-	local menuFrame = CreateFrame("Frame", "RayUI_InfobarRightClickMenu", UIParent, "UIDropDownMenuTemplate")
+	local menuFrame = CreateFrame("Frame", "RayUI_InfobarRightClickMenu", R.UIParent, "UIDropDownMenuTemplate")
 	local menuList = {
 		{
 			text = L["自动隐藏信息条"],
@@ -181,15 +181,15 @@ function IF:Initialize()
 		},
 	}
 
-	local bottombar = CreateFrame("Frame", "RayUI_BottomInfoBar", UIParent)
-	bottombar:SetWidth(UIParent:GetWidth())
+	local bottombar = CreateFrame("Frame", "RayUI_BottomInfoBar", R.UIParent)
+	bottombar:SetWidth(R.UIParent:GetWidth())
 	bottombar:SetHeight(height)
-	bottombar:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 0)
+	bottombar:SetPoint("BOTTOM", R.UIParent, "BOTTOM", 0, 0)
 	bottombar:CreateShadow("Background")
 
-	local trigger = CreateFrame("Frame", nil, UIParent)
-	trigger:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 0)
-	trigger:SetPoint("TOPRIGHT", UIParent, "BOTTOMRIGHT", 0, 5)
+	local trigger = CreateFrame("Frame", nil, R.UIParent)
+	trigger:SetPoint("BOTTOMLEFT", R.UIParent, "BOTTOMLEFT", 0, 0)
+	trigger:SetPoint("TOPRIGHT", R.UIParent, "BOTTOMRIGHT", 0, 5)
 	trigger:SetScript("OnEnter", function()
 		self:SlideUp()
 		self:CancelTimer(self.Anim)
@@ -212,7 +212,7 @@ function IF:Initialize()
 	bottombar:SetScript("OnMouseUp", PopupMenu)
 	trigger:SetScript("OnMouseUp", PopupMenu)
 
-	UIParent:HookScript("OnSizeChanged", function(self) bottombar:SetWidth(UIParent:GetWidth()) end)
+	R.UIParent:HookScript("OnSizeChanged", function(self) bottombar:SetWidth(R.UIParent:GetWidth()) end)
 
 	if self.db.autoHide then
 		self.Anim = self:ScheduleTimer("SlideDown", 10)

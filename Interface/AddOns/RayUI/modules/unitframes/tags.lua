@@ -80,11 +80,11 @@ oUF.Tags.Methods["RayUF:lvl"] = function(u)
     end
 
     if typ=="rareelite" then
-        return hex(color)..level.."r+|r"
+        return hex(color)..level.."R+|r"
     elseif typ=="elite" then
         return hex(color)..level.."+|r"
     elseif typ=="rare" then
-        return hex(color)..level.."r|r"
+        return hex(color)..level.."R|r"
     else
         return hex(color)..level.."|r"
     end

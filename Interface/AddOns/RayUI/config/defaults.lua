@@ -21,7 +21,7 @@ G["media"]={
 G["general"]={
     uiscale = 0.75,
     logo = true,
-    theme = "Pixel",
+    theme = "Shadow",
     numberType = 1
 }
 

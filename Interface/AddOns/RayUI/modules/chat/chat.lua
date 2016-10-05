@@ -812,8 +812,8 @@ function CH:SetChatPosition(override)
 		local tab = _G[format("ChatFrame%sTab", i)]
 		if chat == COMBATLOG then
 			chat:ClearAllPoints()
-			chat:SetPoint("TOPLEFT", _G["RayUIChatBG"], "TOPLEFT", 2,  -CombatLogQuickButtonFrame_Custom:GetHeight())
-			chat:SetPoint("BOTTOMRIGHT", _G["RayUIChatBG"], "BOTTOMRIGHT", -2, 4)
+			chat:SetPoint("TOPLEFT", _G["RayUIChatBG"], "TOPLEFT", 0,  -CombatLogQuickButtonFrame_Custom:GetHeight())
+			chat:SetPoint("BOTTOMRIGHT", _G["RayUIChatBG"], "BOTTOMRIGHT", 0, 4)
 		else
 			chat:ClearAllPoints()
 			chat:SetPoint("TOPLEFT", _G["RayUIChatBG"], "TOPLEFT", 2, -2)
