@@ -241,8 +241,8 @@ function mod:ConfigureElement_HealthBar(frame, configuring)
     end
     absorbBar:Hide()
 
-    healthBar.text:SetAllPoints(healthBar)
-    healthBar.text:SetFont(LSM:Fetch("font", R["media"].font), R["media"].fontsize, R["media"].fontflag)
+    healthBar.text:SetPoint("RIGHT", 0, 1)
+    healthBar.text:SetFont(R["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
 end
 
 function mod:ConstructElement_HealthBar(parent)
