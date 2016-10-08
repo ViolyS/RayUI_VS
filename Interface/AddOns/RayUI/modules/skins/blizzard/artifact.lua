@@ -25,7 +25,7 @@ local function LoadSkin()
 	ArtifactFrameTab1:SetPoint("TOPLEFT", ArtifactFrame, "BOTTOMLEFT", 20, 3)
 	
 	ArtifactFrame.AppearancesTab:HookScript("OnShow", function()
-		for i = 1, 20 do
+		for i = 1, 32 do
 			local bu = select(i, ArtifactFrame.AppearancesTab:GetChildren())
 			if bu then
 				bu.Background:Hide()
@@ -44,7 +44,7 @@ local function LoadSkin()
 	end)
 	 
 	hooksecurefunc(ArtifactFrame.AppearancesTab, "Refresh", function()
-		for i = 1, 20 do
+		for i = 1, 32 do
 			local bu = select(i, ArtifactFrame.AppearancesTab:GetChildren())
 			if bu and bu.bg then
 				if bu.Selected:IsShown() then

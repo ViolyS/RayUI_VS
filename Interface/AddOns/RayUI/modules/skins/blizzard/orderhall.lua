@@ -39,7 +39,6 @@ local function LoadSkin()
 	OrderHallCommandBar.ClassIcon:SetSize(46, 20)
 	OrderHallCommandBar.CurrencyIcon:SetAtlas("legionmission-icon-currency", false)
 	OrderHallCommandBar.AreaName:SetVertexColor(classColor.r, classColor.g, classColor.b)
-	OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 10, 0)
 	OrderHallCommandBar.WorldMapButton:Kill()
 
 	-- MissionFrame
@@ -94,6 +93,10 @@ local function LoadSkin()
 				ability = abilities[numAbilitiesStyled]
 			end
 			self.numAbilitiesStyled = numAbilitiesStyled
+
+			local combat = self.followerTab.AbilitiesFrame.CombatAllySpell1
+			S:ReskinIcon(combat.iconTexture)
+
 			local weapon = self.followerTab.ItemWeapon
 			local armor = self.followerTab.ItemArmor
 			if not weapon.skinned then
