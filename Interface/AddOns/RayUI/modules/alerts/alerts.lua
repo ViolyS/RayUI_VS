@@ -1730,7 +1730,7 @@ function AL:SHOW_PVP_FACTION_LOOT_TOAST(...)
 end
 
 function AL:STORE_PRODUCT_DELIVERED(...)
-	local _, icon, name, payloadID = ...
+	local _, _, icon, name, payloadID = ...
 	local _, _, quality = GetItemInfo(payloadID)
 	local color = ITEM_QUALITY_COLORS[quality or 4]
 	local toast = GetToast("item")
@@ -2373,7 +2373,7 @@ local function SpawnTestLootToast()
 	end
 
 	-- store
-	AL:STORE_PRODUCT_DELIVERED("", 1, 915544, "Pouch of Enduring Wisdom", 105911)
+	AL:STORE_PRODUCT_DELIVERED("", 1, 915544, GetItemInfo(105911), 105911)
 end
 
 local function SpawnTestCurrencyToast()
@@ -2427,6 +2427,7 @@ function AL:PLAYER_LOGIN()
 
 	UIPARENT_MANAGED_FRAME_POSITIONS["GroupLootContainer"] = nil
 	self:SecureHook(AlertFrame, "UpdateAnchors", "PostAlertMove")
+	self:PostAlertMove()
 
     EnableAchievementToasts()
     EnableArchaeologyToasts()
