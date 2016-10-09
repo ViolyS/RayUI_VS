@@ -1397,7 +1397,7 @@ R["Watcher"] = {
 				-- 痛苦毒藥
 				{ spellID = 200803, unitId = "target", caster = "player", filter = "DEBUFF" },
 				-- 致傷毒藥
-				{ spellID = 8680, unitId = "target", caster = "player", filter = "DEBUFF" },
+				{ spellID = 197046, unitId = "target", caster = "player", filter = "DEBUFF" },
 				-- 手槍射擊
 				{ spellID = 185763, unitId = "target", caster = "player", filter = "DEBUFF" },
 			},

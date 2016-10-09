@@ -50,9 +50,9 @@ oUF.Tags.Methods['RayUIRaid:def'] = function(u)
     elseif UnitIsDead(u) then
         return "|cffCFCFCF"..DEAD.."|r"
     elseif UnitIsGhost(u) then
-        return "|cffCFCFCF"..L["¡ÈªÍ"].."|r"
+        return "|cffCFCFCF"..L["ÁÅµÈ≠Ç"].."|r"
     elseif not UnitIsConnected(u) then
-        return "|cffCFCFCF"..L["¿Îœﬂ"].."|r"
+        return "|cffCFCFCF"..L["Á¶ªÁ∫ø"].."|r"
     end
 
     if RA.db.perc then
