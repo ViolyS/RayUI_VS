@@ -1472,6 +1472,8 @@ R["Watcher"] = {
 				{ spellID = 408, unitId = "target", caster = "all", filter = "DEBUFF" },
 				-- 正中眉心
 				{ spellID = 199804, unitId = "target", caster = "all", filter = "DEBUFF" },
+				-- 鬼魅攻擊
+				{ spellID = 196937, unitId = "target", caster = "player", filter = "DEBUFF" },
 				-- 致盲
 				{ spellID = 2094, unitId = "target", caster = "all", filter = "DEBUFF" },
 				-- 悶棍
