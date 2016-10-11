@@ -1425,6 +1425,8 @@ R["Watcher"] = {
 				{ spellID = 32645, unitId = "player", caster = "player", filter = "BUFF" },
 				-- 切割
 				{ spellID = 5171, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 袖劍
+				{ spellID = 202754, unitId = "player", caster = "player", filter = "BUFF" },
 				-- 偷天換日
 				{ spellID = 57934, unitId = "player", caster = "player", filter = "BUFF" },
 				-- 偷天換日(傷害之後)
@@ -2307,6 +2309,8 @@ R["Watcher"] = {
 				{ spellID = 102342, unitId = "player", caster = "all", filter = "BUFF" },
 				-- 奔竄咆哮
 				{ spellID = 77761, unitId = "player", caster = "all", filter = "BUFF" },
+				-- 風爆
+				{ spellID = 204477, unitId = "player", caster = "all", filter = "BUFF" },
 
 				-- 橙色多彩
 				-- 不屈之源钻 (耐力, 减伤)
