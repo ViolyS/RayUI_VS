@@ -374,9 +374,6 @@ function AB:HideBlizz()
 
 	MainMenuBar:EnableMouse(false)
 	MainMenuBar:SetAlpha(0)
-	MainMenuExpBar:UnregisterAllEvents()
-	MainMenuExpBar:Hide()
-	MainMenuExpBar:SetParent(blizzHider)
 
 	for i=1, MainMenuBar:GetNumChildren() do
 		local child = select(i, MainMenuBar:GetChildren())
@@ -387,26 +384,12 @@ function AB:HideBlizz()
 		end
 	end
 
-	ReputationWatchBar:UnregisterAllEvents()
-	ReputationWatchBar:Hide()
-	ReputationWatchBar:SetParent(blizzHider)
+	for _, bar in pairs({MainMenuExpBar, ReputationWatchBar, OverrideActionBar, IconIntroTracker, MultiCastActionBarFrame, MainMenuBarArtFrame}) do
+		bar:UnregisterAllEvents()
+		bar:Hide()
+		bar:SetParent(blizzHider)
+	end
 
-	MainMenuBarArtFrame:UnregisterEvent("ACTIONBAR_PAGE_CHANGED")
-	MainMenuBarArtFrame:UnregisterEvent("ADDON_LOADED")
-	MainMenuBarArtFrame:Hide()
-	MainMenuBarArtFrame:SetParent(blizzHider)
-
-	OverrideActionBar:UnregisterAllEvents()
-	OverrideActionBar:Hide()
-	OverrideActionBar:SetParent(blizzHider)
-
-	MultiCastActionBarFrame:UnregisterAllEvents()
-	MultiCastActionBarFrame:Hide()
-	MultiCastActionBarFrame:SetParent(blizzHider)
-
-	IconIntroTracker:UnregisterAllEvents()
-	IconIntroTracker:Hide()
-	IconIntroTracker:SetParent(blizzHider)
 	TalentMicroButtonAlert:ClearAllPoints()
 	TalentMicroButtonAlert:SetPoint("BOTTOM", RayUI_InfoPanel_Talent, "BOTTOM", 0, 50)
 	TalentMicroButtonAlert.Arrow:Kill()

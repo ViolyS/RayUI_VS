@@ -909,7 +909,9 @@ R["Watcher"] = {
 				-- 大十字軍
 				{ spellID = 85416, unitId = "player", caster = "player", filter = "BUFF" },
 				-- 遠古諸王守護者
-				{ spellID = 86659, unitId = "player", caster = "all", filter = "BUFF" },
+				{ spellID = 86659, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 秩序壁壘
+				{ spellID = 209388, unitId = "player", caster = "player", filter = "BUFF" },
 				-- 十字軍
 				{ spellID = 224668, unitId = "player", caster = "player", filter = "BUFF" },
 				-- 神圣意圖（懲戒）
