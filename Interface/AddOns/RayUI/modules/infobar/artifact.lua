@@ -34,6 +34,14 @@ local function LoadArtifact()
 			GameTooltip:SetPoint("BOTTOMRIGHT", infobar, "TOPRIGHT", 0, 0)
 			GameTooltip:AddLine(title,r,g,b,false)
 			GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_TITLE:format(BreakUpLargeNumbers(ArtifactWatchBar.totalXP), BreakUpLargeNumbers(ArtifactWatchBar.xp), BreakUpLargeNumbers(ArtifactWatchBar.xpForNextPoint)), 1, 1, 1)
+
+			local power = 0
+			for i = 0, (select(6, C_ArtifactUI.GetEquippedArtifactInfo()) - 1) do
+				power = power + C_ArtifactUI.GetCostForPointAtRank(i)
+			end
+			power = power + select(5, C_ArtifactUI.GetEquippedArtifactInfo())
+			GameTooltip:AddDoubleLine("|cffffffff已注入：|r","|cffffffff"..BreakUpLargeNumbers(power).."点|r")
+
 			if ArtifactWatchBar.numPointsAvailableToSpend > 0 then
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_BODY:format(ArtifactWatchBar.numPointsAvailableToSpend), 0, 1, 0, true)
@@ -57,6 +65,10 @@ local function LoadArtifact()
 			end
 		end
 	end)
+	
+	infobar:RegisterEvent("ARTIFACT_XP_UPDATE")
+	infobar:RegisterEvent("UNIT_INVENTORY_CHANGED")
+	infobar:RegisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 IF:RegisterInfoText("Artifact", LoadArtifact)
