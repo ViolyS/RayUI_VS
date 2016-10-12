@@ -65,10 +65,6 @@ local function LoadArtifact()
 			end
 		end
 	end)
-	
-	infobar:RegisterEvent("ARTIFACT_XP_UPDATE")
-	infobar:RegisterEvent("UNIT_INVENTORY_CHANGED")
-	infobar:RegisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 IF:RegisterInfoText("Artifact", LoadArtifact)
