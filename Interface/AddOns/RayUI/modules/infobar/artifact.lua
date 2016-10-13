@@ -9,7 +9,7 @@ local function LoadArtifact()
 	
 	infobar:SetScript("OnUpdate", function(self)
 		if HasArtifactEquipped() then
-			local name, icon, totalXP, pointsSpent = select(3, C_ArtifactUI.GetEquippedArtifactInfo())
+			local _, _, totalXP = select(3, C_ArtifactUI.GetEquippedArtifactInfo())
 
 			if totalXP > 1e6 then
 				infobar.Text:SetText(ARTIFACT_POWER.."：|cffe5cc80"..(floor(totalXP / 1e5) / 10).."m|r")
@@ -25,8 +25,8 @@ local function LoadArtifact()
 
 	infobar:HookScript("OnEnter", function(self)
 		if HasArtifactEquipped() then
-			local name, icon, totalXP, pointsSpent = select(3, C_ArtifactUI.GetEquippedArtifactInfo())
-			local points, xp, xpMax = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP)
+			local name, _, totalXP, pointsSpent = select(3, C_ArtifactUI.GetEquippedArtifactInfo())
+			local numPointsAvailableToSpend, xp, xpMax = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP)
 
 			GameTooltip:SetOwner(self, "ANCHOR_NONE")
 			GameTooltip:SetPoint("BOTTOMRIGHT", infobar, "TOPRIGHT", 0, 0)
@@ -40,9 +40,9 @@ local function LoadArtifact()
 			power = power + select(5, C_ArtifactUI.GetEquippedArtifactInfo())
 			GameTooltip:AddDoubleLine("|cffffffff已注入：|r","|cffffffff"..BreakUpLargeNumbers(power).."点|r")
 
-			if ArtifactWatchBar.numPointsAvailableToSpend > 0 then
+			if numPointsAvailableToSpend > 0 then
 				GameTooltip:AddLine(" ")
-				GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_BODY:format(ArtifactWatchBar.numPointsAvailableToSpend), 0, 1, 0, true)
+				GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_BODY:format(numPointsAvailableToSpend), 0, 1, 0, true)
 			end
 
 			GameTooltip:Show()
