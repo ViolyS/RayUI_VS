@@ -2695,7 +2695,7 @@ function api.SetTraitTooltip(tip, id, info, showInactive, skipDescription)
 	if info and #info > 0 then
 		tip:AddLine(nl .. L"Followers with this trait:", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
 		addFollowerList(tip, info, finfo, nil, showInactive)
-	else
+	elseif id and id < 331 then
 		tip:AddLine(nl .. L"You have no followers with this trait.", 1,0.50,0, 1)
 	end
 	info = info and info.affine
@@ -2721,7 +2721,7 @@ function api.SetThreatTooltip(tip, id, info, missionLevel, showInactive, skipDes
 	if info and #info > 0 then
 		tip:AddLine((skipDescription and "" or "|n") .. L"Can be countered by:", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
 		addFollowerList(tip, info, finfo, missionLevel, showInactive, id)
-	else
+	elseif id then
 		local eq = T.EquipmentTraitQuests[T.EquipmentCounters[id]]
 		if eq then
 			tip:AddLine((skipDescription and "" or "|n") .. L"No ships are equipped to handle this mechanic.", 1,0.50,0, 1)

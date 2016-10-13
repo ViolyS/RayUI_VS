@@ -39,9 +39,18 @@ local ui, core, handle = CreateFrame("Frame", "MPLandingPageAlts", GarrisonLandi
 			PanelTemplates_DeselectTab(ui.Tab)
 		end
 	end
-	hooksecurefunc(GarrisonLandingPage, "UpdateTabs", function(self)
+	local function updateTabAnchor(self)
 		ui.Tab:SetPoint("LEFT", self.FleetTab:IsShown() and GarrisonLandingPageTab3 or GarrisonLandingPageTab2, "RIGHT", -5, 0)
-	end)
+		ui.Tab:SetShown(self.garrTypeID == 2)
+		if ui:IsShown() and not ui.Tab:IsShown() then
+			GarrisonLandingPageTab1:Click()
+		end
+	end
+	hooksecurefunc(GarrisonLandingPage, "UpdateTabs", updateTabAnchor)
+	if GarrisonLandingPage:IsShown() then
+		PanelTemplates_TabResize(ui.Tab, 10)
+		updateTabAnchor(GarrisonLandingPage)
+	end
 	
 	
 	local function Timer_OnEnter(self)

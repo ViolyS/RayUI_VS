@@ -3,23 +3,10 @@ if T.Mark ~= 50 then return end
 local G, L, EV = T.Garrison, T.L, T.Evie
 local countFreeFollowers = G.countFreeFollowers
 
-do -- Feed FrameXML updates to Evie
-	local function FollowerList_OnShowFollower(self, id)
-		local tab = self.followerTab
-		tab.MPLastFollowerID = id
-		EV("FXUI_GARRISON_FOLLOWER_LIST_SHOW_FOLLOWER", tab, id, false)
-	end
-	local function tabOnShow(self)
-		if self.MPLastFollowerID then
-			EV("FXUI_GARRISON_FOLLOWER_LIST_SHOW_FOLLOWER", self, self.MPLastFollowerID, true)
-		end
-	end
-	hooksecurefunc(GarrisonMissionFrame.FollowerList, "ShowFollower", FollowerList_OnShowFollower)
-	hooksecurefunc(GarrisonLandingPage.FollowerList, "ShowFollower", FollowerList_OnShowFollower)
-	GarrisonLandingPage.FollowerTab:HookScript("OnShow", tabOnShow)
-	GarrisonMissionFrame.FollowerTab:HookScript("OnShow", tabOnShow)
+local function HookOnShow(self, OnShow)
+	self:HookScript("OnShow", OnShow)
+	if self:IsVisible() then OnShow(self) end
 end
-
 local function HideOwnedGameTooltip(self)
 	if GameTooltip:IsOwned(self) then
 		GameTooltip:Hide()
@@ -203,13 +190,19 @@ local function syncTotals()
 	ico.info, ico.name, ico.isDouble = doubles, L"Duplicate counters", true
 end
 mechanicsFrame:SetScript("OnShow", syncTotals)
-GarrisonMissionFrame.FollowerTab:HookScript("OnShow", function(self)
+HookOnShow(GarrisonMissionFrame.FollowerTab, function(self)
 	mechanicsFrame:SetParent(self)
 	mechanicsFrame:ClearAllPoints()
 	mechanicsFrame:SetPoint("LEFT", self.NumFollowers, "RIGHT", 11, 0)
 	mechanicsFrame:Show()
 end)
-GarrisonLandingPage.FollowerTab:HookScript("OnShow", function(self)
+HookOnShow(GarrisonLandingPage.FollowerTab, function(self)
+	if GarrisonLandingPage.garrTypeID == 3 then
+		if mechanicsFrame:GetParent() == self then
+			mechanicsFrame:Hide()
+		end
+		return
+	end
 	mechanicsFrame:SetParent(self)
 	mechanicsFrame:ClearAllPoints()
 	mechanicsFrame:SetPoint("LEFT", GarrisonLandingPage.HeaderBar, "LEFT", 200, 0)
@@ -567,7 +560,20 @@ local SpecAffinityFrame = CreateFrame("Frame") do
 			SpecAffinityFrame:ShowFor(p, SpecAffinityFrame.info)
 		end
 	end
+	function SpecAffinityFrame:ReleaseFor(owner)
+		self:Hide()
+		self:SetParent(nil)
+		self.info = nil
+		self:ClearAllPoints()
+		owner.XPText:SetPoint("TOPRIGHT", -74, -17)
+		if owner.Class then
+			owner.Class:SetAlpha(1)
+		end
+	end
 	function SpecAffinityFrame:ShowFor(owner, fi)
+		if not fi then
+			return self:ReleaseFor(owner)
+		end
 		self.info = fi
 		self:SetParent(owner)
 		self:SetPoint("TOPRIGHT", -18 + (owner.MPSpecOffsetX or 0), -8 + (owner.MPSpecOffsetY or 0))
@@ -577,6 +583,7 @@ local SpecAffinityFrame = CreateFrame("Frame") do
 		end
 		self.Affinity:SetShown(afid > 0)
 		self:SetWidth(afid > 0 and 84 or 40)
+		self:Show()
 		ClassSpecButton_Set(self.ClassSpec, fi)
 		owner.XPText:SetPoint("TOPRIGHT", self, "TOPLEFT", -4, -4)
 		if owner.Class then
@@ -704,7 +711,7 @@ function EV:MP_RECRUIT_PROSPECTS_READY(data)
 		end
 	end
 end
-hooksecurefunc("GarrisonRecruitSelectFrame_UpdateRecruits", function(waiting)
+local function Recruit_ProspectsUpdate(waiting)
 	if not waiting then
 		local followers, rf, tinfo = C_Garrison.GetAvailableRecruits(), GarrisonRecruitSelectFrame.FollowerSelection, G.GetFollowerTraits()
 		for i=1,3 do
@@ -727,7 +734,11 @@ hooksecurefunc("GarrisonRecruitSelectFrame_UpdateRecruits", function(waiting)
 			EV("MP_RECRUIT_PROSPECTS_READY", data)
 		end
 	end
-end)
+end
+hooksecurefunc("GarrisonRecruitSelectFrame_UpdateRecruits", Recruit_ProspectsUpdate)
+if GarrisonRecruitSelectFrame.FollowerSelection:IsVisible() then
+	Recruit_ProspectsUpdate(GarrisonRecruitSelectFrame.FollowerSelection.WaitText:IsShown())
+end
 hooksecurefunc("GarrisonMissionPortrait_SetFollowerPortrait", function(port, fi)
 	if not (port == GarrisonMissionFrame.FollowerTab.PortraitFrame or port == GarrisonLandingPage.FollowerTab.PortraitFrame) or (fi and fi.followerTypeID or 3) > 2 then
 		return
@@ -770,14 +781,19 @@ hooksecurefunc("GarrisonMissionPortrait_SetFollowerPortrait", function(port, fi)
 	end
 end)
 local function Portrait_OnShow(self)
-	if self:GetParent():IsVisible() and self.info and SpecAffinityFrame:GetParent() ~= self then
-		SpecAffinityFrame:ShowFor(self:GetParent(), self.info)
+	local p = self:GetParent()
+	if p:IsVisible() and SpecAffinityFrame:GetParent() ~= self then
+		if self == GarrisonLandingPage.FollowerTab.PortraitFrame and GarrisonLandingPage.garrTypeID == 3 then
+			SpecAffinityFrame:ReleaseFor(p)
+			return
+		end
+		SpecAffinityFrame:ShowFor(p, self.info or (p.followerID and C_Garrison.GetFollowerInfo(p.followerID)))
 	end
 end
 GarrisonMissionFrame.FollowerTab.MPSpecOffsetX, GarrisonMissionFrame.FollowerTab.MPSpecOffsetY = 5, -6
 GarrisonLandingPage.FollowerTab.MPSpecOffsetX, GarrisonLandingPage.FollowerTab.MPSpecOffsetY = -2, -4
-GarrisonMissionFrame.FollowerTab.PortraitFrame:HookScript("OnShow", Portrait_OnShow)
-GarrisonLandingPage.FollowerTab.PortraitFrame:HookScript("OnShow", Portrait_OnShow)
+HookOnShow(GarrisonMissionFrame.FollowerTab.PortraitFrame, Portrait_OnShow)
+HookOnShow(GarrisonLandingPage.FollowerTab.PortraitFrame, Portrait_OnShow)
 local function FollowerPageAbility_OnEnter(self)
 	local ppp = self:GetParent():GetParent():GetParent()
 	self.classSpec, self.otherCounter = ppp.classSpec, ppp.otherCounter
@@ -792,6 +808,7 @@ function EV:FXUI_GARRISON_FOLLOWER_LIST_SHOW_FOLLOWER(followerTab)
 end
 
 GarrisonThreatCountersFrame:SetScript("OnShow", GarrisonThreatCountersFrame.Hide)
+GarrisonThreatCountersFrame:Hide()
 
 local function Recruiter_ShowTraitTooltip(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -803,7 +820,7 @@ local function Recruiter_ShowCounterTooltip(self)
 	G.SetThreatTooltip(GameTooltip, self.value)
 	GameTooltip:Show()
 end
-hooksecurefunc("GarrisonRecruiterFrame_Init", function(_, level)
+local function Recruiter_DropDownInitHook(_, level)
 	local lf, bn
 	if level == 2 then
 		lf, bn = DropDownList2, "DropDownList2Button"
@@ -817,7 +834,11 @@ hooksecurefunc("GarrisonRecruiterFrame_Init", function(_, level)
 			b.tooltipOnButton, b.tooltipTitle, b.tooltipText = level == 2 and Recruiter_ShowTraitTooltip or Recruiter_ShowCounterTooltip
 		end
 	end
-end)
+end
+hooksecurefunc("GarrisonRecruiterFrame_Init", Recruiter_DropDownInitHook)
+if GarrisonRecruiterFramePickThreatDropDown:IsVisible() then
+	hooksecurefunc(GarrisonRecruiterFramePickThreatDropDown, "initialize", Recruiter_DropDownInitHook)
+end
 
 local GarrisonFollowerList_SortFollowers = GarrisonFollowerList_SortFollowers
 local specialSearchQueries = {["duplicate counters"]="dup", [(L"Duplicate counters"):lower()]="dup", ["upgradable gear"]="up", [(L"Upgradable gear"):lower()]="up", ["redundant"]="red", [(L"Redundant"):lower()]="red"} do
@@ -1160,9 +1181,10 @@ do -- XP Projections for follower summaries
 	local function updateBar(bar)
 		local tab, baseBar, bonusBar = bar:GetParent(), bar.XPBaseReward, bar.XPBonusReward
 		local fid = tab.followerID
-		if fid and type(fid) == "string" and C_Garrison.GetFollowerStatus(fid) == GARRISON_FOLLOWER_ON_MISSION then
-			local fi = G.GetFollowerInfo()[fid]
-			for k,v in pairs(C_Garrison.GetInProgressMissions(fi and fi.followerTypeID or 1)) do
+		local fi = fid and type(fid) == "string" and C_Garrison.GetFollowerStatus(fid) == GARRISON_FOLLOWER_ON_MISSION and G.GetFollowerInfo()[fid]
+		local ipm = fi and C_Garrison.GetInProgressMissions(fi.followerTypeID or 1)
+		if ipm then
+			for k,v in pairs(ipm) do
 				local ft = v.followers
 				if ft[1] == fid or ft[2] == fid or ft[3] == fid then
 					local bmul, base, extraXP, bonus, mentor = G.ExtendMissionInfoWithXPRewardData(v)
@@ -1173,7 +1195,7 @@ do -- XP Projections for follower summaries
 					elseif v.successChance == 100 then
 						base, bonus = base + bonus, 0
 					end
-		
+	
 					local baseWidth = min(toLevel, base)*wmul
 					local bonusWidth = min(toLevel-base, bonus)*wmul
 					baseBar:SetPoint("LEFT", fi.xp * wmul, 0)
@@ -1182,7 +1204,7 @@ do -- XP Projections for follower summaries
 					bonusBar:SetWidth(max(0.01, bonusWidth))
 					baseBar:SetShown(baseWidth > 0)
 					bonusBar:SetShown(bonusWidth > 0)
-		
+	
 					if not tab.XPText then
 					elseif base >= toLevel then
 						tab.XPText:SetTextColor(0.6, 1, 0)
@@ -1217,12 +1239,8 @@ do -- XP Projections for follower summaries
 	end
 end
 
-do -- Ship equipment
-	local EQUIPMENT_ARRAY = {}
-	for i=1,2 do
-		table.insert(EQUIPMENT_ARRAY, GarrisonShipyardFrame.FollowerTab.EquipmentFrame.Equipment[i])
-		table.insert(EQUIPMENT_ARRAY, GarrisonLandingPage.ShipFollowerTab.EquipmentFrame.Equipment[i])
-	end
+do -- Equipment
+	local EQ_MAP, DELAY_MAP, CP_AwaitAnchor = {}, {}
 	local function CP_PreClick(self)
 		local ct, cid, clink = GetCursorInfo()
 		if ct == "item" and cid and clink then
@@ -1239,9 +1257,19 @@ do -- Ship equipment
 		self:GetParent():Click()
 	end
 	local function CP_Attach(self)
-		self.proxy:SetParent(self)
-		self.proxy:SetAllPoints()
-		self.proxy:Show()
+		if not self.NoMPEProxy then
+			self.proxy:SetParent(self)
+			self.proxy:SetAllPoints()
+			self.proxy:Show()
+			self.proxy:SetScript("OnUpdate", CP_AwaitAnchor)
+		end
+	end
+	function CP_AwaitAnchor(self)
+		if not self:GetPoint(1) then
+			CP_Attach(self:GetParent())
+		else
+			self:SetScript("OnUpdate", nil)
+		end
 	end
 	local function CP_OnEnter(self, ...)
 		local p = self:GetParent()
@@ -1261,8 +1289,24 @@ do -- Ship equipment
 		self:ClearAllPoints()
 		self:Hide()
 	end
-	for i=1,#EQUIPMENT_ARRAY do
-		local pf, ef = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate"), EQUIPMENT_ARRAY[i]
+	local function AddEquipmentProxy(owner)
+		if EQ_MAP[owner] or owner.NoMPEProxy then
+			return
+		elseif InCombatLockdown() then
+			local lk = next(DELAY_MAP)
+			DELAY_MAP[owner] = 1
+			if lk == nil then
+				function EV.PLAYER_REGEN_ENABLED()
+					for k in pairs(DELAY_MAP) do
+						DELAY_MAP[k] = nil
+						AddEquipmentProxy(k)
+					end
+					return "remove"
+				end
+			end
+			return
+		end
+		local pf, ef = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate"), owner
 		pf:Hide()
 		pf:SetScript("PreClick", CP_PreClick)
 		pf:SetScript("PostClick", CP_PostClick)
@@ -1272,14 +1316,50 @@ do -- Ship equipment
 		ef:HookScript("OnShow", CP_Attach)
 		ef:SetScript("OnReceiveDrag", nil)
 		pf:SetAttribute("type", "macro")
-		ef.proxy = pf
+		EQ_MAP[ef], ef.proxy = pf, pf
+		if ef:IsVisible() then CP_Attach(ef) end
 	end
 	function EV:PLAYER_REGEN_DISABLED()
-		for i=1,#EQUIPMENT_ARRAY do
-			EQUIPMENT_ARRAY[i].proxy:Hide()
+		for _, pf in pairs(EQ_MAP) do
+			pf:Hide()
 		end
 	end
-	
+	local function hookEquipment(self)
+		local l = self.AbilitiesFrame.EquipmentSlotsLabel
+		if l == nil or self.equipmentPool == nil then return end
+		for a in self.equipmentPool:EnumerateActive() do
+			local _mp, af, _ap, ax, ay = a:GetPoint(1)
+			if af == l then
+				local p, s = a:GetParent(), a:GetScale()
+				local pl, pt = p and p:GetLeft(), p and p:GetTop()
+				local ll, lb = l:GetLeft(), l:GetBottom()
+				if pl and pt and ll and lb then
+					a:SetPoint("TOPLEFT", ((ll-pl))/s+ax, (lb-pt)/s+ay)
+				else
+					C_Timer.After(0, function() hookEquipment(self) end)
+				end
+			end
+			AddEquipmentProxy(a)
+		end
+	end
+	local function doHookEquipment(tab)
+		hooksecurefunc(tab, "ShowEquipment", hookEquipment)
+		if tab:IsVisible() then hookEquipment(tab) end
+	end
+	doHookEquipment(GarrisonLandingPage.FollowerTab)
+	function EV:ADDON_LOADED()
+		if OrderHallMissionFrame then
+			doHookEquipment(OrderHallMissionFrame.FollowerTab)
+			return "remove"
+		end
+	end
+	for i=1,2 do
+		AddEquipmentProxy(GarrisonShipyardFrame.FollowerTab.EquipmentFrame.Equipment[i])
+		AddEquipmentProxy(GarrisonLandingPage.ShipFollowerTab.EquipmentFrame.Equipment[i])
+	end
+end
+
+do -- Ship equipment
 	T.shipUpgradesFrame = CreateFrame("Frame", "MPShipRefitItems") do
 		local reroll = T.shipUpgradesFrame
 		reroll:SetPoint("TOPRIGHT", -14, -98)
@@ -1329,4 +1409,21 @@ do -- Ship equipment
 			end
 		end)
 	end
+end
+
+do -- Feed FrameXML updates to Evie
+	local function FollowerList_OnShowFollower(self, id)
+		local tab = self.followerTab
+		tab.MPLastFollowerID = id
+		EV("FXUI_GARRISON_FOLLOWER_LIST_SHOW_FOLLOWER", tab, id, false)
+	end
+	local function tabOnShow(self)
+		if self.MPLastFollowerID then
+			EV("FXUI_GARRISON_FOLLOWER_LIST_SHOW_FOLLOWER", self, self.MPLastFollowerID, true)
+		end
+	end
+	hooksecurefunc(GarrisonMissionFrame.FollowerList, "ShowFollower", FollowerList_OnShowFollower)
+	hooksecurefunc(GarrisonLandingPage.FollowerList, "ShowFollower", FollowerList_OnShowFollower)
+	HookOnShow(GarrisonLandingPage.FollowerTab, tabOnShow)
+	HookOnShow(GarrisonMissionFrame.FollowerTab, tabOnShow)
 end

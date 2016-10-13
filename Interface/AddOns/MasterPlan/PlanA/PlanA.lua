@@ -67,17 +67,56 @@ local CheckCacheWarning do
 		end
 	end
 end
+local LoadMPOnShow, LoadMP do
+	local doLoad = true
+	function LoadMP()
+		if doLoad then
+			doLoad = nil
+			LoadAddOn("MasterPlan")
+		end
+	end
+	function LoadMPOnShow(f)
+		if f:IsShown() then
+			LoadMP()
+		elseif doLoad then
+			f:HookScript("OnShow", LoadMP)
+		end
+	end
+end
+GarrisonLandingPageMinimapButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+GarrisonLandingPageMinimapButton:HookScript("OnClick", function(self, b)
+	if b == "RightButton" and GarrisonLandingPage.garrTypeID == 3 then
+		HideUIPanel(GarrisonLandingPage)
+		ShowGarrisonLandingPage(2)
+	elseif b == "LeftButton" and GarrisonLandingPage.garrTypeID ~= 3 and C_Garrison.GetLandingPageGarrisonType() == 3 then
+		ShowGarrisonLandingPage(3)
+	end
+	if GarrisonLandingPage.garrTypeID ~= 3 then
+		LoadMP()
+	end
+end)
+hooksecurefunc("ShowGarrisonLandingPage", function(pg)
+	if pg ~= 3 then
+		LoadMP()
+	end
+end)
 
 function E:ADDON_LOADED(addon)
-	if addon ~= addonName then return end
-	
-	cdata = gett(_G, "MasterPlanAG", GetRealmName(), UnitName("player"))
-	cdata.class, cdata.faction, cdata.cacheSize = select(2,UnitClass("player")), UnitFactionGroup("player"), cdata.cacheSize ~= 750 and cdata.cacheSize or nil
-	setmetatable(api, {__index={data=cdata}})
-	CheckCacheWarning()
-	gett(_G, "MasterPlanAG", "IgnoreRewards")
-
-	return "remove"
+	if addon == addonName then
+		cdata = gett(_G, "MasterPlanAG", GetRealmName(), UnitName("player"))
+		cdata.class, cdata.faction, cdata.cacheSize = select(2,UnitClass("player")), UnitFactionGroup("player"), cdata.cacheSize ~= 750 and cdata.cacheSize or nil
+		setmetatable(api, {__index={data=cdata}})
+		CheckCacheWarning()
+		gett(_G, "MasterPlanAG", "IgnoreRewards")
+		return "remove"
+	end
+end
+function E:ADDON_LOADED(addon)
+	if addon == "Blizzard_GarrisonUI" then
+		LoadMPOnShow(GarrisonMissionFrame)
+		LoadMPOnShow(GarrisonShipyardFrame)
+		LoadMPOnShow(GarrisonRecruiterFrame)
+	end
 end
 function E:SHOW_LOOT_TOAST(rt, rl, q, _4, _5, _6, source)
 	if rt == "currency" and source == 10 and rl:match("currency:824") then

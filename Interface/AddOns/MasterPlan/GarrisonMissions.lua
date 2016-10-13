@@ -11,6 +11,10 @@ local function HideOwnedGameTooltip(self)
 		GameTooltip:Hide()
 	end
 end
+local function HookOnShow(self, OnShow)
+	self:HookScript("OnShow", OnShow)
+	if self:IsVisible() then OnShow(self) end
+end
 
 do -- Feed FrameXML updates to Evie
 	local function FollowerList_OnUpdateData(self)
@@ -692,18 +696,19 @@ do -- Counter-follower lists
 			self.CounterIcon:SetMask("")
 			self.CounterIcon:SetTexCoord(4/64,60/64,4/64,60/64)
 		end
-		if not aid or not self.Details then
+		if not aid or not self.Details or aid >= 331 then
 			return
 		elseif self.Details:IsShown() then
 			itip:ActivateFor(self, "TOPLEFT", self.CounterIcon, "BOTTOMLEFT", -14, 16)
 		else
 			itip:ActivateFor(self, "TOPLEFT", self.Description, "BOTTOMLEFT", -10, 12)
 		end
-		local tid = not C_Garrison.GetFollowerAbilityIsTrait(aid) and C_Garrison.GetFollowerAbilityCounterMechanicInfo(aid)
+		local tid = aid and not C_Garrison.GetFollowerAbilityIsTrait(aid) and C_Garrison.GetFollowerAbilityCounterMechanicInfo(aid)
 		if self.Details:IsShown() and tid then
 			G.SetThreatTooltip(itip, tid, nil, nil, nil, true)
 		else
 			G.SetTraitTooltip(itip, aid, nil, nil, true)
+			return
 		end
 		itip:Show()
 	end)
@@ -730,7 +735,7 @@ do -- Counter-follower lists
 end
 do -- suppress completion toast while missions UI is visible
 	local registered = false
-	GarrisonMissionFrame:HookScript("OnShow", function()
+	HookOnShow(GarrisonMissionFrame, function()
 		if AlertFrame:IsEventRegistered("GARRISON_MISSION_FINISHED") then
 			registered = true
 			AlertFrame:UnregisterEvent("GARRISON_MISSION_FINISHED")
@@ -848,7 +853,7 @@ do -- Follower headcounts
 	
 	hooksecurefunc(GarrisonMissionFrame, "UpdateCurrency", sync)
 	EV.GARRISON_MISSION_NPC_OPENED = sync
-	mf:HookScript("OnShow", sync)
+	HookOnShow(mf, sync)
 end
 do -- Garrison Resources in shipyard
 	local mf = GarrisonShipyardFrameFollowers.MaterialFrame
@@ -877,7 +882,7 @@ do -- Garrison Resources in shipyard
 	
 	hooksecurefunc(GarrisonShipyardFrame, "UpdateCurrency", sync)
 	EV.GARRISON_SHIPYARD_NPC_OPENED = sync
-	mf:HookScript("OnShow", sync)
+	HookOnShow(mf, sync)
 end
 
 do -- Reward item tooltips
@@ -1163,6 +1168,7 @@ do -- Ship re-fitting
 end
 do
 	local ctlContainer = CreateFrame("Frame", nil, GarrisonShipyardFrame.MissionTab.MissionList) do
+		ctlContainer:Hide()
 		SHIP_MISSION_PAGE.MPStatContainer = ctlContainer
 		ctlContainer:SetPoint("BOTTOM")
 		ctlContainer:SetSize(108, 43)
@@ -1230,4 +1236,5 @@ do
 		GameTooltip:Show()
 	end)
 	ctlContainer:SetScript("OnLeave", HideOwnedGameTooltip)
+	ctlContainer:Show()
 end

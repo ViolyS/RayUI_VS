@@ -2,6 +2,11 @@ local _, T = ...
 if T.Mark ~= 50 then return end
 local L, EV, G, api = T.L, T.Evie, T.Garrison, {}
 
+local function HookOnShow(self, OnShow)
+	self:HookScript("OnShow", OnShow)
+	if self:IsVisible() then OnShow(self) end
+end
+
 local MISSION_PAGE_FRAME = GarrisonMissionFrame.MissionTab.MissionPage
 local SHIP_MISSION_PAGE = GarrisonShipyardFrame.MissionTab.MissionPage
 local RefreshActiveMissionsView, activeMissionsHandle
@@ -292,6 +297,7 @@ end
 
 local missionList = CreateFrame("Frame", "MasterPlanMissionList", GarrisonMissionFrameMissions) do
 	missionList:SetAllPoints()
+	missionList:Hide()
 	local hidden = CreateFrame("Frame", nil, missionList) do
 		hidden:Hide()
 		hidden.Tab1, hidden.Tab2 = GarrisonMissionFrameMissionsTab1, GarrisonMissionFrameMissionsTab2
@@ -3548,7 +3554,7 @@ do -- Ships
 			end
 		end
 		hooksecurefunc("GarrisonShipyardMap_UpdateMissions", enqueueUpdate)
-		GarrisonShipyardFrame.MissionTab.MissionList:HookScript("OnShow", enqueueUpdate)
+		HookOnShow(GarrisonShipyardFrame.MissionTab.MissionList, enqueueUpdate)
 	end
 	local CreateGroupButton do
 		local function ShipGroupButton_OnEnter(self)
@@ -3664,7 +3670,7 @@ do -- periodic comleted missions check
 			isTimerRunning = false
 		end
 	end
-	GarrisonMissionFrame:HookScript("OnShow", function()
+	HookOnShow(GarrisonMissionFrame, function()
 		if not isTimerRunning then
 			timer()
 		end
@@ -3693,3 +3699,16 @@ function api:SetMissionsUI(tab)
 	EV("MP_SHOW_MISSION_TAB", tab)
 end
 T.MissionsUI = api
+
+function EV:ADDON_LOADED(a)
+	if a ~= "MasterPlan" then return end
+	missionList:Show()
+	if GarrisonMissionFrameMissions.CompleteDialog:IsShown() then
+		GarrisonMissionFrameMissions.CompleteDialog:Hide()
+	end
+	if GarrisonMissionFrame:IsShown() then
+		T.UpdateMissionTabs()
+		GarrisonMissionFrame:CheckCompleteMissions(true)
+	end
+	return "remove"
+end

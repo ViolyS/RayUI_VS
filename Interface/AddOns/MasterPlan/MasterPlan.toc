@@ -4,12 +4,10 @@
 ## Author: foxlit
 ## X-Website: https://www.townlong-yak.com/master-plan/
 ## LoadOnDemand: 1
-## LoadWith: Blizzard_GarrisonUI
 ## RequiredDeps: Blizzard_GarrisonUI
 ## SavedVariablesPerCharacter: MasterPlanPC
-## Version: 0.98
-## X-Version-Key: duchess
-## Globe-Pre: MasterPlanA
+## Version: 0.104
+## X-Version-Key: grim
 Libs/Evie.lua
 Libs/Reframe.lua
 PlanA\PlanA.xml

@@ -2,6 +2,11 @@ local _, T = ...
 if T.Mark ~= 50 then return end
 local G, L, E = T.Garrison, T.L, T.Evie
 
+local function HookOnShow(self, OnShow)
+	self:HookScript("OnShow", OnShow)
+	if self:IsVisible() then OnShow(self) end
+end
+
 function T.SetCacheTooltip(GameTooltip, current, cv, mv, st, md)
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine(GARRISON_CACHE)
@@ -105,7 +110,7 @@ local function Ship_SetRecruit(ship)
 	return true
 end
 hooksecurefunc("GarrisonLandingPageReport_GetShipments", function(self)
-	if (C_Garrison.GetLandingPageGarrisonType() or 1) > 2 then return end
+	if GarrisonLandingPage.garrTypeID == 3 then return end
 	local index, ship = self.shipmentsPool.numActiveObjects, self.shipmentsPool:Acquire()
 	ship:SetPoint("TOPLEFT", 60 + mod(index, 3) * 105, -105 - floor(index / 3) * 100)
 	if Ship_SetRecruit(ship) then
@@ -116,6 +121,7 @@ hooksecurefunc("GarrisonLandingPageReport_GetShipments", function(self)
 		self.shipmentsPool:Release(ship)
 	end
 end)
+
 function E:SHOW_LOOT_TOAST(rt, rl, _q, _4, _5, _6, source)
 	if rt == "currency" and source == 10 and rl:match("currency:824") and GarrisonLandingPageReport:IsVisible() then
 		GarrisonLandingPageReport_GetShipments(GarrisonLandingPageReport)
@@ -141,13 +147,14 @@ hooksecurefunc(GarrisonLandingPage.Report.shipmentsPool, "ReleaseAll", function(
 	local o = self.inactiveObjects
 	for i=1,o and #o or 0 do
 		if o[i].Swipe then
-			-- Subsequent Aquire/Setup might not reset the swipe
+			-- Subsequent Acquire/Setup might not reset the swipe
 			o[i].Swipe:Hide()
 		end
 	end
 end)
 
-hooksecurefunc("GarrisonLandingPageReportList_UpdateAvailable", function()
+local function ShowReportMissionExpirationTime()
+	if GarrisonLandingPage.garrTypeID == 3 then return end
 	local items, buttons = GarrisonLandingPageReport.List.AvailableItems, GarrisonLandingPageReport.List.listScroll.buttons
 	for i=1,#buttons do
 		local item = buttons[i]:IsShown() and items[buttons[i].id]
@@ -159,4 +166,16 @@ hooksecurefunc("GarrisonLandingPageReportList_UpdateAvailable", function()
 			end
 		end
 	end
+end
+hooksecurefunc("GarrisonLandingPageReportList_UpdateAvailable", ShowReportMissionExpirationTime)
+if GarrisonLandingPageReport:IsVisible() then ShowReportMissionExpirationTime() end
+
+local hs = T.CreateLazyItemButton(GarrisonLandingPageReport, 110560)
+hs:SetSize(24, 24)
+hs:SetPoint("LEFT", GarrisonLandingPage, "TOPLEFT", 40, -63)
+hs.Count:Hide()
+HookOnShow(GarrisonLandingPageReport, function()
+	local show = GarrisonLandingPage.garrTypeID ~= 3
+	GarrisonLandingPageReport.Title:SetPoint("LEFT", GarrisonLandingPage.HeaderBar, "LEFT", show and 40 or 20, 0)
+	hs:SetShown(show)
 end)

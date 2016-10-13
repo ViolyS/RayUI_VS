@@ -213,6 +213,7 @@ local moiTab = CreateFrame("Button", "GarrisonShipyardFrameTab3", GarrisonShipya
 	followerTab:SetPoint("LEFT", moiTab, "RIGHT", -5, 0)
 	moiTab:SetText(L"Missions of Interest")
 	PanelTemplates_DeselectTab(moiTab)
+	PanelTemplates_TabResize(moiTab, 10)
 
 	moiTab:SetScript("OnClick", function()
 		PlaySound("UI_Garrison_Nav_Tabs")
