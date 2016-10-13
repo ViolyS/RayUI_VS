@@ -1385,6 +1385,8 @@ R["Watcher"] = {
 				{ spellID = 13877, unitId = "player", caster = "player", filter = "BUFF" },
 				-- 死亡徵兆
 				{ spellID = 212283, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 鮮血體驗
+				{ spellID = 213738, unitId = "player", caster = "all", filter = "BUFF" },
 			},
 			{
 				name = "目标buff&debuff",
