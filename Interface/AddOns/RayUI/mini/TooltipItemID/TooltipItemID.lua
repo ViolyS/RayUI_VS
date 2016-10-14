@@ -100,9 +100,11 @@ local function attachItemTooltip(self)
                 end
             end
         end
-        link = select(2, GetItemInfo(newItemId))
+        if newItemId then
+            link = select(2, GetItemInfo(newItemId))
+        end
     end
-    local id = select(3,strfind(link, "^|%x+|Hitem:(%-?%d-):(%d-):(%d-):(%d-):(%d-):(%d-):(%-?%d-):(%-?%d-)"))
+    local id = select(3,strfind(link, "item:(%d+):"))
     if id then addLine(self,id,true) end
 end
 
