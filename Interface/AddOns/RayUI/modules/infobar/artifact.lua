@@ -11,13 +11,7 @@ local function LoadArtifact()
 		if HasArtifactEquipped() then
 			local _, _, totalXP = select(3, C_ArtifactUI.GetEquippedArtifactInfo())
 
-			if totalXP > 1e6 then
-				infobar.Text:SetText(ARTIFACT_POWER.."：|cffe5cc80"..(floor(totalXP / 1e5) / 10).."m|r")
-			elseif  totalXP > 1e3 then
-				infobar.Text:SetText(ARTIFACT_POWER.."：|cffe5cc80"..(floor(totalXP / 1e2) / 10).."k|r")
-			else
-				infobar.Text:SetText(ARTIFACT_POWER.."：|cffe5cc80"..totalXP.."|r")
-			end
+			infobar.Text:SetText(ARTIFACT_POWER.."：|cffe5cc80"..R:ShortValue(totalXP).."|r")
 		else
 			infobar.Text:SetText("|cffe5cc80"..ITEM_QUALITY6_DESC.."|r")
 		end
