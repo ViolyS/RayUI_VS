@@ -236,7 +236,7 @@ function mod:ConfigureElement_HealthBar(frame, configuring)
 
     --Texture
     healthBar:SetStatusBarTexture(LSM:Fetch("statusbar", "RayUI Normal"))
-    if(not configuring) and (self.db.units[frame.UnitType].healthbar.enable or frame.isTarget) then
+    if(not configuring) and (frame.UnitType ~= "FRIENDLY_NPC" or frame.isTarget) then
         healthBar:Show()
     end
     absorbBar:Hide()
