@@ -255,11 +255,11 @@ function UF:DPSLayout(frame, unit)
         frame.Combat:SetVertexColor(0.6, 0, 0)
 
         local Resting = frame:CreateTexture(nil, "OVERLAY")
-	Resting:Size(20, 20)
-	Resting:Point("BOTTOM", Combat, "BOTTOM", 0, 25)
-	frame.Resting = Resting
-	frame.Resting:SetTexture("Interface\\AddOns\\RayUI\\media\\rested")
-	frame.Resting:SetVertexColor(0.8, 0.8, 0.8)
+        Resting:Size(20, 20)
+        Resting:Point("BOTTOM", Combat, "BOTTOM", 0, 25)
+        frame.Resting = Resting
+        frame.Resting:SetTexture("Interface\\AddOns\\RayUI\\media\\rested")
+        frame.Resting:SetVertexColor(0.8, 0.8, 0.8)
 
         if UF.db.aurabar then
             frame.AuraBars = self:Construct_AuraBarHeader(frame)
@@ -267,8 +267,8 @@ function UF:DPSLayout(frame, unit)
             frame.AuraBars:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", 0, 33)
         end
 
-	frame.SpeedText = self:Construct_SpeedText(frame)
-	self:ScheduleRepeatingTimer("SpeedDisplayUpdate", 0.25, frame)
+        frame.SpeedText = self:Construct_SpeedText(frame)
+        self:ScheduleRepeatingTimer("SpeedDisplayUpdate", 0.25, frame)
     end
 
     if unit == "target" then
@@ -345,7 +345,7 @@ function UF:DPSLayout(frame, unit)
         end
 
         frame.RangeText = self:Construct_RangeText(frame)
-	self:ScheduleRepeatingTimer("RangeDisplayUpdate", 0.25, frame)
+        self:ScheduleRepeatingTimer("RangeDisplayUpdate", 0.25, frame)
     end
 
     if unit == "party" or unit == "focus" then
@@ -646,6 +646,23 @@ function UF:DPSLayout(frame, unit)
             tinsert(frame.mouseovers, frame.Power)
         end
     end
+end
+
+function UF:LoadFakeUnitFrames()
+    local player = CreateFrame("Frame", "RayUF_player", R.UIParent)
+    player:Point("BOTTOMRIGHT", R.UIParent, "BOTTOM", -80, 390)
+    player:Size(PLAYER_WIDTH, PLAYER_HEIGHT)
+    player:Show()
+
+    local target = CreateFrame("Frame", "RayUF_target", R.UIParent)
+    target:Point("BOTTOMLEFT", R.UIParent, "BOTTOM", 80, 390)
+    target:Size(TARGET_WIDTH, TARGET_HEIGHT)
+    target:Show()
+
+    local focus = CreateFrame("Frame", "RayUF_focus", R.UIParent)
+    focus:Point("BOTTOMRIGHT", RayUF_player, "TOPLEFT", -20, 20)
+    focus:Size(PARTY_WIDTH, PARTY_HEIGHT)
+    focus:Show()
 end
 
 function UF:LoadUnitFrames()
