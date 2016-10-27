@@ -19,6 +19,7 @@ local UnregisterStateDriver = UnregisterStateDriver
 
 function RA:FetchRaidPetsSettings()
     self.groupConfig.raidPets = {
+        enable = true,
 		width = self.db.petwidth,
 		height = self.db.petheight,
 		visibility = "[group:raid] show;hide",
@@ -29,8 +30,6 @@ function RA:FetchRaidPetsSettings()
 end
 
 function RA:Construct_RaidPetsFrames()
-    if not RA.db.showPets then return end
-
     self.RaisedElementParent = CreateFrame("Frame", nil, self)
     self.RaisedElementParent:SetFrameLevel(self:GetFrameLevel() + 100)
     self.FrameBorder = RA:Construct_FrameBorder(self)
@@ -41,7 +40,7 @@ function RA:Construct_RaidPetsFrames()
     self.RaidIcon = RA:Construct_RaidIcon(self)
     self.RaidDebuffs = RA:Construct_RaidDebuffs(self)
     self.AuraWatch = RA:Construct_AuraWatch(self)
-
+    self.AFKtext = RA:Construct_AFKText(self)
     self.Range = {
         insideAlpha = 1,
         outsideAlpha = RA.db.outsideRange,

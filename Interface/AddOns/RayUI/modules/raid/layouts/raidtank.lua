@@ -19,6 +19,7 @@ local UnregisterStateDriver = UnregisterStateDriver
 
 function RA:FetchRaidTankSettings()
     self.groupConfig.raidTank = {
+        enable = true,
         width = self.db.tankwidth,
         height = self.db.tankheight,
         visibility = "[@raid1,exists] show;hide",
@@ -28,8 +29,6 @@ function RA:FetchRaidTankSettings()
 end
 
 function RA:Construct_RaidTankFrames()
-    if not RA.db.showTank then return end
-
     self.RaisedElementParent = CreateFrame("Frame", nil, self)
     self.RaisedElementParent:SetFrameLevel(self:GetFrameLevel() + 100)
     self.FrameBorder = RA:Construct_FrameBorder(self)
@@ -40,6 +39,7 @@ function RA:Construct_RaidTankFrames()
     self.RaidIcon = RA:Construct_RaidIcon(self)
     self.RaidDebuffs = RA:Construct_RaidDebuffs(self)
     self.AuraWatch = RA:Construct_AuraWatch(self)
+    self.AFKtext = RA:Construct_AFKText(self)
     if RA.db.roleicon then
         self.LFDRole = RA:Construct_RoleIcon(self)
     end
