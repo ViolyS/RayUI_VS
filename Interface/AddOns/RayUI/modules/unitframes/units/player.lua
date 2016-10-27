@@ -111,7 +111,7 @@ function UF:Construct_PlayerFrame(frame, unit)
         frame.AuraBars:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", 0, 33)
     end
 
-    frame.RangeText = self:Construct_SpeedText(frame)
+    frame.SpeedText = self:Construct_SpeedText(frame)
     self:ScheduleRepeatingTimer("SpeedDisplayUpdate", 0.25, frame)
 end
 

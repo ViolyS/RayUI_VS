@@ -70,14 +70,14 @@ function UF:Construct_TargetFrame(frame, unit)
             castbar:Width(self.db.units[unit].castbar.width - iconSize - 5)
             if self.db.units[unit].castbar.iconposition == "LEFT" then
                 castbar.Iconbg:SetPoint("BOTTOMRIGHT", castbar, "BOTTOMLEFT", -5, 0)
-                castbar:Point("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -6)
+                castbar:Point("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -28)
             else
                 castbar.Iconbg:SetPoint("BOTTOMLEFT", castbar, "BOTTOMRIGHT", 5, 0)
-                castbar:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, -6)
+                castbar:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, -28)
             end
         else
             castbar.Iconbg:Hide()
-            castbar:Point("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -6)
+            castbar:Point("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -28)
         end
         frame.Castbar = castbar
     end
@@ -93,7 +93,7 @@ function UF:Construct_TargetFrame(frame, unit)
     frame.Buffs["growth-x"] = "RIGHT"
     frame.Buffs["growth-y"] = "UP"
     frame.Buffs.initialAnchor = "BOTTOMLEFT"
-    frame.Buffs:Point("BOTTOMLEFT", frame.Debuffs, "TOPLEFT", 0, 4)
+    frame.Buffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, -4)
 
     if UF.db.aurabar then
         frame.AuraBars = self:Construct_AuraBarHeader(frame)
