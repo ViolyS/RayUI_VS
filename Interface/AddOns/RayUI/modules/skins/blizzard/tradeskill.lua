@@ -31,7 +31,7 @@ local function LoadSkin()
 	TradeSkillFrame.RecipeList.UnlearnedTab:StripTextures()
 
 	-- DetailsFrame
-	TradeSkillFrame.DetailsFrame:StripTextures()
+	--TradeSkillFrame.DetailsFrame:StripTextures()
 	TradeSkillFrame.DetailsInset:StripTextures()
 	TradeSkillFrame.DetailsFrame.Background:Hide()
 	S:ReskinInput(TradeSkillFrame.DetailsFrame.CreateMultipleInputBox)

@@ -16,11 +16,13 @@ local function LoadSkin()
 		select(i, MacroFrameTab1:GetRegions()).Show = R.dummy
 		select(i, MacroFrameTab2:GetRegions()).Show = R.dummy
 	end
-	for i = 1, 5 do
-		select(i, MacroPopupFrame:GetRegions()):Hide()
+	for i = 1, 10 do
+		select(i, MacroPopupFrame.BorderBox:GetRegions()):Hide()
 	end
-	MacroPopupScrollFrame:GetRegions():Hide()
-	select(2, MacroPopupScrollFrame:GetRegions()):Hide()
+	MacroPopupFrame.BG:Hide()
+    for i = 1, 3 do
+	    select(i, MacroPopupScrollFrame:GetRegions()):Hide()
+    end
 	MacroPopupNameLeft:Hide()
 	MacroPopupNameMiddle:Hide()
 	MacroPopupNameRight:Hide()
@@ -45,7 +47,7 @@ local function LoadSkin()
 		S:CreateBD(bu, .25)
 	end
 
-	for i = 1, NUM_MACRO_ICONS_SHOWN do
+	--[[for i = 1, NUM_MACRO_ICONS_SHOWN do
 		local bu = _G["MacroPopupButton"..i]
 		local ic = _G["MacroPopupButton"..i.."Icon"]
 
@@ -58,7 +60,7 @@ local function LoadSkin()
 		ic:SetTexCoord(.08, .92, .08, .92)
 
 		S:CreateBD(bu, .25)
-	end
+	end]]
 
 	MacroFrameSelectedMacroButton:StyleButton(true)
 	MacroFrameSelectedMacroButton:SetPoint("TOPLEFT", MacroFrameSelectedMacroBackground, "TOPLEFT", 12, -16)

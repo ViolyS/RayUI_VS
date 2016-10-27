@@ -53,7 +53,7 @@ local function LoadSkin()
 	end
 
 	OrderHallMissionFrameMissions:StripTextures()
-	OrderHallMissionFrameMissionsListScrollFrame:StripTextures()
+	--OrderHallMissionFrameMissionsListScrollFrame:StripTextures()
 	OrderHallMissionFrame.MissionTab:StripTextures()
 
 	S:ReskinScroll(OrderHallMissionFrameMissionsListScrollFrameScrollBar)
@@ -131,7 +131,7 @@ local function LoadSkin()
 	S:SetBD(MissionList.CompleteDialog)
 	S:Reskin(MissionList.CompleteDialog.BorderFrame.ViewButton)
 	MissionList:StripTextures()
-	MissionList.listScroll:StripTextures()
+	--MissionList.listScroll:StripTextures()
 	S:Reskin(OrderHallMissionFrameMissions.CombatAllyUI.InProgress.Unassign)
 	S:ReskinClose(MissionPage.CloseButton)
 	S:Reskin(MissionPage.StartMissionButton)
