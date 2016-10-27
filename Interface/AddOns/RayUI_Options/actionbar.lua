@@ -33,7 +33,8 @@ R.Options.args.ActionBar = {
         settingsHeader = {
             type = "header",
             name = L["设置"],
-            order = 4
+            order = 4,
+            hidden = function() return not R.db.ActionBar.enable end,
         },
         barscale = {
             order = 5,
@@ -73,6 +74,25 @@ R.Options.args.ActionBar = {
             type = "toggle",
             hidden = function() return not R.db.ActionBar.enable end,
         },
+		lockActionBars = {
+			order = 14,
+			type = "toggle",
+			name = LOCK_ACTIONBAR_TEXT,
+            hidden = function() return not R.db.ActionBar.enable end,
+		},
+        movementModifier = {
+			order = 15,
+			type = "select",
+			name = PICKUP_ACTION_KEY_TEXT,
+            hidden = function() return not R.db.ActionBar.enable end,
+			disabled = function() return not R.db.ActionBar.lockActionBars end,
+			values = {
+				["NONE"] = NONE,
+				["SHIFT"] = SHIFT_KEY,
+				["ALT"] = ALT_KEY,
+				["CTRL"] = CTRL_KEY,
+			},
+		},
         PetGroup = {
             order = 40,
             type = "group",
@@ -149,38 +169,43 @@ for i = 1, 5 do
         get = function(info) return R.db.ActionBar["bar"..i][ info[#info] ] end,
         set = function(info, value) R.db.ActionBar["bar"..i][ info[#info] ] = value; AB:UpdatePositionAndSize("bar"..i) end,
         args = {
+            header = {
+                type = "header",
+                name = L["动作条"..i],
+                order = 1
+            },
             enable = {
-                order = 1,
+                order = 2,
                 type = "toggle",
                 name = L["启用"],
             },
             autohide = {
                 type = "toggle",
                 name = L["自动隐藏"],
-                order = 2,
+                order = 3,
             },
             mouseover = {
                 type = "toggle",
                 name = L["鼠标滑过显示"],
-                order = 3,
+                order = 4,
             },
             buttonsize = {
                 type = "range",
                 name = L["按键大小"],
                 min = 15, max = 40, step = 1,
-                order = 4,
+                order = 5,
             },
             buttonspacing = {
                 type = "range",
                 name = L["按键间距"],
                 min = 1, max = 10, step = 1,
-                order = 5,
+                order = 6,
             },
             buttonsPerRow = {
                 type = "range",
                 name = L["每行按键数"],
                 min = 1, max = NUM_ACTIONBAR_BUTTONS, step = 1,
-                order = 6,
+                order = 7,
             },
         },
     }

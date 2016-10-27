@@ -53,22 +53,12 @@ function R:SetLayout(layout)
 	if layout == "healer" then
 		R:ResetMovers()
 		R.db.movers = {}
-		R.db.movers.RayUF_playerMover = "BOTTOMRIGHTRayUIParentBOTTOM-190390"
-		R.db.movers.RayUF_targetMover = "BOTTOMLEFTRayUIParentBOTTOM190390"
-		R.db.movers.RayUF_petMover = "TOPLEFTRayUF_playerMoverBOTTOMLEFT0-60"
-		R.db.movers.RayUFRaid15_1Mover = "BOTTOMRayUIParentBOTTOM0180"
-		R.db.movers.RayUFRaid15_2Mover = "BOTTOMRayUFRaid15_1MoverTOP0"..R.db.Raid.spacing
-		R.db.movers.RayUFRaid15_3Mover = "BOTTOMRayUFRaid15_2MoverTOP0"..R.db.Raid.spacing
-		R.db.movers.RayUFRaid25_1Mover = "BOTTOMRayUIParentBOTTOM0150"
-		R.db.movers.RayUFRaid25_2Mover = "BOTTOMRayUFRaid25_1MoverTOP0"..R.db.Raid.spacing
-		R.db.movers.RayUFRaid25_3Mover = "BOTTOMRayUFRaid25_2MoverTOP0"..R.db.Raid.spacing
-		R.db.movers.RayUFRaid25_4Mover = "BOTTOMRayUFRaid25_3MoverTOP0"..R.db.Raid.spacing
-		R.db.movers.RayUFRaid25_5Mover = "BOTTOMRayUFRaid25_4MoverTOP0"..R.db.Raid.spacing
-		R.db.movers.RayUFRaid40_6Mover = "BOTTOMRayUFRaid25_5MoverTOP0"..R.db.Raid.spacing
-		R.db.movers.RayUFRaid40_7Mover = "BOTTOMRayUFRaid40_6MoverTOP0"..R.db.Raid.spacing
-		R.db.movers.RayUFRaid40_8Mover = "BOTTOMRayUFRaid40_7MoverTOP0"..R.db.Raid.spacing
+		R.db.movers.RayUF_PlayerMover = "BOTTOMRIGHTRayUIParentBOTTOM-190390"
+		R.db.movers.RayUF_TargetMover = "BOTTOMLEFTRayUIParentBOTTOM190390"
+		R.db.movers.RayUF_petMover = "TOPLEFTRayUF_PlayerMoverBOTTOMLEFT0-60"
+		R.db.movers.RayUF_RaidMover = "BOTTOMRayUIParentBOTTOM0180"
+		R.db.movers.RayUF_Raid40Mover = "BOTTOMRayUIParentBOTTOM0180"
 		R.db.movers.PlayerCastBarMover = "BOTTOMRayUIParentBOTTOM0130"
-		R.db.movers.VengeanceBarMover = "BOTTOMRayUIParentBOTTOM0140"
 		R.db.movers.ActionBar1Mover = "BOTTOMRayUIParentBOTTOM"..(-3*R.db.ActionBar.buttonsize-3*R.db.ActionBar.buttonspacing).."50"
 		R.db.movers.ActionBar5Mover = "TOPRIGHTActionBar4MoverTOPLEFT"..-R.db.ActionBar.buttonspacing.."0"
 		R.db.movers.PetBarMover = "BOTTOMLEFTActionBar2MoverBOTTOMRIGHT"..R.db.ActionBar.buttonspacing.."0"
@@ -81,10 +71,9 @@ function R:SetLayout(layout)
 		R.db.movers = {}
 		R.db.movers.ArenaHeaderMover = "TOPLEFTRayUIParentBOTTOM450460"
 		R.db.movers.BossHeaderMover = "TOPLEFTRayUIParentBOTTOM450460"
-		R.db.movers.RayUF_focusMover = "BOTTOMRIGHTRayUF_playerTOPLEFT-2050"
-		R.db.movers.RayUFRaid15_1Mover = "BOTTOMLEFTRayUIParentBOTTOMLEFT15235"
-		R.db.movers.RayUFRaid25_1Mover = "BOTTOMLEFTRayUIParentBOTTOMLEFT15235"
-		R.db.movers.RayUFRaid40_6Mover = "TOPLEFTRayUFRaid25_5MoverTOPRIGHT"..R.db.Raid.spacing.."0"
+		R.db.movers.RayUF_FocusMover = "BOTTOMRIGHTRayUF_PlayerTOPLEFT-2050"
+		R.db.movers.RayUF_RaidMover = "BOTTOMLEFTRayUIParentBOTTOMLEFT15235"
+		R.db.movers.RayUF_Raid40Mover = "BOTTOMLEFTRayUIParentBOTTOMLEFT15235"
 		R.db.movers.ActionBar4Mover = "RIGHTRayUIParentRIGHT-490"
 		R.db.Raid.horizontal = false
 		R.db.Raid.growth = "RIGHT"

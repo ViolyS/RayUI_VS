@@ -22,6 +22,7 @@ local floor = floor
 local unpack = unpack
 local tonumber = tonumber
 local geterrorhandler = geterrorhandler
+local upper = string.upper
 
 --WoW API / Variables
 local ReloadUI = ReloadUI
@@ -134,6 +135,10 @@ end
 
 function R:Scale(x)
 	return (self.mult*math.floor(x/self.mult+.5))
+end
+
+function R:StringTitle(str)
+	return str:gsub("(.)", upper, 1)
 end
 
 R.LockedCVars = {}
@@ -339,24 +344,10 @@ function R:Initialize()
 
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:Delay(5, function() collectgarbage("collect") end)
-    self:LockCVar("overrideArchive", 0)
-
-	local configButton = CreateFrame("Button", "RayUIConfigButton", GameMenuFrame, "GameMenuButtonTemplate")
-	configButton:SetSize(GameMenuButtonContinue:GetWidth(), GameMenuButtonContinue:GetHeight())
-	configButton:SetPoint("TOP", GameMenuButtonContinue, "BOTTOM", 0, -16)
-	configButton:SetText(L["|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r设置"])
-	configButton:SetScript("OnClick", function()
-		if RayUIConfigTutorial then
-			RayUIConfigTutorial:Hide()
-			R.global.Tutorial.configbutton = true
-		end
-		HideUIPanel(GameMenuFrame)
-		self:OpenConfig()
-	end)
-	GameMenuFrame:HookScript("OnShow", function() GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() + configButton:GetHeight() + 16) end)
+	self:LockCVar("overrideArchive", 0)
 
 	local S = self:GetModule("Skins")
-	S:Reskin(configButton)
+	-- S:Reskin(configButton)
 end
 
 function R:GetPlayerRole()

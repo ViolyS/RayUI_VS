@@ -1,7 +1,7 @@
 local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, GlobalDB
 
 local _, ns = ...
-local oUF = RayUF or oUF
+local oUF = ns.oUF or oUF
 
 local SymbiosisName = GetSpellInfo(110309)
 local CleanseName = GetSpellInfo(4987)
@@ -234,9 +234,6 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 
         local c = DispellColor[debuffType] or DispellColor.none
         f:SetBackdropBorderColor(c[1], c[2], c[3])
-        if f.border then
-            f.border:SetBackdropBorderColor(c[1], c[2], c[3])
-        end
 
         f:Show()
     else

@@ -15,7 +15,7 @@ local HelpPlate_IsShowing = HelpPlate_IsShowing
 --Global variables that we don't cache, list them here for the mikk's Find Globals script
 -- GLOBALS: RayUITutorial_HelpPlate_AnimateOnFinished, RayUITutorial_HelpPlate_Hide, RayUIShowTutorial_Stage1
 -- GLOBALS: GameFontHighlightLeft, RayUITutorialWindow, UIParent, GameFontNormal, GameFontHighlight, CLOSE
--- GLOBALS: GameMenuFrame, RayUIConfigButton, ChatFrame1EditBox, HELP_PLATE_BUTTONS, HelpPlate, RayUI_HelpPlate
+-- GLOBALS: GameMenuFrame, GameMenuFrame, ChatFrame1EditBox, HELP_PLATE_BUTTONS, HelpPlate, RayUI_HelpPlate
 -- GLOBALS: RayUITutorialButton, RayUITutorialButtonOpen, RayUITutorialBG, NumberFontNormal
 
 T.TutorialList = {
@@ -154,7 +154,7 @@ end
 function T:PLAYER_ENTERING_WORLD()
 	if not self.db.configbutton then
 		local tutorial1 = self:CreateTutorialFrame("RayUIConfigTutorial", GameMenuFrame, 220, 100, L["点击进入RayUI控制台。\n请仔细研究每一项设置的作用。"])
-		tutorial1:SetPoint("BOTTOM", RayUIConfigButton, "TOP", 0, 15)
+		tutorial1:SetPoint("BOTTOM", GameMenuFrame.RayUI, "TOP", 0, 15)
 	end
 	if not self.db.tutorialdone then
 		self:InitTutorial()
@@ -238,21 +238,21 @@ RayUI_HelpPlate = {
 	},
 	[3] = {	--playerframe
 		ButtonAnchor = "CENTER",
-		Parent = "RayUF_player",
+		Parent = "RayUF_Player",
 		ButtonPos = { x = 0, y = 0 },
 		ToolTipDir = "UP",
 		ToolTipText = ToolTipTexts.playerframe,
 	},
 	[4] = {	--targetframe
 		ButtonAnchor = "CENTER",
-		Parent = "RayUF_target",
+		Parent = "RayUF_Target",
 		ButtonPos = { x = 0, y = 0 },
 		ToolTipDir = "UP",
 		ToolTipText = ToolTipTexts.targetframe,
 	},
 	[5] = {	--focusframes
 		ButtonAnchor = "CENTER",
-		Parent = "RayUF_focus",
+		Parent = "RayUF_Focus",
 		ButtonPos = { x = 0, y = 0 },
 		ToolTipDir = "UP",
 		ToolTipText = ToolTipTexts.focusframes,
