@@ -42,12 +42,10 @@ function RA:Construct_RaidPetsFrames()
     self.RaidDebuffs = RA:Construct_RaidDebuffs(self)
     self.AuraWatch = RA:Construct_AuraWatch(self)
 
-    local range = {
+    self.Range = {
         insideAlpha = 1,
         outsideAlpha = RA.db.outsideRange,
     }
-    self.RayUFRange = RA.db.arrow and range
-    self.Range = range
 
     RA:ConfigureAuraWatch(self)
     UF:EnableHealPredictionAndAbsorb(self)
