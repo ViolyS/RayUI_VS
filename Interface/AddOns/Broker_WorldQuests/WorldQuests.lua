@@ -1055,7 +1055,7 @@ function BWQ:UpdateBlock()
 			if button.quest.reward.itemName or button.quest.reward.artifactPower then
 				local itemText
 				if button.quest.reward.artifactPower then
-					itemText = string.format("|cffe5cc80[%s Artifact Power]|r", button.quest.reward.artifactPower)
+					itemText = string.format("|cffe5cc80[%s "..ARTIFACT_POWER.."]|r", button.quest.reward.artifactPower)
 				else
 					itemText = string.format(
 						"%s[%s%s]|r",
@@ -1255,7 +1255,80 @@ function BWQ:SetupConfigMenu()
 	configMenu = CreateFrame("Frame", "BWQ_ConfigMenu")
 	configMenu.displayMode = "MENU"
 
-	local options = {
+	if ( GetLocale() == "zhCN" ) then
+    local options = {
+		{ text = "依附于世界地图", check = "attachToWorldMap" },
+		{ text = "点击显示菜单", check = "showOnClick" },
+		{ text = "使用独立设置", check = "usePerCharacterSettings" },
+		{ text = "" },
+		{ text = "总是显示 |cffa335ee史诗|r 世界任务 (世界首领)", check = "alwaysShowEpicQuests" },
+		{ text = "不过滤大使奖励任务", check = "alwaysShowBountyQuests" },
+		{ text = "Show total counts in broker text", check = "showTotalsInBrokerText", submenu = {
+				{ text = ("|T%1$s:16:16|t  Artifact Power"):format("Interface\\Icons\\INV_Artifact_XP03"), check = "brokerShowAP" },
+				{ text = ("|T%1$s:16:16|t  Order Hall Resources"):format("Interface\\Icons\\inv_orderhall_orderresources"), check = "brokerShowResources" },
+				{ text = ("|T%1$s:16:16|t  Gold"):format("Interface\\GossipFrame\\auctioneerGossipIcon"), check = "brokerShowGold" },
+				{ text = ("|T%1$s:16:16|t  Gear"):format("Interface\\Icons\\Inv_chest_plate_legionendgame_c_01"), check = "brokerShowGear" },
+				{ text = ("|T%1$s:16:16|t  Herbalism Quests"):format("Interface\\Icons\\Trade_Herbalism"), check = "brokerShowHerbalism" },
+				{ text = ("|T%1$s:16:16|t  Mining Quests"):format("Interface\\Icons\\Trade_Mining"), check = "brokerShowMining" },
+				{ text = ("|T%1$s:16:16|t  Fishing Quests"):format("Interface\\Icons\\Trade_Fishing"), check = "brokerShowFishing" },
+				{ text = ("|T%1$s:16:16|t  Skinning Quests"):format("Interface\\Icons\\inv_misc_pelt_wolf_01"), check = "brokerShowSkinning" },
+				{ text = ("|T%s$s:16:16|t  Blood of Sargeras"):format("1417744"), check = "brokerShowBloodOfSargeras" },
+			}
+		},
+		{ text = "" },
+		{ text = "Filter by reward...", isTitle = true },
+		{ text = ("|T%1$s:16:16|t  Artifact Power"):format("Interface\\Icons\\INV_Artifact_XP03"), check = "showArtifactPower" },
+		{ text = ("|T%1$s:16:16|t  Items"):format("Interface\\Minimap\\Tracking\\Banker"), check = "showItems", submenu = {
+				{ text = ("|T%1$s:16:16|t  Gear"):format("Interface\\Icons\\Inv_chest_plate_legionendgame_c_01"), check = "showGear" },
+				{ text = ("|T%1$s:16:16|t  Artifact Relics"):format("Interface\\Icons\\inv_misc_statue_01"), check = "showRelics" },
+				{ text = ("|T%s$s:16:16|t  Crafting Materials"):format("1417744"), check = "showCraftingMaterials" },
+				{ text = "Other", check = "showOtherItems" },
+			}
+		},
+		{ text = ("|T%1$s:16:16|t  Low gold reward"):format("Interface\\GossipFrame\\auctioneerGossipIcon"), check = "showLowGold" },
+		{ text = ("|T%1$s:16:16|t  High gold reward"):format("Interface\\GossipFrame\\auctioneerGossipIcon"), check = "showHighGold" },
+		{ text = ("|T%1$s:16:16|t  Order Hall Resources"):format("Interface\\Icons\\inv_orderhall_orderresources"), check = "showResources" },
+		{ text = "" },
+		{ text = "Filter by type...", isTitle = true },
+		{ text = ("|T%1$s:16:16|t  Profession Quests"):format("Interface\\Minimap\\Tracking\\Profession"), check = "showProfession", submenu = {
+				{ text = "Alchemy", check="showProfessionAlchemy" },
+				{ text = "Blacksmithing", check="showProfessionBlacksmithing" },
+				{ text = "Inscription", check="showProfessionInscription" },
+				{ text = "Jewelcrafting", check="showProfessionJewelcrafting" },
+				{ text = "Leatherworking", check="showProfessionLeatherworking" },
+				{ text = "Tailoring", check="showProfessionTailoring" },
+				{ text = "Enchanting", check="showProfessionEnchanting" },
+				{ text = "Engineering", check="showProfessionEngineering" },
+				{ text = "" },
+				{ text = "Herbalism", check="showProfessionHerbalism" },
+				{ text = "Mining", check="showProfessionMining" },
+				{ text = "Skinning", check="showProfessionSkinning" },
+				{ text = "" },
+				{ text = "Cooking", check="showProfessionCooking" },
+				{ text = "Archaeology", check="showProfessionArchaeology" },
+				{ text = "FirstAid", check="showProfessionFirstAid" },
+				{ text = "Fishing", check="showProfessionFishing" },
+			}
+		},
+		{ text = "Dungeon Quests", check = "showDungeon" },
+		{ text = ("|T%1$s:16:16|t  PvP Quests"):format("Interface\\Minimap\\Tracking\\BattleMaster"), check = "showPvP" },
+		{ text = "" },
+		{ text = ("|T%1$s:16:16|t  Pet Battle Quests"):format("Interface\\Icons\\tracking_wildpet"), isTitle = true },
+		{ text = "Show Pet Battle Quests", check = "showPetBattle" },
+		{ text = "Hide Pet Battle Quests even when active bounty", check = "hidePetBattleBountyQuests" },
+		{ text = "Always show Pet Battle Quests for \"Family Familiar\" achievement", check = "alwaysShowPetBattleFamilyFamiliar" },
+		{ text = "" },
+		{ text = "Hide faction column", check="hideFactionColumn" },
+		{ text = "Always show quests for faction...", isTitle = true },
+		{ text = "Court of Farondis", check="alwaysShowCourtOfFarondis" },
+		{ text = "Dreamweavers", check="alwaysShowDreamweavers" },
+		{ text = "Highmountain Tribe", check="alwaysShowHighmountainTribe" },
+		{ text = "The Nightfallen", check="alwaysShowNightfallen" },
+		{ text = "The Wardens", check="alwaysShowWardens" },
+		{ text = "Valarjar", check="alwaysShowValarjar" },
+	}
+    else
+    local options = {
 		{ text = "Attach list frame to world map", check = "attachToWorldMap" },
 		{ text = "Show list frame on click", check = "showOnClick" },
 		{ text = "Use per-character settings", check = "usePerCharacterSettings" },
@@ -1326,6 +1399,7 @@ function BWQ:SetupConfigMenu()
 		{ text = "The Wardens", check="alwaysShowWardens" },
 		{ text = "Valarjar", check="alwaysShowValarjar" },
 	}
+    end
 
 	local SetOption = function(bt, var, val)
 		if var == "usePerCharacterSettings" or not BWQcfg.usePerCharacterSettings then

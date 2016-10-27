@@ -55,7 +55,7 @@ local hooksecurefunc = hooksecurefunc
 --Global variables that we don't cache, list them here for the mikk's Find Globals script
 -- GLOBALS: GameTooltip, CHAT_TIMESTAMP_FORMAT, LOCALIZED_CLASS_NAMES_FEMALE, LOCALIZED_CLASS_NAMES_MALE
 -- GLOBALS: RayUICharacterData, CHAT_FRAME_TEXTURES, ChatFrame1, ItemRefTooltip, ChatFrameMenuButton
--- GLOBALS: FriendsMicroButton, ChatTypeInfo, UISpecialFrames, CopyScrollScrollBar, ChatFontNormal
+-- GLOBALS: QuickJoinToastButton, ChatTypeInfo, UISpecialFrames, CopyScrollScrollBar, ChatFontNormal
 -- GLOBALS: ChatMenu, CHAT_FRAMES, RayUIChatBG, INTERFACE_ACTION_BLOCKED, COMBATLOG, CombatLogQuickButtonFrame_Custom
 -- GLOBALS: SELECTED_CHAT_FRAME, DEFAULT_CHAT_FRAME, WHISPER, GENERAL_CHAT_DOCK, PET_BATTLE_COMBAT_LOG
 -- GLOBALS: CopyChatFrame, GeneralDockManager, CHAT_INSTANCE_CHAT_GET, CHAT_INSTANCE_CHAT_LEADER_GET
@@ -168,8 +168,8 @@ local function CreatCopyFrame()
     frame:SetFrameStrata("DIALOG")
 
     local scrollArea = CreateFrame("ScrollFrame", "CopyScroll", frame, "UIPanelScrollFrameTemplate")
-    scrollArea:Point("TOPLEFT", frame, "TOPLEFT", 8, -30)
-    scrollArea:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 8)
+    --scrollArea:Point("TOPLEFT", frame, "TOPLEFT", 8, -30)
+    --scrollArea:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 8)
 
     S:ReskinScroll(CopyScrollScrollBar)
 
@@ -225,7 +225,7 @@ end
 function CH:CopyChat(cf)
     local _, size = cf:GetFont()
     FCF_SetChatWindowFontSize(cf, cf, 0.01)
-    local lineCt = GetLines(cf:GetRegions())
+    local lineCt = GetLines(cf.FontStringContainer:GetRegions())
     local text = table.concat(lines, "\n", 1, lineCt)
     FCF_SetChatWindowFontSize(cf, cf, size)
     if frame:IsShown() then frame:Hide() return end
@@ -649,21 +649,24 @@ local function filterFunc(frame, event, msg, ...)
     return false, msg, ...
 end
 
+local hyperLinkEntered
 function CH:OnHyperlinkEnter(frame, linkData, link)
-    local t = linkData:match("^(.-):")
-    if CH.LinkHoverShow[t] then
+     if InCombatLockdown() then return; end
+     local t = linkData:match("^(.-):")
+     if CH.LinkHoverShow[t] then
         ShowUIPanel(GameTooltip)
         -- GameTooltip:SetOwner(R.UIParent, "ANCHOR_CURSOR")
-        GameTooltip:SetOwner(RayUIChatBG, "ANCHOR_TOPLEFT", 0, 80)
+        GameTooltip:SetOwner(RayUIChatBG, "ANCHOR_RIGHT", 6, 0)
         GameTooltip:SetHyperlink(link)
         GameTooltip:Show()
+        hyperLinkEntered = frame
     end
 end
 
 function CH:OnHyperlinkLeave(frame, linkData, link)
-    local t = linkData:match("^(.-):")
-    if CH.LinkHoverShow[t] then
+    if hyperLinkEntered then
         HideUIPanel(GameTooltip)
+        hyperLinkEntered = nil
     end
 end
 
@@ -1208,8 +1211,7 @@ function CH:Initialize()
     end
 
     ChatFrameMenuButton:Kill()
-    FriendsMicroButton:Hide()
-    FriendsMicroButton:Kill()
+    QuickJoinToastButton:Kill()
 
     CreatCopyFrame()
     CopyChatFrame:Hide()

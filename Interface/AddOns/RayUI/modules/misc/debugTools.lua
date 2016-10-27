@@ -49,7 +49,7 @@ function D:ModifyErrorFrame()
     ScriptErrorsFrameScrollFrameText:HookScript("OnEscapePressed", UnHighlightText)
 
     ScriptErrorsFrame:Size(500, 300)
-    ScriptErrorsFrameScrollFrame:Size(ScriptErrorsFrame:GetWidth() - 45, ScriptErrorsFrame:GetHeight() - 71)
+    --ScriptErrorsFrameScrollFrame:Size(ScriptErrorsFrame:GetWidth() - 45, ScriptErrorsFrame:GetHeight() - 71)
 
     local BUTTON_WIDTH = 75
     local BUTTON_HEIGHT = 24

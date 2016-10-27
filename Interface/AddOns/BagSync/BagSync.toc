@@ -1,4 +1,4 @@
-## Interface: 70000
+## Interface: 70100
 ## Title: BagSync
 ## Notes: BagSync tracks your characters items and displays it within tooltips.
 ## Author: Xruptor
