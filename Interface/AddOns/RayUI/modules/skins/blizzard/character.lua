@@ -25,15 +25,9 @@ local function LoadSkin()
 	ReputationDetailDivider:Hide()
 	select(2, ReputationListScrollFrame:GetRegions()):Hide()
 	select(3, ReputationDetailFrame:GetRegions()):Hide()
-	for i = 1, 4 do
-		select(i, GearManagerDialogPopup:GetRegions()):Hide()
-	end
-	GearManagerDialogPopupScrollFrame:GetRegions():Hide()
-	select(2, GearManagerDialogPopupScrollFrame:GetRegions()):Hide()
 	ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 1, -28)
 	PaperDollEquipmentManagerPaneEquipSet:SetWidth(PaperDollEquipmentManagerPaneEquipSet:GetWidth()-1)
 	PaperDollEquipmentManagerPaneSaveSet:SetPoint("LEFT", PaperDollEquipmentManagerPaneEquipSet, "RIGHT", 1, 0)
-	GearManagerDialogPopup:SetPoint("LEFT", PaperDollFrame, "RIGHT", 1, 0)
 	PaperDollSidebarTabs:GetRegions():Hide()
 	select(2, PaperDollSidebarTabs:GetRegions()):Hide()
 	select(6, PaperDollEquipmentManagerPaneEquipSet:GetRegions()):Hide()
@@ -44,6 +38,14 @@ local function LoadSkin()
 	S:CreateBD(CharacterStatsPane.AttributesCategory, .5)
 	CharacterStatsPane.EnhancementsCategory.Background:Hide()
 	S:CreateBD(CharacterStatsPane.EnhancementsCategory, .5)
+
+	for i = 1, 10 do
+		select(i, GearManagerDialogPopup.BorderBox:GetRegions()):Hide()
+	end
+    GearManagerDialogPopup.BG:Hide()
+    for i = 1, 3 do
+	    select(i, GearManagerDialogPopupScrollFrame:GetRegions()):Hide()
+    end
 
 	S:ReskinClose(CharacterFrameCloseButton)
 	S:ReskinScroll(PaperDollTitlesPaneScrollBar)
