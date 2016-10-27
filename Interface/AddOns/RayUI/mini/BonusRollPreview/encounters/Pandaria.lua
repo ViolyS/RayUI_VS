@@ -1,3 +1,4 @@
+
 local _, ns = ...
 ns.encounterInfo = ns.encounterInfo or {}
 ns.itemBlacklist = ns.itemBlacklist or {}
