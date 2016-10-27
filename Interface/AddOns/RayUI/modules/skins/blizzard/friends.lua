@@ -7,17 +7,7 @@ local function LoadSkin()
         "ScrollOfResurrectionSelectionFrameList",
         "FriendsListFrame",
         "FriendsTabHeader",
-        "FriendsFrameFriendsScrollFrame",
-        "WhoFrameColumnHeader1",
-        "WhoFrameColumnHeader2",
-        "WhoFrameColumnHeader3",
-        "WhoFrameColumnHeader4",
-        "ChannelListScrollFrame",
         "ChannelRoster",
-        "FriendsFramePendingButton1",
-        "FriendsFramePendingButton2",
-        "FriendsFramePendingButton3",
-        "FriendsFramePendingButton4",
         "ChannelFrameDaughterFrame",
         "AddFriendFrame",
         "AddFriendNoteFrame",
@@ -38,6 +28,8 @@ local function LoadSkin()
     LFRQueueFrameRoleInset:StripTextures()
     LFRQueueFrameCommentInset:StripTextures()
 
+    S:SetBD(ChannelFrameDaughterFrame)
+
     for _, texture in pairs(KillTextures) do
         _G[texture]:Kill()
     end
@@ -54,7 +46,7 @@ local function LoadSkin()
         end
     end
 
-    --Who Frame
+    --[[--Who Frame
     local function UpdateWhoSkins()
         WhoListScrollFrame:StripTextures()
     end
@@ -67,7 +59,7 @@ local function LoadSkin()
     hooksecurefunc("FriendsFrame_OnEvent", UpdateChannel)
 
     WhoFrame:HookScript("OnShow", UpdateWhoSkins)
-    hooksecurefunc("FriendsFrame_OnEvent", UpdateWhoSkins)
+    hooksecurefunc("FriendsFrame_OnEvent", UpdateWhoSkins)]]
 
     WhoFrameColumn_SetWidth(WhoFrameColumnHeader3, 37)
 
@@ -83,7 +75,7 @@ local function LoadSkin()
     S:ReskinInput(ChannelFrameDaughterFrameChannelPassword)
     S:ReskinClose(ChannelFrameDaughterFrameDetailCloseButton)
     S:ReskinClose(FriendsFrameCloseButton)
-    ChannelRosterScrollFrame:Point("TOPRIGHT", ChannelFrame, "TOPRIGHT", -39, -60)
+    --ChannelRosterScrollFrame:Point("TOPRIGHT", ChannelFrame, "TOPRIGHT", -39, -60)
     FriendsTabHeaderSoRButton:StyleButton(true)
 
     for i = 1, 4 do
@@ -106,25 +98,25 @@ local function LoadSkin()
     end
 
     local buttons = {
-        "WhoFrameAddFriendButton",
-        "WhoFrameGroupInviteButton",
         "FriendsFrameAddFriendButton",
         "FriendsFrameSendMessageButton",
-        "AddFriendEntryFrameAcceptButton",
-        "AddFriendEntryFrameCancelButton",
-        "FriendsFriendsSendRequestButton",
-        "FriendsFriendsCloseButton",
-        "FriendsFrameUnsquelchButton",
-        "FriendsFramePendingButton1AcceptButton",
-        "FriendsFramePendingButton1DeclineButton",
-        "FriendsFrameIgnorePlayerButton",
-        "AddFriendInfoFrameContinueButton",
+        --"AddFriendEntryFrameAcceptButton",
+        --"AddFriendEntryFrameCancelButton",
+        --"FriendsFriendsSendRequestButton",
+        --"FriendsFriendsCloseButton",
+        --"FriendsFrameUnsquelchButton",
+        --"FriendsFramePendingButton1AcceptButton",
+        --"FriendsFramePendingButton1DeclineButton",
+        --"FriendsFrameIgnorePlayerButton",
+        --"AddFriendInfoFrameContinueButton",
+        "WhoFrameWhoButton",
+        "WhoFrameAddFriendButton",
+        "WhoFrameGroupInviteButton",
         "ChannelFrameNewButton",
         "ChannelFrameDaughterFrameOkayButton",
         "ChannelFrameDaughterFrameCancelButton",
-        "WhoFrameWhoButton",
-        "PendingListInfoFrameContinueButton",
-        "FriendsFrameMutePlayerButton"
+        --"PendingListInfoFrameContinueButton",
+        --"FriendsFrameMutePlayerButton"
     }
     for i = 1, #buttons do
         local button = _G[buttons[i]]
