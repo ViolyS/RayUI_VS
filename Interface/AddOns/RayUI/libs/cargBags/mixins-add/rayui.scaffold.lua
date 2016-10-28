@@ -14,9 +14,12 @@ local function ItemButton_Scaffold(self)
 	self.Border = _G[name.."NormalTexture"]
 
 	self.Icon:SetTexCoord(.08, .92, .08, .92)
-	-- self.Quest:SetTexture(TEXTURE_ITEM_QUEST_BANG)
-	-- self.Quest:SetInside(self)
-	-- self.Quest:SetTexCoord(.08, .92, .08, .92)
+
+	if not self.itemLevel and RayUI[1].db.Bags.itemLevel then
+		self.itemLevel = self:CreateFontString(nil, "OVERLAY")
+		self.itemLevel:SetPoint("TOPRIGHT", 1, -2)
+		self.itemLevel:FontTemplate(nil, nil, "OUTLINE")
+	end
 
 	if not self.border then
 		local border = CreateFrame("Frame", nil, self)
@@ -28,13 +31,22 @@ local function ItemButton_Scaffold(self)
 	end
 end
 
+local function IsItemEligibleForItemLevelDisplay(classID, subClassID, equipLoc, rarity)
+	if ((classID == 3 and subClassID == 11) --Artifact Relics
+		or (equipLoc ~= nil and equipLoc ~= "" and equipLoc ~= "INVTYPE_BAG" and equipLoc ~= "INVTYPE_QUIVER" and equipLoc ~= "INVTYPE_TABARD"))
+		and (rarity and rarity > 1) then
+		
+		return true
+	end
+
+	return false
+end
+
 local function ItemButton_Update(self, item)
 	self.Icon:SetTexture(item.texture or self.bgTex)
 
 	if(item.count and item.count > 1) then
-		-- self.Count:SetText(item.count >= 1e3 and "*" or item.count)
-		self.Count:SetText(item.count)
-		self.Count:Point("BOTTOMRIGHT", 0, 2)
+		self.Count:SetText(item.count >= 1e3 and "*" or item.count)
 		self.Count:Show()
 	else
 		self.Count:Hide()
@@ -57,7 +69,6 @@ local function ItemButton_Update(self, item)
 			self:StyleButton()
 			self:SetBackdropColor(0, 0, 0)
 			self.border:SetBackdropBorderColor(1.0, 0.2, 0.2)
-			-- self.Quest:Show()
 		elseif item.questID or item.isQuestItem then
 			self.Icon:SetInside()
 			self:StyleButton()
@@ -84,16 +95,42 @@ local function ItemButton_Update(self, item)
 
 	if (self.JunkIcon) then
 		if (item.rarity) and (item.rarity == LE_ITEM_QUALITY_POOR and not item.noValue) then
- 			self.JunkIcon:Show()
- 		else
- 			self.JunkIcon:Hide()
- 		end
- 	end
-	
+			self.JunkIcon:Show()
+		else
+			self.JunkIcon:Hide()
+		end
+	end
+
+	if (self.UpgradeIcon) then
+		local itemIsUpgrade = IsContainerItemAnUpgrade(item.bagID, item.slotID)
+		if itemIsUpgrade == nil then
+			self.UpgradeIcon:SetShown(false)
+		else
+			self.UpgradeIcon:SetShown(itemIsUpgrade)
+		end
+	end
+
 	if(C_NewItems.IsNewItem(item.bagID, item.slotID)) then
 		ActionButton_ShowOverlayGlow(self)
 	else
 		ActionButton_HideOverlayGlow(self)
+	end
+
+	if RayUI[1].db.Bags.itemLevel then
+		self.itemLevel:SetText("")
+		local clink = GetContainerItemLink(item.bagID, item.slotID)
+		if (clink) then
+			local itemEquipLoc, _, _, itemClassID, itemSubClassID = select(9, GetItemInfo(clink))
+			local iLvl = GetDetailedItemLevelInfo(clink)
+			local r, g, b = GetItemQualityColor(item.rarity)
+
+			if iLvl and IsItemEligibleForItemLevelDisplay(itemClassID, itemSubClassID, itemEquipLoc, item.rarity) then
+				if iLvl >= 1 then
+					self.itemLevel:SetText(iLvl)
+					self.itemLevel:SetTextColor(r, g, b)
+				end
+			end
+		end
 	end
 
 	if(self.OnUpdate) then self:OnUpdate(item) end
