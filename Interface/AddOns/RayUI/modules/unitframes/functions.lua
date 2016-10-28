@@ -279,11 +279,12 @@ function UF:Construct_CombatIndicator(frame)
 end
 
 function UF:Construct_RestingIndicator(frame)
-    local Resting = frame:CreateFontString(nil, "OVERLAY")
-    Resting:SetFont(R["media"].font, 10, R["media"].fontflag)
+    local Resting = frame.RaisedElementParent:CreateTexture(nil, "OVERLAY")
+    Resting:Size(20, 20)
+    Resting:ClearAllPoints()
     Resting:Point("BOTTOM", frame.Combat, "BOTTOM", 0, 25)
-    Resting:SetText("zZz")
-    Resting:SetTextColor(255/255, 255/255, 255/255, 0.70)
+    Resting:SetTexture("Interface\\AddOns\\RayUI\\media\\rested")
+    Resting:SetVertexColor(0.8, 0.8, 0.8)
 
     return Resting
 end
