@@ -50,6 +50,7 @@ local GetMouseFocus = GetMouseFocus
 local ChatEdit_ChooseBoxForSend = ChatEdit_ChooseBoxForSend
 local ChatEdit_ActivateChat = ChatEdit_ActivateChat
 local StaticPopup_Show = StaticPopup_Show
+local RegisterStateDriver = RegisterStateDriver
 local hooksecurefunc = hooksecurefunc
 
 --Global variables that we don't cache, list them here for the mikk's Find Globals script
@@ -651,11 +652,10 @@ end
 
 local hyperLinkEntered
 function CH:OnHyperlinkEnter(frame, linkData, link)
-     if InCombatLockdown() then return; end
-     local t = linkData:match("^(.-):")
-     if CH.LinkHoverShow[t] then
+    if InCombatLockdown() then return; end
+    local t = linkData:match("^(.-):")
+    if CH.LinkHoverShow[t] then
         ShowUIPanel(GameTooltip)
-        -- GameTooltip:SetOwner(R.UIParent, "ANCHOR_CURSOR")
         GameTooltip:SetOwner(RayUIChatBG, "ANCHOR_RIGHT", 6, 0)
         GameTooltip:SetHyperlink(link)
         GameTooltip:Show()
@@ -665,9 +665,9 @@ end
 
 function CH:OnHyperlinkLeave(frame, linkData, link)
     if hyperLinkEntered then
-        HideUIPanel(GameTooltip)
-        hyperLinkEntered = nil
-    end
+		HideUIPanel(GameTooltip)
+		hyperLinkEntered = nil
+	end
 end
 
 function CH:ScrollToBottom(frame)
@@ -1216,8 +1216,9 @@ function CH:Initialize()
     CreatCopyFrame()
     CopyChatFrame:Hide()
     if not RayUIChatBG then
-        local RayUIChatBG = CreateFrame("Frame", "RayUIChatBG", R.UIParent)
+        local RayUIChatBG = CreateFrame("Frame", "RayUIChatBG", R.UIParent, "SecureHandlerStateTemplate")
         RayUIChatBG:CreatePanel("Default", self.db.width, self.db.height, "BOTTOMLEFT",R.UIParent,"BOTTOMLEFT",15,30)
+        RegisterStateDriver(RayUIChatBG, "visibility", "[combat]show")
         GeneralDockManager:SetParent(RayUIChatBG)
     end
 
