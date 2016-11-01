@@ -16,18 +16,29 @@ local GetCursorPosition = GetCursorPosition
 
 --Global variables that we don't cache, list them here for the mikk's Find Globals script
 -- GLOBALS: WorldMapFrame, WorldMapFrameSizeUpButton, WorldMapFrameSizeDownButton, CoordsHolder, PLAYER
--- GLOBALS: WorldMapDetailFrame, MOUSE_LABEL, DropDownList1, NumberFontNormal, BlackoutWorld
--- GLOBALS: WORLDMAP_SETTINGS, WORLDMAP_FULLMAP_SIZE, WORLDMAP_WINDOWED_SIZE
+-- GLOBALS: WorldMapDetailFrame, MOUSE_LABEL, DropDownList1, NumberFontNormal, BlackoutWorld, WorldMapTooltip
+-- GLOBALS: WORLDMAP_SETTINGS, WORLDMAP_FULLMAP_SIZE, WORLDMAP_WINDOWED_SIZE, WorldMapCompareTooltip1, WorldMapCompareTooltip2
 
 WM.modName = L["世界地图"]
+
+local function FixTooltip()
+    WorldMapTooltip:SetFrameStrata("TOOLTIP")
+    WorldMapCompareTooltip1:SetFrameStrata("TOOLTIP")
+    WorldMapCompareTooltip2:SetFrameStrata("TOOLTIP")
+    if WorldMapTooltip.border then
+        WorldMapTooltip.border:SetFrameStrata("DIALOG")
+        WorldMapCompareTooltip1.border:SetFrameStrata("DIALOG")
+        WorldMapCompareTooltip2.border:SetFrameStrata("DIALOG")
+    end
+end
 
 function WM:SetLargeWorldMap()
     if InCombatLockdown() then return end
 
     WorldMapFrame:SetParent(R.UIParent)
     WorldMapFrame:EnableKeyboard(false)
-    WorldMapFrame:SetScale(1)
     WorldMapFrame:EnableMouse(true)
+    FixTooltip()
 
     if WorldMapFrame:GetAttribute("UIPanelLayout-area") ~= "center" then
         SetUIPanelAttribute(WorldMapFrame, "area", "center");
@@ -50,6 +61,10 @@ function WM:SetSmallWorldMap()
 
     WorldMapFrameSizeUpButton:Show()
     WorldMapFrameSizeDownButton:Hide()
+    FixTooltip()
+
+    -- WorldMapFrame:ClearAllPoints()
+    -- WorldMapFrame:SetPoint("CENTER", R.UIParent, "CENTER", 0, 100)
 end
 
 function WM:PLAYER_REGEN_ENABLED()
