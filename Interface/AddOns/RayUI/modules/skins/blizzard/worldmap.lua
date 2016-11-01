@@ -36,9 +36,6 @@ local function LoadSkin()
 
 	WorldMapLevelDropDown:SetPoint("TOPLEFT", -14, 2)
 
-	--WorldMapPlayerUpperIcon:SetTexture("Interface\\AddOns\\RayUI\\media\\MinimapArrow")
-	--WorldMapPlayerLowerIcon:SetTexture("Interface\\AddOns\\RayUI\\media\\MinimapArrow")
-
 	-- [[ Size up / down buttons ]]
 
 	for _, buttonName in pairs{"WorldMapFrameSizeUpButton", "WorldMapFrameSizeDownButton"} do
@@ -70,7 +67,7 @@ local function LoadSkin()
 			local tex = button:CreateTexture()
 			tex:SetColorTexture(1, 1, 1)
 			tex:SetSize(1, 1)
-			tex:SetPoint("BOTTOMLEFT", 3+i, 3+i)
+			tex:Point("BOTTOMLEFT", 3+i, 3+i)
 			tinsert(button.pixels, tex)
 		end
 
@@ -85,11 +82,11 @@ local function LoadSkin()
 		tinsert(button.pixels, vline)
 
 		if buttonName == "WorldMapFrameSizeUpButton" then
-			hline:SetPoint("TOP", 1, -4)
-			vline:SetPoint("RIGHT", -4, 1)
+			hline:Point("TOP", 1, -4)
+			vline:Point("RIGHT", -4, 1)
 		else
-			hline:SetPoint("BOTTOM", 1, 4)
-			vline:SetPoint("LEFT", 4, 1)
+			hline:Point("BOTTOM", -1, 4)
+			vline:Point("LEFT", 4, -1)
 		end
 
 		button:SetScript("OnEnter", colourArrow)
@@ -123,13 +120,6 @@ local function LoadSkin()
 	TrackingOptions.Background:Hide()
 	TrackingOptions.IconOverlay:SetTexture("")
 	TrackingOptions.Button.Border:Hide()
-
-	-- [[ World Quest Reward Icon ]]
-	WorldMapTooltip.ItemTooltip.IconBorder:Kill()
-	WorldMapTooltip.ItemTooltip.Icon:SetTexCoord(0.08, .92, .08, .92)
-	WorldMapTooltip.ItemTooltip.b = CreateFrame("Frame", nil, WorldMapTooltip.ItemTooltip)
-	WorldMapTooltip.ItemTooltip.b:SetAllPoints(WorldMapTooltip.ItemTooltip.Icon)
-	WorldMapTooltip.ItemTooltip.b:CreateShadow("Background")
 end
 
 S:AddCallback("WorldMap", LoadSkin)

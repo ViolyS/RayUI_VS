@@ -3,11 +3,9 @@ local S = R:GetModule("Skins")
 
 local function LoadSkin()
     MacroPopupFrame:StripTextures()
+    MacroPopupScrollFrame:StripTextures()
     MacroPopupFrame.BorderBox:StripTextures()
     MacroPopupFrame.BG:Kill()
-    for i = 1, 3 do
-	    select(i, MacroPopupScrollFrame:GetRegions()):Hide()
-    end
     MacroFrameText:SetFont(R["media"].font, 14)
     S:ReskinPortraitFrame(MacroFrame, true)
     S:CreateBD(MacroFrameScrollFrame, .25)
@@ -72,28 +70,11 @@ local function LoadSkin()
         end
     end
 
-	local popupSkinned
-	MacroPopupFrame:HookScript("OnShow", function(self)
-		if popupSkinned then return end
-		for i = 1, MAX_ACCOUNT_MACROS do
-	        local bu = _G["MacroPopupButton"..i]
-	        local ic = _G["MacroPopupButton"..i.."Icon"]
-
-	        if bu then
-	            bu:StripTextures()
-	            bu.pushed = true
-	            bu:StyleButton(1)
-	            S:CreateBD(bu, .25)
-	        end
-
-	        if ic then
-	            ic:SetInside(bu, 1, 1)
-	            ic:SetTexCoord(.08, .92, .08, .92)
-	        end
-	    end
-		popupSkinned = true
-		MacroPopupFrame_OnShow(self)
-	end)
+    ShowUIPanel(MacroFrame)
+    HideUIPanel(MacroFrame)
+    MacroPopupFrame:Show()
+    MacroPopupFrame:Hide()
+    S:ReskinIconSelectionFrame(MacroPopupFrame, NUM_MACRO_ICONS_SHOWN, "MacroPopupButton", "MacroPopup")
 end
 
 S:AddCallbackForAddon("Blizzard_MacroUI", "Macro", LoadSkin)

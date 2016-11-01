@@ -7,10 +7,12 @@ local function LoadSkin()
         "ScrollOfResurrectionSelectionFrameList",
         "FriendsListFrame",
         "FriendsTabHeader",
+        "FriendsFrameFriendsScrollFrame",
         "WhoFrameColumnHeader1",
         "WhoFrameColumnHeader2",
         "WhoFrameColumnHeader3",
         "WhoFrameColumnHeader4",
+        "ChannelListScrollFrame",
         "ChannelRoster",
         "ChannelFrameDaughterFrame",
         "AddFriendFrame",
@@ -32,11 +34,10 @@ local function LoadSkin()
     LFRQueueFrameRoleInset:StripTextures()
     LFRQueueFrameCommentInset:StripTextures()
 
-    S:SetBD(ChannelFrameDaughterFrame)
-
     for _, texture in pairs(KillTextures) do
         _G[texture]:Kill()
     end
+    S:SetBD(ChannelFrameDaughterFrame)
 
     for _, object in pairs(StripAllTextures) do
         _G[object]:StripTextures()
@@ -50,7 +51,7 @@ local function LoadSkin()
         end
     end
 
-    --[[--Who Frame
+    --Who Frame
     local function UpdateWhoSkins()
         WhoListScrollFrame:StripTextures()
     end
@@ -63,7 +64,7 @@ local function LoadSkin()
     hooksecurefunc("FriendsFrame_OnEvent", UpdateChannel)
 
     WhoFrame:HookScript("OnShow", UpdateWhoSkins)
-    hooksecurefunc("FriendsFrame_OnEvent", UpdateWhoSkins)]]
+    hooksecurefunc("FriendsFrame_OnEvent", UpdateWhoSkins)
 
     WhoFrameColumn_SetWidth(WhoFrameColumnHeader3, 37)
 
@@ -79,8 +80,14 @@ local function LoadSkin()
     S:ReskinInput(ChannelFrameDaughterFrameChannelPassword)
     S:ReskinClose(ChannelFrameDaughterFrameDetailCloseButton)
     S:ReskinClose(FriendsFrameCloseButton)
-    --ChannelRosterScrollFrame:Point("TOPRIGHT", ChannelFrame, "TOPRIGHT", -39, -60)
+    ChannelRosterScrollFrame:Point("TOPRIGHT", ChannelFrame, "TOPRIGHT", -39, -60)
     FriendsTabHeaderSoRButton:StyleButton(true)
+    FriendsFriendsFrame:StripTextures()
+    FriendsFriendsList:StripTextures()
+    S:SetBD(FriendsFriendsFrame)
+    S:CreateBD(FriendsFriendsList)
+    S:Reskin(FriendsFriendsSendRequestButton)
+    S:Reskin(FriendsFriendsCloseButton)
 
     for i = 1, 4 do
         S:CreateTab(_G["FriendsFrameTab"..i])
