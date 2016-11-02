@@ -107,12 +107,9 @@ function mod:UpdateItemlevel(event)
         text:SetText("")
         local clink = GetInventoryItemLink(unit, id)
         if clink then
-            local _, iLvl = LibItemLevel:GetItemInfo(clink)
+            local _, iLvl = LibItemLevel:GetUnitItemInfo(unit, id)
             local rarity = select(3, GetItemInfo(clink))
-            if iLvl and rarity then
-                if iLvl == 750 and rarity == LE_ITEM_QUALITY_ARTIFACT and id == INVSLOT_OFFHAND then
-                    iLvl = GetDetailedItemLevelInfo(GetInventoryItemLink(unit, INVSLOT_MAINHAND))
-                end
+            if iLvl and iLvl > 1 and rarity then
                 local r, g, b = GetItemQualityColor(rarity)
 
                 text:SetText(iLvl)
