@@ -72,7 +72,7 @@ function RA:RaidSmartVisibility(event)
                 maxPlayers = RA.mapIDs[mapID]
             end
             UnregisterStateDriver(self, "visibility")
-            if maxPlayers <= 25 then
+            if instanceGroupSize <= 25 then
                 self:Show()
             else
                 self:Hide()
