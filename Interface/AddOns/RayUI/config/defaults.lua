@@ -199,7 +199,7 @@ P["Raid"]={
     tooltip = false,
     hidemenu = false,
     autorez = true,
-    showlabel = true,
+    showlabel = false,
     showTank = false,
     showPets = false,
 }

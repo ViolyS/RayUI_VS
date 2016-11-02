@@ -2371,6 +2371,8 @@ R["Watcher"] = {
                 { spellID = 214802, unitId = "player", caster = "all", filter = "BUFF" }, -- 因格瓦尔的嚎叫（爆击，红脸）
                 { spellID = 214803, unitId = "player", caster = "all", filter = "BUFF" }, -- 席瓦拉的哀号（急速，绿脸）
                 { spellID = 214807, unitId = "player", caster = "all", filter = "BUFF" }, -- 安格博达的挽歌（精通，蓝脸）
+                -- 賈辛的機敏
+                { spellID = 224149, unitId = "player", caster = "all", filter = "BUFF" },
             },
             {
                 name = "PVE/PVP玩家buff&debuff",
