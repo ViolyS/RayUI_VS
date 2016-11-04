@@ -1740,6 +1740,8 @@ R["Watcher"] = {
                 { spellID = 124274, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 酒仙大緩勁
                 { spellID = 124273, unitId = "player", caster = "all", filter = "DEBUFF" },
+                -- 聚氣打擊
+                { spellID = 129914, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 猛虎之眼（治疗）
                 { spellID = 196608, unitId = "player", caster = "player", filter = "BUFF" },
             },
@@ -1792,9 +1794,9 @@ R["Watcher"] = {
                 { spellID = 152173, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 聚雷茶
                 { spellID = 116680, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 生生不息
+                -- 生生不息(迷霧繚繞)
                 { spellID = 197919, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 生生不息
+                -- 生生不息(生氣勃勃)
                 { spellID = 197916, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 法力茶
                 { spellID = 197908, unitId = "player", caster = "player", filter = "BUFF" },
@@ -1802,6 +1804,8 @@ R["Watcher"] = {
                 { spellID = 215479, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 散魔功
                 { spellID = 122783, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 猛虎出閘
+                { spellID = 116841, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标重要buff&debuff",
@@ -1813,8 +1817,6 @@ R["Watcher"] = {
                 { spellID = 119381, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 微醺醉氣
                 { spellID = 116330, unitId = "target", caster = "player", filter = "DEBUFF" },
-                -- 旭日东升踢
-                { spellID = 130320, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 幽冥掌
                 { spellID = 115080, unitId = "target", caster = "player", filter = "DEBUFF" },
             },

@@ -78,7 +78,6 @@ local function CreateShadow(f, t, thickness)
 	})
 	shadow:SetBackdropColor( backdropr, backdropg, backdropb, backdropa )
 	shadow:SetBackdropBorderColor( borderr, borderg, borderb )
-	f:SetFrameLevel(frameLevel + 1)
 	f.shadow = shadow
 end
 
