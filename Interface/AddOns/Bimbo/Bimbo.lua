@@ -137,6 +137,9 @@ function butt:ADDON_LOADED(event, addon)
 	butt2:SetScript("OnLeave", butt:GetScript("OnLeave"))
 
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
+
+	local S = unpack(RayUI):GetModule("Skins")
+	S:Reskin(butt2)
 	self:UnregisterEvent("ADDON_LOADED")
 	self.ADDON_LOADED = nil
 end

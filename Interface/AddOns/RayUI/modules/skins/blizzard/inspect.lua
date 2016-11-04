@@ -52,6 +52,23 @@ local function LoadSkin()
 		end
 	end
 
+    -- [[ InspectModelFrameControlFrame Button ]]
+    InspectModelFrameControlFrame:DisableDrawLayer("BACKGROUND")
+    local buttons = {
+        "ZoomIn",
+        "ZoomOut",
+        "Pan",
+        "RotateLeft",
+        "RotateRight",
+        "RotateReset",
+    }
+    for i = 1, #buttons do
+        local cb = _G["InspectModelFrameControlFrame"..buttons[i].."Button"]
+        _G["InspectModelFrameControlFrame"..buttons[i].."ButtonBg"]:Hide()
+
+        S:Reskin(cb)
+    end
+
 	local slots = {
 		"Head",
 		"Neck",
