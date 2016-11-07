@@ -6,10 +6,10 @@ local positions = {
     player_proc_icon = { "BOTTOMRIGHT", "RayUF_Player", "TOPRIGHT", 0, 33 }, -- "玩家重要buff&debuff"
     target_proc_icon = { "BOTTOMLEFT", "RayUF_Target", "TOPLEFT", 0, 33 }, -- "目标重要buff&debuff"
     focus_buff_icon = { "BOTTOMLEFT", "RayUF_Focus", "TOPLEFT", 0, 10 }, -- "焦点buff&debuff"
-    cd_icon = function() return R:IsDeveloper() and { "TOPLEFT", "RayUIActionBar1", "BOTTOMLEFT", 0, -6 } or { "TOPLEFT", "RayUIActionBar3", "BOTTOMRIGHT", -28, -6 } end,  -- "cd"
+    cd_icon = function() return R:IsDeveloper() and { "TOPLEFT", "RayUIActionBar1", "BOTTOMLEFT", 0, -6 } or { "TOPLEFT", "RayUIActionBar3", "BOTTOMRIGHT", -28, -6 } end, -- "cd"
     player_special_icon = { "TOPRIGHT", "RayUF_Player", "BOTTOMRIGHT", 0, -9 }, -- "玩家特殊buff&debuff"
-    pve_player_icon = { "BOTTOM", UIParent, "BOTTOM", -35, 350 }, -- "PVE/PVP玩家buff&debuff"
-    pve_target_icon = { "BOTTOM", UIParent, "BOTTOM", 35, 350 }, -- "PVE/PVP目标buff&debuff"
+    pve_player_icon = { "BOTTOM", RayUIParent, "BOTTOM", -35, 350 }, -- "PVE/PVP玩家buff&debuff"
+    pve_target_icon = { "BOTTOM", RayUIParent, "BOTTOM", 35, 350 }, -- "PVE/PVP目标buff&debuff"
 }
 
 R["Watcher"] = {
@@ -27,8 +27,6 @@ R["Watcher"] = {
                 { spellID = 774, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 癒合
                 { spellID = 8936, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 共生
-                { spellID = 100977, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 回春術(萌芽)
                 { spellID = 155777, unitId = "player", caster = "player", filter = "BUFF" },
             },
@@ -44,8 +42,6 @@ R["Watcher"] = {
                 { spellID = 774, unitId = "target", caster = "player", filter = "BUFF" },
                 -- 癒合
                 { spellID = 8936, unitId = "target", caster = "player", filter = "BUFF" },
-                -- 精靈群襲
-                { spellID = 102355, unitId = "target", caster = "all", filter = "DEBUFF" },
                 -- 回春術(萌芽)
                 { spellID = 155777, unitId = "target", caster = "player", filter = "BUFF" },
             },
@@ -55,16 +51,10 @@ R["Watcher"] = {
                 setpoint = positions.player_proc_icon,
                 size = 38,
 
-                -- 日之巅
-                { spellID = 171744, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 月之巅
-                { spellID = 171743, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 月光增效
                 { spellID = 164547, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 日光增效
                 { spellID = 164545, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 流星
-                { spellID = 93400, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 兇蠻咆哮
                 { spellID = 52610, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 求生本能
@@ -85,16 +75,10 @@ R["Watcher"] = {
                 { spellID = 124974, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 森林之魂
                 { spellID = 114108, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 星殞術
-                { spellID = 48505, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 星穹大連線
                 { spellID = 194223, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 野性之心
-                { spellID = 108294, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 猛虎之怒
                 { spellID = 5217, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 野蛮咆哮雕文
-                { spellID = 174544, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 血腥爪击
                 { spellID = 145152, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 粉碎
@@ -109,8 +93,6 @@ R["Watcher"] = {
                 { spellID = 50334, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 巨熊之力
                 { spellID = 159233, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 落日余晖
-                { spellID = 155592, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 伊露恩的守護者
                 { spellID = 213680, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 鋼鐵毛皮
@@ -206,8 +188,6 @@ R["Watcher"] = {
                 { spellID = 740, filter = "CD" },
                 -- 自然戒備
                 { spellID = 124974, filter = "CD" },
-                -- 星穹大連線
-                { spellID = 112071, filter = "CD" },
                 -- 野性位移
                 { spellID = 102280, filter = "CD" },
                 -- 狂暴
@@ -285,10 +265,6 @@ R["Watcher"] = {
                 { spellID = 82921, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 狂亂效果
                 { spellID = 19615, unitId = "pet", caster = "pet", filter = "BUFF" },
-                -- 獵殺快感
-                { spellID = 34720, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 4T13
-                { spellID = 105919, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 稳固集中
                 { spellID = 193534, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 荷枪实弹
@@ -315,8 +291,6 @@ R["Watcher"] = {
                 { spellID = 185791, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 擊殺命令
                 { spellID = 34026, filter = "CD" },
-                -- 爆裂射擊
-                { spellID = 53301, filter = "CD" },
             },
             {
                 name = "目标重要buff&debuff",
@@ -328,10 +302,6 @@ R["Watcher"] = {
                 { spellID = 19386, unitId = "target", caster = "all", filter = "DEBUFF" },
                 -- 毒蛇釘刺
                 { spellID = 118253, unitId = "target", caster = "player", filter = "DEBUFF" },
-                -- 黑蝕箭
-                { spellID = 3674, unitId = "target", caster = "player", filter = "DEBUFF" },
-                -- 爆裂射擊
-                { spellID = 53301, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 黑鸦
                 { spellID = 131894, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 獵人印記
@@ -1025,8 +995,6 @@ R["Watcher"] = {
                 { spellID = 6346, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 預支時間
                 { spellID = 59889, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 精神鞭笞雕文
-                { spellID = 120587, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 身心合一
                 { spellID = 65081, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 身心合一（神牧）
@@ -2515,8 +2483,6 @@ R["Watcher"] = {
                 { spellID = 15487, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 虛無觸鬚之握
                 { spellID = 114404, unitId = "player", caster = "all", filter = "DEBUFF" },
-                -- 心靈震爆雕紋
-                { spellID = 87194, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 精神鞭笞
                 { spellID = 15407, unitId = "player", caster = "all", filter = "DEBUFF" },
 
