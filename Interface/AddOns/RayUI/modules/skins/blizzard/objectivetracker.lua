@@ -138,7 +138,7 @@ local function LoadSkin()
 
                 if icon:IsShown() then
                     icon:SetMask(nil)
-                    icon:SetDrawLayer("BACKGROUND", 1)
+                    icon:SetDrawLayer("BORDER")
                     icon:ClearAllPoints()
                     icon:SetPoint("RIGHT", 35, 2)
                     S:ReskinIcon(icon)
@@ -195,13 +195,13 @@ local function LoadSkin()
                 local label = bar.Label
 
                 bar.BarBG:Hide()
-				bar.BarFrame:Hide()
+                bar.BarFrame:Hide()
 
                 icon:SetMask(nil)
-                icon:SetDrawLayer("BACKGROUND", 1)
+                icon:SetDrawLayer("BORDER")
                 icon:ClearAllPoints()
                 icon:SetPoint("RIGHT", 35, 2)
-				S:ReskinIcon(icon)
+                S:ReskinIcon(icon)
 
                 bar:SetStatusBarTexture(R["media"].gloss)
 
