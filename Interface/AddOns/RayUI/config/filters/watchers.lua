@@ -29,6 +29,10 @@ R["Watcher"] = {
                 { spellID = 8936, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 回春術(萌芽)
                 { spellID = 155777, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 安希之賜
+                { spellID = 202739, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 伊露恩的祝福
+                { spellID = 202737, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标buff&debuff",
@@ -101,10 +105,6 @@ R["Watcher"] = {
                 { spellID = 192083, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 伊露恩戰士
                 { spellID = 202425, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 安希之賜
-                { spellID = 202739, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 伊露恩的祝福
-                { spellID = 202737, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 化身：叢林之王
                 { spellID = 102543, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 化身：厄索克守護者
@@ -195,11 +195,11 @@ R["Watcher"] = {
                 -- 化身：叢林之王
                 { spellID = 102543, filter = "CD" },
                 -- 化身：厄索克守護者
-                { spellID = 102558, filter = "CD" },
+                -- { spellID = 102558, filter = "CD" },
                 -- 化身：伊露恩天選者
-                { spellID = 102560, filter = "CD" },
+                -- { spellID = 102560, filter = "CD" },
                 -- 化身：生命之樹
-                { spellID = 33891, filter = "CD" },
+                -- { spellID = 33891, filter = "CD" },
                 -- 狂奔怒吼
                 { spellID = 106898, filter = "CD" },
                 -- 突進
