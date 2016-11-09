@@ -39,6 +39,7 @@ local function UpdateGroup()
         name = selectedGroup,
         guiInline = true,
         order = 10,
+        hidden = function() return not R.db.Watcher.enable end,
         args = {
             disabled = {
                 type = 'toggle',
@@ -349,13 +350,13 @@ local function UpdateGroup()
                 end,
                 func = function()
                     SaveProfileKey("enable", selectedSpell.enable)
+                    RW.modules[selectedGroup][selectedSpell.filter] = RW.modules[selectedGroup][selectedSpell.filter] or {}
                     if selectedSpell.filter == "BUFF" or selectedSpell.filter == "DEBUFF" then
                         SaveProfileKey("caster", selectedSpell.caster)
                         SaveProfileKey("unitID", selectedSpell.unitID)
+                        RW.modules[selectedGroup][selectedSpell.filter].unitIDs = RW.modules[selectedGroup][selectedSpell.filter].unitIDs or {}
+                        RW.modules[selectedGroup][selectedSpell.filter].unitIDs[selectedSpell.unitID] = true
                     end
-                    RW.modules[selectedGroup][selectedSpell.filter] = RW.modules[selectedGroup][selectedSpell.filter] or {}
-                    RW.modules[selectedGroup][selectedSpell.filter].unitIDs = RW.modules[selectedGroup][selectedSpell.filter].unitIDs or {}
-                    RW.modules[selectedGroup][selectedSpell.filter].unitIDs[selectedSpell.unitID] = true
                     RW.modules[selectedGroup][selectedSpell.filter][selectedSpell.spellID] = {
                         ["enable"] = selectedSpell.enable,
                         ["caster"] = selectedSpell.caster,
@@ -478,6 +479,31 @@ R.Options.args.Watcher = {
     name = (RW.modName or RW:GetName()),
     order = 12,
     args = {
+        header = {
+            type = "header",
+            name = RW.modName or RW:GetName(),
+            order = 1
+        },
+        enable = {
+            type = "toggle",
+            name = RW.toggleLabel or (L["启用"] .. (RW.modName or RW:GetName())),
+            width = "double",
+            desc = RW.Info and RW:Info() or (L["启用"] .. (RW.modName or RW:GetName())),
+            order = 3,
+            get = function()
+                return R.db.Watcher.enable
+            end,
+            set = function(info, value)
+                R.db.Watcher.enable = value
+                StaticPopup_Show("CFG_RELOAD")
+            end,
+        },
+        settingsHeader = {
+            type = "header",
+            name = L["设置"],
+            order = 4,
+            hidden = function() return not R.db.Watcher.enable end,
+        },
         GroupSelect = {
             order = 6,
             type = "select",
@@ -492,6 +518,7 @@ R.Options.args.Watcher = {
                 UpdateGroup()
             end,
             get = function(info) return selectedGroup end,
+            hidden = function() return not R.db.Watcher.enable end,
             values = function()
                 local values = {}
                 values[""] = NONE

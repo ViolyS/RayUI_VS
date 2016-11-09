@@ -129,6 +129,12 @@ P["UnitFrames"]={
             defaultPosition = { "TOPLEFT", "RayUF_Target", "TOPRIGHT", 6, 0 },
             width = 150,
             height = 12,
+            castbar = {
+                showicon = true,
+                iconposition = "LEFT",
+                width = 120,
+                height = 20,
+            },
         },
         focus = {
             defaultPosition = { "BOTTOMRIGHT", "RayUF_Player", "TOPLEFT", -20, 40 },
@@ -170,12 +176,10 @@ G["Raid"] = {}
 
 P["Raid"]={
     enable = true,
-    raid40width = 50,
-    raid40height = 30,
-    raid25width = 77,
-    raid25height = 30,
+    width = 60,
+    height = 36,
+    petwidth = 60,
     petheight = 30,
-    petwidth = 77,
     tankheight = 40,
     tankwidth = 77,
     spacing = 5,
@@ -300,6 +304,15 @@ P["Misc"]={
     raidcd = false,
     raidcdwidth = 170,
     raidcdgrowth = "UP",
+    cooldowns = {
+        enable = false,
+        size = 25,
+        growthx = "LEFT",
+        growthy = "UP",
+        showbags = true,
+        showequip = true,
+        showpets = true,
+    },
     totembar = {
         enable = true,
         size = 35,

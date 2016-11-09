@@ -28,8 +28,74 @@ R.Options.args.Misc = {
             name = L["设置"],
             order = 4
         },
-        anouncegroup = {
+        cooldowns = {
             order = 5,
+            type = "group",
+            name = L["冷却条"],
+            guiInline = true,
+            get = function(info) return R.db.Misc.cooldowns[ info[#info] ] end,
+            set = function(info, value) R.db.Misc.cooldowns[ info[#info] ] = value StaticPopup_Show("CFG_RELOAD") end,
+            args = {
+                enable = {
+                    order = 1,
+                    type = "toggle",
+                    name = L["启用"],
+                },
+                spacer = {
+                    type = "description",
+                    name = "",
+                    desc = "",
+                    order = 2,
+                },
+                showpets = {
+                    order = 3,
+                    type = "toggle",
+                    name = L["显示宠物技能冷却"],
+                    hidden = function() return not R.db.Misc.cooldowns.enable end,
+                },
+                showequip = {
+                    order = 4,
+                    type = "toggle",
+                    name = L["显示装备冷却"],
+                    hidden = function() return not R.db.Misc.cooldowns.enable end,
+                },
+                showbags = {
+                    order = 5,
+                    type = "toggle",
+                    name = L["显示物品冷却"],
+                    hidden = function() return not R.db.Misc.cooldowns.enable end,
+                },
+                size = {
+                    order = 6,
+                    type = "range",
+                    name = L["按键大小"],
+                    min = 24, max = 60, step = 1,
+                    hidden = function() return not R.db.Misc.cooldowns.enable end,
+                },
+                growthx = {
+                    order = 7,
+                    type = "select",
+                    name = L["横向增长方向"],
+                    values = {
+                        ["LEFT"] = L["左"],
+                        ["RIGHT"] = L["右"],
+                    },
+                    hidden = function() return not R.db.Misc.cooldowns.enable end,
+                },
+                growthy = {
+                    order = 8,
+                    type = "select",
+                    name = L["纵向增长方向"],
+                    values = {
+                        ["UP"] = L["上"],
+                        ["DOWN"] = L["下"],
+                    },
+                    hidden = function() return not R.db.Misc.cooldowns.enable end,
+                },
+            },
+        },
+        anouncegroup = {
+            order = 6,
             type = "group",
             name = L["通报"],
             guiInline = true,
@@ -43,7 +109,7 @@ R.Options.args.Misc = {
             },
         },
         auctiongroup = {
-            order = 6,
+            order = 7,
             type = "group",
             name = L["拍卖行"],
             guiInline = true,
@@ -57,7 +123,7 @@ R.Options.args.Misc = {
             },
         },
         autodezgroup = {
-            order = 7,
+            order = 8,
             type = "group",
             name = L["自动贪婪"],
             guiInline = true,
@@ -74,7 +140,7 @@ R.Options.args.Misc = {
             },
         },
         autoreleasegroup = {
-            order = 8,
+            order = 9,
             type = "group",
             name = L["自动释放尸体"],
             guiInline = true,
@@ -91,7 +157,7 @@ R.Options.args.Misc = {
             },
         },
         merchantgroup = {
-            order = 9,
+            order = 10,
             type = "group",
             name = L["商人"],
             guiInline = true,
@@ -105,7 +171,7 @@ R.Options.args.Misc = {
             },
         },
         questgroup = {
-            order = 10,
+            order = 11,
             type = "group",
             name = L["任务"],
             guiInline = true,
@@ -164,25 +230,27 @@ R.Options.args.Misc = {
             name = L["图腾条"],
             guiInline = true,
             get = function(info) return R.db.Misc.totembar[ info[#info] ] end,
-            set = function(info, value) R.db.Misc.totembar[ info[#info] ] = value; R:GetModule("Misc"):PositionAndSizeTotem() end,
+            set = function(info, value) R.db.Misc.totembar[ info[#info] ] = value; M:GetModule("TotemBar"):PositionAndSizeTotem() end,
             args = {
                 enable = {
                     order = 1,
                     type = "toggle",
                     name = L["启用"],
-                    set = function(info, value) R.db.Misc.totembar[ info[#info] ] = value; R:GetModule("Misc"):ToggleTotemEnable() end,
+                    set = function(info, value) R.db.Misc.totembar[ info[#info] ] = value; M:GetModule("TotemBar"):ToggleTotemEnable() end,
                 },
                 size = {
                     order = 2,
                     type = "range",
                     name = L["按键大小"],
                     min = 24, max = 60, step = 1,
+                    hidden = function() return not R.db.Misc.totembar.enable end,
                 },
                 spacing = {
                     order = 3,
                     type = "range",
                     name = L["按键间距"],
                     min = 1, max = 10, step = 1,
+                    hidden = function() return not R.db.Misc.totembar.enable end,
                 },
                 sortDirection = {
                     order = 4,
@@ -192,6 +260,7 @@ R.Options.args.Misc = {
                         ["ASCENDING"] = L["正向"],
                         ["DESCENDING"] = L["逆向"],
                     },
+                    hidden = function() return not R.db.Misc.totembar.enable end,
                 },
                 growthDirection = {
                     order = 5,
@@ -201,6 +270,7 @@ R.Options.args.Misc = {
                         ["VERTICAL"] = L["垂直"],
                         ["HORIZONTAL"] = L["水平"],
                     },
+                    hidden = function() return not R.db.Misc.totembar.enable end,
                 },
             },
         },
