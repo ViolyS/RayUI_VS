@@ -501,7 +501,7 @@ function RA:Construct_NameText(frame)
     local name = frame.RaisedElementParent:CreateFontString(nil, "ARTKWORK")
     name:SetPoint("CENTER", frame.Health, 0, 2)
     name:SetJustifyH("CENTER")
-    name:SetFont(R["media"].font, R["media"].fontsize, R["media"].fontflag)
+    name:SetFont(R["media"].font, R["media"].fontsize - 2, R["media"].fontflag)
     name:SetPoint("LEFT")
     name:SetPoint("RIGHT")
     name.overrideUnit = true

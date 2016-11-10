@@ -828,7 +828,7 @@ R["Watcher"] = {
                 -- 秩序壁壘
                 { spellID = 209388, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 十字軍
-                { spellID = 224668, unitId = "player", caster = "player", filter = "BUFF" },
+                { spellID = 231895, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 神圣意圖（懲戒）
                 { spellID = 223819, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 正義怒火
