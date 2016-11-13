@@ -46,18 +46,18 @@ mod.size = 30
 mod.spacing = 6
 
 local function UpdateTooltip(self)
-	-- GameTooltip:SetUnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
+    -- GameTooltip:SetUnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
 end
 
 local function OnEnter(self)
-	if(not self:IsVisible()) then return end
+    if(not self:IsVisible()) then return end
 
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
-	self:UpdateTooltip()
+    GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
+    self:UpdateTooltip()
 end
 
 local function OnLeave()
-	GameTooltip:Hide()
+    GameTooltip:Hide()
 end
 
 function mod:CreateCooldownIcon(index)
@@ -176,7 +176,13 @@ function mod:AddCooldown(type, spellID)
 
     for i, icon in pairs(self.icons) do
         if icon.spellID == spellID and icon.type == type then
+            icon.start = start
+            icon.duration = duration
+            icon.expirationTime = start + duration
+            icon.spellID = spellID
+            icon.type = type
             CooldownFrame_Set(icon.cd, start, duration, true)
+            self:SetPosition()
             return
         end
     end
@@ -236,16 +242,17 @@ end
 
 function mod:SPELLS_CHANGED()
     self:CacheBook(BOOKTYPE_SPELL)
-	if self.db.showpets then
-	    self:CacheBook(BOOKTYPE_PET)
-	end
+    if self.db.showpets then
+        self:CacheBook(BOOKTYPE_PET)
+    end
 end
 
 function mod:CheckSpellBook(btype)
+    local threshold = btype == BOOKTYPE_SPELL and 2.5 or 4
     for id, name in pairs(spells[btype]) do
         local start, duration, enable = GetSpellCooldown(id)
         if enable == 1 and start > 0 then
-            if duration > 2.5 then
+            if duration > threshold then
                 local _, _, texture = GetSpellInfo(id)
                 mod:AddCooldown("spell", id)
             else
@@ -257,7 +264,7 @@ function mod:CheckSpellBook(btype)
     for id, name in pairs(chargespells[btype]) do
         local start, duration, enable = GetSpellCooldown(id)
         local currentCharges, maxCharges, cooldownStart, cooldownDuration = GetSpellCharges(id)
-        if cooldownStart and cooldownDuration and currentCharges < maxCharges and enable == 1 and start > 0 and duration > 2.5 then
+        if cooldownStart and cooldownDuration and currentCharges < maxCharges and enable == 1 and start > 0 and duration > threshold then
             local _, _, texture = GetSpellInfo(id)
             mod:AddCooldown("spell", id)
         end
@@ -269,7 +276,7 @@ function mod:BAG_UPDATE_COOLDOWN()
         local start, duration, enable = GetInventoryItemCooldown("player", i)
         if enable == 1 then
             if start > 0 then
-                if duration > 3 and duration < 3601 then
+                if duration > 5 and duration < 3601 then
                     mod:AddCooldown("slot", i)
                 else
                     mod:RemoveCooldown("slot", i)
@@ -282,7 +289,7 @@ function mod:BAG_UPDATE_COOLDOWN()
             local start, duration, enable = GetContainerItemCooldown(i, j)
             if enable == 1 then
                 if start > 0 then
-                    if duration > 3 and duration < 3601 then
+                    if duration > 5 and duration < 3601 then
                         mod:AddCooldown("inventory", string.join("#", i, j))
                     end
                 else
@@ -307,7 +314,7 @@ function mod:PET_BAR_UPDATE_COOLDOWN()
             local name, _, texture = GetPetActionInfo(i)
             if name then
                 if start > 0 then
-                    if duration > 3 then
+                    if duration > 5 then
                         self:AddCooldown("pet", i)
                     end
                 else
@@ -327,31 +334,31 @@ function mod:UNIT_PET()
 end
 
 function mod:PLAYER_ENTERING_WORLD(event)
-	self:UnregisterEvent(event)
+    self:UnregisterEvent(event)
 
-	self:RegisterEvent("SPELLS_CHANGED")
-	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
-	self:RegisterEvent("SPELL_UPDATE_CHARGES", "SPELL_UPDATE_COOLDOWN")
+    self:RegisterEvent("SPELLS_CHANGED")
+    self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+    self:RegisterEvent("SPELL_UPDATE_CHARGES", "SPELL_UPDATE_COOLDOWN")
 
-	if self.db.showequip or self.db.showbag then
-		self:RegisterEvent("BAG_UPDATE_COOLDOWN")
-		self:BAG_UPDATE_COOLDOWN()
-	end
-	if self.db.showequip then
-		self:RegisterEvent("UNIT_INVENTORY_CHANGED", "BAG_UPDATE_COOLDOWN")
-	end
-	if self.db.showpets then
-		self:RegisterEvent("UNIT_PET")
-		self:UNIT_PET()
-	end
+    if self.db.showequip or self.db.showbag then
+        self:RegisterEvent("BAG_UPDATE_COOLDOWN")
+        self:BAG_UPDATE_COOLDOWN()
+    end
+    if self.db.showequip then
+        self:RegisterEvent("UNIT_INVENTORY_CHANGED", "BAG_UPDATE_COOLDOWN")
+    end
+    if self.db.showpets then
+        self:RegisterEvent("UNIT_PET")
+        self:UNIT_PET()
+    end
 
-	self:SPELLS_CHANGED()
-	self:SPELL_UPDATE_COOLDOWN()
+    self:SPELLS_CHANGED()
+    self:SPELL_UPDATE_COOLDOWN()
 end
 
 function mod:Initialize()
     self.db = M.db.cooldowns
-	if not self.db.enable then return end
+    if not self.db.enable then return end
 
     self.Holder = CreateFrame("Frame", nil, R.UIParent)
     self.Holder:Size(self.db.size)

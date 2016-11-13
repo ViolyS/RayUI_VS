@@ -19,7 +19,7 @@ local UnregisterStateDriver = UnregisterStateDriver
 
 function RA:FetchRaidPetsSettings()
     self.groupConfig.raidPets = {
-        enable = true,
+        enable = self.db.showPets,
 		width = self.db.petwidth,
 		height = self.db.petheight,
 		visibility = "[group:raid] show;hide",
@@ -52,6 +52,8 @@ function RA:Construct_RaidPetsFrames()
     self:RegisterForClicks("AnyUp")
     self:SetScript("OnEnter", RA.UnitFrame_OnEnter)
     self:SetScript("OnLeave", RA.UnitFrame_OnLeave)
+    RA:SecureHook(self, "UpdateAllElements", RA.UnitFrame_OnShow)
+    self:SetScript("OnHide", RA.UnitFrame_OnHide)
 end
 
 function RA:RaidPetsSmartVisibility(event)

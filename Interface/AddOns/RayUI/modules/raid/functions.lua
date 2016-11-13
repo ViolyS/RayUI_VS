@@ -144,6 +144,7 @@ function RA:PostHealth(unit)
     end
 
     if not owner:IsElementEnabled("ReadyCheck") then
+        R:Debug(owner:GetName(), "ReadyCheck Disabled")
         owner:EnableElement("ReadyCheck")
     end
 end
@@ -231,6 +232,22 @@ function RA:UpdatePower(power)
     power:SetPoint("LEFT")
     power:SetPoint("RIGHT")
     power:SetPoint("BOTTOM")
+end
+
+function RA:UnitFrame_OnShow(event)
+    if event ~= "OnShow" then return end
+    local parent = self:GetParent()
+    if parent.label then parent.label:Show() end
+end
+
+function RA:UnitFrame_OnHide()
+    local parent = self:GetParent()
+    if not parent.label then return end
+    for i = 1, #parent do
+        local unit = parent[i]
+        if unit:IsShown() then return end
+    end
+    parent.label:Hide()
 end
 
 -- Show Mouseover highlight
@@ -501,7 +518,7 @@ function RA:Construct_NameText(frame)
     local name = frame.RaisedElementParent:CreateFontString(nil, "ARTKWORK")
     name:SetPoint("CENTER", frame.Health, 0, 2)
     name:SetJustifyH("CENTER")
-    name:SetFont(R["media"].font, R["media"].fontsize - 2, R["media"].fontflag)
+    name:SetFont(R["media"].font, R["media"].fontsize, R["media"].fontflag)
     name:SetPoint("LEFT")
     name:SetPoint("RIGHT")
     name.overrideUnit = true

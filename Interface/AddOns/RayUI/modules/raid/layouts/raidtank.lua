@@ -19,7 +19,7 @@ local UnregisterStateDriver = UnregisterStateDriver
 
 function RA:FetchRaidTankSettings()
     self.groupConfig.raidTank = {
-        enable = true,
+        enable = self.db.showTank,
         width = self.db.tankwidth,
         height = self.db.tankheight,
         visibility = "[@raid1,exists] show;hide",
@@ -54,6 +54,8 @@ function RA:Construct_RaidTankFrames()
     self:RegisterForClicks("AnyUp")
     self:SetScript("OnEnter", RA.UnitFrame_OnEnter)
     self:SetScript("OnLeave", RA.UnitFrame_OnLeave)
+    RA:SecureHook(self, "UpdateAllElements", RA.UnitFrame_OnShow)
+    self:SetScript("OnHide", RA.UnitFrame_OnHide)
 end
 
 RA["headerstoload"]["raidTank"] = { "MAINTANK", nil }
