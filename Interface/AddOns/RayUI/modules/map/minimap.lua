@@ -52,39 +52,48 @@ local ToggleLFDParentFrame = ToggleLFDParentFrame
 -- GLOBALS: GuildFrame_LoadUI, EncounterJournal_LoadUI, TalentFrame_LoadUI, UIParent, MinimapButtonCollectFrame
 
 MM.modName = L["小地图"]
+local menuFrame = CreateFrame("Frame", "RayUI_MinimapRightClickMenu", R.UIParent)
+local menuList = {
+    {text = CHARACTER_BUTTON,
+        func = function() ToggleCharacter("PaperDollFrame") end},
+    {text = SPELLBOOK_ABILITIES_BUTTON,
+        func = function() if not SpellBookFrame:IsShown() then ShowUIPanel(SpellBookFrame) else HideUIPanel(SpellBookFrame) end end},
+    {text = TALENTS_BUTTON,
+        func = function()
+            if not PlayerTalentFrame then
+                TalentFrame_LoadUI()
+            end
 
-local function ConvertSecondstoTime(value)
-    local hours, minutes, seconds
-    hours = floor(value / 3600)
-    minutes = floor((value - (hours * 3600)) / 60)
-    seconds = floor(value - ((hours * 3600) + (minutes * 60)))
-
-    if ( hours > 0 ) then
-        return string.format("%d:%02d:%02d", hours, minutes, seconds)
-    else
-        return string.format("%02d:%02d", minutes, seconds)
-    end
-end
-
-local function GameTooltip_AddPVPTimer()
-    local _, _, _, _, WGTime = GetWorldPVPAreaInfo(1)
-    local _, _, _, _, TBTime = GetWorldPVPAreaInfo(2)
-
-    GameTooltip:AddLine(L["PVP信息"], HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
-    -- Wintergrasp
-    if ( WGTime and WGTime > 0 ) then
-        GameTooltip:AddDoubleLine(L["下一场冬拥湖:"], string.format("%s", ConvertSecondstoTime(WGTime)), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
-    else
-        GameTooltip:AddLine(L["冬拥湖不可用"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
-    end
-    -- Tol Barad
-    if ( TBTime and TBTime > 0 ) then
-        GameTooltip:AddDoubleLine(L["下一场托尔巴拉德:"], string.format("%s", ConvertSecondstoTime(TBTime)), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
-    else
-        GameTooltip:AddLine(L["托尔巴拉德不可用"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
-    end
-    GameTooltip:AddLine(" ")
-end
+            if not PlayerTalentFrame:IsShown() then
+                ShowUIPanel(PlayerTalentFrame)
+            else
+                HideUIPanel(PlayerTalentFrame)
+            end
+        end
+    },
+    {text = ACHIEVEMENT_BUTTON,
+        func = function() ToggleAchievementFrame() end},
+    {text = SOCIAL_BUTTON,
+        func = function() ToggleFriendsFrame() end},
+    {text = ACHIEVEMENTS_GUILD_TAB,
+        func = function() ToggleGuildFrame() end},
+    {text = ENCOUNTER_JOURNAL,
+        func = function() if not IsAddOnLoaded("Blizzard_EncounterJournal") then EncounterJournal_LoadUI() end ToggleFrame(EncounterJournal) end},
+    {text = COLLECTIONS,
+        func = function() ToggleCollectionsJournal() end},
+    {text = LFG_TITLE,
+        func = function() ToggleLFDParentFrame() end},
+    {text = BLIZZARD_STORE,
+        func = function() StoreMicroButton:Click() end},
+    {text = HELP_BUTTON,
+        func = function() ToggleHelpFrame() end},
+    {text = GARRISON_LANDING_PAGE_TITLE,
+        func = function() GarrisonLandingPageMinimapButton_OnClick() end},
+    {text = CALENDAR,
+        func = function() GameTimeFrame:Click() end},
+    {text = LOOT_ROLLS,
+        func = function() ToggleFrame(LootHistoryFrame) end},
+}
 
 function MM:TimeManagerClockButton_UpdateTooltip()
     GameTooltip:SetOwner(Minimap, "ANCHOR_BOTTOMRIGHT", 5, 142)
@@ -95,12 +104,10 @@ function MM:TimeManagerClockButton_UpdateTooltip()
             GameTooltip:AddLine(Settings.alarmMessage, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b, 1)
             GameTooltip:AddLine(" ")
         end
-        GameTooltip_AddPVPTimer()
         GameTooltip:AddLine(TIMEMANAGER_ALARM_TOOLTIP_TURN_OFF)
     else
         GameTime_UpdateTooltip()
         GameTooltip:AddLine(" ")
-        GameTooltip_AddPVPTimer()
         GameTooltip:AddLine(GAMETIME_TOOLTIP_TOGGLE_CLOCK)
     end
     GameTooltip:Show()
@@ -137,10 +144,26 @@ function MM:SkinMiniMap()
     Minimap:Size(175, 175)
     Minimap:CreateShadow("Background")
     Minimap:SetPlayerTexture("Interface\\AddOns\\RayUI\\media\\MinimapArrow")
+    Minimap.shadow:SetBackdrop( {
+        edgeFile = R["media"].glow,
+        bgFile = R["media"].blank,
+        edgeSize = R:Scale(4),
+        tile = false,
+        tileSize = 0,
+        insets = {left = R:Scale(4), right = R:Scale(4), top = R:Scale(4), bottom = R:Scale(4)},
+    })
     MinimapCluster:EnableMouse(false)
     MiniMapTrackingBackground:SetAlpha(0)
     MiniMapTrackingButton:SetAlpha(0)
     MiniMapTracking:Hide()
+    MiniMapInstanceDifficulty:ClearAllPoints()
+    MiniMapInstanceDifficulty:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 2, 2)
+    MiniMapInstanceDifficulty:SetScale(0.75)
+    MiniMapInstanceDifficulty:SetFrameStrata("LOW")
+    GuildInstanceDifficulty:ClearAllPoints()
+    GuildInstanceDifficulty:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 2, 2)
+    GuildInstanceDifficulty:SetScale(0.75)
+    GuildInstanceDifficulty:SetFrameStrata("LOW")
     MiniMapChallengeMode:SetParent(MinimapCluster)
     MiniMapChallengeMode:ClearAllPoints()
     MiniMapChallengeMode:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", -2, -2)
@@ -212,87 +235,66 @@ function MM:CheckMail()
     end
 end
 
-function MM:CreateMenu()
-    local menuFrame = CreateFrame("Frame", "RayUI_MinimapRightClickMenu", R.UIParent)
-    local menuList = {
-        {text = CHARACTER_BUTTON,
-            func = function() ToggleCharacter("PaperDollFrame") end},
-        {text = SPELLBOOK_ABILITIES_BUTTON,
-            func = function() if not SpellBookFrame:IsShown() then ShowUIPanel(SpellBookFrame) else HideUIPanel(SpellBookFrame) end end},
-        {text = TALENTS_BUTTON,
-            func = function()
-                if not PlayerTalentFrame then
-                    TalentFrame_LoadUI()
-                end
+function MM:ADDON_LOADED(event, addon)
+    if addon == "Blizzard_TimeManager" then
+        self:UnregisterEvent(event)
+        if ( not BlizzardStopwatchOptions ) then
+            BlizzardStopwatchOptions = {}
+        end
 
-                if not PlayerTalentFrame:IsShown() then
-                    ShowUIPanel(PlayerTalentFrame)
-                else
-                    HideUIPanel(PlayerTalentFrame)
+        if ( BlizzardStopwatchOptions.position ) then
+            StopwatchFrame:ClearAllPoints()
+            StopwatchFrame:SetPoint("CENTER", R.UIParent, "BOTTOMLEFT", BlizzardStopwatchOptions.position.x, BlizzardStopwatchOptions.position.y)
+            StopwatchFrame:SetUserPlaced(true)
+        else
+            StopwatchFrame:SetPoint("TOPRIGHT", R.UIParent, "TOPRIGHT", -250, -300)
+        end
+        self:RawHook("TimeManagerClockButton_UpdateTooltip", true)
+
+        local clockFrame, clockTime = TimeManagerClockButton:GetRegions()
+        clockFrame:Hide()
+        clockTime:SetFont(R["media"].font, R["media"].fontsize, R["media"].fontflag)
+        clockTime:SetTextColor(1,1,1)
+        TimeManagerClockButton:SetPoint("BOTTOM", Minimap, "BOTTOM", 0, -3)
+        TimeManagerClockButton:SetScript("OnClick", function(_,btn)
+                if btn == "LeftButton" then
+                    ToggleFrame(TimeManagerFrame)
                 end
-            end
-        },
-        {text = ACHIEVEMENT_BUTTON,
-            func = function() ToggleAchievementFrame() end},
-        {text = SOCIAL_BUTTON,
-            func = function() ToggleFriendsFrame() end},
-        {text = ACHIEVEMENTS_GUILD_TAB,
-            func = function() ToggleGuildFrame() end},
-        {text = ENCOUNTER_JOURNAL,
-            func = function() if not IsAddOnLoaded("Blizzard_EncounterJournal") then EncounterJournal_LoadUI() end ToggleFrame(EncounterJournal) end},
-        {text = COLLECTIONS,
-            func = function() ToggleCollectionsJournal() end},
-        {text = LFG_TITLE,
-            func = function() ToggleLFDParentFrame() end},
-        {text = BLIZZARD_STORE,
-            func = function() StoreMicroButton:Click() end},
-        {text = HELP_BUTTON,
-            func = function() ToggleHelpFrame() end},
-        {text = GARRISON_LANDING_PAGE_TITLE,
-            func = function() GarrisonLandingPageMinimapButton_OnClick() end},
-        {text = CALENDAR,
-            func = function() GameTimeFrame:Click() end},
-        {text = LOOT_ROLLS,
-            func = function() ToggleFrame(LootHistoryFrame) end},
-    }
-    Minimap:SetScript("OnMouseUp", function(self, btn)
-            local position = self:GetPoint()
-            if( btn == "RightButton" and not IsShiftKeyDown() ) then
-                ToggleDropDownMenu(1, nil, MiniMapTrackingDropDown, "cursor", 0, 0)
-            elseif(btn == "MiddleButton" or ( btn== "RightButton" and IsShiftKeyDown())) then
-                if position:match("LEFT") then
-                    R:DropDown(menuList, menuFrame)
-                else
-                    R:DropDown(menuList, menuFrame, -160, 0)
+                if btn == "RightButton" then
+                    GameTimeFrame:Click()
                 end
-            else
-                local x, y = GetCursorPosition()
-                x = x / Minimap:GetEffectiveScale()
-                y = y / Minimap:GetEffectiveScale()
-                local cx, cy = Minimap:GetCenter()
-                x = x - cx
-                y = y - cy
-                if ( sqrt(x * x + y * y) < (Minimap:GetWidth() / 2) ) then
-                    Minimap:PingLocation(x, y)
-                end
-                Minimap_SetPing(x, y, 1)
-            end
-        end)
+            end)
+    end
+end
+
+function MM:Minimap_OnMouseUp(btn)
+    local position = self:GetPoint()
+    if( btn == "RightButton" and not IsShiftKeyDown() ) then
+        ToggleDropDownMenu(1, nil, MiniMapTrackingDropDown, "cursor", 0, 0)
+    elseif(btn == "MiddleButton" or ( btn== "RightButton" and IsShiftKeyDown())) then
+        if position:match("LEFT") then
+            R:DropDown(menuList, menuFrame)
+        else
+            R:DropDown(menuList, menuFrame, -160, 0)
+        end
+    else
+        local x, y = GetCursorPosition()
+        x = x / Minimap:GetEffectiveScale()
+        y = y / Minimap:GetEffectiveScale()
+        local cx, cy = Minimap:GetCenter()
+        x = x - cx
+        y = y - cy
+        if ( sqrt(x * x + y * y) < (Minimap:GetWidth() / 2) ) then
+            Minimap:PingLocation(x, y)
+        end
+        Minimap_SetPing(x, y, 1)
+    end
+end
+
+function MM:CreateMenu()
+    Minimap:SetScript("OnMouseUp", MM.Minimap_OnMouseUp)
     R:GetModule("Skins"):CreateBD(menuFrame)
     R:GetModule("Skins"):CreateStripesThin(menuFrame)
-    self:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES", "CheckMail")
-    self:RegisterEvent("UPDATE_PENDING_MAIL", "CheckMail")
-    self:RegisterEvent("PLAYER_ENTERING_WORLD", "CheckMail")
-    self:HookScript(MiniMapMailFrame, "OnHide", "CheckMail")
-    self:HookScript(MiniMapMailFrame, "OnShow", "CheckMail")
-    Minimap.shadow:SetBackdrop( {
-            edgeFile = R["media"].glow,
-            bgFile = R["media"].blank,
-            edgeSize = R:Scale(4),
-            tile = false,
-            tileSize = 0,
-            insets = {left = R:Scale(4), right = R:Scale(4), top = R:Scale(4), bottom = R:Scale(4)},
-        })
 end
 
 function MM:Info()
@@ -309,49 +311,32 @@ local function MinimapPostDrag(self, screenQuadrant)
     end
 end
 
-function MM:Initialize()
-    if not IsAddOnLoaded("Blizzard_TimeManager") then
-        LoadAddOn("Blizzard_TimeManager")
-        if ( not BlizzardStopwatchOptions ) then
-            BlizzardStopwatchOptions = {}
-        end
-
-        if ( BlizzardStopwatchOptions.position ) then
-            StopwatchFrame:ClearAllPoints()
-            StopwatchFrame:SetPoint("CENTER", R.UIParent, "BOTTOMLEFT", BlizzardStopwatchOptions.position.x, BlizzardStopwatchOptions.position.y)
-            StopwatchFrame:SetUserPlaced(true)
-        else
-            StopwatchFrame:SetPoint("TOPRIGHT", R.UIParent, "TOPRIGHT", -250, -300)
-        end
+function MM:Minimap_OnMouseWheel(d)
+    if d > 0 then
+        MinimapZoomIn:Click()
+    elseif d < 0 then
+        MinimapZoomOut:Click()
     end
+end
+
+function MM:Initialize()
     self:SkinMiniMap()
     self:CreateMenu()
     self:ButtonCollector()
-    self:RawHook("TimeManagerClockButton_UpdateTooltip", true)
+
     Minimap:ClearAllPoints()
     Minimap:Point("TOPLEFT", R.UIParent, "TOPLEFT", 10, -20)
     Minimap:SetFrameLevel(10)
-    local clockFrame, clockTime = TimeManagerClockButton:GetRegions()
-    clockFrame:Hide()
-    clockTime:SetFont(R["media"].font, R["media"].fontsize, R["media"].fontflag)
-    clockTime:SetTextColor(1,1,1)
-    TimeManagerClockButton:SetPoint("BOTTOM", Minimap, "BOTTOM", 0, -3)
-    TimeManagerClockButton:SetScript("OnClick", function(_,btn)
-            if btn == "LeftButton" then
-                ToggleFrame(TimeManagerFrame)
-            end
-            if btn == "RightButton" then
-                GameTimeFrame:Click()
-            end
-        end)
     Minimap:EnableMouseWheel(true)
-    Minimap:SetScript("OnMouseWheel", function(_, zoom)
-            if zoom > 0 then
-                Minimap_ZoomIn()
-            else
-                Minimap_ZoomOut()
-            end
-        end)
+    Minimap:SetScript("OnMouseWheel", MM.Minimap_OnMouseWheel)
+
+    self:RegisterEvent("ADDON_LOADED")
+    self:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES", "CheckMail")
+    self:RegisterEvent("UPDATE_PENDING_MAIL", "CheckMail")
+    self:RegisterEvent("PLAYER_ENTERING_WORLD", "CheckMail")
+    self:HookScript(MiniMapMailFrame, "OnHide", "CheckMail")
+    self:HookScript(MiniMapMailFrame, "OnShow", "CheckMail")
+
     R:CreateMover(Minimap, "MinimapMover", L["小地图锚点"], true, MinimapPostDrag)
 end
 
@@ -361,20 +346,20 @@ R:RegisterModule(MM:GetName())
 -- 转载自NGA，[小玩意儿][6.0+] 小地图副本难度标示. (小旗子再见) ，by sakaras
 -- Say thanks: FreeUI , 斬擊 , nannan828 , 水月 , liubingchen3 
 ----------------------------------------------------------- 
-MiniMapInstanceDifficulty:Hide() 
-MiniMapInstanceDifficulty.Show = function() return end 
+MiniMapInstanceDifficulty:Hide()
+MiniMapInstanceDifficulty.Show = function() return end
 
-GuildInstanceDifficulty:Hide() 
-GuildInstanceDifficulty.Show = function() return end 
+GuildInstanceDifficulty:Hide()
+GuildInstanceDifficulty.Show = function() return end
 
 local function CreateFS(parent, size, justify)
-	local f = parent:CreateFontString(nil, "OVERLAY")
-	f:SetFont(GameFontNormal:GetFont(), 16, "OUTLINE")
-	f:SetShadowColor(0, 0, 0, 0) 
-	
-	if justify then f:SetJustifyH(justify) end
-	
-	return f
+    local f = parent:CreateFontString(nil, "OVERLAY")
+    f:SetFont(GameFontNormal:GetFont(), 16, "OUTLINE")
+    f:SetShadowColor(0, 0, 0, 0)
+    
+    if justify then f:SetJustifyH(justify) end
+
+    return f
 end
 
 local rd = CreateFrame("Frame", nil, Minimap)
@@ -389,46 +374,46 @@ local rdt = CreateFS(rd, R["media"].fontsize, "LEFT")
 rdt:SetPoint("TOPLEFT")
 
 local instanceTexts = {
-	[0] = "",
-	[1] = "5",
-	[2] = "5H",
-	[3] = "10",
-	[4] = "25",
-	[5] = "10H",
-	[6] = "25H",
-	[7] = "RF",
-	[8] = "C",
-	[9] = "40",
-	[11] = "HB",
-	[12] = "B",
-	[16] = "M",
-	[23] = "5M",	-- Mythic 5-player
-	[24] = "TW",	-- Timewalker 5-player
+    [0] = "",
+    [1] = "5",
+    [2] = "5H",
+    [3] = "10",
+    [4] = "25",
+    [5] = "10H",
+    [6] = "25H",
+    [7] = "RF",
+    [8] = "C",
+    [9] = "40",
+    [11] = "HB",
+    [12] = "B",
+    [16] = "M",
+    [23] = "5M",    -- Mythic 5-player
+    [24] = "TW",    -- Timewalker 5-player
 }
 
 rd:SetScript("OnEvent", function()
-	local inInstance, instanceType = IsInInstance()
-	local _, _, difficultyID, _, maxPlayers, _, _, _, instanceGroupSize = GetInstanceInfo()
+    local inInstance, instanceType = IsInInstance()
+    local _, _, difficultyID, _, maxPlayers, _, _, _, instanceGroupSize = GetInstanceInfo()
 
-	if instanceTexts[difficultyID] ~= nil then
-		rdt:SetText(instanceTexts[difficultyID])
-	else
-		if difficultyID == 14 then
-			rdt:SetText(instanceGroupSize.."N")
-		elseif difficultyID == 15 then
-			rdt:SetText(instanceGroupSize.."H")
-		elseif difficultyID == 17 then
-			rdt:SetText(instanceGroupSize.."RF")
-		else
-			rdt:SetText("")
-		end
-	end
+    if instanceTexts[difficultyID] ~= nil then
+        rdt:SetText(instanceTexts[difficultyID])
+    else
+        if difficultyID == 14 then
+            rdt:SetText(instanceGroupSize.."N")
+        elseif difficultyID == 15 then
+            rdt:SetText(instanceGroupSize.."H")
+        elseif difficultyID == 17 then
+            rdt:SetText(instanceGroupSize.."RF")
+        else
+            rdt:SetText("")
+        end
+    end
 
-	rd:SetShown(inInstance and (instanceType == "party" or instanceType == "raid" or instanceType == "scenario"))
+    rd:SetShown(inInstance and (instanceType == "party" or instanceType == "raid" or instanceType == "scenario"))
 
-	if GuildInstanceDifficulty:IsShown() then
-		rdt:SetTextColor(0, .9, 0)
-	else
-		rdt:SetTextColor(1, 1, 1)
-	end
+    if GuildInstanceDifficulty:IsShown() then
+        rdt:SetTextColor(0, .9, 0)
+    else
+        rdt:SetTextColor(1, 1, 1)
+    end
 end)
