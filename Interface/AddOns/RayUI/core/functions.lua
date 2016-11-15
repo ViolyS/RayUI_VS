@@ -68,6 +68,7 @@ SlashCmdList["RELOAD"] = function() ReloadUI() end
 SLASH_RELOAD1 = "/rl"
 
 R["RegisteredModules"] = {}
+R.FrameLocks = {}
 R.resolution = ({GetScreenResolutions()})[GetCurrentResolution()] or GetCVar("gxWindowedResolution")
 R.screenheight = tonumber(string.match(R.resolution, "%d+x(%d+)"))
 R.screenwidth = tonumber(string.match(R.resolution, "(%d+)x+%d"))
@@ -381,7 +382,23 @@ function R:Initialize()
         C_Timer.After(6, ShowSplashScreen)
     end
 
+    self:RegisterEvent("PLAYER_REGEN_DISABLED")
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
+    self:RegisterEvent("PET_BATTLE_CLOSE", "AddNonPetBattleFrames")
+    self:RegisterEvent("PET_BATTLE_OPENING_START", "RemoveNonPetBattleFrames")
+
+    self:RegisterChatCommand("RayUI", "OpenConfig")
+    self:RegisterChatCommand("RC", "OpenConfig")
+    self:RegisterChatCommand("cpuimpact", "GetCPUImpact")
+    self:RegisterChatCommand("cpuusage", "GetTopCPUFunc")
+    -- args: module, showall, delay, minCalls
+    -- Example1: /cpuusage all
+    -- Example2: /cpuusage Bags true
+    -- Example3: /cpuusage UnitFrames nil 50 25
+    -- Note: showall, delay, and minCalls will default if not set
+    -- arg1 can be "all" this will scan all registered modules!
+    self:RegisterChatCommand("gm", ToggleHelpFrame)
+
     self:Delay(5, function() collectgarbage("collect") end)
     self:LockCVar("overrideArchive", 0)
 end
@@ -964,6 +981,35 @@ function R:CopyTable(currentTable, defaultTable)
     end
 
     return currentTable
+end
+
+function R:RemoveNonPetBattleFrames()
+    if InCombatLockdown() then return end
+    for object, _ in pairs(R.FrameLocks) do
+        local obj = _G[object] or object
+        obj:SetParent(R.HiddenFrame)
+    end
+
+    self:RegisterEvent("PLAYER_REGEN_DISABLED", "AddNonPetBattleFrames")
+end
+
+function R:AddNonPetBattleFrames()
+    if InCombatLockdown() then return end
+    for object, data in pairs(R.FrameLocks) do
+        local obj = _G[object] or object
+        local parent, strata
+        if type(data) == "table" then
+            parent, strata = data.parent, data.strata
+        elseif data == true then
+            parent = UIParent
+        end
+        obj:SetParent(parent)
+        if strata then
+            obj:SetFrameStrata(strata)
+        end
+    end
+
+    self:UnregisterEvent("PLAYER_REGEN_DISABLED")
 end
 
 function R:ADDON_LOADED(event, addon)

@@ -95,20 +95,13 @@ function AddOn:OnInitialize()
 
     self:InitializeModules()
     self.initialized = true
-    self:RegisterEvent("PLAYER_REGEN_DISABLED")
-    self:RegisterEvent("PLAYER_LOGIN", "Initialize")
-    self:RegisterChatCommand("RayUI", "OpenConfig")
-    self:RegisterChatCommand("RC", "OpenConfig")
-    self:RegisterChatCommand("cpuimpact", "GetCPUImpact")
-	self:RegisterChatCommand("cpuusage", "GetTopCPUFunc")
-	-- args: module, showall, delay, minCalls
-	-- Example1: /cpuusage all
-	-- Example2: /cpuusage Bags true
-	-- Example3: /cpuusage UnitFrames nil 50 25
-	-- Note: showall, delay, and minCalls will default if not set
-	-- arg1 can be "all" this will scan all registered modules!
-    self:RegisterChatCommand("gm", ToggleHelpFrame)
 end
+
+local f=CreateFrame("Frame")
+f:RegisterEvent("PLAYER_LOGIN")
+f:SetScript("OnEvent", function()
+	AddOn:Initialize()
+end)
 
 function AddOn:PLAYER_REGEN_ENABLED()
     AddOn:OpenConfig()
