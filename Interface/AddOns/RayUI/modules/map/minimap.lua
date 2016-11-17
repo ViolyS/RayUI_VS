@@ -362,7 +362,7 @@ end
 
 local rd = CreateFrame("Frame", nil, Minimap)
 rd:SetSize(24, 8)
-rd:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 5, -5)
+rd:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", -2, -2)
 rd:RegisterEvent("PLAYER_ENTERING_WORLD")
 rd:RegisterEvent("PLAYER_DIFFICULTY_CHANGED")
 rd:RegisterEvent("GUILD_PARTY_STATE_UPDATED")
