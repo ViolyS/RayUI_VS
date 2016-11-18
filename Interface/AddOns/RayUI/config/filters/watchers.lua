@@ -1424,8 +1424,6 @@ R["Watcher"] = {
                 { spellID = 5277, filter = "CD" },
                 -- 猩红血瓶
                 { spellID = 185311, filter = "CD" },
-                -- 還擊
-                { spellID = 199754, filter = "CD" },
                 -- 致盲
                 { spellID = 2094, filter = "CD" },
                 -- 偷天換日
@@ -1748,6 +1746,10 @@ R["Watcher"] = {
                 { spellID = 163073, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 惡魔尖刺
                 { spellID = 203819, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 強化結界
+                { spellID = 218256, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 虹吸能量
+                { spellID = 218561, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 獻祭光環
                 { spellID = 178740, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 氣勢如虹
@@ -1765,6 +1767,8 @@ R["Watcher"] = {
                 { spellID = 207744, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 放血
                 { spellID = 207690, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 死敵
+                { spellID = 206491, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
             {
                 name = "焦点buff&debuff",
@@ -1971,8 +1975,6 @@ R["Watcher"] = {
                 { spellID = 61391, unitId = "player", caster = "all", filter = "DEBUFF" },
 
                 -- 獵人
-                -- 豹群守護
-                { spellID = 13159, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 脅迫
                 { spellID = 24394, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 禁錮射擊
@@ -2005,8 +2007,6 @@ R["Watcher"] = {
                 { spellID = 82691, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 龍之吐息
                 { spellID = 31661, unitId = "player", caster = "all", filter = "DEBUFF" },
-                -- 霜顎
-                { spellID = 102051, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 冰凍術 (水元素)
                 { spellID = 33395, unitId = "player", caster = "all", filter = "DEBUFF" },
                 -- 冰霜新星
@@ -2182,14 +2182,14 @@ R["Watcher"] = {
                 { spellID = 48707, unitId = "target", caster = "all", filter = "BUFF" },
                 -- 巫妖之軀
                 { spellID = 49039, unitId = "target", caster = "all", filter = "BUFF" },
-                -- 自由聖禦
+                -- 自由祝福
                 { spellID = 1044, unitId = "target", caster = "all", filter = "BUFF" },
-                -- 犧牲聖禦
+                -- 犧牲祝福
                 { spellID = 6940, unitId = "target", caster = "all", filter = "BUFF" },
+                -- 保護祝福
+                { spellID = 1022, unitId= "target", caster = "all", filter = "BUFF" },
                 -- 根基圖騰效果
                 { spellID = 8178, unitId = "target", caster = "all", filter = "BUFF" },
-                -- 保護聖禦
-                { spellID = 1022, unitId= "target", caster = "all", filter = "BUFF" },
             },
         },
     }
