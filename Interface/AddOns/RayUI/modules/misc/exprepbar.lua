@@ -1,6 +1,7 @@
 local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, GlobalDB
 local M = R:GetModule("Misc")
 local mod = M:NewModule("Exprepbar", "AceEvent-3.0")
+local libAD = LibStub("LibArtifactData-1.0")
 
 --Cache global variables
 --Lua functions
@@ -14,7 +15,6 @@ local CreateFrame = CreateFrame
 local IsAddOnLoaded = IsAddOnLoaded
 local LoadAddOn = LoadAddOn
 local SocketInventoryItem = SocketInventoryItem
-local C_ArtifactUI = C_ArtifactUI
 local GetSpellInfo = GetSpellInfo
 local HideUIPanel = HideUIPanel
 local UnitXP = UnitXP
@@ -33,7 +33,6 @@ local GetFriendshipReputation = GetFriendshipReputation
 local ToggleCharacter = ToggleCharacter
 local GetFriendshipReputationRanks = GetFriendshipReputationRanks
 local HasArtifactEquipped = HasArtifactEquipped
-local MainMenuBar_GetNumArtifactTraitsPurchasableFromXP = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP
 local BreakUpLargeNumbers = BreakUpLargeNumbers
 local ShowUIPanel = ShowUIPanel
 local InCombatLockdown = InCombatLockdown
@@ -42,43 +41,27 @@ local InCombatLockdown = InCombatLockdown
 -- GLOBALS: ArtifactFrame, GameTooltip, Minimap, XP, NORMAL_FONT_COLOR, HIGHLIGHT_FONT_COLOR, MAX_PLAYER_LEVEL_TABLE
 -- GLOBALS: HONOR, PVP_HONOR_PRESTIGE_AVAILABLE, HONOR_LEVEL_LABEL, MAX_HONOR_LEVEL, HONOR_BAR
 -- GLOBALS: MAX_PLAYER_LEVEL, STANDING, RayUF, REPUTATION, ReputationWatchBar, ARTIFACT_POWER_TOOLTIP_TITLE
--- GLOBALS: ArtifactWatchBar, ARTIFACT_POWER_TOOLTIP_BODY
+-- GLOBALS: ARTIFACT_POWER_TOOLTIP_BODY, LEVEL
 
---[[
 local function AddPerks()
-    if not IsAddOnLoaded("Blizzard_ArtifactUI") then LoadAddOn("Blizzard_ArtifactUI") end
-    local forceHide, header
-
-    if not ArtifactFrame:IsShown() then
-        forceHide = true
-        SocketInventoryItem(16)
-    end
-
-    for i, powerID in ipairs(C_ArtifactUI.GetPowers()) do
-        --local spellID, cost, currentRank, maxRank, bonusRanks, x, y, prereqsMet, isStart, isGoldMedal, isFinal = C_ArtifactUI.GetPowerInfo(powerID)
-        local spellID, _, rank, maxRank, bonus = C_ArtifactUI.GetPowerInfo(powerID)
-        local isStart = select(9, C_ArtifactUI.GetPowerInfo(powerID))
+    local _, traits = libAD:GetArtifactTraits()
+    for _, data in pairs(traits) do
         local r,g,b = 1,1,1
 
-        if bonus > 0 then
+        if data.bonusRanks > 0 then
             r,g,b = 0.4,1,0
         end
 
-        if rank > 0 and not isStart then
+        if data.currentRank > 0 and not data.isStart then
             if not header then
                 header = true
                 GameTooltip:AddDivider()
             end
 
-            GameTooltip:AddDoubleLine(GetSpellInfo(spellID), rank.."/"..maxRank, 1,1,1, r,g,b)
+            GameTooltip:AddDoubleLine(data.name, data.currentRank.."/"..data.maxRank, 1,1,1, r,g,b)
         end
     end
-
-    if ArtifactFrame:IsShown() and forceHide then
-        HideUIPanel(ArtifactFrame)
-    end
 end
-]]
 
 local function Bar_OnShow(self)
     self:SetPoint("TOPLEFT", self.anchorFrame, "BOTTOMLEFT", 0, -4)
@@ -165,134 +148,8 @@ function mod:UpdateExpBar()
     end
 end
 
-function mod:CreateRepBar()
-    self.RepBar = self:CreateBar("RayUIRepBar", self.ExpBar, 8)
-
-    self.RepBar:SetScript("OnEvent", self.UpdateRepBar)
-    self.RepBar:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
-    self.RepBar:RegisterEvent("UPDATE_FACTION")
-    self.RepBar:RegisterEvent("PLAYER_ENTERING_WORLD")
-
-    self.RepBar:SetScript("OnEnter", function(self)
-            local name, rank, start, cap, value, factionID = GetWatchedFactionInfo()
-            local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID)
-            GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -5)
-            GameTooltip:ClearLines()
-            GameTooltip:AddLine(name)
-            GameTooltip:SetPrevLineJustify("CENTER")
-            GameTooltip:AddDivider()
-            if friendID then
-                rank = 8
-                GameTooltip:AddDoubleLine(STANDING, friendTextLevel, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, RayUF["colors"].reaction[rank][1], RayUF["colors"].reaction[rank][2], RayUF["colors"].reaction[rank][3])
-            else
-                GameTooltip:AddDoubleLine(STANDING, _G["FACTION_STANDING_LABEL"..rank], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, RayUF["colors"].reaction[rank][1], RayUF["colors"].reaction[rank][2], RayUF["colors"].reaction[rank][3])
-            end
-            GameTooltip:AddDoubleLine(REPUTATION, string.format("%s/%s (%d%%)", value-start, cap-start, (value-start)/(cap-start)*100), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1, 1, 1)
-            GameTooltip:AddDoubleLine(L["剩余"], string.format("%s", cap-value), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1, 1, 1)
-            GameTooltip:Show()
-        end)
-
-    self.RepBar:SetScript("OnLeave", function()
-            GameTooltip:Hide()
-        end)
-
-    self.RepBar:SetScript("OnMouseUp", function(self)
-            GameTooltip:Hide()
-            ToggleCharacter("ReputationFrame")
-        end)
-end
-
-function mod:UpdateRepBar()
-    local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold
-    if GetWatchedFactionInfo() then
-        local name, rank, min, max, value, factionID = GetWatchedFactionInfo()
-        local level
-        if ( ReputationWatchBar.friendshipID ) then
-            friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID)
-            level = GetFriendshipReputationRanks(factionID)
-            if ( nextFriendThreshold ) then
-                min, max, value = friendThreshold, nextFriendThreshold, friendRep
-            else
-                min, max, value = 0, 1, 1
-            end
-        else
-            level = rank
-        end
-        max = max - min
-        value = value - min
-        min = 0
-        self:SetAnimatedValues(value, min, max, level)
-        if friendID then
-            rank = 8
-        end
-        self:SetStatusBarColor(unpack(RayUF["colors"].reaction[rank]))
-        self:SetAnimatedTextureColors(unpack(RayUF["colors"].reaction[rank]))
-        self:Show()
-    else
-        self:Hide()
-    end
-end
-
-
---[[
-function mod:CreateArtiBar()
-    self.ArtiBar = self:CreateBar("RayUIArtiBar", self.RepBar, 8)
-    self.ArtiBar:SetStatusBarColor(.901, .8, .601)
-
-    self.ArtiBar:SetScript("OnEvent", self.UpdateArtiBar)
-    self.ArtiBar:RegisterEvent("ARTIFACT_XP_UPDATE")
-    self.ArtiBar:RegisterEvent("UNIT_INVENTORY_CHANGED")
-    self.ArtiBar:RegisterEvent("PLAYER_ENTERING_WORLD")
-
-    self.ArtiBar:SetScript("OnEnter", function(self)
-            if HasArtifactEquipped() and not InCombatLockdown() then
-                local title,r,g,b = select(2, C_ArtifactUI.GetEquippedArtifactArtInfo())
-                local name, icon, totalXP, pointsSpent = select(3, C_ArtifactUI.GetEquippedArtifactInfo())
-                local points, xp, xpMax = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP)
-
-                GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -5)
-                GameTooltip:AddLine(title,r,g,b,false)
-                GameTooltip:SetPrevLineJustify("CENTER")
-                GameTooltip:AddDivider()
-                GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_TITLE:format(BreakUpLargeNumbers(ArtifactWatchBar.totalXP), BreakUpLargeNumbers(ArtifactWatchBar.xp), BreakUpLargeNumbers(ArtifactWatchBar.xpForNextPoint)), 1, 1, 1)
-                if ArtifactWatchBar.numPointsAvailableToSpend > 0 then
-                    GameTooltip:AddLine(" ")
-                    GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_BODY:format(ArtifactWatchBar.numPointsAvailableToSpend), 0, 1, 0, true)
-                end
-
-                AddPerks()
-
-                GameTooltip:Show()
-            end
-        end)
-
-    self.ArtiBar:SetScript("OnLeave", function()
-            GameTooltip:Hide()
-        end)
-
-    self.ArtiBar:SetScript("OnMouseUp", function(self)
-            if not ArtifactFrame or not ArtifactFrame:IsShown() then
-                ShowUIPanel(SocketInventoryItem(16))
-            elseif ArtifactFrame and ArtifactFrame:IsShown() then
-                HideUIPanel(ArtifactFrame)
-            end
-        end)
-end
-
-function mod:UpdateArtiBar()
-    if HasArtifactEquipped() then
-        local itemID, altItemID, name, icon, totalXP, pointsSpent, quality, artifactAppearanceID, appearanceModID, itemAppearanceID, altItemAppearanceID, altOnTop = C_ArtifactUI.GetEquippedArtifactInfo()
-        if not pointsSpent then return end
-        local numPointsAvailableToSpend, xp, xpForNextPoint = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP)
-        self:SetAnimatedValues(xp, 0, xpForNextPoint, numPointsAvailableToSpend + pointsSpent)
-        self:Show()
-    else
-        self:Hide()
-    end
-end
-
 function mod:CreateHonorBar()
-    self.HonorBar = self:CreateBar("RayUIHonorBar", self.ArtiBar, 8)
+    self.HonorBar = self:CreateBar("RayUIHonorBar", self.ExpBar, 8)
 
     self.HonorBar:SetScript("OnEvent", self.UpdateHonorBar)
     self.HonorBar:RegisterEvent("HONOR_XP_UPDATE")
@@ -361,13 +218,132 @@ function mod:UpdateHonorBar()
         end
     end
 end
-]]
+
+function mod:CreateRepBar()
+    self.RepBar = self:CreateBar("RayUIRepBar", self.HonorBar, 8)
+
+    self.RepBar:SetScript("OnEvent", self.UpdateRepBar)
+    self.RepBar:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
+    self.RepBar:RegisterEvent("UPDATE_FACTION")
+    self.RepBar:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+    self.RepBar:SetScript("OnEnter", function(self)
+            local name, rank, start, cap, value, factionID = GetWatchedFactionInfo()
+            local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID)
+            GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -5)
+            GameTooltip:ClearLines()
+            GameTooltip:AddLine(name)
+            GameTooltip:SetPrevLineJustify("CENTER")
+            GameTooltip:AddDivider()
+            if friendID then
+                rank = 8
+                GameTooltip:AddDoubleLine(STANDING, friendTextLevel, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, RayUF["colors"].reaction[rank][1], RayUF["colors"].reaction[rank][2], RayUF["colors"].reaction[rank][3])
+            else
+                GameTooltip:AddDoubleLine(STANDING, _G["FACTION_STANDING_LABEL"..rank], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, RayUF["colors"].reaction[rank][1], RayUF["colors"].reaction[rank][2], RayUF["colors"].reaction[rank][3])
+            end
+            GameTooltip:AddDoubleLine(REPUTATION, string.format("%s/%s (%d%%)", value-start, cap-start, (value-start)/(cap-start)*100), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1, 1, 1)
+            GameTooltip:AddDoubleLine(L["剩余"], string.format("%s", cap-value), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1, 1, 1)
+            GameTooltip:Show()
+        end)
+
+    self.RepBar:SetScript("OnLeave", function()
+            GameTooltip:Hide()
+        end)
+
+    self.RepBar:SetScript("OnMouseUp", function(self)
+            GameTooltip:Hide()
+            ToggleCharacter("ReputationFrame")
+        end)
+end
+
+function mod:UpdateRepBar()
+    local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold
+    if GetWatchedFactionInfo() then
+        local name, rank, min, max, value, factionID = GetWatchedFactionInfo()
+        local level
+        if ( ReputationWatchBar.friendshipID ) then
+            friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID)
+            level = GetFriendshipReputationRanks(factionID)
+            if ( nextFriendThreshold ) then
+                min, max, value = friendThreshold, nextFriendThreshold, friendRep
+            else
+                min, max, value = 0, 1, 1
+            end
+        else
+            level = rank
+        end
+        max = max - min
+        value = value - min
+        min = 0
+        self:SetAnimatedValues(value, min, max, level)
+        if friendID then
+            rank = 8
+        end
+        self:SetStatusBarColor(unpack(RayUF["colors"].reaction[rank]))
+        self:SetAnimatedTextureColors(unpack(RayUF["colors"].reaction[rank]))
+        self:Show()
+    else
+        self:Hide()
+    end
+end
+
+function mod:CreateArtiBar()
+    self.ArtiBar = self:CreateBar("RayUIArtiBar", self.RepBar, 8)
+    self.ArtiBar:SetStatusBarColor(.901, .8, .601)
+    self.ArtiBar:Hide()
+
+    libAD.RegisterCallback(self, "ARTIFACT_POWER_CHANGED", "UpdateArtiBar")
+    libAD.RegisterCallback(self, "ARTIFACT_ADDED", "UpdateArtiBar")
+
+    self.ArtiBar:SetScript("OnEnter", function(self)
+            if HasArtifactEquipped() and not InCombatLockdown() then
+                local _, data = libAD:GetArtifactInfo()
+
+                GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -5)
+                GameTooltip:AddLine(string.format("%s (%s %d)", data.name, LEVEL, data.numRanksPurchased))
+                GameTooltip:SetPrevLineJustify("CENTER")
+                GameTooltip:AddDivider()
+                GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_TITLE:format(BreakUpLargeNumbers(data.maxPower), BreakUpLargeNumbers(data.power), BreakUpLargeNumbers(data.powerForNextRank)), 1, 1, 1)
+                if data.numRanksPurchasable > 0 then
+                    GameTooltip:AddLine(" ")
+                    GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_BODY:format(data.numRanksPurchasable), 0, 1, 0, true)
+                end
+
+                AddPerks()
+
+                GameTooltip:Show()
+            end
+        end)
+
+    self.ArtiBar:SetScript("OnLeave", function()
+            GameTooltip:Hide()
+        end)
+
+    self.ArtiBar:SetScript("OnMouseUp", function(self)
+            if not ArtifactFrame or not ArtifactFrame:IsShown() then
+                ShowUIPanel(SocketInventoryItem(16))
+            elseif ArtifactFrame and ArtifactFrame:IsShown() then
+                HideUIPanel(ArtifactFrame)
+            end
+        end)
+end
+
+function mod:UpdateArtiBar()
+    if HasArtifactEquipped() then
+        local _, data = libAD:GetArtifactInfo()
+        if not data.numRanksPurchased then return end
+        self.ArtiBar:SetAnimatedValues(data.power, 0, data.maxPower, data.numRanksPurchasable + data.numRanksPurchased)
+        self.ArtiBar:Show()
+    else
+        self.ArtiBar:Hide()
+    end
+end
 
 function mod:Initialize()
     self:CreateExpBar()
+    self:CreateHonorBar()
     self:CreateRepBar()
-    -- self:CreateArtiBar()
-    -- self:CreateHonorBar()
+    self:CreateArtiBar()
 end
 
 M:RegisterMiscModule(mod:GetName())
