@@ -128,6 +128,8 @@ R["Watcher"] = {
                 { spellID = 33786, unitId = "target", caster = "all", filter = "DEBUFF" },
                 -- 月火術
                 { spellID = 164812, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 月火術
+                { spellID = 155625, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 日炎術
                 { spellID = 164815, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 掃擊
