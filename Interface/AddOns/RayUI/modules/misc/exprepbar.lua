@@ -43,6 +43,7 @@ local InCombatLockdown = InCombatLockdown
 -- GLOBALS: MAX_PLAYER_LEVEL, STANDING, RayUF, REPUTATION, ReputationWatchBar, ARTIFACT_POWER_TOOLTIP_TITLE
 -- GLOBALS: ARTIFACT_POWER_TOOLTIP_BODY, LEVEL
 
+--[[
 local function AddPerks()
     local _, traits = libAD:GetArtifactTraits()
     for _, data in pairs(traits) do
@@ -62,6 +63,7 @@ local function AddPerks()
         end
     end
 end
+]]
 
 local function Bar_OnShow(self)
     self:SetPoint("TOPLEFT", self.anchorFrame, "BOTTOMLEFT", 0, -4)
@@ -148,6 +150,7 @@ function mod:UpdateExpBar()
     end
 end
 
+--[[
 function mod:CreateHonorBar()
     self.HonorBar = self:CreateBar("RayUIHonorBar", self.ExpBar, 8)
 
@@ -218,9 +221,10 @@ function mod:UpdateHonorBar()
         end
     end
 end
+]]
 
 function mod:CreateRepBar()
-    self.RepBar = self:CreateBar("RayUIRepBar", self.HonorBar, 8)
+    self.RepBar = self:CreateBar("RayUIRepBar", self.ExpBar, 8)
 
     self.RepBar:SetScript("OnEvent", self.UpdateRepBar)
     self.RepBar:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
@@ -287,6 +291,7 @@ function mod:UpdateRepBar()
     end
 end
 
+--[[
 function mod:CreateArtiBar()
     self.ArtiBar = self:CreateBar("RayUIArtiBar", self.RepBar, 8)
     self.ArtiBar:SetStatusBarColor(.901, .8, .601)
@@ -303,7 +308,7 @@ function mod:CreateArtiBar()
                 GameTooltip:AddLine(string.format("%s (%s %d)", data.name, LEVEL, data.numRanksPurchased))
                 GameTooltip:SetPrevLineJustify("CENTER")
                 GameTooltip:AddDivider()
-                GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_TITLE:format(BreakUpLargeNumbers(data.maxPower), BreakUpLargeNumbers(data.power), BreakUpLargeNumbers(data.powerForNextRank)), 1, 1, 1)
+                GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_TITLE:format(BreakUpLargeNumbers(data.unspentPower), BreakUpLargeNumbers(data.power), BreakUpLargeNumbers(data.maxPower)), 1, 1, 1)
                 if data.numRanksPurchasable > 0 then
                     GameTooltip:AddLine(" ")
                     GameTooltip:AddLine(ARTIFACT_POWER_TOOLTIP_BODY:format(data.numRanksPurchasable), 0, 1, 0, true)
@@ -338,12 +343,13 @@ function mod:UpdateArtiBar()
         self.ArtiBar:Hide()
     end
 end
+]]
 
 function mod:Initialize()
     self:CreateExpBar()
-    self:CreateHonorBar()
+    -- self:CreateHonorBar()
     self:CreateRepBar()
-    self:CreateArtiBar()
+    -- self:CreateArtiBar()
 end
 
 M:RegisterMiscModule(mod:GetName())
