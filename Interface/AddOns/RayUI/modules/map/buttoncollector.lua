@@ -301,4 +301,5 @@ function MM:ButtonCollector()
                 self:SetScript("OnUpdate", nil)
             end
         end)
+    R.FrameLocks["MinimapButtonCollectFrame"] = { parent = R.UIParent, strata = "BACKGROUND", level = 1 }
 end
