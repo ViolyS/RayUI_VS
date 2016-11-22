@@ -1724,6 +1724,8 @@ R["Watcher"] = {
 
                 -- 靈魂碎片
                 { spellID = 203981, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 魔化衝刺
+                { spellID = 195072, filter = "CD" },
             },
             {
                 name = "目标buff&debuff",
@@ -1758,6 +1760,8 @@ R["Watcher"] = {
                 { spellID = 208628, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 混沌之刃
                 { spellID = 211048, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 殘影
+                { spellID = 212800, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标重要buff&debuff",
