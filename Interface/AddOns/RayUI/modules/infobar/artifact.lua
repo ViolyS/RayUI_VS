@@ -2,23 +2,6 @@ local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, 
 local IF = R:GetModule("InfoBar")
 local libAD = LibStub("LibArtifactData-1.0")
 
-local function MetaPowerTooltipHelper(...)
-	local hasAddedAny = false;
-	for i = 1, select("#", ...), 3 do
-		local spellID, cost, currentRank = select(i, ...);
-		local metaPowerDescription = GetSpellDescription(spellID);
-		if metaPowerDescription then
-			if hasAddedAny then
-				GameTooltip:AddLine(" ");
-			end
-			GameTooltip:AddLine(metaPowerDescription, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, true);
-			hasAddedAny = true;
-		end
-	end
-
-	return hasAddedAny;
-end
-
 local function LoadArtifact()
     LoadAddOn("Blizzard_ArtifactUI")
 
