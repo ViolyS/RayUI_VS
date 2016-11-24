@@ -1,7 +1,7 @@
 local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, GlobalDB
 local M = R:GetModule("Misc")
 local mod = M:NewModule("Exprepbar", "AceEvent-3.0")
-local libAD = LibStub("LibArtifactData-1.0")
+--local libAD = LibStub("LibArtifactData-1.0")
 
 --Cache global variables
 --Lua functions
