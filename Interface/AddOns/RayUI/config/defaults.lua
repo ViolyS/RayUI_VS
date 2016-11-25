@@ -175,10 +175,10 @@ G["Raid"] = {}
 
 P["Raid"]={
     enable = true,
-    width = 60,
     height = 30,
-    petwidth = 60,
+    width = 60,
     petheight = 30,
+    petwidth = 60,
     tankheight = 40,
     tankwidth = 77,
     spacing = 5,
