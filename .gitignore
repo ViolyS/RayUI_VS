@@ -13,8 +13,7 @@
 
 /Interface/AddOns*/*
 /Interface/AddOns/RayUI/core/test.lua
-!/Interface/AddOns/!BugGrabber/
-!/Interface/AddOns/BagSync/
+!/Interface/AddOns/!BaudErrorFrame/
 !/Interface/AddOns/Bimbo/
 !/Interface/AddOns/Broker_WorldQuests/
 !/Interface/AddOns/BugSack/
