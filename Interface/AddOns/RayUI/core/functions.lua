@@ -366,10 +366,9 @@ local function ShowSplashScreen()
     RayUISplashScreen.fadeInfo.finishedFunc = FadeSplashScreen
 end
 
---[[
 function R:xCTPlusShortValue(self, amount, frameName)
     if R.global.general.numberType == 1 then
-        return R.hooks.Abbreviate(self, amount, frameName)
+        return R.hooks[xCT_Plus].Abbreviate(self, amount, frameName)
     else
         local message = tostring(amount)
         if frameName and self.db.profile.frames[frameName] and self.db.profile.frames[frameName].megaDamage then
@@ -392,10 +391,9 @@ function R:HandleShortValue()
         R:RawHook(xCT_Plus, "Abbreviate", "xCTPlusShortValue")
     end
 end
-]]
 
 function R:PLAYER_ENTERING_WORLD()
-    --self:HandleShortValue()
+    self:HandleShortValue()
     RequestTimePlayed()
     Advanced_UIScaleSlider:Kill()
     Advanced_UseUIScale:Kill()
