@@ -3,8 +3,6 @@ local IF = R:GetModule("InfoBar")
 local libAD = LibStub("LibArtifactData-1.0")
 
 local function LoadArtifact()
-    LoadAddOn("Blizzard_ArtifactUI")
-
     local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Artifact", 120)
     infobar:SetPoint("RIGHT", RayUI_InfoPanel_Currency, "LEFT", 0, 0)
     
@@ -47,17 +45,11 @@ local function LoadArtifact()
     infobar:HookScript("OnLeave", GameTooltip_Hide)
 
     infobar:SetScript("OnMouseDown", function()
-        if HasArtifactEquipped() then
-            local frame = ArtifactFrame
-            local activeID = C_ArtifactUI.GetArtifactInfo()
-            local equippedID = C_ArtifactUI.GetEquippedArtifactInfo()
-        
-            if frame:IsShown() and activeID == equippedID then
-                HideUIPanel(frame)
-            else
-                SocketInventoryItem(16)
+            if not ArtifactFrame or not ArtifactFrame:IsShown() then
+                ShowUIPanel(SocketInventoryItem(16))
+            elseif ArtifactFrame and ArtifactFrame:IsShown() then
+                HideUIPanel(ArtifactFrame)
             end
-        end
     end)
 end
 
