@@ -45,11 +45,11 @@ local function LoadArtifact()
     infobar:HookScript("OnLeave", GameTooltip_Hide)
 
     infobar:SetScript("OnMouseDown", function()
-            if not ArtifactFrame or not ArtifactFrame:IsShown() then
-                ShowUIPanel(SocketInventoryItem(16))
-            elseif ArtifactFrame and ArtifactFrame:IsShown() then
-                HideUIPanel(ArtifactFrame)
-            end
+        if not ArtifactFrame or not ArtifactFrame:IsShown() then
+            ShowUIPanel(SocketInventoryItem(16))
+        elseif ArtifactFrame and ArtifactFrame:IsShown() then
+            HideUIPanel(ArtifactFrame)
+        end
     end)
 end
 
