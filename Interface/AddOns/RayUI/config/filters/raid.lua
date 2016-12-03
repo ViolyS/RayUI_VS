@@ -113,7 +113,12 @@ G.Raid.RaidDebuffs = {
             [227959] = Defaults(), -- Storm of Justice
             [227475] = Defaults(), -- Cleansing Flame
             [192044] = Defaults(), -- Expel Light
-            [227781] = Defaults(), -- Glowing Fragment
+            [227781] = Defaults(), -- 發光碎片 碰光球暈3秒
+			[227491] = Defaults(), -- 被烙印 紅色
+			[227490] = Defaults(), -- 被烙印 紫色
+			[227500] = Defaults(), -- 被烙印 绿色
+			[227498] = Defaults(), -- 被烙印 黄色
+			[227499] = Defaults(), -- 被烙印 蓝色
             -- Guarm
             [228228] = Defaults(), -- Flame Lick
             [228248] = Defaults(), -- Frost Lick
@@ -121,6 +126,12 @@ G.Raid.RaidDebuffs = {
             [227539] = Defaults(), -- Fiery Phlegm
             [227566] = Defaults(), -- Salty Spittle
             [227570] = Defaults(), -- Dark Discharge
+			[228744] = Defaults(), -- 火焰易變沫液
+			[228794] = Defaults(), -- 火焰易變沫液
+			[228818] = Defaults(), -- 暗影易變沫液
+			[228819] = Defaults(), -- 暗影易變沫液
+			[228810] = Defaults(), -- 鹽蝕易變沫液
+			[228811] = Defaults(), -- 鹽蝕易變沫液
             -- Helya
             [227903] = Defaults(), -- Orb of Corruption
             [228058] = Defaults(), -- Orb of Corrosion
@@ -133,182 +144,172 @@ G.Raid.RaidDebuffs = {
         },
         [1094] = {
             -- The Emerald Nightmare
-            -- Nythendra
-            [204504] = Defaults(), -- Infested
-            [205043] = Defaults(), -- Infested mind
-            [203096] = Defaults(), -- Rot
-            [204463] = Defaults(), -- Volatile Rot
-            [203045] = Defaults(), -- Infested Ground
-            [203646] = Defaults(), -- Burst of Corruption
+            -- Nythendra 奈珊卓拉
+			[204504] = Defaults(2), -- 寄生 任何瘟疫都疊，10層心控
+			[203045] = Defaults(5), -- 感染之地 踩到屎
+			[203096] = Defaults(1), -- 腐爛 點名角落放屎
+			[204463] = Defaults(3), -- 烈性腐爛 坦克5層換	
+			[203646] = Defaults(8), -- 腐化爆裂 被炸易傷
+			[202978] = Defaults(3), -- 感染之息 正在被噴
+			[205043] = Defaults(1), -- 心智寄生 M
 
-            -- Elerethe Renferal
-            [210228] = Defaults(), -- Dripping Fangs
-            [215307] = Defaults(), -- Web of Pain
-            [215300] = Defaults(), -- Web of Pain
-            [215460] = Defaults(), -- Necrotic Venom
-            [213124] = Defaults(), -- Venomous Pool
-            [210850] = Defaults(), -- Twisting Shadows
-            [215489] = Defaults(), -- Venomous Pool
+			-- Il'gynoth, Heart of the Corruption 腐化之心伊蓋諾斯
+			[210099] = Defaults(2), -- 鎖定  軟泥盯你
+			[209469] = Defaults(2), -- 腐化之觸  魔法 軟泥咬你，驅散
+			[210984] = Defaults(3), -- 命運之眼  坦克2層換
+			[208929] = Defaults(4), -- 噴吐腐化  去外面放水
+			[208697] = Defaults(6), -- 精神鞭笞 眼梗瞪你，打斷
+			[212886] = Defaults(6), -- 夢魘腐化 踩到紅水
+			[215128] = Defaults(4), -- 詛咒之血 點名11碼分散
+			[215836] = Defaults(4), -- 死亡綻放 不踩爆炸
+			[215845] = Defaults(6), -- 散化孢子 爆炸dot
+			[209471] = Defaults(6), -- 夢魘爆炸 軟泥爆炸dot
 
-            -- Il'gynoth, Heart of the Corruption
-            [208929] = Defaults(), -- Spew Corruption
-            [210984] = Defaults(), -- Eye of Fate
-            [209469] = Defaults(5), -- Touch of Corruption
-            [208697] = Defaults(), -- Mind Flay
+			-- Elerethe Renferal 艾樂瑞斯雷弗拉爾
+			[210228] = Defaults(6), -- 滴毒尖牙 小怪 咬人疊dot
+			[215300] = Defaults(4), -- 痛苦蛛網 坦克連線
+			[215307] = Defaults(4), -- 痛苦蛛網 坦克連線
+			[213124] = Defaults(6), -- 毒液之池 踩到綠水
+			[215489] = Defaults(6), -- 毒液之池 踩到綠水
+			[215460] = Defaults(4), -- 亡域毒液 角落放水
+			[215582] = Defaults(4), -- 掃擊之爪 坦克
+			[210850] = Defaults(5), -- 扭曲暗影 角落放風或消水
+			[218124] = Defaults(6), -- 猛烈強風 擊飛M
+			[218144] = Defaults(6), -- 猛烈強風 擊飛M
+			[218519] = Defaults(6), -- 風之灼傷 強風易傷
 
-            -- Ursoc
-            [198108] = Defaults(), -- Unbalanced
-            [197943] = Defaults(), -- Overwhelm
-            [204859] = Defaults(), -- Rend Flesh
-            [205611] = Defaults(), -- Miasma
-            [198006] = Defaults(), -- Focused Gaze
-            [197980] = Defaults(), -- Nightmarish Cacophony
+			-- Ursoc 厄索克
+			[197943] = Defaults(3), -- 全面壓制 坦克易傷
+			[204859] = Defaults(3), -- 撕裂血肉 坦克dot
+			[198006] = Defaults(1), -- 專注凝視 點名衝鋒
+			[198108] = Defaults(2), -- 衝力 分攤易傷
+			[198392] = Defaults(4), -- 不諧回音 咆哮轟鳴增傷
+			[205611] = Defaults(6), -- 瘴氣 踩水
+			[197980] = Defaults(6), -- 惡夢絕叫 分身恐懼
 
-            -- Dragons of Nightmare
-            [203102] = Defaults(), -- Mark of Ysondre
-            [203121] = Defaults(), -- Mark of Taerar
-            [203125] = Defaults(), -- Mark of Emeriss
-            [203124] = Defaults(), -- Mark of Lethon
-            [204731] = Defaults(1), -- Wasting Dread
-            [203110] = Defaults(5), -- Slumbering Nightmare
-            [207681] = Defaults(3), -- Nightmare Bloom
-            [205341] = Defaults(5), -- Sleeping Fog
-            [203770] = Defaults(4), -- Defiled Vines
-            [203787] = Defaults(2), -- Volatile Infection
+			-- Dragons of Nightmare 夢魘之龍
+			[207681] = Defaults(3), -- 夢魘之花 踩花
+			[204731] = Defaults(6), -- 恐懼破壞力 減傷光環
+			[204044] = Defaults(6), -- 暗影衝擊 10%減速
+			[205341] = Defaults(3), -- 迷霧蔓延 魔法 沉睡
+			[203110] = Defaults(8), -- 夢魘沉睡 昏迷
+			[203770] = Defaults(4), -- 褻瀆藤蔓 魔法 定身
+			[203787] = Defaults(1), -- 快速傳染 10碼aoe
+			[204078] = Defaults(5), -- 低沉咆哮 恐懼3秒
+			[214543] = Defaults(8), -- 崩塌夢魘 內場減傷
 
-            -- Cenarius
-            [210279] = Defaults(), -- Creeping Nightmares
-            [213162] = Defaults(), -- Nightmare Blast
-            [210315] = Defaults(), -- Nightmare Brambles
-            [212681] = Defaults(), -- Cleansed Ground
-            [211507] = Defaults(), -- Nightmare Javelin
-            [211471] = Defaults(), -- Scorned Touch
-            [211612] = Defaults(), -- Replenishing Roots
-            [216516] = Defaults(), -- Ancient Dream
+			-- Cenarius 塞納留斯
+			[210315] = Defaults(1), -- 夢魘刺藤 魔法 跑 驅散 
+			[211612] = Defaults(6), -- 治癒樹根 回魔 
+			[211989] = Defaults(5), -- 解縛之觸 
+			[216516] = Defaults(4), -- 先祖夢境 +30%治療量 
+			[210279] = Defaults(8), -- 蔓延夢魘 常註光環DOT
+			[213162] = Defaults(4), -- 夢魘衝擊 坦克
 
-            -- Xavius
-            [206005] = Defaults(), -- Dream Simulacrum
-            [206651] = Defaults(), -- Darkening Soul
-            [209158] = Defaults(), -- Blackening Soul
-            [211802] = Defaults(), -- Nightmare Blades
-            [206109] = Defaults(), -- Awakening to the Nightmare
-            [209034] = Defaults(), -- Bonds of Terror
-            [210451] = Defaults(), -- Bonds of Terror
-            [208431] = Defaults(), -- Corruption: Descent into Madness
-            [207409] = Defaults(), -- Madness
-            [211634] = Defaults(), -- The Infinite Dark
-            [208385] = Defaults(), -- Tainted Discharge
+			-- Xavius 薩維斯
+			[206651] = Defaults(2), -- 暗蝕靈魂 坦克魔法 p1驅散爆炸
+			[209158] = Defaults(2), -- 黑蝕靈魂 坦克魔法 p2p3驅散爆炸
+			[210451] = Defaults(2), -- 恐懼束縛 連線撞掉
+			[209034] = Defaults(2), -- 恐懼束縛 連線撞掉
+			[208431] = Defaults(6), -- 腐化：墜入瘋狂 準備心控
+			[207409] = Defaults(6), -- 腐化：瘋狂 心控
+			[211802] = Defaults(1), -- 夢魘之刃 飛刀出人群
+			[224508] = Defaults(1), -- 腐化隕石 人群分擔
+			[205771] = Defaults(2), -- 痛苦凝視 小怪追人
+			[211634] = Defaults(6), -- 無限黑暗
         },
         [1088] = {
             -- The Nighthold
-            -- Skorpyron
-            [204766] = Defaults(), -- Energy Surge
-            [214718] = Defaults(), -- Acidic Fragments
-            [211801] = Defaults(), -- Volatile Fragments
-            [204284] = Defaults(), -- Broken Shard (Protection)
-            [204275] = Defaults(), -- Arcanoslash (Tank)
-            [211659] = Defaults(), -- Arcane Tether (Tank debuff)
-            [204483] = Defaults(), -- Focused Blast (Stun)
+            -- Skorpyron 斯寇派隆
+			(211659) = Defaults(2), -- 秘法束鍊 坦克 10碼消除 
+			(204766) = Defaults(8), -- 能量奔騰 
+			(204483) = Defaults(3), -- 集中爆炸 被暈
+			(204744) = Defaults(6), -- 有毒甲殼 小怪放水	 M		
+			(214718) = Defaults(8), -- 酸液碎片 綠階段dot M 
 
-            -- Chronomatic Anomaly
-            [206607] = Defaults(), -- Chronometric Particles (Tank stack debuff)
-            [206609] = Defaults(), -- Time Release (Heal buff/debuff)
-            [205653] = Defaults(), -- Passage of Time
-            [225901] = Defaults(), -- Time Bomb
-            [207871] = Defaults(), -- Vortex (Mythic)
-            [212099] = Defaults(), -- Temporal Charge
+			-- Chronomatic Anomaly 時光異象
+			(206607) = Defaults(2), -- 時光粒子 疊10爆炸
+			(206617) = Defaults(2), -- 定時炸彈 跑遠
+			(205707) = Defaults(3), -- 時光球體 碰到小圈
 
-            -- Trilliax
-            [206488] = Defaults(), -- Arcane Seepage
-            [206641] = Defaults(), -- Arcane Spear (Tank)
-            [206798] = Defaults(), -- Toxic Slice
-            [214672] = Defaults(), -- Annihilation
-            [214573] = Defaults(), -- Stuffed
-            [214583] = Defaults(), -- Sterilize
-            [208910] = Defaults(), -- Arcing Bonds
-            [206838] = Defaults(), -- Succulent Feast
+			-- Trilliax 提里埃斯
+			(214573) = Defaults(4), -- 塞滿滿  吃過毒蛋糕
+			(206488) = Defaults(5), -- 秘法滲流 踩到
+			(206838) = Defaults(2), -- 多汁盛宴 吃到好蛋糕有盾
+			(208910) = Defaults(3), -- 毒液之池 踩到綠水 
+			(215489) = Defaults(1), -- 弧光連結 靠近
+			(208915) = Defaults(1), -- 弧光連結 靠近
 
-            -- Spellblade Aluriel
-            [212492] = Defaults(), -- Annihilate (Tank)
-            [212494] = Defaults(), -- Annihilated (Main Tank debuff)
-            [212587] = Defaults(), -- Mark of Frost
-            [212531] = Defaults(), -- Mark of Frost (marked)
-            [212530] = Defaults(), -- Replicate: Mark of Frost
-            [212647] = Defaults(), -- Frostbitten
-            [212736] = Defaults(), -- Pool of Frost
-            [213085] = Defaults(), -- Frozen Tempest
-            [213621] = Defaults(), -- Entombed in Ice
-            [213148] = Defaults(), -- Searing Brand Chosen
-            [213181] = Defaults(), -- Searing Brand Stunned
-            [213166] = Defaults(), -- Searing Brand
-            [213278] = Defaults(), -- Burning Ground
-            [213504] = Defaults(), -- Arcane Fog
+			-- Spellblade Aluriel 法刃艾露莉亞
+			(212531) = Defaults(3), -- 冰霜印記 P1 
+			(212587) = Defaults(3), -- 冰霜印記 P1
+			(212647) = Defaults(2), -- 冰霜咬噬 P1易傷 
+			(213148) = Defaults(3), -- 灼燒烙印 P2 
+			(213181) = Defaults(3), -- 灼燒烙印 P2 
+			(213166) = Defaults(3), -- 灼燒烙印 P2
+			(213504) = Defaults(3), -- 秘法魔霧 P3
+			(212736) = Defaults(4), -- 冰霜之池 P1踩水 
+			(213278) = Defaults(4), -- 燃燒大地 P2踩火
 
-            -- Tichondrius
-            [206480] = Defaults(), -- Carrion Plague
-            [215988] = Defaults(), -- Carrion Nightmare
-            [208230] = Defaults(), -- Feast of Blood
-            [212794] = Defaults(), -- Brand of Argus
-            [216685] = Defaults(), -- Flames of Argus
-            [206311] = Defaults(), -- Illusionary Night
-            [206466] = Defaults(), -- Essence of Night
-            [216024] = Defaults(), -- Volatile Wound
-            [216027] = Defaults(), -- Nether Zone
-            [216039] = Defaults(), -- Fel Storm
-            [216726] = Defaults(), -- Ring of Shadows
-            [216040] = Defaults(), -- Burning Soul
+			-- Tichondrius 提克迪奧斯
+			(206480) = Defaults(1), -- 腐屍瘟疫 
+			(208230) = Defaults(2), -- 血肉盛宴 
+			(212794) = Defaults(4), -- 阿古斯烙印 集合爆掉 
+			(215988) = Defaults(3), -- 腐肉夢魘 p2被暈 
+			(206466) = Defaults(2), -- 夜之精華 +30%傷害量和治療量並回魔 
+			(216024) = Defaults(2), -- 易變之傷 坦克 
+			(216040) = Defaults(4), -- 燃燒之魂 魔法 p1-3大怪抽魔
+			(216685) = Defaults(5), -- 阿古斯之焰 炸圈出火
 
-            -- Krosus
-            [206677] = Defaults(), -- Searing Brand
-            [205344] = Defaults(), -- Orb of Destruction
+			-- Krosus 克羅索斯
+			(206677) = Defaults(1), -- 灼燒烙印 坦克5層換 
+			(205344) = Defaults(2), -- 毀滅之球 遠離人群 
 
-            -- High Botanist Tel'arn
-            [218503] = Defaults(), -- Recursive Strikes (Tank)
-            [219235] = Defaults(), -- Toxic Spores
-            [218809] = Defaults(), -- Call of Night
-            [218342] = Defaults(), -- Parasitic Fixate
-            [218304] = Defaults(), -- Parasitic Fetter
-            [218780] = Defaults(), -- Plasma Explosion
+			-- High Botanist Tel'arn 大植物學家泰亞恩
+			(218342) = Defaults(2), -- 寄生專注 花追人
+			(218503) = Defaults(2), -- 遞迴打擊 坦克7-10層換			
+			(218304) = Defaults(2), -- 寄生束縛 魔法 定身驅散出花
 
-            -- Star Augur Etraeus
-            [205984] = Defaults(), -- Gravitaional Pull
-            [214167] = Defaults(), -- Gravitaional Pull
-            [214335] = Defaults(), -- Gravitaional Pull
-            [206936] = Defaults(), -- Icy Ejection
-            [206388] = Defaults(), -- Felburst
-            [206585] = Defaults(), -- Absolute Zero
-            [206398] = Defaults(), -- Felflame
-            [206589] = Defaults(), -- Chilled
-            [205649] = Defaults(), -- Fel Ejection
-            [206965] = Defaults(), -- Voidburst
-            [206464] = Defaults(), -- Coronal Ejection
-            [207143] = Defaults(), -- Void Ejection
-            [206603] = Defaults(), -- Frozen Solid
-            [207720] = Defaults(), -- Witness the Void
-            [216697] = Defaults(), -- Frigid Pulse
+			-- Star Augur Etraeus 星占師伊催斯
+			(206464) = Defaults(2), -- 星環噴發 坦克P1
+			(206388) = Defaults(2), -- 魔化爆發 坦克P2
+			(206965) = Defaults(2), -- 虛無爆發 坦克P3
+			(214167) = Defaults(3), -- 重力牽引 坦克P3/P2/P4
+			(205984) = Defaults(3), -- 重力牽引 坦克P3/P2/P4
+			(214335) = Defaults(3), -- 重力牽引 坦克P3/P2/P4
+			(206398) = Defaults(6), -- 魔焰 踩火
+			(205649) = Defaults(3), -- 魔化轟擊 角落放火
+			(206936) = Defaults(4), -- 寒冰彈射 P1分散
+			(207720) = Defaults(4), -- 見證虛無 P3被恐
+			(206585) = Defaults(4), -- 絕對零度 P1砸圈
+			(206589) = Defaults(3), -- 冰凍 P1冰塊
+			(207831) = Defaults(6), -- 大三角 星座易傷 M
+			(205445) = Defaults(6), -- 星座：貪狼 星座配對 M
+			(205429) = Defaults(6), -- 星座：巨蟹 星座配對 M
+			(217046) = Defaults(6), -- 遺骸吞噬中 P4 M
+			(216345) = Defaults(6), -- 星座：獵戶 星座配對 M
+			(216344) = Defaults(6), -- 星座：飛龍 星座配對 M
 
-            -- Grand Magistrix Elisande
-            [209166] = Defaults(), -- Fast Time
-            [211887] = Defaults(), -- Ablated
-            [209615] = Defaults(), -- Ablation
-            [209244] = Defaults(), -- Delphuric Beam
-            [209165] = Defaults(), -- Slow Time
-            [209598] = Defaults(), -- Conflexive Burst
-            [209433] = Defaults(), -- Spanning Singularity
-            [209973] = Defaults(), -- Ablating Explosion
-            [209549] = Defaults(), -- Lingering Burn
-            [211261] = Defaults(), -- Permaliative Torment
-            [208659] = Defaults(), -- Arcanetic Ring
+			-- Grand Magistrix Elisande 大博學者艾莉珊德
+			[209166] = Defaults(5), -- 時光加快 30%加速
+			[209165] = Defaults(5), -- 時光遲緩 30%減速
+			[208659] = Defaults(3), -- 秘法之環 碰到圈
+			[211261] = Defaults(4), -- 恆增折磨 P3
+			[209244] = Defaults(3), -- 滅時光束 p2 箭頭別穿人
+			[209598] = Defaults(3), -- 交映爆發 p3 爆炸			
+			[209615] = Defaults(2), -- 燒蝕 坦克 p1 2-5層換
+			[209973] = Defaults(2), -- 燒蝕爆炸 坦克 P2
+			[211885] = Defaults(2), -- 燒蝕 p3 易傷(打斷就沒)
 
-            -- Gul'dan
-            [210339] = Defaults(), -- Time Dilation
-            [180079] = Defaults(), -- Felfire Munitions
-            [206875] = Defaults(), -- Fel Obelisk (Tank)
-            [206840] = Defaults(), -- Gaze of Vethriz
-            [206896] = Defaults(), -- Torn Soul
-            [206221] = Defaults(), -- Empowered Bonds of Fel
-            [208802] = Defaults(), -- Soul Corrosion
-            [212686] = Defaults(), -- Flames of Sargeras
+			-- Gul'dan 古爾丹
+			[210339] = Defaults(), -- Time Dilation
+			[180079] = Defaults(), -- Felfire Munitions
+			[206875] = Defaults(), -- Fel Obelisk (Tank)
+			[206840] = Defaults(), -- Gaze of Vethriz
+			[206896] = Defaults(), -- Torn Soul
+			[206221] = Defaults(), -- Empowered Bonds of Fel
+			[208802] = Defaults(), -- Soul Corrosion
+			[212686] = Defaults(), -- Flames of Sargeras
         },
         [1026] = {
             -- Hellfire Citadel
