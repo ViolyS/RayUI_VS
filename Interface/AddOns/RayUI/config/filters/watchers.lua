@@ -954,6 +954,8 @@ R["Watcher"] = {
                 { spellID = 6788, unitId = "target", caster = "all", filter = "DEBUFF" },
                 -- 恢复
                 { spellID = 139, unitId = "target", caster = "player", filter = "BUFF" },
+                -- 希望象征
+                { spellID = 64901, unitId = "target", caster = "all", filter = "BUFF" },
                 -- 防護恐懼結界
                 { spellID = 6346, unitId = "target", caster = "all", filter = "BUFF" },
                 -- 救贖
@@ -1001,8 +1003,16 @@ R["Watcher"] = {
                 { spellID = 197030, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 瘋狂殘念
                 { spellID = 197937, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 補償
+                { spellID = 186478, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 預示
+                { spellID = 188779, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 虛無形態
+                { spellID = 194249, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 獻身瘋狂
+                { spellID = 193223, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 虛空射綫
-                { spellID = 205372, unitId = "player", caster = "player", filter = "BUFF" },    
+                { spellID = 205372, unitId = "player", caster = "player", filter = "BUFF" },   
             },
             {
                 name = "目标重要buff&debuff",
@@ -1040,6 +1050,8 @@ R["Watcher"] = {
                 { spellID = 155361, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 心灵尖刺
                 { spellID = 217673, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 贖罪
+                { spellID = 194384, unitId = "target", caster = "player", filter = "BUFF" },
             },
             {
                 name = "焦点buff&debuff",
@@ -1086,6 +1098,10 @@ R["Watcher"] = {
                 { spellID = 10060, filter = "CD" },
                 -- 絕望禱言
                 { spellID = 19236, filter = "CD" },
+                -- 獻身瘋狂
+                { spellID = 193223, filter = "CD" },
+				-- 暗影暴擊
+                { spellID = 205385, filter = "CD" },
                 -- 狂喜
                 { spellID = 47536, filter = "CD" },
                 -- 希望象徵
@@ -1602,6 +1618,12 @@ R["Watcher"] = {
                 { spellID = 129914, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 猛虎之眼（治疗）
                 { spellID = 196608, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 延命訣
+                { spellID = 185158, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 祛魔決
+                { spellID = 122783, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 卸勁訣
+                { spellID = 122278, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标buff&debuff",
@@ -1644,17 +1666,21 @@ R["Watcher"] = {
                 { spellID = 116768, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 連段破:虎掌
                 { spellID = 118864, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 连击
+                -- 連珠狂拳
                 { spellID = 196741, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 风火大地
+                -- 風火大地
                 { spellID = 137639, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 冰心诀
+                -- 冰心訣
                 { spellID = 152173, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 堅毅之風
+                { spellID = 166603, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 凝神絕釀
+                { spellID = 115288, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 聚雷茶
                 { spellID = 116680, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 生生不息(迷霧繚繞)
+                -- 生生不息-迷霧纏繞
                 { spellID = 197919, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 生生不息(生氣勃勃)
+                -- 生生不息-生氣勃勃
                 { spellID = 197916, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 法力茶
                 { spellID = 197908, unitId = "player", caster = "player", filter = "BUFF" },
@@ -1662,6 +1688,8 @@ R["Watcher"] = {
                 { spellID = 215479, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 散魔功
                 { spellID = 122783, unitId = "player", caster = "player", filter = "BUFF" },
+				-- 織霧
+                { spellID = 167732, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 猛虎出閘
                 { spellID = 116841, unitId = "player", caster = "player", filter = "BUFF" },
             },
@@ -1675,6 +1703,10 @@ R["Watcher"] = {
                 { spellID = 119381, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 微醺醉氣
                 { spellID = 116330, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 迷霧纏繞
+                { spellID = 124682, unitId = "target", caster = "player", filter = "BUFF" },
+				-- 氣繭護體
+                { spellID = 116849, unitId = "target", caster = "player", filter = "BUFF" },
                 -- 幽冥掌
                 { spellID = 115080, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
@@ -1703,8 +1735,12 @@ R["Watcher"] = {
                 { spellID = 122470, filter = "CD" },
                 -- 召喚白虎雪怒
                 { spellID = 123904, filter = "CD" },
+                -- 召喚紅鶴赤吉
+                { spellID = 198664, filter = "CD" },
                 -- 凝神絕釀
                 { spellID = 115288, filter = "CD" },
+				-- 冰心訣
+                { spellID = 152173, filter = "CD" },
                 -- 石形絕釀
                 { spellID = 115203, filter = "CD" },
                 -- 召喚玄牛雕像
