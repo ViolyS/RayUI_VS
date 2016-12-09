@@ -106,7 +106,7 @@ local function SkinDBM()
 					end
 
 					if not texture.styled then
-						texture:SetTexture(R["media"].normal)
+						texture:SetTexture(R["media"].gloss)
 						texture.styled=true
 					end
 
@@ -204,7 +204,7 @@ local function SkinDBM()
 			end
 
 			if not progress.styled then
-				progress:SetStatusBarTexture(R["media"].normal)
+				progress:SetStatusBarTexture(R["media"].gloss)
 				progress.styled=true
 			end
 			progress:ClearAllPoints()

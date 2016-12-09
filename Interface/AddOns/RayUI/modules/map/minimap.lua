@@ -142,16 +142,16 @@ function MM:SkinMiniMap()
         _G[frames[i]]:Kill()
     end
     Minimap:Size(175, 175)
-    Minimap:CreateShadow("Background")
+    Minimap:CreateShadow("Background", nil, true)
     Minimap:SetPlayerTexture("Interface\\AddOns\\RayUI\\media\\MinimapArrow")
     Minimap.shadow:SetBackdrop( {
-        edgeFile = R["media"].glow,
-        bgFile = R["media"].blank,
-        edgeSize = R:Scale(4),
-        tile = false,
-        tileSize = 0,
-        insets = {left = R:Scale(4), right = R:Scale(4), top = R:Scale(4), bottom = R:Scale(4)},
-    })
+            edgeFile = R["media"].glow,
+            bgFile = R["media"].blank,
+            edgeSize = R:Scale(4),
+            tile = false,
+            tileSize = 0,
+            insets = {left = R:Scale(4), right = R:Scale(4), top = R:Scale(4), bottom = R:Scale(4)},
+        })
     MinimapCluster:EnableMouse(false)
     MiniMapTrackingBackground:SetAlpha(0)
     MiniMapTrackingButton:SetAlpha(0)
@@ -161,10 +161,6 @@ function MM:SkinMiniMap()
     GameTimeCalendarInvitesTexture:ClearAllPoints()
     GameTimeCalendarInvitesTexture:SetParent(Minimap)
     GameTimeCalendarInvitesTexture:SetPoint("TOPRIGHT")
-    if MiniMapTracking then
-        MiniMapTracking:ClearAllPoints()
-        MiniMapTracking:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
-    end
     if FeedbackUIButton then
         FeedbackUIButton:Kill()
     end
@@ -188,11 +184,25 @@ function MM:SkinMiniMap()
     MinimapZoneText:SetPoint("RIGHT", -2, 1)
     MinimapZoneText:SetFont(R["media"].font, R["media"].fontsize, R["media"].fontflag)
     Minimap:HookScript("OnEnter", function(self)
-            UIFrameFadeIn(zoneTextFrame, 0.3, 0, 1)
+            UIFrameFadeIn(zoneTextFrame, 0.3, zoneTextFrame:GetAlpha(), 1)
         end)
     Minimap:HookScript("OnLeave", function(self)
-            UIFrameFadeOut(zoneTextFrame, 0.3, 1, 0)
+            UIFrameFadeOut(zoneTextFrame, 0.3, zoneTextFrame:GetAlpha(), 0)
         end)
+    if MiniMapTracking then
+        MiniMapTracking:SetParent(zoneTextFrame)
+        MiniMapTracking:ClearAllPoints()
+        MiniMapTrackingButton:Size(12, 12)
+        MiniMapTrackingButton:ClearAllPoints()
+        MiniMapTrackingButton:SetPoint("CENTER")
+        MiniMapTracking:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
+        MiniMapTrackingButton:HookScript("OnEnter", function(self)
+                UIFrameFadeIn(zoneTextFrame, 0.3, zoneTextFrame:GetAlpha(), 1)
+            end)
+        MiniMapTrackingButton:HookScript("OnLeave", function(self)
+                UIFrameFadeOut(zoneTextFrame, 0.3, zoneTextFrame:GetAlpha(), 0)
+            end)
+    end
     DropDownList1:SetClampedToScreen(true)
     LFGDungeonReadyStatus:SetClampedToScreen(true)
     HelpOpenTicketButton:SetParent(Minimap)
