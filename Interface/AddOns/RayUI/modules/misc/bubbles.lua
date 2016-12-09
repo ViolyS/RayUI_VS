@@ -35,8 +35,8 @@ function mod:SkinBubble(frame)
         frame:SetBackdrop({
                 edgeFile = R["media"].glow,
                 bgFile = R["media"].blank,
-                tile = false, tileSize = 0, edgeSize = 5,
-                insets = {left = 4, right = 4, top = 4, bottom = 4}
+                tile = false, tileSize = 0, edgeSize = 3,
+                insets = {left = 3, right = 3, top = 3, bottom = 3}
             })
     else
         frame:SetBackdrop({
