@@ -105,7 +105,7 @@ function TradeTabs:Initialize()
     -- if player is a DK, insert runeforging at the top
     if select(2, UnitClass("player")) == "DEATHKNIGHT" then
         prev = self:CreateTab(i, parent, RUNEFORGING)
-        prev:SetPoint("TOPLEFT", parent, "TOPRIGHT", 10, -44)
+        prev:SetPoint("TOPLEFT", parent, "TOPRIGHT", 5, -44)
         i = i + 1
     end
 
@@ -116,7 +116,7 @@ function TradeTabs:Initialize()
 
         local point,relPoint,x,y = "TOPLEFT", "BOTTOMLEFT", 0, -17
         if not prev then
-            prev, relPoint, x, y = parent, "TOPRIGHT", 10, -44
+            prev, relPoint, x, y = parent, "TOPRIGHT", 5, -44
         end
         tab:SetPoint(point, prev, relPoint, x, y)
 
@@ -181,8 +181,7 @@ function TradeTabs:CreateTab(i, parent, spellID)
 
     button:GetRegions():Hide()
     button:SetCheckedTexture(S["media"].checked)
-    S:CreateBG(button)
-    S:CreateSD(button, 5, 0, 0, 0, 1, 1)
+    S:SetBD(button)
     button:StyleButton(true)
     button:SetPushedTexture(nil)
     select(4, button:GetRegions()):SetTexCoord(.08, .92, .08, .92)
