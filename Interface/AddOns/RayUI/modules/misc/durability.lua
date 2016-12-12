@@ -38,8 +38,6 @@ local itemLevel = setmetatable({}, {
 
             local text = gslot:CreateFontString(nil, "OVERLAY")
             text:SetFont(R["media"].pxfont, 10*R.mult, "THINOUTLINE,MONOCHROME")
-            text:SetShadowColor(0, 0, 0)
-            text:SetShadowOffset(R.mult, -R.mult)
             text:Point("TOP", gslot, "TOP")
             t[i] = text
             return text
@@ -53,8 +51,6 @@ local inspectItemLevel = setmetatable({}, {
 
             local text = gslot:CreateFontString(nil, "OVERLAY")
             text:SetFont(R["media"].pxfont, 10*R.mult, "THINOUTLINE,MONOCHROME")
-            text:SetShadowColor(0, 0, 0)
-            text:SetShadowOffset(R.mult, -R.mult)
             text:Point("TOP", gslot, "TOP")
             t[i] = text
             return text
@@ -68,8 +64,6 @@ local durability = setmetatable({}, {
 
             local text = gslot:CreateFontString(nil, "OVERLAY")
             text:SetFont(R["media"].pxfont, 10*R.mult, "THINOUTLINE,MONOCHROME")
-            text:SetShadowColor(0, 0, 0)
-            text:SetShadowOffset(R.mult, -R.mult)
             text:Point("BOTTOM", gslot, "BOTTOM", 0, 2)
             t[i] = text
             return text
