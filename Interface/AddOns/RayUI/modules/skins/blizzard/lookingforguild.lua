@@ -63,7 +63,7 @@ local function LoadSkin()
 		bu:SetHighlightTexture("")
 
 		-- my client crashes if I put this in a var? :x
-		bu:GetRegions():SetTexture(R["media"].blank)
+		bu:GetRegions():SetTexture(R["media"].normal)
 		bu:GetRegions():SetVertexColor(r, g, b, .2)
 		bu:GetRegions():SetPoint("TOPLEFT", 1, -1)
 		bu:GetRegions():SetPoint("BOTTOMRIGHT", -1, 2)
