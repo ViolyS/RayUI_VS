@@ -1,4 +1,4 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">	
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file='raid.lua'/>
 	<Script file='raidpets.lua'/>
 	<Script file='raidtank.lua'/>
