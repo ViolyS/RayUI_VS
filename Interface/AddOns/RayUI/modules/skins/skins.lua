@@ -12,6 +12,11 @@ local wipe = table.wipe
 --WoW API / Variables
 local CreateFrame = CreateFrame
 local IsAddOnLoaded = IsAddOnLoaded
+local EnumerateFrames = EnumerateFrames
+local hooksecurefunc = hooksecurefunc
+
+--Global variables that we don't cache, list them here for the mikk's Find Globals script
+-- GLOBALS: WorldFrame
 
 S.modName = L["插件美化"]
 
@@ -72,10 +77,10 @@ end
 function S:CreateBD(f, a)
     assert(f, "doesn't exist!")
     f:SetBackdrop({
-        bgFile = R["media"].blank,
-        edgeFile = R["media"].blank,
-        edgeSize = R.mult,
-    })
+            bgFile = R["media"].blank,
+            edgeFile = R["media"].blank,
+            edgeSize = R.mult,
+        })
     f:SetBackdropColor(backdropfadecolorr, backdropfadecolorg, backdropfadecolorb, a or alpha)
     f:SetBackdropBorderColor(bordercolorr, bordercolorg, bordercolorb)
 end
@@ -118,20 +123,20 @@ function S:CreatePulse(frame, speed, alpha, mult)
     frame.alpha = alpha or 1
     frame.tslu = 0
     frame:SetScript("OnUpdate", function(self, elapsed)
-        elapsed = elapsed * ( speed or 5/4 )
-        self.tslu = self.tslu + elapsed
-        if self.tslu > self.speed then
-            self.tslu = 0
-            self:SetAlpha(self.alpha*(alpha or 3/5))
-        end
-        self.alpha = self.alpha - elapsed*self.mult
-        if self.alpha < 0 and self.mult > 0 then
-            self.mult = self.mult*-1
-            self.alpha = 0
-        elseif self.alpha > 1 and self.mult < 0 then
-            self.mult = self.mult*-1
-        end
-    end)
+            elapsed = elapsed * ( speed or 5/4 )
+            self.tslu = self.tslu + elapsed
+            if self.tslu > self.speed then
+                self.tslu = 0
+                self:SetAlpha(self.alpha*(alpha or 3/5))
+            end
+            self.alpha = self.alpha - elapsed*self.mult
+            if self.alpha < 0 and self.mult > 0 then
+                self.mult = self.mult*-1
+                self.alpha = 0
+            elseif self.alpha > 1 and self.mult < 0 then
+                self.mult = self.mult*-1
+            end
+        end)
 end
 
 local function StartGlow(f)
@@ -170,9 +175,9 @@ function S:Reskin(f, noGlow)
     if not noGlow then
         f.glow = CreateFrame("Frame", nil, f)
         f.glow:SetBackdrop({
-            edgeFile = R["media"].glow,
-            edgeSize = R:Scale(4),
-        })
+                edgeFile = R["media"].glow,
+                edgeSize = R:Scale(4),
+            })
         f.glow:SetOutside(f, 4, 4)
         f.glow:SetBackdropBorderColor(r, g, b)
         f.glow:SetAlpha(0)
@@ -519,8 +524,8 @@ function S:SetBD(f, x, y, x2, y2)
     S:CreateBD(bg)
     S:CreateSD(bg)
     f:HookScript("OnShow", function()
-        bg:SetFrameLevel(level)
-    end)
+            bg:SetFrameLevel(level)
+        end)
 end
 
 function S:ReskinPortraitFrame(f, isButtonFrame)

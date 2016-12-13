@@ -59,6 +59,7 @@ local GetAddOnCPUUsage = GetAddOnCPUUsage
 local UpdateAddOnCPUUsage = UpdateAddOnCPUUsage
 local ToggleHelpFrame = ToggleHelpFrame
 local C_Timer = C_Timer
+local hooksecurefunc = hooksecurefunc
 
 --Global variables that we don't cache, list them here for the mikk's Find Globals script
 -- GLOBALS: UIParent, LibStub, MAX_PLAYER_LEVEL, ScriptErrorsFrame_OnError, BaudErrorFrameHandler, UISpecialFrames, xCT_Plus
@@ -392,7 +393,6 @@ function R:HandleShortValue()
         R:RawHook(xCT_Plus, "Abbreviate", "xCTPlusShortValue")
     end
 end
-
 function R:PLAYER_ENTERING_WORLD()
     self:HandleShortValue()
     RequestTimePlayed()
@@ -877,7 +877,7 @@ function R:UpdateDemoFrame()
     demoFrame.button2.backdropTexture:SetVertexColor(backdropr, backdropg, backdropb)
 end
 
-R.Developer = { "夏琉君", "Myr", "Drayd", "蚊蚊", "Gabrriel", "Manastrom", "Casadora" }
+R.Developer = { "夏琉君", "Myr", "Drayd", "蚊蚊", "Gabrriel", "Manastorm" }
 
 function R:IsDeveloper()
     for _, name in pairs(R.Developer) do
@@ -1050,4 +1050,14 @@ function R:AddNonPetBattleFrames()
     end
 
     self:UnregisterEvent("PLAYER_REGEN_DISABLED")
+end
+
+function R:SetStatusBarGradient(bar, hook)
+    if not bar:GetStatusBarTexture() then return end
+    local r, g, b = bar:GetStatusBarColor()
+    bar:GetStatusBarTexture():SetGradient("VERTICAL", r, g, b, r/2, g/2, b/2)
+
+    if hook then
+        hooksecurefunc(bar, "SetStatusBarColor", function(self) R:SetStatusBarGradient(self) end)
+    end
 end

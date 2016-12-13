@@ -140,7 +140,9 @@ local function LoadSkin()
     hooksecurefunc("AchievementButton_GetProgressBar", function(index)
         local bar = _G["AchievementFrameProgressBar"..index]
         if not bar.reskinned then
+            local r, g, b = bar:GetStatusBarColor()
             bar:SetStatusBarTexture(R["media"].normal)
+            bar:GetStatusBarTexture():SetGradient("VERTICAL", r, g, b, r/2, g/2, b/2)
 
             _G["AchievementFrameProgressBar"..index.."BG"]:SetColorTexture(0, 0, 0, .25)
             _G["AchievementFrameProgressBar"..index.."BorderLeft"]:Hide()
