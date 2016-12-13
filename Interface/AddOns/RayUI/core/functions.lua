@@ -1051,8 +1051,3 @@ function R:AddNonPetBattleFrames()
 
     self:UnregisterEvent("PLAYER_REGEN_DISABLED")
 end
-
-function R:ADDON_LOADED(event, addon)
-    self:UnregisterEvent("ADDON_LOADED")
-end
-R:RegisterEvent("ADDON_LOADED")
