@@ -563,6 +563,8 @@ R["Watcher"] = {
                 { spellID = 46924, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 激怒
                 { spellID = 12880, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 龍吼
+                { spellID = 118000, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 死亡裁决
                 { spellID = 144442, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 盾牌屏障
