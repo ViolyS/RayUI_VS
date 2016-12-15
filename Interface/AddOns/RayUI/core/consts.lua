@@ -25,20 +25,20 @@ RayUF["colors"].class = {
 }
 
 RayUF["colors"].reaction = {
-    [1] = {1, 0.12, 0.24}, -- Hated
-    [2] = {1, 0.12, 0.24}, -- Hostile
-    [3] = {1, 0.6, 0.2}, -- Unfriendly
-    [4] = {1, 1, 0.3}, -- Neutral
-    [5] = {0.26, 1, 0.22}, -- Friendly
-    [6] = {0.26, 1, 0.22}, -- Honored
-    [7] = {0.26, 1, 0.22}, -- Revered
-    [8] = {0.26, 1, 0.22}, -- Exalted
+    [1] = { 1, 0.2, 0.2 }, -- Hated
+    [2] = { 1, 0.2, 0.2 }, -- Hostile
+    [3] = { 1, 0.6, 0.2 }, -- Unfriendly
+    [4] = { 1, 1, 0.2 }, -- Neutral
+    [5] = { 0.2, 1, 0.2 }, -- Friendly
+    [6] = { 0.2, 1, 0.2 }, -- Honored
+    [7] = { 0.2, 1, 0.2 }, -- Revered
+    [8] = { 0.2, 1, 0.2 }, -- Exalted
 }
 
 RayUF["colors"].ComboPoints = {
-    [1] = {1, 0, 0}, -- Red
-    [2] = {1, 1, 0}, -- Yellow
-    [3] = {0, 1, 0}, -- Green
+    [1] = { 1, 0, 0 }, -- Red
+    [2] = { 1, 1, 0 }, -- Yellow
+    [3] = { 0, 1, 0 }, -- Green
 }
 
 R.colors = {
