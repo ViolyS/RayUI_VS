@@ -84,8 +84,6 @@ function R:SetLayout(layout)
         StaticPopup_Show("CFG_RELOAD")
     elseif layout == "default" then
         R:ResetMovers()
-        R.db.Raid.horizontal = false
-        R.db.Raid.growth = "RIGHT"
         StaticPopup_Show("CFG_RELOAD")
     end
     R:SetMoversPositions()

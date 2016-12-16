@@ -253,8 +253,7 @@ function TT:GameTooltip_SetDefaultAnchor(tooltip, parent)
         end
 
         tooltip:ClearAllPoints()
-        if owner and owner:match("RayUF_Raid") then
-            local parent = _G[owner:match("RayUF_RaidGroup%dUnitButton%d")]
+        if RayUF_Raid and RayUF_Raid:IsVisible() and (GetScreenWidth() - RayUF_Raid:GetRight()) < 250  then
             tooltip:Point("BOTTOM", RayUF_Raid, "TOP", 0, 30)
         elseif RayUI_ContainerFrame and RayUI_ContainerFrame:IsVisible() and (GetScreenWidth() - RayUI_ContainerFrame:GetRight()) < 250 then
             -- tooltip:Point("BOTTOMRIGHT", R.UIParent, "BOTTOMRIGHT", -50, RayUI_ContainerFrame:GetBottom() + RayUI_ContainerFrame:GetHeight() + 30)

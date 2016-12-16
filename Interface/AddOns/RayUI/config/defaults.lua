@@ -26,7 +26,7 @@ G["general"]={
 }
 
 P["InfoBar"]={
-    autoHide = true,
+    autoHide = false,
 }
 
 P["WorldMap"]={
@@ -131,12 +131,6 @@ P["UnitFrames"]={
             defaultPosition = { "TOPLEFT", "RayUF_Target", "TOPRIGHT", 6, 0 },
             width = 150,
             height = 12,
-            castbar = {
-                showicon = true,
-                iconposition = "LEFT",
-                width = 120,
-                height = 20,
-            },
         },
         focus = {
             defaultPosition = { "BOTTOMRIGHT", "RayUF_Player", "TOPLEFT", -20, 40 },
@@ -214,7 +208,7 @@ P["Raid"]={
 P["ActionBar"]={
     enable = true,
     buttonsize = 28,
-    buttonspacing = 6,
+    buttonspacing = 4,
     barscale = 1,
     macroname = true,
     itemcount = true,
@@ -229,7 +223,7 @@ P["ActionBar"]={
         autohide = true,
         buttonsPerRow = 12,
         buttonsize = 28,
-        buttonspacing = 6,
+        buttonspacing = 4,
     },
 
     bar2 = {
@@ -238,7 +232,7 @@ P["ActionBar"]={
         autohide = true,
         buttonsPerRow = 12,
         buttonsize = 28,
-        buttonspacing = 6,
+        buttonspacing = 4,
     },
 
     bar3 = {
@@ -247,7 +241,7 @@ P["ActionBar"]={
         autohide = true,
         buttonsPerRow = 6,
         buttonsize = 28,
-        buttonspacing = 6,
+        buttonspacing = 4,
     },
 
     bar4 = {
@@ -256,7 +250,7 @@ P["ActionBar"]={
         autohide = false,
         buttonsPerRow = 1,
         buttonsize = 28,
-        buttonspacing = 6,
+        buttonspacing = 4,
     },
 
     bar5 = {
@@ -265,7 +259,7 @@ P["ActionBar"]={
         autohide = false,
         buttonsPerRow = 1,
         buttonsize = 28,
-        buttonspacing = 6,
+        buttonspacing = 4,
     },
 
     barpet = {
@@ -274,7 +268,7 @@ P["ActionBar"]={
         autohide = true,
         buttonsPerRow = 10,
         buttonsize = 23,
-        buttonspacing = 6,
+        buttonspacing = 4,
     },
 
     stancebarmouseover = false,
@@ -292,13 +286,13 @@ G["Misc"] = {}
 P["Misc"]={
     anounce = true,
     auction = true,
-    autodez = true,
+    autodez = false,
     autorelease = true,
     autoscreenshot = true,
     merchant = true,
     poisons = true,
     quest = true,
-    automation = true,
+    automation = false,
     consolidate = true,
     autoAcceptInvite = true,
     autoInvite = true,
@@ -350,7 +344,7 @@ P["Bags"]={
 }
 
 P["CooldownFlash"]={
-    enable = true,
+    enable = false,
     fadeInTime = 0.1,
     fadeOutTime = 0.2,
     maxAlpha = 0.8,
