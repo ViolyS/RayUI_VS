@@ -567,6 +567,10 @@ R["Watcher"] = {
                 { spellID = 118000, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 死亡裁决
                 { spellID = 144442, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 無視苦痛
+                { spellID = 190456, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 怒火重燃
+                { spellID = 202289, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 盾牌屏障
                 { spellID = 112048, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 最后通牒
