@@ -2,7 +2,7 @@
 
 G["media"]={
     blank = "RayUI Blank",
-    normal = "RayUI Normal",
+    normal = "RayUI Light",
     glow = "RayUI GlowBorder",
     gloss = "RayUI Gloss",
     font = "RayUI Font",
@@ -22,7 +22,8 @@ G["media"]={
 G["general"]={
     logo = true,
     theme = "Shadow",
-    numberType = 1
+    textureStyle = 2,
+    numberType = 1,
 }
 
 P["InfoBar"]={
