@@ -509,8 +509,8 @@ R["Watcher"] = {
                 { spellID = 32216, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 嗜血
                 { spellID = 23881, filter = "CD" },
-                -- 巨人打击
-                { spellID = 86346, filter = "CD" },
+                -- 致死打擊
+                { spellID = 12294, filter = "CD" },
             },
             {
                 name = "目标buff&debuff",

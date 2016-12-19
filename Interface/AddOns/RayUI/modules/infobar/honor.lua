@@ -4,6 +4,10 @@ local IF = R:GetModule("InfoBar")
 local function LoadHonor()
 	local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Honor", 100)
 	infobar:SetPoint("RIGHT", RayUI_InfoPanel_Talent, "LEFT", 0, 0)
+
+    infobar:RegisterEvent("PLAYER_ENTERING_WORLD")
+    infobar:RegisterEvent("HONOR_XP_UPDATE")
+    infobar:RegisterEvent("HONOR_PRESTIGE_UPDATE")
 	
 	infobar:SetScript("OnUpdate", function(self)
 		if UnitLevel("player") < 110 then
@@ -12,7 +16,7 @@ local function LoadHonor()
 			infobar.Text:SetText(HONOR_LEVEL_LABEL:gsub("%%d","")..UnitHonorLevel("player"))
 		end
 	end)
-	infobar:HookScript("OnEnter", function(self)
+	infobar:SetScript("OnEnter", function(self)
 		if UnitLevel("player") < 110 then return end
 
 		local ch = UnitHonor("player");
@@ -35,7 +39,7 @@ local function LoadHonor()
 		end
 		GameTooltip:Show()
 	end)
-	infobar:HookScript("OnLeave", GameTooltip_Hide)
+	infobar:SetScript("OnLeave", GameTooltip_Hide)
 
 	infobar:SetScript("OnMouseDown", function() PVEFrame_ToggleFrame("PVPUIFrame") end)
 end

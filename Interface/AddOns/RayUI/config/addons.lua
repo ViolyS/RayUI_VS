@@ -185,10 +185,10 @@ AddOn["xCT+"] = function()
         frames.damage.names.PLAYER.NPC = 0
         frames.damage.names.PLAYER.ENVIRONMENT = 0
 
-        frames.healing.X = -415
-        frames.healing.Y = 5
-        frames.healing.Width = 128
-        frames.healing.Height = 260
+        frames.healing.X = -485
+        frames.healing.Y = -30
+        frames.healing.Width = 190
+        frames.healing.Height = 144
         frames.healing.font = "RayUI Font"
         frames.healing.fontSize = 15
         frames.healing.names.PLAYER.nameType = 0
@@ -216,6 +216,39 @@ AddOn["xCT+"] = function()
 
     xCT_Plus.combatEvents:UnregisterEvent("PLAYER_REGEN_ENABLED")
     xCT_Plus.combatEvents:UnregisterEvent("PLAYER_REGEN_DISABLED")
+end
+
+function AddOn.xCT()
+    local settings = {
+        [1] = {
+            point = { "BOTTOMLEFT", "RayUF_Player", "TOPLEFT", 0, 20 },
+            height = 128,
+        },
+        [2] = {
+            point = { "BOTTOMRIGHT", "xCT1", "BOTTOMLEFT", -10, 0 },
+            height = 128,
+        },
+        [3] = {
+            point = { "BOTTOM", "RayUIParent", "CENTER", 0, 200 },
+            height = 128,
+        },
+        [4] = {
+            point = { "BOTTOMRIGHT", "RayUF_TargetTarget", "TOPRIGHT", 0, 20 },
+            height = 200,
+        },
+    }
+    ct.font = R["media"].dmgfont
+    ct.damagefont = R["media"].dmgfont
+    for i=1, #ct.frames do
+        local f = ct.frames[i]
+        f:SetFont(ct.font,ct.fontsize,ct.fontstyle)
+        if settings[i] then
+            f:ClearAllPoints()
+            f:SetPoint(unpack(settings[i].point))
+            f:SetHeight(settings[i].height)
+            f:SetMaxLines(f:GetHeight()/ct.fontsize)
+        end
+    end
 end
 
 local eventFrame = CreateFrame("Frame")

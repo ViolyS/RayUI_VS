@@ -5,6 +5,12 @@ local libAD = LibStub("LibArtifactData-1.0")
 local function LoadArtifact()
     local infobar = IF:CreateInfoPanel("RayUI_InfoPanel_Artifact", 120)
     infobar:SetPoint("RIGHT", RayUI_InfoPanel_Currency, "LEFT", 0, 0)
+
+    infobar:RegisterEvent("PLAYER_ENTERING_WORLD")
+    infobar:RegisterEvent("ARTIFACT_ADDED")
+    infobar:RegisterEvent("ARTIFACT_EQUIPPED_CHANGED")
+    infobar:RegisterEvent("ARTIFACT_POWER_CHANGED")
+    infobar:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     
     infobar:SetScript("OnUpdate", function(self)
         if HasArtifactEquipped() then
@@ -16,7 +22,7 @@ local function LoadArtifact()
         end
     end)
 
-    infobar:HookScript("OnEnter", function(self)
+    infobar:SetScript("OnEnter", function(self)
         if HasArtifactEquipped() then
             local _, data = libAD:GetArtifactInfo()
             local knowledgeLevel, knowledgeMultiplier = libAD:GetArtifactKnowledge()
