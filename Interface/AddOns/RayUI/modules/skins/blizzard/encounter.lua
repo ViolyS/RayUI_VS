@@ -105,7 +105,7 @@ local function LoadSkin()
     end
 
     EncounterJournalEncounterFrameInfoOverviewTab:ClearAllPoints()
-    EncounterJournalEncounterFrameInfoOverviewTab:Point("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", 7 + R.Border, -35)
+    EncounterJournalEncounterFrameInfoOverviewTab:Point("TOPLEFT", EncounterJournal, "TOPRIGHT", R.Border, -100)
     EncounterJournalEncounterFrameInfoLootTab:ClearAllPoints()
     EncounterJournalEncounterFrameInfoLootTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoOverviewTab, "BOTTOM", 0, 1)
     EncounterJournalEncounterFrameInfoBossTab:ClearAllPoints()

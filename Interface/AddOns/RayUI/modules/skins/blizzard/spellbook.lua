@@ -85,7 +85,7 @@ local function LoadSkin()
  				-- Avoid a lua error when using the character boost. The spells are learned through "combat training" and are not ready to be skinned.
 
 				tab.pushed = true
-				S:SetBD(tab, -1, 1, 1, -1)
+				tab:CreateShadow("Background")
  				tab:StyleButton(true)
  				hooksecurefunc(tab:GetHighlightTexture(), "SetTexture", function(self, texPath)
  					if texPath ~= nil then
