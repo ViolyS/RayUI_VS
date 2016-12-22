@@ -1,6 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="ace3.lua"/>
-	<Script file="acp.lua"/>
 	<Script file="bigwigs.lua"/>
 	<Script file="clique.lua"/>
 	<Script file="dbm.lua"/>
@@ -10,4 +9,5 @@
 	<Script file="nugrunning.lua"/>
 	<Script file="numeration.lua"/>
 	<Script file="skada.lua"/>
+	<Script file="weakauras.lua"/>
 </Ui>
