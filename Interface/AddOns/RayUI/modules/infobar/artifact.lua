@@ -10,6 +10,7 @@ local function LoadArtifact()
     infobar:RegisterEvent("ARTIFACT_ADDED")
     infobar:RegisterEvent("ARTIFACT_ACTIVE_CHANGED")
     infobar:RegisterEvent("ARTIFACT_POWER_CHANGED")
+    infobar:RegisterEvent("ARTIFACT_EQUIPPED_CHANGED")
     infobar:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     
     infobar:SetScript("OnUpdate", function(self)
