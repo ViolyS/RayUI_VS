@@ -48,9 +48,12 @@ function UF:Construct_FocusTargetFrame(frame, unit)
 
     self:EnableHealPredictionAndAbsorb(frame)
 
-    frame.Health.value:Point("TOPRIGHT", frame.Health, "TOPRIGHT", -8, -2)
-    frame.Power.value:Point("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", -8, 2)
+    frame.Health.value:Point("TOPRIGHT", frame.Health, "TOPRIGHT", -5, -5)
+    frame.Power.value:Point("TOPLEFT", frame.Health, "TOPLEFT", 5, -5)
 
+    frame.Name:ClearAllPoints()
+    frame.Name:Point("BOTTOM", frame.Health, "BOTTOM", 0, 5)
+    frame.Name:SetJustifyH("CENTER")
     if self.db.healthColorClass then
         frame:Tag(frame.Name, "[RayUF:name]")
     else
