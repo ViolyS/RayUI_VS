@@ -52,7 +52,6 @@ do
     L["GENERAL"] = "General"
     L["ACTIONBARS"] = "ActionBars"
     L["RAID"] = "Raid"
-    L["RAID40"] = "Raid40"
     L["ARENA"] = "Arena"
 
     L["数字单位"] = ""

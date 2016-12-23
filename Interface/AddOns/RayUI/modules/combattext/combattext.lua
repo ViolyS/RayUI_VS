@@ -440,7 +440,7 @@ function CT:Initialize()
     self.frames["power"]:SetPoint("TOP", R.UIParent, "CENTER", 0, -100)
 
     for _, frame in pairs(self.frames) do
-        R:CreateMover(frame, frame:GetName().." Mover", L[frame:GetName()], true, nil, "ALL,GENERAL")
+        R:CreateMover(frame, frame:GetName().." Mover", L[frame:GetName()], true, nil, "ALL,RAID")
     end
 
     xCP:RegisterCombat(self.CombatLogEvent)

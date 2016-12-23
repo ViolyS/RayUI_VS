@@ -52,7 +52,6 @@ do
     L["GENERAL"] = "综合"
     L["ACTIONBARS"] = "动作条"
     L["RAID"] = "团队"
-    L["RAID40"] = "40人团队"
     L["ARENA"] = "竞技场"
 
     L["数字单位"] = true
