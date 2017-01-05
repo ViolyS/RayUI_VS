@@ -1762,6 +1762,8 @@ R["Watcher"] = {
                 { spellID = 218561, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 獻祭光環
                 { spellID = 178740, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 靈魂屏障
+                { spellID = 227225, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 氣勢如虹
                 { spellID = 208628, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 混沌之刃
