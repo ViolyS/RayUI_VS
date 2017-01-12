@@ -823,6 +823,8 @@ R["Watcher"] = {
                 { spellID = 166831, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 復仇之怒
                 { spellID = 31884, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 納斯雷茲姆的低語
+                { spellID = 207635, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 圣盾術
                 { spellID = 642, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 忠誠防衛者
