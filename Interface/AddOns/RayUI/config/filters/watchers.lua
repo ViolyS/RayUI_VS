@@ -1333,6 +1333,8 @@ R["Watcher"] = {
                 { spellID = 121471, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 恐惧之刃诅咒（狂徒神器）
                 { spellID = 202665, unitId = "player", caster = "player", filter = "DEBUFF" },
+                -- 毒性蔓延
+                { spellID = 192425, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
             {
                 name = "目标重要buff&debuff",

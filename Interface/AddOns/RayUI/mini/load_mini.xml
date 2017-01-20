@@ -4,6 +4,5 @@
 	<Script file="TooltipItemID\TooltipItemID.lua"/>
 	<Script file="TooltipItemIcon\TooltipItemIcon.lua"/>
 	<Script file="TradeTabs\TradeTabs.lua"/>
-	<Script file="BetterWorldQuests/WorldQuestTab.lua"/>
 	<Include file="BonusRollPreview\BonusRollPreview.xml"/>
 </Ui>
