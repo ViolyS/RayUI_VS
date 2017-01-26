@@ -9,8 +9,6 @@
 --
 --]]----
 
-local interfaceVersion = select(4, GetBuildInfo())
-
 local ITEM_QUALITY_COLORS, WORLD_QUEST_QUALITY_COLORS, UnitLevel
 	= ITEM_QUALITY_COLORS, WORLD_QUEST_QUALITY_COLORS, UnitLevel
 
@@ -71,23 +69,14 @@ local SORT_ORDER = {
 }
 
 local WORLD_QUEST_TYPES = {
-	PROFESSION = 2,
-	PVE = 3,
-	PVP = 4,
-	PETBATTLE = 5,
-	-- ?? = 6,
-	DUNGEON = 7,
+	PROFESSION = 1,
+	PVE = 2,
+	PVP = 3,
+	PETBATTLE = 4,
+	-- ?? = 5,
+	DUNGEON = 6,
 }
-if interfaceVersion > 70000 then
-	WORLD_QUEST_TYPES = {
-		PROFESSION = 1,
-		PVE = 2,
-		PVP = 3,
-		PETBATTLE = 4,
-		-- ?? = 5,
-		DUNGEON = 6,
-	}
-end
+
 
 local ARTIFACTPOWER_SPELL_NAME = select(1, GetSpellInfo(228111))
 local FAMILY_FAMILIAR_QUEST_IDS = { -- WQ pet battle achievement
@@ -115,6 +104,7 @@ local defaultConfig = {
 	usePerCharacterSettings = false,
 	alwaysShowBountyQuests = true,
 	alwaysShowEpicQuests = true,
+	onlyShowRareOrAbove = false,
 	showTotalsInBrokerText = true,
 		brokerShowAP = true,
 		brokerShowResources = true,
@@ -125,6 +115,7 @@ local defaultConfig = {
 		brokerShowFishing = false,
 		brokerShowSkinning = false,
 		brokerShowBloodOfSargeras = false,
+	sortByTimeRemaining = false,
 	-- reward type
 	showArtifactPower = true,
 	showItems = true,
@@ -225,13 +216,6 @@ local showDownwards = false
 local blockYPos = 0
 local highlightedRow = true
 
-local CreateBountyBoardFS = function()
-	BWQ.bountyBoardFS = BWQ:CreateFontString("BWQbountyBoardFS", "OVERLAY", "SystemFont_Shadow_Med1")
-	BWQ.bountyBoardFS:SetJustifyH("CENTER")
-	BWQ.bountyBoardFS:SetTextColor(0.95, 0.95, 0.95)
-	BWQ.bountyBoardFS:SetPoint("TOP", BWQ, "TOP", 0, offsetTop)
-end
-
 local CreateErrorFS = function()
 	BWQ.errorFS = BWQ:CreateFontString("BWQerrorFS", "OVERLAY", "SystemFont_Shadow_Med1")
 	BWQ.errorFS:SetJustifyH("CENTER")
@@ -241,7 +225,7 @@ end
 local hasUnlockedWorldQuests
 function BWQ:WorldQuestsUnlocked()
 	if not hasUnlockedWorldQuests then
-		hasUnlockedWorldQuests = (UnitLevel("player") == 110 and IsQuestFlaggedCompleted(43341)) -- http://wowhead.com/quest=43341
+		hasUnlockedWorldQuests = UnitLevel("player") == 110 -- and IsQuestFlaggedCompleted(43341)) -- http://wowhead.com/quest=43341
 	end
 
 	if not hasUnlockedWorldQuests then
@@ -252,7 +236,7 @@ function BWQ:WorldQuestsUnlocked()
 		if not BWQ.errorFS then CreateErrorFS() end
 
 		BWQ.errorFS:SetPoint("TOP", BWQ, "TOP", 0, -10)
-		BWQ.errorFS:SetText("You need to reach Level 110 and complete the\nquest \124cffffff00\124Hquest:43341:-1\124h[Uniting the Isles]\124h\124r to unlock World Quests.")
+		BWQ.errorFS:SetText("You need to reach Level 110 to unlock World Quests.")
 		BWQ:SetSize(BWQ.errorFS:GetStringWidth() + 20, BWQ.errorFS:GetStringHeight() + 20)
 		BWQ.errorFS:Show()
 
@@ -359,7 +343,9 @@ local ShowQuestLogItemTooltip = function(button)
 	local name, texture = GetQuestLogRewardInfo(1, button.quest.questId)
 	if name and texture then
 		tip:SetOwner(button.reward, "ANCHOR_CURSOR")
-		tip:SetQuestLogItem("reward", 1, button.quest.questId)
+		BWQScanTooltip:SetQuestLogItem("reward", 1, button.quest.questId)
+		local _, itemLink = BWQScanTooltip:GetItem()
+		tip:SetHyperlink(itemLink)
 		tip:Show()
 	end
 end
@@ -412,11 +398,7 @@ function BWQ:QueryZoneQuestCoordinates(mapId)
 end
 
 function BWQ:CalculateMapPosition(x, y)
-	if interfaceVersion > 70000 then
-		return x * WorldMapUnitPositionFrame:GetWidth(), -1 * y * WorldMapUnitPositionFrame:GetHeight()
-	else
-		return x * WorldMapPlayersFrame:GetWidth(), -1 * y * WorldMapPlayersFrame:GetHeight()
-	end
+	return x * WorldMapUnitPositionFrame:GetWidth(), -1 * y * WorldMapUnitPositionFrame:GetHeight()
 end
 
 function BWQ:CreateWatchGlow()
@@ -517,7 +499,7 @@ local Row_OnClick = function(row)
 			BonusObjectiveTracker_TrackWorldQuest(row.quest.questId, true)
 		end
 	else
-		if not WorldMapFrame:IsShown() then ShowUIPanel(WorldMapFrame) end
+		if not WorldMapFrame:IsShown() then ShowQuestLog() end
 		if not InCombatLockdown() then SetMapByID(row.mapId) end
 
 		if not row.quest.x or not row.quest.y then BWQ:QueryZoneQuestCoordinates(row.mapId) end
@@ -530,7 +512,8 @@ local Row_OnClick = function(row)
 	end
 end
 
-
+local REWARD_TYPES = { ARTIFACTPOWER = 0, RESOURCES = 1, MONEY = 2, GEAR = 3, BLOODOFSARGERAS = 4, }
+local QUEST_TYPES = { HERBALISM = 0, MINING = 1, FISHING = 2, SKINNING = 3, }
 local lastUpdate, updateTries = 0, 0
 local needsRefresh = false
 local RetrieveWorldQuests = function(mapId)
@@ -614,6 +597,7 @@ local RetrieveWorldQuests = function(mapId)
 					local hasReward = false
 					C_TaskQuest.RequestPreloadRewardData(quest.questId)
 
+					local rewardType
 					if GetNumQuestLogRewards(quest.questId) > 0 then
 						local itemName, itemTexture, quantity, quality, isUsable, itemId = GetQuestLogRewardInfo(1, quest.questId)
 						if itemName then
@@ -624,34 +608,33 @@ local RetrieveWorldQuests = function(mapId)
 							quest.reward.itemQuantity = quantity
 
 							local itemSpell = GetItemSpell(quest.reward.itemId)
-							local _, itemLink, _, _, _, class, subClass, _, equipSlot, _, _ = GetItemInfo(quest.reward.itemId)
-							quest.reward.itemLink = itemLink
+							local _, _, _, _, _, _, _, _, equipSlot, _, _, classId, subClassId = GetItemInfo(quest.reward.itemId)
 							if itemSpell and ARTIFACTPOWER_SPELL_NAME and itemSpell == ARTIFACTPOWER_SPELL_NAME then
 								quest.reward.artifactPower = BWQ:GetArtifactPowerValue(quest.reward.itemId)
 								quest.sort = SORT_ORDER.ARTIFACTPOWER
 
-								BWQ.totalArtifactPower = BWQ.totalArtifactPower + (quest.reward.artifactPower or 0)
+								rewardType = REWARD_TYPES.ARTIFACTPOWER
 								if C("showArtifactPower") then quest.hide = false end
 							else
 								quest.reward.itemName = itemName
 
-								if class == "Tradeskill" then
+								if classId == 7 then
 									quest.sort = SORT_ORDER.PROFESSION
 									if quest.reward.itemId == 124124 then
-										BWQ.totalBloodOfSargeras = BWQ.totalBloodOfSargeras + quest.reward.itemQuantity
+										rewardType = REWARD_TYPES.BLOODOFSARGERAS
 									end
 									if C("showItems") and C("showCraftingMaterials") then quest.hide = false end
 								elseif equipSlot ~= "" then
 									quest.sort = SORT_ORDER.EQUIP
 									quest.reward.realItemLevel = BWQ:GetItemLevelValueForQuestId(quest.questId)
+									rewardType = REWARD_TYPES.GEAR
 
-									BWQ.totalGear = BWQ.totalGear + 1
 									if C("showItems") and C("showGear") then quest.hide = false end
-								elseif subClass == "Artifact Relic" then
+								elseif classId == 3 and subClassId == 11 then
 									quest.sort = SORT_ORDER.RELIC
 									quest.reward.realItemLevel = BWQ:GetItemLevelValueForQuestId(quest.questId)
+									rewardType = REWARD_TYPES.GEAR
 
-									BWQ.totalGear = BWQ.totalGear + 1
 									if C("showItems") and C("showRelics") then quest.hide = false end
 								else
 									quest.sort = SORT_ORDER.ITEM
@@ -666,8 +649,8 @@ local RetrieveWorldQuests = function(mapId)
 						hasReward = true
 						quest.reward.money = money
 						quest.sort = SORT_ORDER.MONEY
+						rewardType = REWARD_TYPES.MONEY
 
-						BWQ.totalGold = BWQ.totalGold + money
 						if money < 1000000 then
 							if C("showLowGold") then quest.hide = false end
 						else
@@ -685,8 +668,8 @@ local RetrieveWorldQuests = function(mapId)
 							quest.reward.resourceTexture = texture
 							quest.reward.resourceAmount = numItems
 							quest.sort = SORT_ORDER.RESOURCES
+							rewardType = REWARD_TYPES.RESOURCES
 
-							BWQ.totalResources = BWQ.totalResources + numItems
 							if C("showResources") then quest.hide = false end
 						end
 					end
@@ -699,6 +682,7 @@ local RetrieveWorldQuests = function(mapId)
 						end
 					end
 
+					local questType
 					-- quest type filters
 					if quest.worldQuestType == 4 then
 						if C("showPetBattle") or (C("alwaysShowPetBattleFamilyFamiliar") and FAMILY_FAMILIAR_QUEST_IDS[quest.questId] ~= nil) then
@@ -710,16 +694,16 @@ local RetrieveWorldQuests = function(mapId)
 						if C("showProfession") then
 
 							if quest.tagId == 119 then
-								BWQ.totalHerbalism = BWQ.totalHerbalism + 1
+								questType = QUEST_TYPES.HERBALISM
 								if C("showProfessionHerbalism")	then quest.hide = false else quest.hide = true end
 							elseif quest.tagId == 120 then
-								BWQ.totalMining = BWQ.totalMining + 1
+								questType = QUEST_TYPES.MINING
 								if C("showProfessionMining")		then quest.hide = false else quest.hide = true end
 							elseif quest.tagId == 130 then
-								BWQ.totalFishing = BWQ.totalFishing + 1
+								questType = QUEST_TYPES.FISHING
 							 	if C("showProfessionFishing")		then quest.hide = false else quest.hide = true end
 							elseif quest.tagId == 124 then
-								BWQ.totalSkinning = BWQ.totalSkinning + 1
+								questType = QUEST_TYPES.SKINNING
 							 	if C("showProfessionSkinning") 		then quest.hide = false else quest.hide = true end
 							elseif quest.tagId == 118 then 	if C("showProfessionAlchemy") 		then quest.hide = false else quest.hide = true end
 							elseif quest.tagId == 129 then	if C("showProfessionArchaeology") 	then quest.hide = false else quest.hide = true end
@@ -739,6 +723,10 @@ local RetrieveWorldQuests = function(mapId)
 					elseif not C("showPvP") and quest.worldQuestType == 3 then quest.hide = true
 					elseif not C("showDungeon") and quest.worldQuestType == 6 then quest.hide = true
 					end
+
+					-- only show quest that are blue or above quality
+					if (C("onlyShowRareOrAbove") and quest.isRare < 2) then quest.hide = true end
+
 					-- always show bounty quests or reputation for faction filter
 					if (C("alwaysShowBountyQuests") and #quest.bounties > 0) or
 					   (C("alwaysShowCourtOfFarondis") 	and (mapId == 1015 or mapId == 1096)) or
@@ -762,42 +750,106 @@ local RetrieveWorldQuests = function(mapId)
 
 					if not quest.hide then
 						numQuests = numQuests + 1
+
+						if rewardType == REWARD_TYPES.ARTIFACTPOWER and quest.reward.artifactPower then
+							BWQ.totalArtifactPower = BWQ.totalArtifactPower + (quest.reward.artifactPower or 0) end
+						if rewardType == REWARD_TYPES.RESOURCES and quest.reward.resourceAmount then
+							BWQ.totalResources = BWQ.totalResources + quest.reward.resourceAmount end
+						if rewardType == REWARD_TYPES.MONEY and quest.reward.money then
+							BWQ.totalGold = BWQ.totalGold + quest.reward.money end
+						if rewardType == REWARD_TYPES.BLOODOFSARGERAS and quest.reward.itemQuantity then
+							BWQ.totalBloodOfSargeras = BWQ.totalBloodOfSargeras + quest.reward.itemQuantity end
+						if rewardType == REWARD_TYPES.GEAR then
+							BWQ.totalGear = BWQ.totalGear + 1 end
+						if questType == QUEST_TYPES.HERBALISM then
+							BWQ.totalHerbalism = BWQ.totalHerbalism + 1 end
+						if questType == QUEST_TYPES.MINING then
+							BWQ.totalMining = BWQ.totalMining + 1 end
+						if questType == QUEST_TYPES.FISHING then
+							BWQ.totalFishing = BWQ.totalFishing + 1 end
+						if questType == QUEST_TYPES.SKINNING then
+							BWQ.totalSkinning = BWQ.totalSkinning + 1 end
 					end
 				end
 			end
 		end
 
-		table.sort(MAP_ZONES[mapId].questsSort, function(a, b) return MAP_ZONES[mapId].quests[a].sort < MAP_ZONES[mapId].quests[b].sort end)
+
+		if C("sortByTimeRemaining") then
+			table.sort(MAP_ZONES[mapId].questsSort, function(a, b) return MAP_ZONES[mapId].quests[a].timeLeft < MAP_ZONES[mapId].quests[b].timeLeft end)
+		else -- reward type
+			table.sort(MAP_ZONES[mapId].questsSort, function(a, b) return MAP_ZONES[mapId].quests[a].sort < MAP_ZONES[mapId].quests[b].sort end)
+		end
+
 
 		if numQuests == nil then numQuests = 0 end
 		MAP_ZONES[mapId].numQuests = numQuests
 	end
 end
 
-
+BWQ.bountyCache = {}
+BWQ.bountyDisplay = CreateFrame("Frame", "BWQ_BountyDisplay", BWQ)
 function BWQ:UpdateBountyData()
 	bounties = GetQuestBountyInfoForMapID(1014) -- zone id doesn't matter
-	local bountyBoardText = ""
+
+	local bountyWidth = 0 -- added width of all items inside the bounty block
 	for bountyIndex, bounty in ipairs(bounties) do
-		local questIndex = GetQuestLogIndexByID(bounty.questID);
-		local title = GetQuestLogTitle(questIndex);
+		local questIndex = GetQuestLogIndexByID(bounty.questID)
+		local title = GetQuestLogTitle(questIndex)
+		local timeleft = GetQuestTimeLeftMinutes(bounty.questID)
 		local _, _, finished, numFulfilled, numRequired = GetQuestObjectiveInfo(bounty.questID, 1, false)
 
+		local bountyCacheItem
+		if not BWQ.bountyCache[bountyIndex] then
+			bountyCacheItem = {}
+			bountyCacheItem.icon = BWQ.bountyDisplay:CreateTexture()
+			bountyCacheItem.icon:SetSize(28, 28)
+			bountyCacheItem.text = BWQ.bountyDisplay:CreateFontString("BWQ_BountyDisplayText"..bountyIndex, "OVERLAY", "SystemFont_Shadow_Med1")
+			BWQ.bountyCache[bountyIndex] = bountyCacheItem
+		else
+			bountyCacheItem = BWQ.bountyCache[bountyIndex]
+		end
+
 		if bounty.icon and title then
-			bountyBoardText = string.format("%s|T%s$s:20:20|t %s   %d/%d", bountyBoardText, bounty.icon, title, numFulfilled or 0, numRequired or 0)
-			if bountyIndex < #bounties then
-				bountyBoardText = string.format("%s        ", bountyBoardText)
+
+			bountyCacheItem.text:SetText(string.format(
+											"|cff%s%s\n %s/%s      |r%s",
+											numFulfilled == numRequired and "49d65e" or "fafafa",
+											title,
+											numFulfilled or 0,
+											numRequired or 0,
+											FormatTimeLeftString(timeleft)
+										))
+			bountyCacheItem.icon:SetTexture(bounty.icon)
+			if bountyIndex == 1 then
+				bountyCacheItem.icon:SetPoint("LEFT", BWQ.bountyDisplay, "LEFT")
+			else
+				bountyCacheItem.icon:SetPoint("LEFT", BWQ.bountyCache[bountyIndex-1].text, "RIGHT", 25, 2)
+				bountyWidth = bountyWidth + 25 -- add padding per item
 			end
+			bountyCacheItem.text:SetPoint("LEFT", bountyCacheItem.icon, "RIGHT", 5, -2)
+
+			bountyWidth = bountyWidth + bountyCacheItem.text:GetStringWidth() + 33 -- icon + padding
 		end
 	end
 
-	if not BWQ.bountyBoardFS then CreateBountyBoardFS(offsetTop) end
+	-- remove obsolete bounty entries (completed or disappeared)
+	if #bounties < #BWQ.bountyCache then
+		for i = #bounties + 1, #BWQ.bountyCache do
+			BWQ.bountyCache[i].icon:Hide()
+			BWQ.bountyCache[i].text:Hide()
+			BWQ.bountyCache[i] = nil
+		end
+	end
+
+	-- show if bounties available, otherwise hide the bounty block
 	if #bounties > 0 then
-		BWQ.bountyBoardFS:Show()
-		BWQ.bountyBoardFS:SetText(bountyBoardText)
-		offsetTop = offsetTop - 25
+		BWQ.bountyDisplay:Show()
+		BWQ.bountyDisplay:SetSize(bountyWidth, 30)
+		BWQ.bountyDisplay:SetPoint("TOP", BWQ, "TOP", 0, offsetTop)
+	 	offsetTop = offsetTop - 35
 	else
-		BWQ.bountyBoardFS:Hide()
+		BWQ.bountyDisplay:Hide()
 	end
 end
 
@@ -1074,7 +1126,11 @@ function BWQ:UpdateBlock()
 
 				button.reward:SetScript("OnEvent", function(self, event)
 					if event == "MODIFIER_STATE_CHANGED" then
-						ShowQuestLogItemTooltip(button)
+						if button.reward:IsMouseOver() and button.reward:IsShown() then
+							ShowQuestLogItemTooltip(button)
+						else
+							button.reward:UnregisterEvent("MODIFIER_STATE_CHANGED")
+						end
 					end
 				end)
 
@@ -1195,7 +1251,7 @@ function BWQ:UpdateBlock()
 	timeLeftMaxWidth = 65
 	totalWidth = titleMaxWidth + bountyMaxWidth + factionMaxWidth + rewardMaxWidth + timeLeftMaxWidth + 80
 
-	local bountyBoardWidth = BWQ.bountyBoardFS:GetStringWidth()
+	local bountyBoardWidth = BWQ.bountyDisplay:GetWidth()
 	if totalWidth < bountyBoardWidth then
 		local diff = bountyBoardWidth - totalWidth
 		totalWidth = bountyBoardWidth
@@ -1222,7 +1278,7 @@ function BWQ:UpdateBlock()
 	end
 
 	totalWidth = totalWidth + 20
-	BWQ:SetWidth(totalWidth > 550 and totalWidth or 550)
+	BWQ:SetWidth(totalWidth)
 
 	if C("showTotalsInBrokerText") then
 		local brokerString = ""
@@ -1255,83 +1311,13 @@ function BWQ:SetupConfigMenu()
 	configMenu = CreateFrame("Frame", "BWQ_ConfigMenu")
 	configMenu.displayMode = "MENU"
 
-    local options = {
-		{ text = "依附于世界地图", check = "attachToWorldMap" },
-		{ text = "点击显示菜单", check = "showOnClick" },
-		{ text = "使用独立设置", check = "usePerCharacterSettings" },
-		{ text = "" },
-		{ text = "总是显示 |cffa335ee史诗|r 世界任务 (世界首领)", check = "alwaysShowEpicQuests" },
-		{ text = "不过滤大使奖励任务", check = "alwaysShowBountyQuests" },
-		{ text = "在信息条上显示奖励总数", check = "showTotalsInBrokerText", submenu = {
-				{ text = ("|T%1$s:16:16|t  神器能量"):format("Interface\\Icons\\INV_Artifact_XP03"), check = "brokerShowAP" },
-				{ text = ("|T%1$s:16:16|t  职业大厅资源"):format("Interface\\Icons\\inv_orderhall_orderresources"), check = "brokerShowResources" },
-				{ text = ("|T%1$s:16:16|t  金币"):format("Interface\\GossipFrame\\auctioneerGossipIcon"), check = "brokerShowGold" },
-				{ text = ("|T%1$s:16:16|t  装备"):format("Interface\\Icons\\Inv_chest_plate_legionendgame_c_01"), check = "brokerShowGear" },
-				{ text = ("|T%1$s:16:16|t  草药学任务"):format("Interface\\Icons\\Trade_Herbalism"), check = "brokerShowHerbalism" },
-				{ text = ("|T%1$s:16:16|t  采矿任务"):format("Interface\\Icons\\Trade_Mining"), check = "brokerShowMining" },
-				{ text = ("|T%1$s:16:16|t  钓鱼任务"):format("Interface\\Icons\\Trade_Fishing"), check = "brokerShowFishing" },
-				{ text = ("|T%1$s:16:16|t  剥皮任务"):format("Interface\\Icons\\inv_misc_pelt_wolf_01"), check = "brokerShowSkinning" },
-				{ text = ("|T%s$s:16:16|t  萨格拉斯之血"):format("1417744"), check = "brokerShowBloodOfSargeras" },
-			}
-		},
-		{ text = "" },
-		{ text = "过滤奖励", isTitle = true },
-		{ text = ("|T%1$s:16:16|t  神器能量"):format("Interface\\Icons\\INV_Artifact_XP03"), check = "showArtifactPower" },
-		{ text = ("|T%1$s:16:16|t  物品"):format("Interface\\Minimap\\Tracking\\Banker"), check = "showItems", submenu = {
-				{ text = ("|T%1$s:16:16|t  装备"):format("Interface\\Icons\\Inv_chest_plate_legionendgame_c_01"), check = "showGear" },
-				{ text = ("|T%1$s:16:16|t  神器圣物"):format("Interface\\Icons\\inv_misc_statue_01"), check = "showRelics" },
-				{ text = ("|T%s$s:16:16|t  制造材料"):format("1417744"), check = "showCraftingMaterials" },
-				{ text = "其他", check = "showOtherItems" },
-			}
-		},
-		{ text = ("|T%1$s:16:16|t  少量金币奖励"):format("Interface\\GossipFrame\\auctioneerGossipIcon"), check = "showLowGold" },
-		{ text = ("|T%1$s:16:16|t  大量量金币奖励"):format("Interface\\GossipFrame\\auctioneerGossipIcon"), check = "showHighGold" },
-		{ text = ("|T%1$s:16:16|t  职业大厅资源"):format("Interface\\Icons\\inv_orderhall_orderresources"), check = "showResources" },
-		{ text = "" },
-		{ text = "过滤类型", isTitle = true },
-		{ text = ("|T%1$s:16:16|t  专业任务"):format("Interface\\Minimap\\Tracking\\Profession"), check = "showProfession", submenu = {
-				{ text = "炼金术", check="showProfessionAlchemy" },
-				{ text = "锻造", check="showProfessionBlacksmithing" },
-				{ text = "附魔", check="showProfessionEnchanting" },
-				{ text = "工程", check="showProfessionEngineering" },
-				{ text = "铭文", check="showProfessionInscription" },
-				{ text = "珠宝加工", check="showProfessionJewelcrafting" },
-				{ text = "制皮", check="showProfessionLeatherworking" },
-				{ text = "裁缝", check="showProfessionTailoring" },
-				{ text = "" },
-				{ text = "草药学", check="showProfessionHerbalism" },
-				{ text = "采矿", check="showProfessionMining" },
-				{ text = "剥皮", check="showProfessionSkinning" },
-				{ text = "" },
-				{ text = "考古", check="showProfessionArchaeology" },
-				{ text = "烹饪", check="showProfessionCooking" },
-				{ text = "钓鱼", check="showProfessionFishing" },
-				{ text = "急救", check="showProfessionFirstAid" },
-			}
-		},
-		{ text = "地下城任务", check = "showDungeon" },
-		{ text = ("|T%1$s:16:16|t  PvP 任务"):format("Interface\\Minimap\\Tracking\\BattleMaster"), check = "showPvP" },
-		{ text = "" },
-		{ text = ("|T%1$s:16:16|t  宠物对战任务"):format("Interface\\Icons\\tracking_wildpet"), isTitle = true },
-		{ text = "显示宠物对战任务", check = "showPetBattle" },
-		{ text = "隐藏宠物对战任务即使是大使奖励任务", check = "hidePetBattleBountyQuests" },
-		{ text = "总是显示 \"Family Familiar\" 成就", check = "alwaysShowPetBattleFamilyFamiliar" },
-		{ text = "" },
-		{ text = "隐藏声望", check="hideFactionColumn" },
-		{ text = "总是显示的声望", isTitle = true },
-		{ text = "法罗迪斯宫廷", check="alwaysShowCourtOfFarondis" },
-		{ text = "织梦者", check="alwaysShowDreamweavers" },
-		{ text = "高岭部族", check="alwaysShowHighmountainTribe" },
-		{ text = "堕夜精灵", check="alwaysShowNightfallen" },
-		{ text = "守望者", check="alwaysShowWardens" },
-		{ text = "瓦拉加尔", check="alwaysShowValarjar" },
-	}
-    --[[local options = {
+	local options = {
 		{ text = "Attach list frame to world map", check = "attachToWorldMap" },
-		{ text = "Show list frame on click", check = "showOnClick" },
+		{ text = "Show list frame on click instead of mouse-over", check = "showOnClick" },
 		{ text = "Use per-character settings", check = "usePerCharacterSettings" },
 		{ text = "" },
 		{ text = "Always show |cffa335eeepic|r world quests (e.g. world bosses)", check = "alwaysShowEpicQuests" },
+		{ text = "Only show world quests with |cff0070ddrare|r or above quality", check = "onlyShowRareOrAbove" },
 		{ text = "Don't filter quests for active bounties", check = "alwaysShowBountyQuests" },
 		{ text = "Show total counts in broker text", check = "showTotalsInBrokerText", submenu = {
 				{ text = ("|T%1$s:16:16|t  Artifact Power"):format("Interface\\Icons\\INV_Artifact_XP03"), check = "brokerShowAP" },
@@ -1345,6 +1331,7 @@ function BWQ:SetupConfigMenu()
 				{ text = ("|T%s$s:16:16|t  Blood of Sargeras"):format("1417744"), check = "brokerShowBloodOfSargeras" },
 			}
 		},
+		{ text = "Sort list by time remaining instead of reward type", check = "sortByTimeRemaining" },
 		{ text = "" },
 		{ text = "Filter by reward...", isTitle = true },
 		{ text = ("|T%1$s:16:16|t  Artifact Power"):format("Interface\\Icons\\INV_Artifact_XP03"), check = "showArtifactPower" },
@@ -1386,7 +1373,7 @@ function BWQ:SetupConfigMenu()
 		{ text = ("|T%1$s:16:16|t  Pet Battle Quests"):format("Interface\\Icons\\tracking_wildpet"), isTitle = true },
 		{ text = "Show Pet Battle Quests", check = "showPetBattle" },
 		{ text = "Hide Pet Battle Quests even when active bounty", check = "hidePetBattleBountyQuests" },
-		{ text = "Always show Pet Battle Quests for \"Family Familiar\" achievement", check = "alwaysShowPetBattleFamilyFamiliar" },
+		{ text = "Always show quests for \"Family Familiar\" achievement", check = "alwaysShowPetBattleFamilyFamiliar" },
 		{ text = "" },
 		{ text = "Hide faction column", check="hideFactionColumn" },
 		{ text = "Always show quests for faction...", isTitle = true },
@@ -1396,7 +1383,7 @@ function BWQ:SetupConfigMenu()
 		{ text = "The Nightfallen", check="alwaysShowNightfallen" },
 		{ text = "The Wardens", check="alwaysShowWardens" },
 		{ text = "Valarjar", check="alwaysShowValarjar" },
-	}]]
+	}
 
 	local SetOption = function(bt, var, val)
 		if var == "usePerCharacterSettings" or not BWQcfg.usePerCharacterSettings then
