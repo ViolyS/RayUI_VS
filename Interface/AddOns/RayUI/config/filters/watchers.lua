@@ -1750,8 +1750,26 @@ R["Watcher"] = {
                 { spellID = 208628, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 混沌之刃
                 { spellID = 211048, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 死敵（自身）
+                -- 死敵（對恶魔）
+                { spellID = 208579, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死敵（對人形生物）
                 { spellID = 208605, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死敵（對變異怪）
+                { spellID = 208607, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死敵（對野獸）
+                { spellID = 208608, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死敵（對小動物）
+                { spellID = 208609, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死敵（對龍類）
+                { spellID = 208610, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死敵（對元素生物）
+                { spellID = 208611, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死敵（對巨人）
+                { spellID = 208612, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死敵（對機械）
+                { spellID = 208613, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死敵（對不死族）
+                { spellID = 208614, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 殘影
                 { spellID = 212800, unitId = "player", caster = "player", filter = "BUFF" },
             },
