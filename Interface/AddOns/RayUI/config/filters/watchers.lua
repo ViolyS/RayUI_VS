@@ -1750,6 +1750,8 @@ R["Watcher"] = {
                 { spellID = 208628, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 混沌之刃
                 { spellID = 211048, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死敵（自身）
+                { spellID = 208605, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 殘影
                 { spellID = 212800, unitId = "player", caster = "player", filter = "BUFF" },
             },
