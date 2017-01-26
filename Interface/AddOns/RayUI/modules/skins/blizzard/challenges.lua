@@ -7,6 +7,7 @@ local function LoadSkin()
 
 	ChallengesModeWeeklyBest.Child.Star:Hide()
 	ChallengesModeWeeklyBest.Child.Glow:Hide()
+	ChallengesModeWeeklyBest.Child.Glow2:Hide()
 	ChallengesModeWeeklyBest.Child.Level:SetPoint("CENTER", ChallengesModeWeeklyBest.Child.Star, "CENTER", 0, 3)
 	
 	S:CreateBD(ChallengesFrame.GuildBest, .3)
