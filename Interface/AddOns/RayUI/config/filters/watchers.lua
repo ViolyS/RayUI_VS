@@ -1255,6 +1255,10 @@ R["Watcher"] = {
                 { spellID = 212283, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 鮮血體驗
                 { spellID = 213738, unitId = "player", caster = "all", filter = "BUFF" },
+                -- 终结技：刺骨（敏锐神器）
+                { spellID = 197496, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 终结技：夜刃（敏锐神器）
+                { spellID = 197498, unitId = "player", caster = "player", filter = "BUFF" },
             },
             {
                 name = "目标buff&debuff",
@@ -1333,6 +1337,8 @@ R["Watcher"] = {
                 { spellID = 121471, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 恐惧之刃诅咒（狂徒神器）
                 { spellID = 202665, unitId = "player", caster = "player", filter = "DEBUFF" },
+                -- 赤喉之咬（敏锐神器）
+                { spellID = 220901, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 毒性蔓延
                 { spellID = 192425, unitId = "target", caster = "player", filter = "DEBUFF" },
             },
