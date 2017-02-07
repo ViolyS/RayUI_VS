@@ -851,6 +851,8 @@ R["Watcher"] = {
                 { spellID = 223316, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 賦予信念
                 { spellID = 223306, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 美德信標
+                { spellID = 200025, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 依法而治
                 { spellID = 214202, unitId = "player", caster = "player", filter = "BUFF" },
             },
@@ -868,6 +870,8 @@ R["Watcher"] = {
                 { spellID = 183218, unitId = "target", caster = "player", filter = "DEBUFF" },
                 -- 審判
                 { spellID = 197277, unitId = "target", caster = "player", filter = "DEBUFF" },
+                -- 美德信標
+                { spellID = 200025, unitId = "target", caster = "player", filter = "BUFF" },
             },
             {
                 name = "焦点buff&debuff",
