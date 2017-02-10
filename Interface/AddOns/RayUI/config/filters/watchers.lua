@@ -93,6 +93,8 @@ R["Watcher"] = {
                 { spellID = 102351, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 塞纳里奥结界:触发
                 { spellID = 102352, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 豐足
+                { spellID = 207640, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 狂暴:熊形态
                 { spellID = 50334, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 巨熊之力
@@ -1251,12 +1253,8 @@ R["Watcher"] = {
                 { spellID = 11327, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 矯捷
                 { spellID = 193538, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 無聲之刃
-                { spellID = 145193, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 剑刃乱舞
                 { spellID = 13877, unitId = "player", caster = "player", filter = "BUFF" },
-                -- 死亡徵兆
-                { spellID = 212283, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 鮮血體驗
                 { spellID = 213738, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 终结技：刺骨（敏锐神器）
@@ -1311,6 +1309,8 @@ R["Watcher"] = {
                 { spellID = 59628, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 佯攻
                 { spellID = 1966, unitId = "player", caster = "player", filter = "BUFF" },
+                -- 死亡徵兆
+                { spellID = 212283, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 暗影之舞
                 { spellID = 185422, unitId = "player", caster = "player", filter = "BUFF" },
                 -- 敏銳大師
