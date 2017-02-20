@@ -131,7 +131,7 @@ P["UnitFrames"]={
         targettarget = {
             defaultPosition = { "TOPLEFT", "RayUF_Target", "TOPRIGHT", 6, 0 },
             width = 150,
-            height = 12,
+            height = 16,
         },
         focus = {
             defaultPosition = { "BOTTOMRIGHT", "RayUF_Player", "TOPLEFT", -20, 40 },
@@ -147,12 +147,12 @@ P["UnitFrames"]={
         focustarget = {
             defaultPosition = { "TOPRIGHT", "RayUF_Focus", "TOPLEFT", -6, 0 },
             width = 150,
-            height = 12,
+            height = 16,
         },
         pet = {
-            defaultPosition = { "RIGHT", "RayUF_Player", "LEFT", -6, 0 },
-            width = 120,
-            height = 32,
+            defaultPosition = { "TOPRIGHT", "RayUF_Player", "TOPLEFT", -6, 0 },
+            width = 150,
+            height = 16,
         },
         arena = {
             enable = true,
