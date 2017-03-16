@@ -1951,6 +1951,8 @@ R["Watcher"] = {
                 { spellID = 214807, unitId = "player", caster = "all", filter = "BUFF" }, -- 安格博达的挽歌（精通，蓝脸）
                 -- 賈辛的機敏
                 { spellID = 224149, unitId = "player", caster = "all", filter = "BUFF" },
+                -- 軍團凝視
+                { spellID = 230152, unitId = "player", caster = "all", filter = "BUFF" },
             },
             {
                 name = "PVE/PVP玩家buff&debuff",
