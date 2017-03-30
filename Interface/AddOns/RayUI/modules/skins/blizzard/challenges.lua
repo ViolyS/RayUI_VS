@@ -20,7 +20,7 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("ChallengesFrame_Update", function()
-		for i = 1, 9 do
+		for i = 1, 12 do
 			local bu = ChallengesFrame.DungeonIcons[i]
 			if bu then
 				select(1, bu:GetRegions()):Hide()
