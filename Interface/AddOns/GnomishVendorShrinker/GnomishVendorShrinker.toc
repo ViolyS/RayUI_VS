@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## X-Curse-Packaged-Version: 7.0.0.19-Beta
 ## X-Curse-Project-Name: GnomishVendorShrinker
 ## X-Curse-Project-ID: gnomishvendorshrinker

@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Author: myno
 ## Title: Broker_WorldQuests
 ## Version: 7.1.30
