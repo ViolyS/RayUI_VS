@@ -344,11 +344,8 @@ local function LoadSkin()
 
     S:ReskinInput(ToyBox.searchBox)
     S:ReskinFilterButton(ToyBoxFilterButton)
-    S:ReskinArrow(ToyBox.navigationFrame.prevPageButton, "left")
-    S:ReskinArrow(ToyBox.navigationFrame.nextPageButton, "right")
-
-    ToyBox.navigationFrame.prevPageButton:SetPoint("BOTTOMRIGHT", -320, 51)
-    ToyBox.navigationFrame.nextPageButton:SetPoint("BOTTOMRIGHT", -285, 51)
+    S:ReskinArrow(ToyBox.PagingFrame.PrevPageButton, "left")
+    S:ReskinArrow(ToyBox.PagingFrame.NextPageButton, "right")
 
     -- Progress bar
 
@@ -423,11 +420,8 @@ local function LoadSkin()
     S:ReskinInput(HeirloomsJournalSearchBox)
     S:ReskinDropDown(HeirloomsJournalClassDropDown)
     S:ReskinFilterButton(HeirloomsJournalFilterButton)
-    S:ReskinArrow(HeirloomsJournal.navigationFrame.prevPageButton, "left")
-    S:ReskinArrow(HeirloomsJournal.navigationFrame.nextPageButton, "right")
-
-    HeirloomsJournal.navigationFrame.prevPageButton:SetPoint("BOTTOMRIGHT", -320, 51)
-    HeirloomsJournal.navigationFrame.nextPageButton:SetPoint("BOTTOMRIGHT", -285, 51)
+    S:ReskinArrow(HeirloomsJournal.PagingFrame.PrevPageButton, "left")
+    S:ReskinArrow(HeirloomsJournal.PagingFrame.NextPageButton, "right")
 
     -- Progress bar
 
@@ -444,22 +438,12 @@ local function LoadSkin()
     -- [[ WardrobeCollection ]]
 
     local WardrobeCollectionFrame = WardrobeCollectionFrame
-    local ModelsFrame = WardrobeCollectionFrame.ModelsFrame
 
     WardrobeCollectionFrameBg:Hide()
-    ModelsFrame:DisableDrawLayer("BACKGROUND")
-    ModelsFrame:DisableDrawLayer("BORDER")
-    ModelsFrame:DisableDrawLayer("ARTWORK")
-    ModelsFrame:DisableDrawLayer("OVERLAY")
-
+    S:CreateTab(WardrobeCollectionFrameTab1)
+    S:CreateTab(WardrobeCollectionFrameTab2)
     S:ReskinInput(WardrobeCollectionFrameSearchBox)
     S:ReskinFilterButton(WardrobeCollectionFrame.FilterButton)
-    S:ReskinDropDown(WardrobeCollectionFrameWeaponDropDown)
-    S:ReskinArrow(WardrobeCollectionFrame.NavigationFrame.PrevPageButton, "left")
-    S:ReskinArrow(WardrobeCollectionFrame.NavigationFrame.NextPageButton, "right")
-
-    WardrobeCollectionFrame.NavigationFrame.PrevPageButton:SetPoint("BOTTOM", 23, 51)
-    WardrobeCollectionFrame.NavigationFrame.NextPageButton:SetPoint("BOTTOM", 58, 51)
 
     -- Progress bar
 
@@ -475,13 +459,76 @@ local function LoadSkin()
 
     S:CreateBDFrame(progressBar, .25)
 
-    -- ModelRC
+    -- items
+    local ItemsCollectionFrame = WardrobeCollectionFrame.ItemsCollectionFrame
+    ItemsCollectionFrame:DisableDrawLayer("BACKGROUND")
+    ItemsCollectionFrame:DisableDrawLayer("BORDER")
+    ItemsCollectionFrame:DisableDrawLayer("ARTWORK")
+    ItemsCollectionFrame:DisableDrawLayer("OVERLAY")
+
+    S:ReskinDropDown(WardrobeCollectionFrameWeaponDropDown)
+    S:ReskinArrow(WardrobeCollectionFrame.ItemsCollectionFrame.PagingFrame.PrevPageButton, "left")
+    S:ReskinArrow(WardrobeCollectionFrame.ItemsCollectionFrame.PagingFrame.NextPageButton, "right")
 
     for i = 1, 3 do
         for j = 1, 6 do
-            ModelsFrame["ModelR"..i.."C"..j]:GetRegions():Hide()
+            ItemsCollectionFrame["ModelR"..i.."C"..j]:GetRegions():Hide()
         end
     end
+
+    --Sets
+    local SetsCollectionFrame = WardrobeCollectionFrame.SetsCollectionFrame
+    SetsCollectionFrame.LeftInset:DisableDrawLayer("BACKGROUND")
+    SetsCollectionFrame.LeftInset:DisableDrawLayer("BORDER")
+    SetsCollectionFrame.RightInset:DisableDrawLayer("BACKGROUND")
+    SetsCollectionFrame.RightInset:DisableDrawLayer("BORDER")
+    SetsCollectionFrame.RightInset:DisableDrawLayer("ARTWORK")
+    SetsCollectionFrame.RightInset:DisableDrawLayer("OVERLAY")
+
+    local ScrollFrame = SetsCollectionFrame.ScrollFrame
+    S:ReskinScroll(ScrollFrame.scrollBar)
+    for i = 1, #ScrollFrame.buttons do
+        local button = ScrollFrame.buttons[i]
+
+        button.Background:Hide()
+        local bg = CreateFrame("Frame", nil, button)
+        bg:SetPoint("TOPLEFT", 0, -1)
+        bg:SetPoint("BOTTOMRIGHT", 0, 1)
+        bg:SetFrameLevel(button:GetFrameLevel()-1)
+        S:CreateBD(bg, .25)
+        button.bg = bg
+
+        button.Icon.bg = S:ReskinIcon(button.Icon)
+
+        button.SelectedTexture:SetTexture("")
+        button.HighlightTexture:SetTexture(R["media"].normal)
+        button.HighlightTexture:SetVertexColor(r, g, b, .25)
+    end
+
+    hooksecurefunc(ScrollFrame, "Update", function(self)
+        local buttons = self.buttons
+
+        for i = 1, #buttons do
+            local button = buttons[i]
+            if button.SelectedTexture:IsShown() then
+                button.bg:SetBackdropBorderColor(1, 1, 1, 0.7)
+            else
+                button.bg:SetBackdropBorderColor(0, 0, 0)
+            end
+        end
+    end)
+
+    local DetailsFrame = SetsCollectionFrame.DetailsFrame
+    DetailsFrame.ModelFadeTexture:Hide()
+    DetailsFrame.IconRowBackground:Hide()
+    S:ReskinFilterButton(DetailsFrame.VariantSetsButton, "Down")
+
+    hooksecurefunc(SetsCollectionFrame, "SetItemFrameQuality", function(self, itemFrame)
+        if not itemFrame.skinned then
+                S:ReskinIcon(itemFrame.Icon)
+        end
+        SetItemButtonQuality(itemFrame, itemFrame.sourceID)
+    end)
 
     -- [[ Wardrobe ]]
 
@@ -489,8 +536,7 @@ local function LoadSkin()
     local WardrobeTransmogFrame = WardrobeTransmogFrame
 
     WardrobeTransmogFrameBg:Hide()
-    WardrobeTransmogFrame.Inset.BG:Hide()
-    WardrobeTransmogFrame.Inset:DisableDrawLayer("BORDER")
+    WardrobeTransmogFrame.Inset.BG:SetAlpha(0)
     WardrobeTransmogFrame.MoneyLeft:Hide()
     WardrobeTransmogFrame.MoneyMiddle:Hide()
     WardrobeTransmogFrame.MoneyRight:Hide()
@@ -520,6 +566,18 @@ local function LoadSkin()
             S:ReskinIcon(slot.Icon)
         end
     end
+
+    -- Sets
+    for i = 1, 34 do
+        select(i, WardrobeCollectionFrame.SetsTransmogFrame:GetRegions()):Hide()
+    end
+    for i = 1, 2 do
+        for j = 1, 4 do
+            WardrobeCollectionFrame.SetsTransmogFrame["ModelR"..i.."C"..j]:GetRegions():Hide()
+        end
+    end
+    S:ReskinArrow(WardrobeCollectionFrame.SetsTransmogFrame.PagingFrame.PrevPageButton, "left")
+    S:ReskinArrow(WardrobeCollectionFrame.SetsTransmogFrame.PagingFrame.NextPageButton, "right")
 
     -- [[ WardrobeTransmogFrameControlFrame Button ]]
     WardrobeTransmogFrameControlFrame:DisableDrawLayer("BACKGROUND")
