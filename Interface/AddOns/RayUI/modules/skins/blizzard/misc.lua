@@ -546,7 +546,8 @@ local function LoadSkin()
         "AudioOptionsSoundPanelEnableDSPs",
         "AudioOptionsVoicePanelEnableVoice",
         "AudioOptionsVoicePanelEnableMicrophone",
-        "AudioOptionsVoicePanelPushToTalkSound"
+        "AudioOptionsVoicePanelPushToTalkSound",
+        "InterfaceOptionsSocialPanelAutoAcceptQuickJoinRequests"
     }
     for i = 1, #checkboxes do
         S:ReskinCheck(_G[checkboxes[i]])
