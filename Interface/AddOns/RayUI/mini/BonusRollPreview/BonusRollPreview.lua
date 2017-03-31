@@ -1,5 +1,4 @@
 local addonName, ns = ...
-local currentEncounterInfo
 local itemButtons = {}
 
 local BACKDROP = {
@@ -11,463 +10,113 @@ local BACKDROP = {
 local Container = CreateFrame('Frame', addonName .. 'Container', BonusRollFrame)
 local Handle = CreateFrame('Button', addonName .. 'Handle', BonusRollFrame)
 
-local Hotspot = CreateFrame('Frame', nil, BonusRollFrame)
-local Buttons = CreateFrame('Frame', addonName .. 'SpecButtons', Hotspot)
-Buttons:Hide()
-
-local function SpecButtonClick(self)
-	SetLootSpecialization(self.specID)
-	Buttons:Hide()
-	BonusRollFrame.SpecIcon:SetDesaturated(false)
-end
-
-local function SpecButtonEnter(self)
-	GameTooltip:SetOwner(self, 'ANCHOR_TOPRIGHT')
-	GameTooltip:AddLine(self.name, 1, 1, 1)
-	GameTooltip:Show()
-end
-
-local specButtons
-local function HotspotEnter()
-	if(not Buttons:IsShown()) then
-		if(not specButtons) then
-			local numSpecs = GetNumSpecializations()
-			for index = 1, numSpecs do
-				local specID, name, _, texture = GetSpecializationInfo(index)
-
-				local SpecButton = CreateFrame('Button', '$parentSpecButton' .. index, Buttons)
-				SpecButton:SetPoint('LEFT', index * 28, 0)
-				SpecButton:SetSize(22, 22)
-				SpecButton:SetScript('OnClick', SpecButtonClick)
-				SpecButton:SetScript('OnEnter', SpecButtonEnter)
-				SpecButton:SetScript('OnLeave', GameTooltip_Hide)
-				SpecButton:SetHighlightTexture([[Interface\Minimap\UI-Minimap-ZoomButton-Highlight]])
-
-				SpecButton.specID = specID
-				SpecButton.name = name
-
-				local Icon = SpecButton:CreateTexture('$parentIcon', 'OVERLAY', nil, 1)
-				Icon:SetAllPoints()
-				Icon:SetTexture(texture)
-
-				local Ring = SpecButton:CreateTexture('$parentRing', 'OVERLAY', nil, 2)
-				Ring:SetPoint('TOPLEFT', -6, 6)
-				Ring:SetSize(58, 58)
-				Ring:SetTexture([[Interface\Minimap\Minimap-TrackingBorder]])
-			end
-
-			Buttons:SetSize(numSpecs * 28 + 34, 38)
-
-			specButtons = true
-		end
-
-		BonusRollFrame.SpecIcon:SetDesaturated(true)
-		Buttons:Show()
-	end
-end
-
-local function HotspotLeave()
-	if(not Buttons:IsMouseOver()) then
-		BonusRollFrame.SpecIcon:SetDesaturated(false)
-		Buttons:Hide()
-	end
-end
-
-local function ButtonsLeave(self)
-	if(not Hotspot:IsMouseOver()) then
-		HotspotLeave()
-	end
-end
-
-local function HookStartRoll(self, frame)
-	local specID = GetLootSpecialization()
-	if(not specID or specID == 0) then
-		SetLootSpecialization(GetSpecializationInfo(GetSpecialization()))
-	end
-end
-
-local function PositionDownwards()
+local function ShouldFillDownwards()
 	return (GetScreenHeight() - (BonusRollFrame:GetTop() or 200)) < 345
 end
 
-local collapsed
-local function HandleClick(self)
-	if(self) then
-		collapsed = not collapsed
-	else
-		collapsed = true
-	end
-
-	Handle:ClearAllPoints()
-	if(collapsed) then
-		if(PositionDownwards()) then
-			Handle.Arrow:SetTexCoord(0, 0, 1/2, 0, 0, 1, 1/2, 1)
-			Handle:SetPoint('TOP', BonusRollFrame, 'BOTTOM', 0, 2)
-		else
-			Handle.Arrow:SetTexCoord(1/2, 1, 0, 1, 1/2, 0, 0, 0)
-			Handle:SetPoint('BOTTOM', BonusRollFrame, 'TOP', 0, -2)
-		end
-
-		Container:Hide()
-	else
-		if(PositionDownwards()) then
-			Handle.Arrow:SetTexCoord(1/2, 1, 1, 1, 1/2, 0, 1, 0)
-			Handle:SetPoint('BOTTOM', Container, 0, -14)
-		else
-			Handle.Arrow:SetTexCoord(1, 0, 1/2, 0, 1, 1, 1/2, 1)
-			Handle:SetPoint('TOP', Container, 0, 14)
-		end
-
-		Container:Show()
-	end
-end
-
-local function HandlePosition()
-	Container:ClearAllPoints()
-	if(PositionDownwards()) then
-		Container:SetPoint('TOP', BonusRollFrame, 'BOTTOM')
-
-		Handle.Arrow:SetTexCoord(0, 0, 1/2, 0, 0, 1, 1/2, 1)
-		Handle.TopCenter:Hide()
-		Handle.TopRight:Hide()
-		Handle.TopLeft:Hide()
-		Handle.BottomCenter:Show()
-		Handle.BottomRight:Show()
-		Handle.BottomLeft:Show()
-	else
-		Container:SetPoint('BOTTOM', BonusRollFrame, 'TOP')
-
-		Handle.Arrow:SetTexCoord(1/2, 1, 0, 1, 1/2, 0, 0, 0)
-		Handle.TopCenter:Show()
-		Handle.TopRight:Show()
-		Handle.TopLeft:Show()
-		Handle.BottomCenter:Hide()
-		Handle.BottomRight:Hide()
-		Handle.BottomLeft:Hide()
-	end
-
-	HandleClick()
-end
-
-function Container:MODIFIER_STATE_CHANGED()
-	if(IsModifiedClick("COMPAREITEMS") or GetCVarBool("alwaysCompareItems")) then
-		GameTooltip_ShowCompareItem()
-	else
-		for _, shoppingTooltip in next, GameTooltip.shoppingTooltips do
-			shoppingTooltip:Hide()
-		end
-	end
-
-	if(IsModifiedClick('DRESSUP')) then
-		ShowInspectCursor()
-	else
-		ResetCursor()
-	end
-end
-
-local function ItemButtonClick(self)
+--- ItemButton
+local function OnItemButtonClick(self)
 	HandleModifiedItemClick(self.itemLink)
 end
 
-local function ItemButtonEnter(self)
+local function OnItemButtonEnter(self)
 	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
 	GameTooltip:SetHyperlink(self.itemLink)
-
 	Container:RegisterEvent('MODIFIER_STATE_CHANGED')
 end
 
-local function ItemButtonLeave(self)
+local function OnItemButtonLeave(self)
 	GameTooltip:Hide()
-
 	Container:UnregisterEvent('MODIFIER_STATE_CHANGED')
 end
 
-local function GetItemLine(index)
+local function CreateItemButton(index)
+	local Button = CreateFrame('Button', '$parentItemButton' .. index, Container.ScrollChild)
+	Button:SetPoint('TOPLEFT', 6, (index - 1) * -40)
+	Button:SetPoint('TOPRIGHT', -22, (index - 1) * -40)
+	Button:SetHeight(38)
+
+	local Icon = Button:CreateTexture('$parentIcon', 'BACKGROUND')
+	Icon:SetPoint('TOPLEFT', 1, -1)
+	Icon:SetSize(36, 36)
+	Button.Icon = Icon
+
+	local Background = Button:CreateTexture('$parentBackground', 'BORDER')
+	Background:SetAllPoints()
+	Background:SetTexture([[Interface\EncounterJournal\UI-EncounterJournalTextures]])
+	Background:SetTexCoord(0.00195313, 0.62890625, 0.61816406, 0.66210938)
+	Background:SetDesaturated(true)
+
+	local Name = Button:CreateFontString('$parentName', 'ARTWORK', 'GameFontNormalMed3')
+	Name:SetPoint('TOPLEFT', Icon, 'TOPRIGHT', 7, -4)
+	Name:SetPoint('TOPRIGHT', -6, -4)
+	Name:SetHeight(12)
+	Name:SetJustifyH('LEFT')
+	Button.Name = Name
+
+	local Class = Button:CreateFontString('$parentClass', 'ARTWORK', 'GameFontHighlight')
+	Class:SetPoint('BOTTOMRIGHT', -6, 5)
+	Class:SetSize(0, 12)
+	Class:SetJustifyH('RIGHT')
+	Button.Class = Class
+
+	local Slot = Button:CreateFontString('$parentSlot', 'ARTWORK', 'GameFontHighlight')
+	Slot:SetPoint('BOTTOMLEFT', Icon, 'BOTTOMRIGHT', 7, 4)
+	Slot:SetPoint('BOTTOMRIGHT', Class, 'BOTTOMLEFT', -15, 0)
+	Slot:SetSize(0, 12)
+	Slot:SetJustifyH('LEFT')
+	Button.Slot = Slot
+
+	Button:SetScript('OnClick', OnItemButtonClick)
+	Button:SetScript('OnEnter', OnItemButtonEnter)
+	Button:SetScript('OnLeave', OnItemButtonLeave)
+
+	return Button
+end
+
+local function GetItemButton(index)
 	local ItemButton = itemButtons[index]
 	if(not ItemButton) then
-		ItemButton = CreateFrame('Button', '$parentItemButton' .. index, Container.ScrollChild)
-		ItemButton:SetPoint('TOPLEFT', 6, (index - 1) * -40)
-		ItemButton:SetPoint('TOPRIGHT', -22, (index - 1) * -40)
-		ItemButton:SetHeight(38)
-
-		local Icon = ItemButton:CreateTexture('$parentIcon', 'BACKGROUND')
-		Icon:SetPoint('TOPLEFT', 1, -1)
-		Icon:SetSize(36, 36)
-		ItemButton.Icon = Icon
-
-		local Background = ItemButton:CreateTexture('$parentBackground', 'BORDER')
-		Background:SetAllPoints()
-		Background:SetTexture([[Interface\EncounterJournal\UI-EncounterJournalTextures]])
-		Background:SetTexCoord(0.00195313, 0.62890625, 0.61816406, 0.66210938)
-		Background:SetDesaturated(true)
-
-		local Name = ItemButton:CreateFontString('$parentName', 'ARTWORK', 'GameFontNormalMed3')
-		Name:SetPoint('TOPLEFT', Icon, 'TOPRIGHT', 7, -4)
-		Name:SetPoint('TOPRIGHT', -6, -4)
-		Name:SetHeight(12)
-		Name:SetJustifyH('LEFT')
-		ItemButton.Name = Name
-
-		local Class = ItemButton:CreateFontString('$parentClass', 'ARTWORK', 'GameFontHighlight')
-		Class:SetPoint('BOTTOMRIGHT', -6, 5)
-		Class:SetSize(0, 12)
-		Class:SetJustifyH('RIGHT')
-		ItemButton.Class = Class
-
-		local Slot = ItemButton:CreateFontString('$parentSlot', 'ARTWORK', 'GameFontHighlight')
-		Slot:SetPoint('BOTTOMLEFT', Icon, 'BOTTOMRIGHT', 7, 4)
-		Slot:SetPoint('BOTTOMRIGHT', Class, 'BOTTOMLEFT', -15, 0)
-		Slot:SetSize(0, 12)
-		Slot:SetJustifyH('LEFT')
-		ItemButton.Slot = Slot
-
-		ItemButton:SetScript('OnClick', ItemButtonClick)
-		ItemButton:SetScript('OnEnter', ItemButtonEnter)
-		ItemButton:SetScript('OnLeave', ItemButtonLeave)
-
+		ItemButton = CreateItemButton(index)
 		itemButtons[index] = ItemButton
 	end
 
 	return ItemButton
 end
 
-local resetTimer
-local function ResetEvents()
-	Container:UnregisterEvent('EJ_LOOT_DATA_RECIEVED')
-	Container:UnregisterEvent('EJ_DIFFICULTY_UPDATE')
+--- Handle
+local function UpdateHandle(collapsed)
+	Handle:ClearAllPoints()
+	Handle.collapsed = collapsed
 
-	if(EncounterJournal) then
-		EncounterJournal:RegisterEvent('EJ_LOOT_DATA_RECIEVED')
-		EncounterJournal:RegisterEvent('EJ_DIFFICULTY_UPDATE')
-	end
-
-	resetTimer = nil
-end
-
-function Container:Populate()
-	local numItems = 0
-	for index = 1, EJ_GetNumLoot() do
-		local itemID, encounterID, name, texture, slot, armorType, itemLink = EJ_GetLootInfoByIndex(index)
-		if(not itemLink) then
-			-- Let the client receive the data
-			return
-		end
-
-		if(encounterID == currentEncounterInfo[1] and not ns.itemBlacklist[itemID]) then
-			numItems = numItems + 1
-
-			local ItemButton = GetItemLine(numItems)
-			ItemButton.Icon:SetTexture(texture)
-			ItemButton.Name:SetText(name)
-			ItemButton.Slot:SetText(slot)
-			ItemButton.Class:SetText(armorType)
-
-			ItemButton.itemLink = itemLink
-
-			ItemButton:Show()
-		end
-	end
-
-	self:Hide()
-	self:SetHeight(math.min(330, math.max(50, 10 + (numItems * 40))))
-
-	if(numItems > 0) then
-		local height = (10 + (numItems * 40)) - self:GetHeight()
-		self.Slider:SetMinMaxValues(0, height > 0 and height or 0)
-		self.Slider:SetValue(0)
-
-		if(numItems > 8) then
-			self:EnableMouseWheel(true)
-			self.Slider:Show()
-			self.ScrollChild:SetWidth(286)
+	if(collapsed) then
+		if(ShouldFillDownwards()) then
+			Handle.Arrow:SetTexCoord(0, 0, 1/2, 0, 0, 1, 1/2, 1)
+			Handle:SetPoint('TOP', BonusRollFrame, 'BOTTOM', 0, 2)
 		else
-			self:EnableMouseWheel(false)
-			self.Slider:Hide()
-			self.ScrollChild:SetWidth(302)
+			Handle.Arrow:SetTexCoord(1/2, 1, 0, 1, 1/2, 0, 0, 0)
+			Handle:SetPoint('BOTTOM', BonusRollFrame, 'TOP', 0, -2)
 		end
-
-		self.Empty:Hide()
 	else
-		self.Empty:Show()
-		self.Slider:Hide()
-	end
-
-	if(resetTimer) then
-		resetTimer:Cancel()
-		resetTimer = nil
-	end
-
-	resetTimer = C_Timer.NewTimer(2, ResetEvents)
-end
-
-function Container:Update()
-	if(EncounterJournal) then
-		EncounterJournal:UnregisterEvent('EJ_LOOT_DATA_RECIEVED')
-		EncounterJournal:UnregisterEvent('EJ_DIFFICULTY_UPDATE')
-	end
-
-	for index, button in next, itemButtons do
-		button:Hide()
-	end
-
-	local encounterID, instanceID, difficulty = unpack(currentEncounterInfo)
-	EJ_SelectInstance(instanceID)
-	EJ_SelectEncounter(encounterID)
-
-	if(not difficulty) then
-		-- This should only ever happen in raids, everything else is hardcoded
-		difficulty = select(3, GetInstanceInfo())
-	end
-
-	EJ_SetDifficulty(difficulty)
-end
-
-function Container:EJ_DIFFICULTY_UPDATE(event)
-	local _, _, classID = UnitClass('player')
-	EJ_SetLootFilter(classID, GetLootSpecialization() or GetSpecializationInfo(GetSpecialization() or 0) or 0)
-
-	self:Populate()
-end
-
-function Container:EJ_LOOT_DATA_RECIEVED(event)
-	if(BonusRollFrame:IsShown()) then
-		self:Populate()
-	end
-end
-
-function Container:PLAYER_LOOT_SPEC_UPDATED(event)
-	self:RegisterEvent('EJ_LOOT_DATA_RECIEVED')
-	self:RegisterEvent('EJ_DIFFICULTY_UPDATE')
-	self:Update()
-	HandlePosition()
-end
-
-function Container:SPELL_CONFIRMATION_PROMPT(event, spellID, confirmType, _, _, currencyID)
-	if(confirmType == LE_SPELL_CONFIRMATION_PROMPT_TYPE_BONUS_ROLL) then
-		currentEncounterInfo = ns.encounterInfo[spellID]
-		if(currentEncounterInfo) then
-			local _, count = GetCurrencyInfo(currencyID)
-			if(count > 0) then
-				self:RegisterEvent('PLAYER_LOOT_SPEC_UPDATED')
-				self:RegisterEvent('EJ_LOOT_DATA_RECIEVED')
-				self:RegisterEvent('EJ_DIFFICULTY_UPDATE')
-				self:Update()
-			end
-		elseif(not ns.encounterBlacklist[spellID]) then
-			print('|cffff8080' .. addonName .. ':|r Found an unknown spell [' .. spellID .. ']. Please report this, with boss name!')
-		end
-	end
-end
-
-function Container:PLAYER_ENTERING_WORLD(event)
-	for _, info in next, GetSpellConfirmationPromptsInfo() do
-		if(info) then
-			self:SPELL_CONFIRMATION_PROMPT(event, info.spellID, info.confirmType, nil, nil, info.currencyID)
-		end
-	end
-end
-
-function Container:SPELL_CONFIRMATION_TIMEOUT()
-	currentEncounterInfo = nil
-
-	self:UnregisterEvent('PLAYER_LOOT_SPEC_UPDATED')
-end
-
-function Container:PLAYER_LOGIN()
-	local ScrollChild = CreateFrame('Frame', '$parentScrollChild', self)
-	ScrollChild:SetHeight(1) -- Completely ignores this value, bug?
-	self.ScrollChild = ScrollChild
-
-	local Scroll = CreateFrame('ScrollFrame', '$parentScrollFrame', self)
-	Scroll:SetPoint('TOPLEFT', 0, -6)
-	Scroll:SetPoint('BOTTOMRIGHT', 0, 6)
-	Scroll:SetScrollChild(ScrollChild)
-
-	self:SetWidth(286)
-	self:SetFrameLevel(self:GetParent():GetFrameLevel() - 2)
-	self:SetBackdrop(BACKDROP)
-	self:SetBackdropColor(0, 0, 0, 0.8)
-	self:SetBackdropBorderColor(2/3, 2/3, 2/3)
-	self:EnableMouseWheel(true)
-
-	local Slider = CreateFrame('Slider', '$parentScrollBar', Scroll)
-	Slider:SetPoint('TOPRIGHT', -5, -16)
-	Slider:SetPoint('BOTTOMRIGHT', -5, 14)
-	Slider:SetWidth(16)
-	Slider:SetFrameLevel(self:GetFrameLevel() + 10)
-	self.Slider = Slider
-
-	local Thumb = Scroll:CreateTexture('$parentThumbTexture')
-	Thumb:SetSize(16, 24)
-	Thumb:SetTexture([[Interface\Buttons\UI-ScrollBar-Knob]])
-	Thumb:SetTexCoord(1/4, 3/4, 1/8, 7/8)
-	Slider:SetThumbTexture(Thumb)
-
-	local Up = CreateFrame('Button', '$parentScrollUpButton', Slider)
-	Up:SetPoint('BOTTOM', Slider, 'TOP')
-	Up:SetSize(16, 16)
-	Up:SetNormalTexture([[Interface\Buttons\UI-ScrollBar-ScrollUpButton-Up]])
-	Up:SetDisabledTexture([[Interface\Buttons\UI-ScrollBar-ScrollUpButton-Disabled]])
-	Up:SetHighlightTexture([[Interface\Buttons\UI-ScrollBar-ScrollUpButton-Highlight]])
-	Up:GetNormalTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
-	Up:GetDisabledTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
-	Up:GetHighlightTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
-	Up:GetHighlightTexture():SetBlendMode('ADD')
-	Up:SetScript('OnClick', function()
-		Slider:SetValue(Slider:GetValue() - Slider:GetHeight() / 3)
-	end)
-
-	local Down = CreateFrame('Button', '$parentScrollDownButton', Slider)
-	Down:SetPoint('TOP', Slider, 'BOTTOM')
-	Down:SetSize(16, 16)
-	Down:SetScript('OnClick', ScrollClick)
-	Down:SetNormalTexture([[Interface\Buttons\UI-ScrollBar-ScrollDownButton-Up]])
-	Down:SetDisabledTexture([[Interface\Buttons\UI-ScrollBar-ScrollDownButton-Disabled]])
-	Down:SetHighlightTexture([[Interface\Buttons\UI-ScrollBar-ScrollDownButton-Highlight]])
-	Down:GetNormalTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
-	Down:GetDisabledTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
-	Down:GetHighlightTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
-	Down:GetHighlightTexture():SetBlendMode('ADD')
-	Down:SetScript('OnClick', function()
-		Slider:SetValue(Slider:GetValue() + Slider:GetHeight() / 3)
-	end)
-
-	Slider:SetScript('OnValueChanged', function(self, value)
-		local min, max = self:GetMinMaxValues()
-		if(value == min) then
-			Up:Disable()
+		if(ShouldFillDownwards()) then
+			Handle.Arrow:SetTexCoord(1/2, 1, 1, 1, 1/2, 0, 1, 0)
+			Handle:SetPoint('BOTTOM', Container, 0, -14)
 		else
-			Up:Enable()
+			Handle.Arrow:SetTexCoord(1, 0, 1/2, 0, 1, 1, 1/2, 1)
+			Handle:SetPoint('TOP', Container, 0, 14)
 		end
+	end
+end
 
-		if(value == max) then
-			Down:Disable()
-		else
-			Down:Enable()
-		end
+local function OnHandleClick(self)
+	UpdateHandle(not self.collapsed)
+	Container:SetShown(not self.collapsed)
+end
 
-		local Parent = self:GetParent()
-		Parent:SetVerticalScroll(value)
-		ScrollChild:SetPoint('TOP', 0, value)
-	end)
-
-	Scroll:SetScript('OnMouseWheel', function(self, alpha)
-		if(alpha > 0) then
-			Slider:SetValue(Slider:GetValue() - Slider:GetHeight() / 3)
-		else
-			Slider:SetValue(Slider:GetValue() + Slider:GetHeight() / 3)
-		end
-	end)
-
-	local Empty = self:CreateFontString('$parentPlaceholder', 'ARTWORK', 'GameFontHighlight')
-	Empty:SetPoint('TOPLEFT', 10, 0)
-	Empty:SetPoint('BOTTOMRIGHT', -10, 0)
-	Empty:SetText('This encounter has no possible items for your current class and/or specialization.')
-	self.Empty = Empty
-
+function Container:CreateHandle()
 	Handle:SetSize(64, 16)
 	Handle:SetNormalTexture([[Interface\RaidFrame\RaidPanel-Toggle]])
-	Handle:SetScript('OnClick', HandleClick)
+	Handle:SetScript('OnClick', OnHandleClick)
 	Handle.Arrow = Handle:GetNormalTexture()
 
 	local HandleBackground = Handle:CreateTexture('$parentBackground', 'BACKGROUND')
@@ -513,21 +162,341 @@ function Container:PLAYER_LOGIN()
 	BottomLeft:SetTexture([[Interface\RaidFrame\RaidPanel-BottomLeft]])
 	BottomLeft:SetTexCoord(0, 1, 0.1, 1)
 	Handle.BottomLeft = BottomLeft
+end
 
-	Hotspot:SetAllPoints(BonusRollFrame.SpecIcon)
-	Hotspot:SetScript('OnEnter', HotspotEnter)
-	Hotspot:SetScript('OnLeave', HotspotLeave)
+--- Container
+local function OnScrollUpClick(self)
+	local Slider = self:GetParent()
+	Slider:SetValue(Slider:GetValue() - Slider:GetHeight() / 3)
+end
 
-	Buttons:SetPoint('LEFT', 4, 4)
-	Buttons:SetScript('OnLeave', ButtonsLeave)
+local function OnScrollDownClick(self)
+	local Slider = self:GetParent()
+	Slider:SetValue(Slider:GetValue() + Slider:GetHeight() / 3)
+end
+
+local function OnSliderValueChanged(self, value)
+	local min, max = self:GetMinMaxValues()
+	if(value == min) then
+		self.ScrollUp:Disable()
+	else
+		self.ScrollUp:Enable()
+	end
+
+	if(value == max) then
+		self.ScrollDown:Disable()
+	else
+		self.ScrollDown:Enable()
+	end
+
+	local Scroll = self:GetParent()
+	Scroll:SetVerticalScroll(value)
+	Scroll:GetScrollChild():SetPoint('TOP', 0, value)
+end
+
+local function OnScrollMouseWheel(self, alpha)
+	if(alpha > 0) then
+		self.Slider:SetValue(self.Slider:GetValue() - self.Slider:GetHeight() / 3)
+	else
+		self.Slider:SetValue(self.Slider:GetValue() + self.Slider:GetHeight() / 3)
+	end
+end
+
+function Container:CreateFrame()
+	local ScrollChild = CreateFrame('Frame', '$parentScrollChild', self)
+	ScrollChild:SetHeight(1) -- Completely ignores this value, bug?
+	self.ScrollChild = ScrollChild
+
+	local Scroll = CreateFrame('ScrollFrame', '$parentScrollFrame', self)
+	Scroll:SetPoint('TOPLEFT', 0, -6)
+	Scroll:SetPoint('BOTTOMRIGHT', 0, 6)
+	Scroll:SetScrollChild(ScrollChild)
+	Scroll:SetScript('OnMouseWheel', OnScrollMouseWheel)
+
+	self:SetWidth(286)
+	self:SetFrameLevel(self:GetParent():GetFrameLevel() - 2)
+	self:SetBackdrop(BACKDROP)
+	self:SetBackdropColor(0, 0, 0, 0.8)
+	self:SetBackdropBorderColor(2/3, 2/3, 2/3)
+
+	local Slider = CreateFrame('Slider', '$parentScrollBar', Scroll)
+	Slider:SetPoint('TOPRIGHT', -5, -16)
+	Slider:SetPoint('BOTTOMRIGHT', -5, 14)
+	Slider:SetWidth(16)
+	Slider:SetFrameLevel(self:GetFrameLevel() + 10)
+	Slider:SetScript('OnValueChanged', OnSliderValueChanged)
+	Scroll.Slider = Slider
+	self.Slider = Slider
+
+	local Thumb = Scroll:CreateTexture('$parentThumbTexture')
+	Thumb:SetSize(16, 24)
+	Thumb:SetTexture([[Interface\Buttons\UI-ScrollBar-Knob]])
+	Thumb:SetTexCoord(1/4, 3/4, 1/8, 7/8)
+	Slider:SetThumbTexture(Thumb)
+
+	local ScrollUp = CreateFrame('Button', '$parentScrollUpButton', Slider)
+	ScrollUp:SetPoint('BOTTOM', Slider, 'TOP')
+	ScrollUp:SetSize(16, 16)
+	ScrollUp:SetNormalTexture([[Interface\Buttons\UI-ScrollBar-ScrollUpButton-Up]])
+	ScrollUp:SetDisabledTexture([[Interface\Buttons\UI-ScrollBar-ScrollUpButton-Disabled]])
+	ScrollUp:SetHighlightTexture([[Interface\Buttons\UI-ScrollBar-ScrollUpButton-Highlight]])
+	ScrollUp:GetNormalTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
+	ScrollUp:GetDisabledTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
+	ScrollUp:GetHighlightTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
+	ScrollUp:GetHighlightTexture():SetBlendMode('ADD')
+	ScrollUp:SetScript('OnClick', OnScrollUpClick)
+	Slider.ScrollUp = ScrollUp
+
+	local ScrollDown = CreateFrame('Button', '$parentScrollDownButton', Slider)
+	ScrollDown:SetPoint('TOP', Slider, 'BOTTOM')
+	ScrollDown:SetSize(16, 16)
+	ScrollDown:SetNormalTexture([[Interface\Buttons\UI-ScrollBar-ScrollDownButton-Up]])
+	ScrollDown:SetDisabledTexture([[Interface\Buttons\UI-ScrollBar-ScrollDownButton-Disabled]])
+	ScrollDown:SetHighlightTexture([[Interface\Buttons\UI-ScrollBar-ScrollDownButton-Highlight]])
+	ScrollDown:GetNormalTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
+	ScrollDown:GetDisabledTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
+	ScrollDown:GetHighlightTexture():SetTexCoord(1/4, 3/4, 1/4, 3/4)
+	ScrollDown:GetHighlightTexture():SetBlendMode('ADD')
+	ScrollDown:SetScript('OnClick', OnScrollDownClick)
+	Slider.ScrollDown = ScrollDown
+
+	local Empty = self:CreateFontString('$parentPlaceholder', 'ARTWORK', 'GameFontHighlight')
+	Empty:SetPoint('TOPLEFT', 10, 0)
+	Empty:SetPoint('BOTTOMRIGHT', -10, 0)
+	Empty:SetText('This encounter has no possible items for your current class and/or specialization.')
+	self.Empty = Empty
+end
+
+--- Hooks
+local function HookSetPoint()
+	Container:ClearAllPoints()
+
+	if(ShouldFillDownwards()) then
+		Container:SetPoint('TOP', BonusRollFrame, 'BOTTOM')
+
+		Handle.Arrow:SetTexCoord(0, 0, 1/2, 0, 0, 1, 1/2, 1)
+		Handle.TopCenter:Hide()
+		Handle.TopRight:Hide()
+		Handle.TopLeft:Hide()
+		Handle.BottomCenter:Show()
+		Handle.BottomRight:Show()
+		Handle.BottomLeft:Show()
+	else
+		Container:SetPoint('BOTTOM', BonusRollFrame, 'TOP')
+
+		Handle.Arrow:SetTexCoord(1/2, 1, 0, 1, 1/2, 0, 0, 0)
+		Handle.TopCenter:Show()
+		Handle.TopRight:Show()
+		Handle.TopLeft:Show()
+		Handle.BottomCenter:Hide()
+		Handle.BottomRight:Hide()
+		Handle.BottomLeft:Hide()
+	end
+
+	UpdateHandle(true)
+end
+
+--- Logic
+function Container:StartEncounter()
+	for index, button in next, itemButtons do
+		button:Hide()
+	end
+
+	EJ_SelectInstance(self.instanceID)
+	EJ_SelectEncounter(self.encounterID)
+
+	if(not self.difficulty) then
+		-- This should only ever happen in raids, everything else is hardcoded
+		self.difficulty = select(3, GetInstanceInfo())
+	end
+
+	if(not self.difficulty or self.difficulty == 0) then
+		-- Fallback difficulty, for PEW
+		self.difficulty = self.fallbackDifficulty
+	end
+
+	self:RegisterEvent('EJ_DIFFICULTY_UPDATE')
+	if(EncounterJournal) then
+		EncounterJournal:UnregisterEvent('EJ_DIFFICULTY_UPDATE')
+	end
+
+	EJ_SetDifficulty(self.difficulty)
+end
+
+function Container:UpdateItems()
+	if(not self:IsEventRegistered('EJ_LOOT_DATA_RECIEVED')) then
+		self:RegisterEvent('EJ_LOOT_DATA_RECIEVED')
+	end
+
+	if(EncounterJournal) then
+		EncounterJournal:UnregisterEvent('EJ_LOOT_DATA_RECIEVED')
+	end
+
+	local numItems = 0
+	for index = 1, EJ_GetNumLoot() do
+		local itemID, encounterID, name, texture, slot, armorType, itemLink = EJ_GetLootInfoByIndex(index)
+		if(not itemLink) then
+			-- Let the client receive the data
+			return
+		end
+
+		if(not ns.itemBlacklist[itemID]) then
+			numItems = numItems + 1
+
+			local ItemButton = GetItemButton(numItems)
+			ItemButton.Icon:SetTexture(texture)
+			ItemButton.Name:SetText(name)
+			ItemButton.Slot:SetText(slot)
+			ItemButton.Class:SetText(armorType)
+			ItemButton.itemLink = itemLink
+			ItemButton:Show()
+		end
+	end
+
+	if(self:IsEventRegistered('EJ_LOOT_DATA_RECIEVED')) then
+		self:UnregisterEvent('EJ_LOOT_DATA_RECIEVED')
+	end
+
+	if(EncounterJournal) then
+		EncounterJournal:RegisterEvent('EJ_LOOT_DATA_RECIEVED')
+	end
+
+	self:SetHeight(math.min(330, math.max(50, 10 + (numItems * 40))))
+
+	if(numItems > 0) then
+		local height = (10 + (numItems * 40)) - self:GetHeight()
+		self.Slider:SetMinMaxValues(0, height > 0 and height or 0)
+		self.Slider:SetValue(0)
+
+		if(numItems > 8) then
+			self:EnableMouseWheel(true)
+			self.Slider:Show()
+			self.ScrollChild:SetWidth(286)
+		else
+			self:EnableMouseWheel(false)
+			self.Slider:Hide()
+			self.ScrollChild:SetWidth(302)
+		end
+
+		self.Empty:Hide()
+	else
+		self.Empty:Show()
+		self:EnableMouseWheel(false)
+		self.Slider:Hide()
+		self.ScrollChild:SetWidth(302)
+	end
+end
+
+function Container:UpdateItemFilter()
+	local _, _, classID = UnitClass('player')
+	local lootSpecialization = GetLootSpecialization()
+	if(not lootSpecialization or lootSpecialization == 0) then
+		lootSpecialization = (GetSpecializationInfo(GetSpecialization() or 0)) or 0
+	end
+
+	EJ_SetLootFilter(classID, lootSpecialization)
+end
+
+--- Events
+function Container:EJ_DIFFICULTY_UPDATE(event)
+	if(EncounterJournal) then
+		EncounterJournal:RegisterEvent(event)
+	end
+
+	self:UnregisterEvent(event)
+	self:UpdateItemFilter()
+	self:UpdateItems()
+end
+
+function Container:EJ_LOOT_DATA_RECIEVED(event)
+	if(BonusRollFrame:IsShown()) then
+		self:UpdateItems()
+	end
+end
+
+function Container:PLAYER_LOOT_SPEC_UPDATED()
+	-- We need to restart the entire encounter in case the user has
+	-- used the Adventure Guide before changing loot specializations.
+	self:StartEncounter()
+end
+
+function Container:SPELL_CONFIRMATION_PROMPT(event, spellID, confirmType, _, _, currencyID)
+	if(confirmType == LE_SPELL_CONFIRMATION_PROMPT_TYPE_BONUS_ROLL) then
+		self:Hide()
+		Handle:Hide()
+
+		local encounterInfo = ns.encounterInfo[spellID]
+		if(encounterInfo) then
+			local _, count = GetCurrencyInfo(currencyID)
+			if(count > 0) then
+				self:RegisterEvent('PLAYER_LOOT_SPEC_UPDATED')
+
+				self.encounterID = encounterInfo[1]
+				self.instanceID = encounterInfo[2]
+				self.difficulty = encounterInfo[3]
+				self.fallbackDifficulty = encounterInfo[4]
+				self:StartEncounter()
+
+				Handle:Show()
+				UpdateHandle(true)
+			end
+		elseif(not ns.encounterBlacklist[spellID]) then
+			print('|cffff8080' .. addonName .. ':|r Found an unknown spell [' .. spellID .. ']. Please report this, with boss name!')
+		end
+	end
+end
+
+function Container:PLAYER_ENTERING_WORLD(event)
+	for _, info in next, GetSpellConfirmationPromptsInfo() do
+		if(info) then
+			self:SPELL_CONFIRMATION_PROMPT(event, info.spellID, info.confirmType, nil, nil, info.currencyID)
+		end
+	end
+end
+
+function Container:SPELL_CONFIRMATION_TIMEOUT()
+	self:UnregisterEvent('PLAYER_LOOT_SPEC_UPDATED')
+end
+
+function Container:MODIFIER_STATE_CHANGED()
+	if(IsModifiedClick('COMPAREITEMS') or GetCVarBool('alwaysCompareItems')) then
+		GameTooltip_ShowCompareItem()
+	else
+		for _, shoppingTooltip in next, GameTooltip.shoppingTooltips do
+			shoppingTooltip:Hide()
+		end
+	end
+
+	if(IsModifiedClick('DRESSUP')) then
+		ShowInspectCursor()
+	else
+		ResetCursor()
+	end
+end
+
+function Container:PLAYER_LOGIN()
+	self:CreateFrame()
+	self:CreateHandle()
 
 	self:RegisterEvent('SPELL_CONFIRMATION_PROMPT')
 	self:RegisterEvent('SPELL_CONFIRMATION_TIMEOUT')
 
-	hooksecurefunc('BonusRollFrame_StartBonusRoll', HookStartRoll)
-	hooksecurefunc(BonusRollFrame, 'SetPoint', HandlePosition)
+	hooksecurefunc(BonusRollFrame, 'SetPoint', HookSetPoint)
+
+	-- Inject odd encounters
+	for spellID, data in next, ns.dynamicEncounters do
+		EJ_SelectInstance(data[2])
+		ns.encounterInfo[spellID] = {
+			(select(3, EJ_GetEncounterInfoByIndex(data[1]))),
+			data[2],
+			data[3],
+			data[4],
+		}
+	end
 end
 
-Container:SetScript('OnEvent', function(self, event, ...) self[event](self, event, ...) end)
-Container:RegisterEvent('PLAYER_ENTERING_WORLD')
 Container:RegisterEvent('PLAYER_LOGIN')
+Container:RegisterEvent('PLAYER_ENTERING_WORLD')
+Container:SetScript('OnEvent', function(self, event, ...)
+	self[event](self, event, ...)
+end)

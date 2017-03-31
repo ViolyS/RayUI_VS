@@ -2,10 +2,11 @@ local _, ns = ...
 ns.encounterInfo = ns.encounterInfo or {}
 ns.itemBlacklist = ns.itemBlacklist or {}
 ns.encounterBlacklist = ns.encounterBlacklist or {}
+ns.dynamicEncounters = ns.dynamicEncounters or {}
 
 -- http://www.wowhead.com/spells/uncategorized/name:Bonus?filter=84:109:16;1:6:7;::
 for spellID, encounterInfo in next, {
-	-- World
+	--- World
 	[227128] = {1790, 822, 14}, -- Ana-Mouz
 	[227129] = {1774, 822, 14}, -- Calamir
 	[227130] = {1789, 822, 14}, -- Drugon the Frostblood
@@ -17,40 +18,57 @@ for spellID, encounterInfo in next, {
 	[227136] = {1763, 822, 14}, -- Shar'thos
 	[227137] = {1756, 822, 14}, -- The Soultakers
 	[227138] = {1796, 822, 14}, -- Withered J'im
+	-- [242969] = {1883, 822, 14}, -- 1 Brutallus
+	-- [242970] = {1884, 822, 14}, -- 2 Malificus
+	-- [242971] = {1885, 822, 14}, -- 3 Si'vash
+	-- [242972] = {1956, 822, 14}, -- 4 Apocron
 
+	--- Raids
 	-- The Emerald Nightmare
-	[221046] = {1703, 768}, -- Nythendra
-	[221047] = {1738, 768}, -- Il'gynoth, Heart of Corruption
-	[221048] = {1744, 768}, -- Elerethe Renferal
-	[221049] = {1667, 768}, -- Ursoc
-	[221050] = {1704, 768}, -- Dragons of Nightmare
-	[221052] = {1750, 768}, -- Cenarius
-	[221053] = {1726, 768}, -- Xavius
-
-	-- The Nighthold
-	[232436] = {1706, 786}, -- Skorpyron
-	[232437] = {1725, 786}, -- Chronomatic Anomaly
-	[232438] = {1731, 786}, -- Trilliax
-	[232439] = {1751, 786}, -- Spellblade Aluriel
-	[232440] = {1762, 786}, -- Tichondrius
-	[232441] = {1713, 786}, -- Krosus
-	[232442] = {1761, 786}, -- High Botanist Tel'arn
-	[232443] = {1732, 786}, -- Star Augur Etraeus
-	[232444] = {1743, 786}, -- Grand Magistrix Elisande
-	[232445] = {1737, 786}, -- Gul'dan
+	[221046] = {1703, 768, nil, 14}, -- Nythendra
+	[221047] = {1738, 768, nil, 14}, -- Il'gynoth, Heart of Corruption
+	[221048] = {1744, 768, nil, 14}, -- Elerethe Renferal
+	[221049] = {1667, 768, nil, 14}, -- Ursoc
+	[221050] = {1704, 768, nil, 14}, -- Dragons of Nightmare
+	[221052] = {1750, 768, nil, 14}, -- Cenarius
+	[221053] = {1726, 768, nil, 14}, -- Xavius
 
 	-- Trial of Valor
-	[232466] = {1819, 861}, -- Odyn
-	[232467] = {1830, 861}, -- Guarm
-	[232468] = {1829, 861}, -- Helya
+	[232466] = {1819, 861, nil, 14}, -- Odyn
+	[232467] = {1830, 861, nil, 14}, -- Guarm
+	[232468] = {1829, 861, nil, 14}, -- Helya
 
+	-- The Nighthold
+	[232436] = {1706, 786, nil, 14}, -- Skorpyron
+	[232437] = {1725, 786, nil, 14}, -- Chronomatic Anomaly
+	[232438] = {1731, 786, nil, 14}, -- Trilliax
+	[232439] = {1751, 786, nil, 14}, -- Spellblade Aluriel
+	[232440] = {1762, 786, nil, 14}, -- Tichondrius
+	[232441] = {1713, 786, nil, 14}, -- Krosus
+	[232442] = {1761, 786, nil, 14}, -- High Botanist Tel'arn
+	[232443] = {1732, 786, nil, 14}, -- Star Augur Etraeus
+	-- Grand Magistrix Elisande needs special handling
+	[232445] = {1737, 786, nil, 14}, -- Gul'dan
+
+	-- Tomb of Sargeras
+	-- [240655] = {1862, 875}, -- 1 Goroth
+	-- [240656] = {1867, 875}, -- 2 Demonic Inquisition
+	-- [240657] = {1856, 875}, -- 3 Harjatan
+	-- [240658] = {1903, 875}, -- 4 Sisters of the Moon
+	-- [240659] = {1861, 875}, -- 5 Mistress Sassz'ine
+	-- [240660] = {1896, 875}, -- 6 The Desolate Host
+	-- [240661] = {1897, 875}, -- 7 Maiden of Vigilance
+	-- [240662] = {1873, 875}, -- 8 Fallen Avatar
+	-- [240663] = {1898, 875}, -- 9 Kil'jaeden
+
+	--- Dungeons
 	-- Return to Karazhan (Mythic)
-	[232099] = {1835, 860, 23}, -- Attumen the Huntsman
-	[232100] = {1837, 860, 23}, -- Moroes
-	[232101] = {1825, 860, 23}, -- Maiden of Virtue
 	[232102] = {1820, 860, 23}, -- Opera Hall: Wikket
 	[232103] = {1826, 860, 23}, -- Opera Hall: Westfall Story
 	[232104] = {1827, 860, 23}, -- Opera Hall: Beautiful Beast
+	[232101] = {1825, 860, 23}, -- Maiden of Virtue
+	[232099] = {1835, 860, 23}, -- Attumen the Huntsman
+	[232100] = {1837, 860, 23}, -- Moroes
 	[232105] = {1836, 860, 23}, -- The Curator
 	[232106] = {1817, 860, 23}, -- Shade of Medivh
 	[232107] = {1818, 860, 23}, -- Mana Devourer
@@ -121,9 +139,19 @@ for spellID, encounterInfo in next, {
 	[226653] = {1468, 707, 23}, -- Ash'golm
 	[226654] = {1469, 707, 23}, -- Glazer
 	[226655] = {1470, 707, 23}, -- Cordana Felsong
+
+	-- Cathedral of Eternal Night (Mythic)
+	[244782] = {1905, 900, 23}, -- Agronox
+	[244783] = {1906, 900, 23}, -- Thrashbite the Scornful
+	[244784] = {1904, 900, 23}, -- Domatrax
+	[244786] = {1878, 900, 23}, -- Mephistroth
 } do
 	ns.encounterInfo[spellID] = encounterInfo
 end
+
+-- Grand Magistrix Elisande has two IDs (1743, 1872).
+-- Pick whichever one the client wants to use at load.
+ns.dynamicEncounters[232444] = {9, 786, nil, 14}
 
 for _, itemID in next, {
 	-- Mounts
