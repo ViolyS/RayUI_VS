@@ -196,6 +196,10 @@ local function LoadSkin()
 		S:CreateBDFrame(xpBar)
 	end
 
+    if FollowerTab.AbilitiesFrame.CombatAllySpell1 then
+        S:ReskinIcon(FollowerTab.AbilitiesFrame.CombatAllySpell1.iconTexture)
+    end
+
 	-- Ship Follower list
 
 	local FollowerList = GarrisonLandingPage.ShipFollowerList

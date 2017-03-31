@@ -103,6 +103,9 @@ local function LoadSkin()
                 armor.Border:SetTexture(nil)
                 armor.skinned = true
             end
+            if FollowerTab.AbilitiesFrame.CombatAllySpell1 then
+                S:ReskinIcon(FollowerTab.AbilitiesFrame.CombatAllySpell1.iconTexture)
+            end
             local xpbar = self.followerTab.XPBar
             xpbar:StripTextures()
             xpbar:SetStatusBarTexture(R["media"].normal)
