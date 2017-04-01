@@ -5,7 +5,8 @@ local ToyBoxFilterFixerFilter = false
 
 local function LoadSkin()
     local r, g, b = S["media"].classcolours[R.myclass].r, S["media"].classcolours[R.myclass].g, S["media"].classcolours[R.myclass].b
-    -- [[ Mounts and pets ]]
+
+    -- [[ General ]]
 
     local PetJournal = PetJournal
     local MountJournal = MountJournal
@@ -14,10 +15,6 @@ local function LoadSkin()
         if i ~= 8 then
             select(i, CollectionsJournal:GetRegions()):Hide()
         end
-    end
-    for i = 1, 9 do
-        select(i, MountJournal.MountCount:GetRegions()):Hide()
-        select(i, PetJournal.PetCount:GetRegions()):Hide()
     end
 
     S:SetBD(CollectionsJournal)
@@ -32,6 +29,13 @@ local function LoadSkin()
     CollectionsJournalTab3:SetPoint("LEFT", CollectionsJournalTab2, "RIGHT", -15, 0)
     CollectionsJournalTab4:SetPoint("LEFT", CollectionsJournalTab3, "RIGHT", -15, 0)
     CollectionsJournalTab5:SetPoint("LEFT", CollectionsJournalTab4, "RIGHT", -15, 0)
+
+    -- [[ Mounts and pets ]]
+
+    for i = 1, 9 do
+        select(i, MountJournal.MountCount:GetRegions()):Hide()
+        select(i, PetJournal.PetCount:GetRegions()):Hide()
+    end
 
     MountJournal.LeftInset:Hide()
     MountJournal.RightInset:Hide()
@@ -169,12 +173,6 @@ local function LoadSkin()
     PetJournal.HealPetButton:SetPushedTexture("")
     S:CreateBG(PetJournal.HealPetButton)
 
-    MountJournalSummonRandomFavoriteButton:SetPoint("TOPRIGHT", -7, -32)
-    MountJournalSummonRandomFavoriteButtonBorder:Hide()
-    MountJournalSummonRandomFavoriteButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
-    MountJournalSummonRandomFavoriteButton:StyleButton(true)
-    S:CreateBG(MountJournalSummonRandomFavoriteButton)
-
     do
         local ic = MountJournal.MountDisplay.InfoButton.Icon
         ic:SetTexCoord(.08, .92, .08, .92)
@@ -191,6 +189,14 @@ local function LoadSkin()
 
     PetJournalLoadoutBorderSlotHeaderText:SetParent(PetJournal)
     PetJournalLoadoutBorderSlotHeaderText:SetPoint("CENTER", PetJournalLoadoutBorderTop, "TOP", 0, 4)
+
+    -- Favourite mount button
+
+    MountJournalSummonRandomFavoriteButton:SetPoint("TOPRIGHT", -7, -32)
+    MountJournalSummonRandomFavoriteButtonBorder:Hide()
+    MountJournalSummonRandomFavoriteButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
+    MountJournalSummonRandomFavoriteButton:StyleButton(true)
+    S:CreateBG(MountJournalSummonRandomFavoriteButton)
 
     -- Pet card
 
@@ -435,6 +441,68 @@ local function LoadSkin()
 
     S:CreateBDFrame(progressBar, .25)
 
+    -- Buttons
+
+    local heirloomColor = _G.BAG_ITEM_QUALITY_COLORS[_G.LE_ITEM_QUALITY_HEIRLOOM]
+    hooksecurefunc(HeirloomsJournal, "UpdateButton", function(self, button)
+        if not button.styled then
+            button:SetPushedTexture("")
+            button:SetHighlightTexture("")
+
+            button.bg = S:CreateBG(button)
+            button.bg:SetPoint("TOPLEFT", button, 3, -2)
+            button.bg:SetPoint("BOTTOMRIGHT", button, -3, 4)
+
+            button.iconTexture:SetTexCoord(.08, .92, .08, .92)
+
+            button.iconTextureUncollected:SetTexCoord(.08, .92, .08, .92)
+            button.iconTextureUncollected:SetPoint("CENTER", 0, 1)
+            button.iconTextureUncollected:SetHeight(42)
+
+            button.slotFrameCollected:SetTexture("")
+            button.slotFrameUncollected:SetTexture("")
+
+            button.levelBackground:SetAlpha(0)
+
+            button.level:ClearAllPoints()
+            button.level:SetPoint("BOTTOM", 0, 1)
+
+            local auroraLevelBG = button:CreateTexture(nil, "OVERLAY")
+            auroraLevelBG:SetColorTexture(0, 0, 0, .5)
+            auroraLevelBG:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", 4, 5)
+            auroraLevelBG:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -4, 5)
+            auroraLevelBG:SetHeight(11)
+            button.auroraLevelBG = auroraLevelBG
+
+            button.styled = true
+        end
+
+        if button.iconTexture:IsShown() then
+            button.name:SetTextColor(1, 1, 1)
+            button.bg:SetVertexColor(heirloomColor.r, heirloomColor.g, heirloomColor.b)
+            button.auroraLevelBG:Show()
+            if button.levelBackground:GetAtlas() == "collections-levelplate-gold" then
+                button.auroraLevelBG:SetColorTexture(1, 1, 1, .5)
+            else
+                button.auroraLevelBG:SetColorTexture(0, 0, 0, .5)
+            end
+        else
+            button.name:SetTextColor(.5, .5, .5)
+            button.bg:SetVertexColor(0, 0, 0)
+            button.auroraLevelBG:Hide()
+        end
+    end)
+
+    hooksecurefunc(HeirloomsJournal, "LayoutCurrentPage", function(self)
+        for i = 1, #self.heirloomHeaderFrames do
+            local header = self.heirloomHeaderFrames[i]
+            if not header.styled then
+                header.text:SetTextColor(1, .8, 0)
+                header.styled = true
+            end
+        end
+    end)
+
     -- [[ WardrobeCollection ]]
 
     local WardrobeCollectionFrame = WardrobeCollectionFrame
@@ -470,11 +538,82 @@ local function LoadSkin()
     S:ReskinArrow(WardrobeCollectionFrame.ItemsCollectionFrame.PagingFrame.PrevPageButton, "left")
     S:ReskinArrow(WardrobeCollectionFrame.ItemsCollectionFrame.PagingFrame.NextPageButton, "right")
 
-    for i = 1, 3 do
-        for j = 1, 6 do
-            ItemsCollectionFrame["ModelR"..i.."C"..j]:GetRegions():Hide()
+    local Models = ItemsCollectionFrame.Models
+    for i = 1, #Models do
+        local model = Models[i]
+        local bg, _, _, _, _, highlight = model:GetRegions()
+        bg:Hide()
+        model.Border:Hide()
+        model.bg = S:CreateBDFrame(model)
+        model.bg:SetPoint("BOTTOMRIGHT", 2, -2)
+        highlight:SetTexCoord(.03, .97, .03, .97)
+        highlight:SetPoint("TOPLEFT", 0, 0)
+        highlight:SetPoint("BOTTOMRIGHT", 1, -1)
+    end
+
+    local lightValues = {
+        enabled=true, omni=false,
+        dirX=-1, dirY=1, dirZ=-1,
+        ambIntensity=1.05, ambR=1, ambG=1, ambB=1,
+        dirIntensity=0, dirR=1, dirG=1, dirB=1
+    }
+    local notCollected = {
+        ambIntensity=1, ambR=0.4, ambG=0.4, ambB=0.4,
+        dirIntensity=0.5, dirR=0.5, dirG=0.5, dirB=0.5
+    }
+    local notUsable = {
+        ambIntensity=1, ambR=0.8, ambG=0.4, ambB=0.4,
+        dirIntensity=0.5, dirR=1, dirG=0, dirB=0
+    }
+    local function UpdateItems(self)
+        for i = 1, self.PAGE_SIZE do
+            local model = self.Models[i]
+            local visualInfo = model.visualInfo
+            if visualInfo then
+                local borderColor
+                if model.TransmogStateTexture:IsShown() then
+                    local xmogState = model.TransmogStateTexture:GetAtlas()
+                    if xmogState:find("transmogged") then
+                        borderColor = {1, 0.5, 1}
+                    elseif xmogState:find("current") then
+                        borderColor = {1, 1, 0}
+                    elseif xmogState:find("selected") then
+                        borderColor = {1, 0.5, 1}
+                    end
+                    model.TransmogStateTexture:Hide()
+
+                    self.PendingTransmogFrame:SetPoint("TOPLEFT", model, 2, -3)
+                    self.PendingTransmogFrame:SetPoint("BOTTOMRIGHT", model, -1, 2)
+                    self.PendingTransmogFrame.TransmogSelectedAnim2:Stop()
+                end
+
+                if borderColor then
+                    model.bg:SetBackdropBorderColor(borderColor[1], borderColor[2], borderColor[3])
+                else
+                    model.bg:SetBackdropBorderColor(0, 0, 0)
+                end
+
+                if ( not visualInfo.isCollected ) then
+                    model:SetLight(lightValues.enabled, lightValues.omni,
+                        lightValues.dirX, lightValues.dirY, lightValues.dirZ,
+                        notCollected.ambIntensity, notCollected.ambR, notCollected.ambG, notCollected.ambB,
+                        notCollected.dirIntensity, notCollected.dirR, notCollected.dirG, notCollected.dirB)
+                elseif ( not visualInfo.isUsable ) then
+                    model:SetLight(lightValues.enabled, lightValues.omni,
+                        lightValues.dirX, lightValues.dirY, lightValues.dirZ,
+                        notUsable.ambIntensity, notUsable.ambR, notUsable.ambG, notUsable.ambB,
+                        notUsable.dirIntensity, notUsable.dirR, notUsable.dirG, notUsable.dirB)
+                else
+                    model:SetLight(lightValues.enabled, lightValues.omni,
+                        lightValues.dirX, lightValues.dirY, lightValues.dirZ,
+                        lightValues.ambIntensity, lightValues.ambR, lightValues.ambG, lightValues.ambB,
+                        lightValues.dirIntensity, lightValues.dirR, lightValues.dirG, lightValues.dirB)
+                end
+            end
         end
     end
+
+    hooksecurefunc(ItemsCollectionFrame, "UpdateItems", UpdateItems)
 
     --Sets
     local SetsCollectionFrame = WardrobeCollectionFrame.SetsCollectionFrame
@@ -524,11 +663,12 @@ local function LoadSkin()
     S:ReskinFilterButton(DetailsFrame.VariantSetsButton, "Down")
 
     hooksecurefunc(SetsCollectionFrame, "SetItemFrameQuality", function(self, itemFrame)
-        if not itemFrame.skinned then
-                S:ReskinIcon(itemFrame.Icon)
-        end
-        SetItemButtonQuality(itemFrame, itemFrame.sourceID)
-    end)
+            if not itemFrame.skinned then
+                itemFrame._auroraBG = S:ReskinIcon(itemFrame.Icon)
+                itemFrame.skinned = true
+            end
+            SetItemButtonQuality(itemFrame, itemFrame.sourceID)
+        end)
 
     -- [[ Wardrobe ]]
 
