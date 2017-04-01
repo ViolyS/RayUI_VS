@@ -281,6 +281,7 @@ local function LoadSkin()
         item.icon:SetTexCoord(.08, .92, .08, .92)
         item.icon:SetDrawLayer("OVERLAY")
         S:CreateBG(item.icon)
+        item.IconBorder:Kill()
 
         local bg = CreateFrame("Frame", nil, item)
         bg:SetPoint("TOPLEFT")
