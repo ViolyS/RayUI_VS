@@ -10,4 +10,5 @@
 	<Script file="skada.lua"/>
 	<Script file="tellmewhen.lua"/>
 	<Script file="weakauras.lua"/>
+	<Script file="worldquesttab.lua"/>
 </Ui>
