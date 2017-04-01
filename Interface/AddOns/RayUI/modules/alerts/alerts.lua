@@ -2245,7 +2245,7 @@ local function WorldQuestToast_SetUp(questID)
     elseif worldQuestType == LE_QUEST_TAG_TYPE_PET_BATTLE then
         icon = "Interface\\Icons\\INV_Pet_BattlePetTraining"
     elseif worldQuestType == LE_QUEST_TAG_TYPE_PROFESSION and tradeskillLineIndex then
-        icon = C_TradeSkillUI.GetTradeSkillTexture(select(7, GetProfessionInfo(tradeskillLineIndex)))
+        icon = C_TradeSkillUI.GetTradeSkillTexture(select(2, GetProfessionInfo(tradeskillLineIndex)))
     elseif worldQuestType == LE_QUEST_TAG_TYPE_DUNGEON then
         icon = "Interface\\Icons\\INV_Misc_Bone_Skull_02"
     end
