@@ -29,7 +29,6 @@ local function LoadSkin()
 			if bu then
 				bu.Background:Hide()
 				if bu:GetWidth() > 400 then
-					S:CreateGradient(bu)
 					S:CreateBD(bu, 0)
 					bu.Name:SetTextColor(1, 1, 1)
 				else

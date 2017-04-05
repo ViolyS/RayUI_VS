@@ -46,7 +46,7 @@ function S:CreateGradient(f)
     local tex = f:CreateTexture(nil, "BORDER")
     tex:SetPoint("TOPLEFT", 1, -1)
     tex:SetPoint("BOTTOMRIGHT", -1, 1)
-    tex:SetTexture([[Interface\AddOns\RayUI\media\gradient.tga"]])
+    tex:SetTexture([[Interface\AddOns\RayUI\media\gradient.tga]])
     tex:SetVertexColor(.3, .3, .3, .15)
 
     return tex
