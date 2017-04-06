@@ -69,6 +69,7 @@ local function LoadSkin()
     MerchantBuyBackItemNameFrame:Hide()
     MerchantBuyBackItemItemButton:SetNormalTexture("")
     MerchantBuyBackItemItemButton:StyleButton(1)
+    MerchantBuyBackItemItemButton.IconBorder:Kill()
 
     S:CreateBD(MerchantBuyBackItemItemButton, 0)
     S:CreateBD(MerchantBuyBackItem, .25)
