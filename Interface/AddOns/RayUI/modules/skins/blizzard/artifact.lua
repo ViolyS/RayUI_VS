@@ -13,7 +13,7 @@ local function LoadSkin()
 	ArtifactFrame.BorderFrame:Hide()
 	ArtifactFrame.ForgeBadgeFrame.ItemIcon:Hide()
 	ArtifactFrame.ForgeBadgeFrame.ForgeLevelBackground:ClearAllPoints()
-	ArtifactFrame.ForgeBadgeFrame.ForgeLevelBackground:SetPoint("TOPLEFT", ArtifactFrame, "TOPLEFT", 5, -5 )
+	ArtifactFrame.ForgeBadgeFrame.ForgeLevelBackground:SetPoint("TOPLEFT", ArtifactFrame)
 	ArtifactFrame.AppearancesTab.Background:Hide()
 
 	S:ReskinClose(ArtifactFrame.CloseButton)

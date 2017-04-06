@@ -2194,7 +2194,7 @@ local function WorldQuestToast_SetUp(questID)
 
     local toast = GetToast("scenario")
     local _, _, _, taskName = GetTaskInfo(questID)
-    local _, _, worldQuestType, rarity, _, _, tradeskillLineIndex = GetQuestTagInfo(questID)
+    local _, _, worldQuestType, rarity, _, tradeskillLineIndex = GetQuestTagInfo(questID)
     local color = WORLD_QUEST_QUALITY_COLORS[rarity] or WORLD_QUEST_QUALITY_COLORS[1]
     local money = GetQuestLogRewardMoney(questID)
     local xp = GetQuestLogRewardXP(questID)
@@ -2245,7 +2245,7 @@ local function WorldQuestToast_SetUp(questID)
     elseif worldQuestType == LE_QUEST_TAG_TYPE_PET_BATTLE then
         icon = "Interface\\Icons\\INV_Pet_BattlePetTraining"
     elseif worldQuestType == LE_QUEST_TAG_TYPE_PROFESSION and tradeskillLineIndex then
-        icon = C_TradeSkillUI.GetTradeSkillTexture(select(2, GetProfessionInfo(tradeskillLineIndex)))
+        icon = C_TradeSkillUI.GetTradeSkillTexture(select(7, GetProfessionInfo(tradeskillLineIndex)))
     elseif worldQuestType == LE_QUEST_TAG_TYPE_DUNGEON then
         icon = "Interface\\Icons\\INV_Misc_Bone_Skull_02"
     end
