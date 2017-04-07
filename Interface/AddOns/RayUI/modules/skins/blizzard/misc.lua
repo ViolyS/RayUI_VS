@@ -18,6 +18,7 @@ local function LoadSkin()
         _G["StaticPopup"..i.."ItemFrameNormalTexture"]:Hide()
         _G["StaticPopup"..i.."ItemFrameIconTexture"]:SetTexCoord(.08, .92, .08, .92)
 
+        bu.IconBorder:Kill()
         bu:StyleButton(true)
         S:CreateBG(bu)
 
