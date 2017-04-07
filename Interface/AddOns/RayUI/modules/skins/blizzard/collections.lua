@@ -708,16 +708,22 @@ local function LoadSkin()
     end
 
     -- Sets
-    for i = 1, 34 do
-        select(i, WardrobeCollectionFrame.SetsTransmogFrame:GetRegions()):Hide()
+    local SetsTransmogFrame = WardrobeCollectionFrame.SetsTransmogFrame
+    SetsTransmogFrame:StripTextures()
+    local Models = SetsTransmogFrame.Models
+    for i = 1, #Models do
+        local model = Models[i]
+        local bg, _, _, highlight = model:GetRegions()
+        bg:Hide()
+        model.Border:Hide()
+        model.bg = S:CreateBDFrame(model)
+        model.bg:SetPoint("BOTTOMRIGHT", 2, -2)
+        highlight:SetTexCoord(.03, .97, .03, .97)
+        highlight:SetPoint("TOPLEFT", 0, 0)
+        highlight:SetPoint("BOTTOMRIGHT", 1, -1)
     end
-    for i = 1, 2 do
-        for j = 1, 4 do
-            WardrobeCollectionFrame.SetsTransmogFrame["ModelR"..i.."C"..j]:GetRegions():Hide()
-        end
-    end
-    S:ReskinArrow(WardrobeCollectionFrame.SetsTransmogFrame.PagingFrame.PrevPageButton, "left")
-    S:ReskinArrow(WardrobeCollectionFrame.SetsTransmogFrame.PagingFrame.NextPageButton, "right")
+    S:ReskinArrow(SetsTransmogFrame.PagingFrame.PrevPageButton, "left")
+    S:ReskinArrow(SetsTransmogFrame.PagingFrame.NextPageButton, "right")
 
     -- [[ WardrobeTransmogFrameControlFrame Button ]]
     WardrobeTransmogFrameControlFrame:DisableDrawLayer("BACKGROUND")

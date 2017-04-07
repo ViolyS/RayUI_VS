@@ -205,8 +205,9 @@ function S:CreateTab(f)
 
     f:SetHighlightTexture(R["media"].blank)
     local hl = f:GetHighlightTexture()
-    hl:Point("TOPLEFT", 9, -4)
-    hl:Point("BOTTOMRIGHT", -9, 1)
+    hl:ClearAllPoints()
+    hl:SetPoint("TOPLEFT", 9, -4)
+    hl:SetPoint("BOTTOMRIGHT", -9, 1)
     hl:SetVertexColor(r, g, b, .25)
 end
 
@@ -440,8 +441,11 @@ function S:ReskinInput(f, height, width)
         if _G[frame.."Mid"] then _G[frame.."Mid"]:Hide() end
     end
     if f.Left then f.Left:Hide() end
+    if f.LeftTexture then f.LeftTexture:Hide() end
     if f.Middle then f.Middle:Hide() end
+    if f.MiddleTexture then f.MiddleTexture:Hide() end
     if f.Right then f.Right:Hide() end
+    if f.RightTexture then f.RightTexture:Hide() end
 
     local bd = CreateFrame("Frame", nil, f)
     bd:SetAllPoints()
