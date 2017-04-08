@@ -30,7 +30,7 @@ local function LoadTalent()
 	local function SpecGearClickFunc(self, index, equipName)
 		if not index then return end
 
-		EquipmentManager_EquipSet(equipName)
+		UseEquipmentSet(equipName)
 	end
 
 	local function SpecAddEquipListToCat(self, cat)

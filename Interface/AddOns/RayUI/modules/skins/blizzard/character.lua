@@ -43,7 +43,6 @@ local function LoadSkin()
     GearManagerDialogPopup:Point("LEFT", PaperDollFrame, "RIGHT", 4, 0)
     GearManagerDialogPopup.BG:Kill()
     GearManagerDialogPopupScrollFrame:StripTextures()
-    GearManagerDialogPopupEditBox:StripTextures()
 
     S:ReskinClose(CharacterFrameCloseButton)
     S:ReskinClose(CharacterFrame.ReputationTabHelpBox.CloseButton)
