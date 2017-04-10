@@ -1849,7 +1849,9 @@ R["Watcher"] = {
                 { spellID = 54861, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 降落傘
                 { spellID = 55001, unitId = "player", caster = "all", filter = "BUFF" },
-                -- 德萊尼煉金石
+                -- 煉金石（力量、敏捷、智力）
+                { spellID = 60229, unitId = "player", caster = "all", filter = "BUFF" },
+                { spellID = 60233, unitId = "player", caster = "all", filter = "BUFF" },
                 { spellID = 60234, unitId = "player", caster = "all", filter = "BUFF" },
 
                 -- 藥水
