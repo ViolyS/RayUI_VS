@@ -55,6 +55,11 @@ local function LoadSkin()
     for i = 1, 3 do
         S:CreateTab(_G["OrderHallMissionFrameTab" .. i])
     end
+    for i = 1, 2 do
+        local tab = _G["OrderHallMissionFrameMissionsTab" .. i]
+        tab:StripTextures()
+        S:CreateTab(tab)
+    end
     OrderHallMissionFrameMissions:StripTextures()
     OrderHallMissionFrame.MissionTab:StripTextures()
     S:ReskinScroll(OrderHallMissionFrameMissionsListScrollFrameScrollBar)
