@@ -96,6 +96,7 @@ local function SkinSkada()
         win.bargroup.button:SetBackdropColor(unpack(R["media"].bordercolor))
 
         skada:SetBackdrop(nil)
+        --[[
         if not skada.shadow then
             skada:StripTextures()
             skada:CreateShadow("Background")
@@ -109,6 +110,8 @@ local function SkinSkada()
             skada.border:Point("TOPLEFT", win.bargroup, "TOPLEFT", -1, 1)
         end
         skada.border:Point("BOTTOMRIGHT", win.bargroup, "BOTTOMRIGHT", 1, -1)
+        ]]
+        if skada.borderFrame then skada.borderFrame:Kill() end
 
         skada.button:SetFrameStrata("MEDIUM")
         skada.button:SetFrameLevel(5)
@@ -223,6 +226,8 @@ local function SkinSkada()
     hooksecurefunc(lib.barPrototype, "UpdateColor", function(self)
             local r, g, b = self.texture:GetVertexColor()
             self.texture:SetGradient("VERTICAL", R:GetGradientColor(r, g, b))
+            self.texture:SetPoint("TOPLEFT", 0, -self:GetHeight()*.6)
+            self.bgtexture:SetPoint("TOPLEFT", 0, -self:GetHeight()*.6)
             if not self.border then
                 self:CreateShadow()
                 self.border:SetFrameLevel(self:GetFrameLevel())
@@ -230,10 +235,10 @@ local function SkinSkada()
             self.shadow:Hide()
             self.border:ClearAllPoints()
             if self.icon:IsVisible() then
-                self.border:Point("TOPLEFT", self.texture, "TOPLEFT", -self.icon:GetWidth(), 1)
-                self.border:Point("BOTTOMRIGHT", self.texture, "BOTTOMRIGHT", 1, -1)
+                self.border:Point("TOPLEFT", self.bgtexture, "TOPLEFT", -self.icon:GetWidth(), 1)
+                self.border:Point("BOTTOMRIGHT", self.bgtexture, "BOTTOMRIGHT", 1, -1)
             else
-                self.border:SetOutside(self.texture, 1, 1)
+                self.border:SetOutside(self.bgtexture, 1, 1)
             end
         end)
 end
