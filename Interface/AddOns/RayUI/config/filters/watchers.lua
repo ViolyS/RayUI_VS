@@ -1955,6 +1955,8 @@ R["Watcher"] = {
                 { spellID = 224149, unitId = "player", caster = "all", filter = "BUFF" },
                 -- 軍團凝視
                 { spellID = 230152, unitId = "player", caster = "all", filter = "BUFF" },
+                -- 下降氣流
+                { spellID = 214342, unitId = "player", caster = "all", filter = "BUFF" },
             },
             {
                 name = "PVE/PVP玩家buff&debuff",
