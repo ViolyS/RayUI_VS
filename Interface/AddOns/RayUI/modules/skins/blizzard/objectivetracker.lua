@@ -137,6 +137,7 @@ local function LoadSkin()
                 bar.BarFrame:Kill()
                 bar.BarBG:Kill()
                 bar.IconBG:Kill()
+                bar.backdropTexture:Kill()
 
                 if icon:IsShown() then
                     icon:ClearAllPoints()
