@@ -57,14 +57,13 @@ local function SkinWorldQuestTab()
     -- BWQ_WorldQuestFrameFilterButton
     S:ReskinFilterButton(BWQ_WorldQuestFrameFilterButton)
     for i = 1, 2 do
-        local ddm = _G["Lib_DropDownList"..i.."MenuBackdrop"]
+        local ddm = _G["Lib_DropDownList"..i.."Backdrop"] or _G["Lib_DropDownList"..i.."MenuBackdrop"]
 
         for j = 1, 9 do
             select(j, ddm:GetRegions()):Hide()
         end
         S:CreateBD(ddm)
     end
-    S:CreateBD(Lib_DropDownList1Backdrop)
 
     S:ReskinScroll(BWQ_QuestScrollFrameScrollBar)
 end
