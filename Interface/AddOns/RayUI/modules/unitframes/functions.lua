@@ -260,7 +260,7 @@ function UF:Construct_RestingIndicator(frame)
     local RestingIndicator = frame.RaisedElementParent:CreateTexture(nil, "OVERLAY")
     RestingIndicator:Size(20, 20)
     RestingIndicator:ClearAllPoints()
-    RestingIndicator:Point("BOTTOM", frame.Combat, "BOTTOM", 0, 25)
+    RestingIndicator:Point("BOTTOM", frame.CombatIndicator, "BOTTOM", 0, 25)
     RestingIndicator:SetTexture("Interface\\AddOns\\RayUI\\media\\rested")
     RestingIndicator:SetVertexColor(0.8, 0.8, 0.8)
 
