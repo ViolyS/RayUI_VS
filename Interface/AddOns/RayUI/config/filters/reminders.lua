@@ -16,7 +16,17 @@ P["Reminder"]["filters"] = {
             ["tree"] = 1,
         }
     },
-    
+    PALADIN = {
+        ["灰烬使者的祝福"] = {
+            ["spellGroup"] = {
+                [242981] = true,
+                ["defaultIcon"] = 242981
+            },
+            ["enable"] = true,
+            ["strictFilter"] = false,
+            ["tree"] = 3,
+        }
+    },
     MAGE = {
         ["奥术魔宠"] = {
             ["spellGroup"] = {
