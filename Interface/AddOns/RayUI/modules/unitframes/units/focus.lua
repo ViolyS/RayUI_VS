@@ -47,8 +47,8 @@ function UF:Construct_FocusFrame(frame, unit)
 
     self:EnableHealPredictionAndAbsorb(frame)
 
-    frame.Health.value:Point("TOPRIGHT", frame.Health, "TOPRIGHT", -8, -2)
-    frame.Power.value:Point("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", -8, 2)
+    frame.Health.value:Point("TOPRIGHT", frame.Health, "TOPRIGHT", - 8, - 2)
+    frame.Power.value:Point("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", - 8, 2)
 
     frame.Name:ClearAllPoints()
     frame.Name:Point("BOTTOMLEFT", frame.Health, "BOTTOMLEFT", 8, 3)
@@ -77,14 +77,14 @@ function UF:Construct_FocusFrame(frame, unit)
         end
         castbar.Iconbg:ClearAllPoints()
         if self.db.units[unit].castbar.iconposition == "LEFT" then
-            castbar.Iconbg:SetPoint("BOTTOMRIGHT", castbar, "BOTTOMLEFT", -5, 0)
+            castbar.Iconbg:SetPoint("BOTTOMRIGHT", castbar, "BOTTOMLEFT", - 5, 0)
         else
             castbar.Iconbg:SetPoint("BOTTOMLEFT", castbar, "BOTTOMRIGHT", 5, 0)
         end
         castbar.Text:ClearAllPoints()
-        castbar.Text:SetPoint("BOTTOMLEFT", castbar, "TOPLEFT", 5, -2)
+        castbar.Text:SetPoint("BOTTOMLEFT", castbar, "TOPLEFT", 5, - 2)
         castbar.Time:ClearAllPoints()
-        castbar.Time:SetPoint("BOTTOMRIGHT", castbar, "TOPRIGHT", -5, -2)
+        castbar.Time:SetPoint("BOTTOMRIGHT", castbar, "TOPRIGHT", - 5, - 2)
 
         R:CreateMover(castbar, "FocusCastBarMover", L["焦点"].." "..L["施法条锚点"], true, nil, "ALL,RAID")
         frame.Castbar = castbar

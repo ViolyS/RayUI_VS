@@ -44,8 +44,8 @@ function UF:Construct_PetFrame(frame, unit)
 
     self:EnableHealPredictionAndAbsorb(frame)
 
-    frame.Health.value:Point("TOPRIGHT", frame.Health, "TOPRIGHT", -5, -5)
-    frame.Power.value:Point("TOPLEFT", frame.Health, "TOPLEFT", 5, -5)
+    frame.Health.value:Point("TOPRIGHT", frame.Health, "TOPRIGHT", - 5, - 5)
+    frame.Power.value:Point("TOPLEFT", frame.Health, "TOPLEFT", 5, - 5)
 
     frame.Name:ClearAllPoints()
     frame.Name:Point("BOTTOM", frame.Health, "BOTTOM", 0, 5)

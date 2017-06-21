@@ -44,11 +44,11 @@ function UF:Construct_TargetFrame(frame, unit)
 
     self:EnableHealPredictionAndAbsorb(frame)
 
-    frame.Health.value:Point("TOPLEFT", frame.Health, "TOPLEFT", 8, -2)
+    frame.Health.value:Point("TOPLEFT", frame.Health, "TOPLEFT", 8, - 2)
     frame.Power.value:Point("BOTTOMLEFT", frame.Health, "BOTTOMLEFT", 8, 2)
 
     frame.Name:ClearAllPoints()
-    frame.Name:Point("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", -8, 3)
+    frame.Name:Point("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", - 8, 3)
     frame.Name:SetJustifyH("RIGHT")
     if self.db.healthColorClass then
         frame:Tag(frame.Name, "[RayUF:name] [RayUF:info]")
@@ -69,7 +69,7 @@ function UF:Construct_TargetFrame(frame, unit)
         castbar.Text:ClearAllPoints()
         castbar.Text:SetPoint("LEFT", castbar, "LEFT", 5, 0)
         castbar.Time:ClearAllPoints()
-        castbar.Time:SetPoint("RIGHT", castbar, "RIGHT", -5, 0)
+        castbar.Time:SetPoint("RIGHT", castbar, "RIGHT", - 5, 0)
 
         castbar:ClearAllPoints()
         castbar.Iconbg:ClearAllPoints()
@@ -77,15 +77,15 @@ function UF:Construct_TargetFrame(frame, unit)
             castbar.Iconbg:Show()
             castbar:Width(self.db.units[unit].castbar.width - iconSize - 5)
             if self.db.units[unit].castbar.iconposition == "LEFT" then
-                castbar.Iconbg:SetPoint("BOTTOMRIGHT", castbar, "BOTTOMLEFT", -5, 0)
-                castbar:Point("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -28)
+                castbar.Iconbg:SetPoint("BOTTOMRIGHT", castbar, "BOTTOMLEFT", - 5, 0)
+                castbar:Point("TOPRIGHT", frame, "BOTTOMRIGHT", 0, - 28)
             else
                 castbar.Iconbg:SetPoint("BOTTOMLEFT", castbar, "BOTTOMRIGHT", 5, 0)
-                castbar:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, -28)
+                castbar:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, - 28)
             end
         else
             castbar.Iconbg:Hide()
-            castbar:Point("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -28)
+            castbar:Point("TOPRIGHT", frame, "BOTTOMRIGHT", 0, - 28)
         end
         frame.Castbar = castbar
     end
@@ -104,7 +104,7 @@ function UF:Construct_TargetFrame(frame, unit)
     if self.db.smartAura then
         frame.Buffs.CustomFilter = self.CustomFilter
     end
-    frame.Buffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, -4)
+    frame.Buffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, - 4)
 
     if self.db.smartAura then
         frame.Auras = self:Construct_SmartAura(frame)

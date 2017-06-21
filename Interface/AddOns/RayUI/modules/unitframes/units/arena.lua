@@ -39,8 +39,8 @@ function UF:Construct_ArenaFrame(frame, unit)
 
     self:EnableHealPredictionAndAbsorb(frame)
 
-    frame.Health.value:Point("TOPRIGHT", frame.Health, "TOPRIGHT", -8, -2)
-    frame.Power.value:Point("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", -8, 2)
+    frame.Health.value:Point("TOPRIGHT", frame.Health, "TOPRIGHT", - 8, - 2)
+    frame.Power.value:Point("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", - 8, 2)
 
     frame.Name:ClearAllPoints()
     frame.Name:Point("BOTTOMLEFT", frame.Health, "BOTTOMLEFT", 8, 3)
@@ -61,11 +61,11 @@ function UF:Construct_ArenaFrame(frame, unit)
         castbar:ClearAllPoints()
         castbar:SetAllPoints(frame)
         castbar.Iconbg:ClearAllPoints()
-        castbar.Iconbg:Point("RIGHT", frame, "LEFT", -2, 1)
+        castbar.Iconbg:Point("RIGHT", frame, "LEFT", - 2, 1)
         castbar.Text:ClearAllPoints()
         castbar.Text:Point("LEFT", frame.Health, "LEFT", 2, 0)
         castbar.Time:ClearAllPoints()
-        castbar.Time:Point("RIGHT", frame.Health, "RIGHT", -2, 0)
+        castbar.Time:Point("RIGHT", frame.Health, "RIGHT", - 2, 0)
 
         frame.Castbar = castbar
     end
