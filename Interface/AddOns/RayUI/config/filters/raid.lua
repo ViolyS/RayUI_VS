@@ -108,6 +108,51 @@ G.Raid.RaidDebuffs = {
 
     -- Raid Debuffs
     instances = {
+        [1147] = {
+            -- Tomb of Sargeras
+            -- Goroth
+            [233279] = Defaults(), -- Shattering Star
+            [230345] = Defaults(), -- Crashing Comet
+            [231363] = Defaults(), -- Burning Armor
+            -- Demonic Inquisition
+            [233430] = Defaults(), -- Ubearable Torment
+            [233983] = Defaults(), -- Echoing Anguish
+            -- Harjatan
+            [231770] = Defaults(), -- Drenched
+            [231998] = Defaults(), -- Jagged Abrasion
+            -- Sisters of the Moon
+            [236603] = Defaults(), -- Rapid Shot
+            [234996] = Defaults(), -- Umbra Suffusion
+            [234995] = Defaults(), -- Lunar Suffusion
+            [236519] = Defaults(), -- Moon Burn
+            [236697] = Defaults(), -- Deathly Screech
+            [236550] = Defaults(), -- Lunar Fire
+            -- Mistress Sassz'ine
+            [230959] = Defaults(), -- Concealing Murk
+            [232722] = Defaults(), -- Slicing Tornado
+            [232913] = Defaults(), -- Befouling Ink
+            [234621] = Defaults(), -- Devouring Maw
+            [230201] = Defaults(), -- Burden of Pain
+            -- The Desolate Host
+            [236072] = Defaults(), -- Wailing Souls
+            [236449] = Defaults(), -- Soulbind
+            [236515] = Defaults(), -- Shattering Scream
+            [235989] = Defaults(), -- Tormented Cries
+            -- Maiden of Vigilance
+            [235117] = Defaults(), -- Unstable Soul
+            [235534] = Defaults(), -- Creator's Grace
+            [235538] = Defaults(), -- Demon's Vigor
+            [234891] = Defaults(), -- Wrath of the Creators
+            [235569] = Defaults(), -- Hammer of Creation
+            [235573] = Defaults(), -- Hammer of Obliteration
+            -- Kil'jaeden
+            [238999] = Defaults(), -- Darkness of a Thousand Souls
+            [239155] = Defaults(), -- Gravity Squeeze
+            [234295] = Defaults(), -- Armageddon Rain
+            [240908] = Defaults(), -- Armageddon Blast
+            [239932] = Defaults(), -- Felclaws
+            [240911] = Defaults(), -- Armageddon Hail
+        },
         [1114] = {
             -- Trial of Valor
             -- Odyn
@@ -166,10 +211,6 @@ G.Raid.RaidDebuffs = {
             [197980] = Defaults(), -- Nightmarish Cacophony
 
             -- Dragons of Nightmare
-            [203102] = Defaults(), -- Mark of Ysondre
-            [203121] = Defaults(), -- Mark of Taerar
-            [203125] = Defaults(), -- Mark of Emeriss
-            [203124] = Defaults(), -- Mark of Lethon
             [204731] = Defaults(1), -- Wasting Dread
             [203110] = Defaults(5), -- Slumbering Nightmare
             [207681] = Defaults(3), -- Nightmare Bloom
@@ -218,7 +259,10 @@ G.Raid.RaidDebuffs = {
             [225901] = Defaults(), -- Time Bomb
             [207871] = Defaults(), -- Vortex (Mythic)
             [212099] = Defaults(), -- Temporal Charge
-
+            [219966] = Defaults(4), -- 时间释放（红）
+            [219965] = Defaults(4), -- 时间释放（黄）
+            [219964] = Defaults(4), -- 时间释放（绿）
+            [206617] = Defaults(3), -- 时间炸弹
             -- Trilliax
             [206488] = Defaults(), -- Arcane Seepage
             [206641] = Defaults(), -- Arcane Spear (Tank)
