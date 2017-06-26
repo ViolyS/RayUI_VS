@@ -1,14 +1,13 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
-	local r, g, b = S["media"].classcolours[R.myclass].r, S["media"].classcolours[R.myclass].g, S["media"].classcolours[R.myclass].b
+	local r, g, b = _r, _g, _b
 
 	-- [[ Shared functions ]]
 
@@ -198,6 +197,7 @@ local function LoadSkin()
 		select(4, xpBar:GetRegions()):Hide()
 
 		xpBar:SetStatusBarTexture(R["media"].normal)
+		R:SetStatusBarGradient(xpBar)
 
 		S:CreateBDFrame(xpBar)
 	end
@@ -232,6 +232,7 @@ local function LoadSkin()
 		select(4, xpBar:GetRegions()):Hide()
 
 		xpBar:SetStatusBarTexture(R["media"].normal)
+		R:SetStatusBarGradient(xpBar)
 
 		S:CreateBDFrame(xpBar)
 	end
@@ -461,6 +462,7 @@ local function LoadSkin()
 		select(4, xpBar:GetRegions()):Hide()
 
 		xpBar:SetStatusBarTexture(R["media"].normal)
+		R:SetStatusBarGradient(xpBar)
 
 		S:CreateBDFrame(xpBar)
 	end
@@ -784,6 +786,7 @@ local function LoadSkin()
 		select(4, xpBar:GetRegions()):Hide()
 
 		xpBar:SetStatusBarTexture(R["media"].normal)
+		R:SetStatusBarGradient(xpBar)
 
 		S:CreateBDFrame(xpBar)
 	end

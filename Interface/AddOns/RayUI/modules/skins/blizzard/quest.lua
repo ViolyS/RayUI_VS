@@ -1,14 +1,13 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
-	local r, g, b = S["media"].classcolours[R.myclass].r, S["media"].classcolours[R.myclass].g, S["media"].classcolours[R.myclass].b
+	local r, g, b = _r, _g, _b
 	S:ReskinPortraitFrame(QuestFrame, true)
 
 	QuestTitleFont:SetTextColor(1, 1, 1)
@@ -91,15 +90,6 @@ local function LoadSkin()
 	for _, questButton in pairs({"QuestFrameAcceptButton", "QuestFrameDeclineButton", "QuestFrameCompleteQuestButton", "QuestFrameCompleteButton", "QuestFrameGoodbyeButton", "QuestFrameGreetingGoodbyeButton"}) do
 		S:Reskin(_G[questButton])
 	end
-	-- S:Reskin(QuestFrameDetailPanel.IgnoreButton)
-	-- S:Reskin(QuestFrameDetailPanel.UnignoreButton)
-	-- S:Reskin(QuestFrameProgressPanel.IgnoreButton)
-	-- S:Reskin(QuestFrameProgressPanel.UnignoreButton)
-
-	S:ReskinScroll(QuestProgressScrollFrameScrollBar)
-	S:ReskinScroll(QuestRewardScrollFrameScrollBar)
-	S:ReskinScroll(QuestDetailScrollFrameScrollBar)
-	S:ReskinScroll(QuestGreetingScrollFrameScrollBar)
 
 	-- Text colour stuff
 
@@ -150,7 +140,7 @@ local function LoadSkin()
 	S:ReskinScroll(QuestNPCModelTextScrollFrameScrollBar)
 
 	--[[ Item text ]]
-	
+
 	select(18, ItemTextFrame:GetRegions()):Hide()
 	ItemTextFramePageBg:SetAlpha(0)
 	ItemTextPrevPageButton:GetRegions():Hide()

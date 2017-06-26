@@ -1,14 +1,13 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
-    local r, g, b = S["media"].classcolours[R.myclass].r, S["media"].classcolours[R.myclass].g, S["media"].classcolours[R.myclass].b
+    local r, g, b = _r, _g, _b
     GameFontBlackMedium:SetTextColor(1, 1, 1)
     InvoiceTextFontNormal:SetTextColor(1, 1, 1)
     InvoiceTextFontSmall:SetTextColor(1, 1, 1)
@@ -553,8 +552,7 @@ local function LoadSkin()
         "AudioOptionsSoundPanelEnableDSPs",
         "AudioOptionsVoicePanelEnableVoice",
         "AudioOptionsVoicePanelEnableMicrophone",
-        "AudioOptionsVoicePanelPushToTalkSound",
-        "InterfaceOptionsSocialPanelAutoAcceptQuickJoinRequests"
+        "AudioOptionsVoicePanelPushToTalkSound"
     }
     for i = 1, #checkboxes do
         S:ReskinCheck(_G[checkboxes[i]])
@@ -642,7 +640,8 @@ local function LoadSkin()
         "InterfaceOptionsMousePanelClickToMove",
         "InterfaceOptionsAccessibilityPanelMovePad",
         "InterfaceOptionsAccessibilityPanelCinematicSubtitles",
-        "InterfaceOptionsAccessibilityPanelColorblindMode"
+        "InterfaceOptionsAccessibilityPanelColorblindMode",
+        "InterfaceOptionsSocialPanelAutoAcceptQuickJoinRequests"
     }
     for i = 1, #checkboxes do
         S:ReskinCheck(_G[checkboxes[i]])

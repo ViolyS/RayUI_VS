@@ -1,16 +1,15 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
     MerchantFrame:StripTextures(true)
     MerchantBuyBackItem:StripTextures(true)
- 
+
     S:ReskinPortraitFrame(MerchantFrame, true)
     MerchantExtraCurrencyInset:StripTextures()
     MerchantExtraCurrencyBg:StripTextures()
@@ -73,9 +72,9 @@ local function LoadSkin()
 
     MerchantBuyBackItemSlotTexture:Hide()
     MerchantBuyBackItemNameFrame:Hide()
+    MerchantBuyBackItemItemButton.IconBorder:Kill()
     MerchantBuyBackItemItemButton:SetNormalTexture("")
     MerchantBuyBackItemItemButton:StyleButton(1)
-    MerchantBuyBackItemItemButton.IconBorder:Kill()
 
     S:CreateBD(MerchantBuyBackItemItemButton, 0)
     S:CreateBD(MerchantBuyBackItem, .25)

@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function GroupLootDropDown_Initialize()
 	local info = Lib_UIDropDownMenu_CreateInfo()
@@ -378,7 +377,7 @@ local function LoadSkin()
                 end
             end
         end
-        _G["SLASH_AUTOLOOT1"] = "/autoloot"
+        _G.SLASH_AUTOLOOT1 = "/autoloot"
 
 	end
 end

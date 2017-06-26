@@ -1,14 +1,13 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
-	local r, g, b = S["media"].classcolours[R.myclass].r, S["media"].classcolours[R.myclass].g, S["media"].classcolours[R.myclass].b
+	local r, g, b = _r, _g, _b
 	local QuestMapFrame = QuestMapFrame
 
 	-- [[ Quest scroll frame ]]
@@ -58,7 +57,7 @@ local function LoadSkin()
 
 	DetailsFrame:GetRegions():Hide()
 	select(2, DetailsFrame:GetRegions()):Hide()
-	select(3, DetailsFrame:GetRegions()):Hide()
+	select(4, DetailsFrame:GetRegions()):Hide()
 	select(6, DetailsFrame.ShareButton:GetRegions()):Hide()
 	select(7, DetailsFrame.ShareButton:GetRegions()):Hide()
 

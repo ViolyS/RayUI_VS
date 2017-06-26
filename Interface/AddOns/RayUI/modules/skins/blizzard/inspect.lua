@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
     S:SetBD(InspectFrame)
@@ -58,7 +57,6 @@ local function LoadSkin()
         end
     end
 
-    -- [[ InspectModelFrameControlFrame Button ]]
     InspectModelFrameControlFrame:DisableDrawLayer("BACKGROUND")
     local buttons = {
         "ZoomIn",
@@ -115,37 +113,37 @@ local function LoadSkin()
         slot.glow:CreateBorder()
 
         hooksecurefunc(slot.IconBorder, "SetVertexColor", function(self, r, g, b)
-            self:GetParent().glow:SetBackdropBorderColor(r, g, b)
-            self:GetParent():SetBackdropColor(0, 0, 0)
-        end)
+                self:GetParent().glow:SetBackdropBorderColor(r, g, b)
+                self:GetParent():SetBackdropColor(0, 0, 0)
+            end)
         hooksecurefunc(slot.IconBorder, "Hide", function(self)
-            self:GetParent().glow:SetBackdropBorderColor(0, 0, 0)
-            self:GetParent():SetBackdropColor(0, 0, 0, 0)
-        end)
+                self:GetParent().glow:SetBackdropBorderColor(0, 0, 0)
+                self:GetParent():SetBackdropColor(0, 0, 0, 0)
+            end)
     end
     select(8, InspectMainHandSlot:GetRegions()):Kill()
 
     S:ReskinClose(InspectFrameCloseButton)
 
     -- for i = 1, MAX_NUM_TALENTS do
-        -- local bu = _G["InspectTalentFrameTalent"..i]
-        -- local ic = _G["InspectTalentFrameTalent"..i.."IconTexture"]
-        -- if bu then
-            -- bu:StyleButton()
-            -- bu:GetPushedTexture():StyleButton(1)
-            -- bu.SetHighlightTexture = R.dummy
-            -- bu.SetPushedTexture = R.dummy
+    -- local bu = _G["InspectTalentFrameTalent"..i]
+    -- local ic = _G["InspectTalentFrameTalent"..i.."IconTexture"]
+    -- if bu then
+    -- bu:StyleButton()
+    -- bu:GetPushedTexture():StyleButton(1)
+    -- bu.SetHighlightTexture = R.dummy
+    -- bu.SetPushedTexture = R.dummy
 
-            -- _G["InspectTalentFrameTalent"..i.."Slot"]:SetAlpha(0)
-            -- _G["InspectTalentFrameTalent"..i.."SlotShadow"]:SetAlpha(0)
-            -- _G["InspectTalentFrameTalent"..i.."GoldBorder"]:SetAlpha(0)
+    -- _G["InspectTalentFrameTalent"..i.."Slot"]:SetAlpha(0)
+    -- _G["InspectTalentFrameTalent"..i.."SlotShadow"]:SetAlpha(0)
+    -- _G["InspectTalentFrameTalent"..i.."GoldBorder"]:SetAlpha(0)
 
-            -- ic:SetTexCoord(.08, .92, .08, .92)
-            -- ic:SetPoint("TOPLEFT", 1, -1)
-            -- ic:SetPoint("BOTTOMRIGHT", -1, 1)
+    -- ic:SetTexCoord(.08, .92, .08, .92)
+    -- ic:SetPoint("TOPLEFT", 1, -1)
+    -- ic:SetPoint("BOTTOMRIGHT", -1, 1)
 
-            -- S:CreateBD(bu)
-        -- end
+    -- S:CreateBD(bu)
+    -- end
     -- end
 end
 

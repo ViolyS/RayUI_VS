@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function HandleCommandBar()
     R.UIParent:SetPoint("BOTTOM", UIParent, "BOTTOM");
@@ -67,6 +66,7 @@ local function LoadSkin()
         S:CreateTab(tab)
     end
     OrderHallMissionFrameMissions:StripTextures()
+    OrderHallMissionFrameMissionsListScrollFrame:StripTextures()
     OrderHallMissionFrame.MissionTab:StripTextures()
     S:ReskinScroll(OrderHallMissionFrameMissionsListScrollFrameScrollBar)
     S:Reskin(OrderHallMissionFrameMissions.CombatAllyUI.InProgress.Unassign)
@@ -140,6 +140,7 @@ local function LoadSkin()
     S:SetBD(MissionList.CompleteDialog)
     S:Reskin(MissionList.CompleteDialog.BorderFrame.ViewButton)
     MissionList:StripTextures()
+    MissionList.listScroll:StripTextures()
     S:Reskin(OrderHallMissionFrameMissions.CombatAllyUI.InProgress.Unassign)
     S:ReskinClose(MissionPage.CloseButton)
     S:Reskin(MissionPage.StartMissionButton)

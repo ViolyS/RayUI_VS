@@ -1,14 +1,13 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
-    local r, g, b = S["media"].classcolours[R.myclass].r, S["media"].classcolours[R.myclass].g, S["media"].classcolours[R.myclass].b
+    local r, g, b = _r, _g, _b
     S:SetBD(GuildFrame)
     S:CreateBD(GuildMemberDetailFrame)
     S:CreateBD(GuildMemberNoteBackground, .25)
@@ -124,9 +123,9 @@ local function LoadSkin()
         S:ReskinCheck(checkbox)
     end
 
-	for i=1, 14 do
-		S:Reskin(_G["GuildRosterContainerButton"..i.."HeaderButton"])
-	end
+    for i=1, 14 do
+        S:Reskin(_G["GuildRosterContainerButton"..i.."HeaderButton"])
+    end
 
     local a1, p, a2, x, y = GuildNewsBossModel:GetPoint()
     GuildNewsBossModel:ClearAllPoints()
@@ -228,40 +227,40 @@ local function LoadSkin()
         S:CreateBG(bu.icon)
     end
 
-	local UpdateIcons = function()
-		local index
-		local offset = HybridScrollFrame_GetOffset(GuildRosterContainer)
-		local totalMembers, onlineMembers, onlineAndMobileMembers = GetNumGuildMembers()
-		local visibleMembers = onlineAndMobileMembers
-		local numbuttons = #GuildRosterContainer.buttons
-		if GetGuildRosterShowOffline() then
-			visibleMembers = totalMembers
-		end
+    local UpdateIcons = function()
+        local index
+        local offset = HybridScrollFrame_GetOffset(GuildRosterContainer)
+        local totalMembers, onlineMembers, onlineAndMobileMembers = GetNumGuildMembers()
+        local visibleMembers = onlineAndMobileMembers
+        local numbuttons = #GuildRosterContainer.buttons
+        if GetGuildRosterShowOffline() then
+            visibleMembers = totalMembers
+        end
 
-		for i = 1, numbuttons do
-			local bu = GuildRosterContainer.buttons[i]
+        for i = 1, numbuttons do
+            local bu = GuildRosterContainer.buttons[i]
 
-			if not bu.bg then
-				bu:SetHighlightTexture(R["media"].normal)
-				bu:GetHighlightTexture():SetVertexColor(r, g, b, .2)
+            if not bu.bg then
+                bu:SetHighlightTexture(R["media"].normal)
+                bu:GetHighlightTexture():SetVertexColor(r, g, b, .2)
 
-				bu.bg = S:CreateBG(bu.icon)
-			end
+                bu.bg = S:CreateBG(bu.icon)
+            end
 
-			index = offset + i
-			local name, _, _, _, _, _, _, _, _, _, classFileName  = GetGuildRosterInfo(index)
-			if name and index <= visibleMembers and bu.icon:IsShown() then
-				local tcoords = CLASS_ICON_TCOORDS[classFileName]
-				bu.icon:SetTexCoord(tcoords[1] + 0.022, tcoords[2] - 0.025, tcoords[3] + 0.022, tcoords[4] - 0.025)
-				bu.bg:Show()
-			else
-				bu.bg:Hide()
-			end
-		end
-	end
+            index = offset + i
+            local name, _, _, _, _, _, _, _, _, _, classFileName  = GetGuildRosterInfo(index)
+            if name and index <= visibleMembers and bu.icon:IsShown() then
+                local tcoords = CLASS_ICON_TCOORDS[classFileName]
+                bu.icon:SetTexCoord(tcoords[1] + 0.022, tcoords[2] - 0.025, tcoords[3] + 0.022, tcoords[4] - 0.025)
+                bu.bg:Show()
+            else
+                bu.bg:Hide()
+            end
+        end
+    end
 
-	hooksecurefunc("GuildRoster_Update", UpdateIcons)
-	hooksecurefunc(GuildRosterContainer, "update", UpdateIcons)
+    hooksecurefunc("GuildRoster_Update", UpdateIcons)
+    hooksecurefunc(GuildRosterContainer, "update", UpdateIcons)
 
     GuildPerksContainerButton1:SetPoint("LEFT", -1, 0)
 

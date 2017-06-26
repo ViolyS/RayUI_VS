@@ -1,14 +1,13 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
-    local r, g, b = S["media"].classcolours[R.myclass].r, S["media"].classcolours[R.myclass].g, S["media"].classcolours[R.myclass].b
+    local r, g, b = _r, _g, _b
     S:SetBD(CharacterFrame)
     S:SetBD(PetStableFrame)
     local frames = {
@@ -49,6 +48,7 @@ local function LoadSkin()
     GearManagerDialogPopup:Point("LEFT", PaperDollFrame, "RIGHT", 4, 0)
     GearManagerDialogPopup.BG:Kill()
     GearManagerDialogPopupScrollFrame:StripTextures()
+    GearManagerDialogPopupEditBox:StripTextures()
 
     S:ReskinClose(CharacterFrameCloseButton)
     S:ReskinClose(CharacterFrame.ReputationTabHelpBox.CloseButton)

@@ -1,14 +1,14 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
     local IconBackdrop = CreateFrame("Frame", nil, LossOfControlFrame)
+    IconBackdrop:SetFrameLevel(1)
     IconBackdrop:CreateShadow("Background")
     IconBackdrop:SetAllPoints(LossOfControlFrame.Icon)
     LossOfControlFrame.Icon:SetTexCoord(.08, .92, .08, .92)

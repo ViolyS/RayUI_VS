@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
     S:CreateBD(AchievementFrame)
@@ -268,7 +267,7 @@ local function LoadSkin()
     for _, bar in pairs(bars) do
         local name = bar:GetName()
         bar:SetStatusBarTexture(R["media"].normal)
-    --    bar:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
+    --  bar:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
         _G[name.."Left"]:Hide()
         _G[name.."Middle"]:Hide()
         _G[name.."Right"]:Hide()

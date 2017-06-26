@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function LoadSkin()
     -- MainFrame
@@ -37,7 +36,7 @@ local function LoadSkin()
     TradeSkillFrame.RecipeList.UnlearnedTab:StripTextures()
 
     -- DetailsFrame
-    --TradeSkillFrame.DetailsFrame:StripTextures()
+    -- TradeSkillFrame.DetailsFrame:StripTextures()
     TradeSkillFrame.DetailsInset:StripTextures()
     TradeSkillFrame.DetailsFrame.Background:Hide()
     S:ReskinInput(TradeSkillFrame.DetailsFrame.CreateMultipleInputBox)
@@ -63,7 +62,8 @@ local function LoadSkin()
         S:CreateBG(ResultIcon)
         ResultIcon.bg = S:CreateBG(ResultIcon)
         ResultIcon.ResultBorder:Hide()
-        ResultIcon.IconBorder:Kill()
+        ResultIcon.IconBorder:SetTexture(nil)
+        ResultIcon.ResultBorder:SetTexture(nil)
 
         for i = 1, #TradeSkillFrame.DetailsFrame.Contents.Reagents do
             local Button = TradeSkillFrame.DetailsFrame.Contents.Reagents[i]
