@@ -1,10 +1,10 @@
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("ActionBar")
 
 
-local AB = R:GetModule("ActionBar")
+local AB = _ActionBar
 
 local DAY, HOUR, MINUTE = 86400, 3600, 60 --used for formatting text
 local DAYISH, HOURISH, MINUTEISH = 3600 * 23.5, 60 * 59.5, 59.5 --used for formatting text at transition points
@@ -22,200 +22,216 @@ local DAYS_FORMAT = R:RGBToHex(0.4,0.4,1)..'%dd|r' --format for timers that have
 local cooldown = getmetatable(ActionButton1Cooldown).__index
 
 function AB:GetTimeText(s)
-	--format text as seconds when below a minute
-	if s < MINUTEISH then
-		local seconds = tonumber(R:Round(s))
-		if seconds > EXPIRING_DURATION then
-			return SECONDS_FORMAT, seconds, s - (seconds - 0.51)
-		else
-			return EXPIRING_FORMAT, s, 0.051
-		end
-	--format text as minutes when below an hour
-	elseif s < HOURISH then
-		local minutes = tonumber(R:Round(s/MINUTE))
-		return MINUTES_FORMAT, minutes, minutes > 1 and (s - (minutes*MINUTE - HALFMINUTEISH)) or (s - MINUTEISH)
-	--format text as hours when below a day
-	elseif s < DAYISH then
-		local hours = tonumber(R:Round(s/HOUR))
-		return HOURS_FORMAT, hours, hours > 1 and (s - (hours*HOUR - HALFHOURISH)) or (s - HOURISH)
-	--format text as days
-	else
-		local days = tonumber(R:Round(s/DAY))
-		return DAYS_FORMAT, days,  days > 1 and (s - (days*DAY - HALFDAYISH)) or (s - DAYISH)
-	end
+    --format text as seconds when below a minute
+    if s < MINUTEISH then
+        local seconds = tonumber(R:Round(s))
+        if seconds > EXPIRING_DURATION then
+            return SECONDS_FORMAT, seconds, s - (seconds - 0.51)
+        else
+            return EXPIRING_FORMAT, s, 0.051
+        end
+    --format text as minutes when below an hour
+    elseif s < HOURISH then
+        local minutes = tonumber(R:Round(s/MINUTE))
+        return MINUTES_FORMAT, minutes, minutes > 1 and (s - (minutes*MINUTE - HALFMINUTEISH)) or (s - MINUTEISH)
+    --format text as hours when below a day
+    elseif s < DAYISH then
+        local hours = tonumber(R:Round(s/HOUR))
+        return HOURS_FORMAT, hours, hours > 1 and (s - (hours*HOUR - HALFHOURISH)) or (s - HOURISH)
+    --format text as days
+    else
+        local days = tonumber(R:Round(s/DAY))
+        return DAYS_FORMAT, days,  days > 1 and (s - (days*DAY - HALFDAYISH)) or (s - DAYISH)
+    end
 end
 
 function AB:Cooldown_StopTimer(cd)
-	cd.enabled = nil
-	cd:Hide()
+    cd.enabled = nil
+    cd:Hide()
 end
 
 function AB:Timer_ForceUpdate(cd)
-	cd.nextUpdate = 0
-	cd:Show()
+    cd.nextUpdate = 0
+    cd:Show()
 end
 
 function AB:Cooldown_OnSizeChanged(cd, width, height)
-	local fontScale = R:Round(width) / 36
-	local override = cd:GetParent():GetParent().SizeOverride
-	if fontScale == cd.fontScale then
-		return
-	end
+    local fontScale = R:Round(width) / 36
+    local override = cd:GetParent():GetParent().SizeOverride
+    if fontScale == cd.fontScale then
+        return
+    end
 
-	cd.fontScale = fontScale
-	if fontScale < MIN_SCALE then
-		cd:Hide()
-	else
-		cd.text:SetFont(R["media"].cdfont, max(fontScale * (override or FONT_SIZE), 12), "OUTLINE")
-		cd.text:SetShadowColor(0, 0, 0, 0.5)
-		cd.text:SetShadowOffset(2, -2)
-		if cd.enabled then
-			self:Timer_ForceUpdate(cd)
-		end
-	end
+    cd.text.font = R["media"].cdfont
+    cd.text.fontsize = max(fontScale * (override or FONT_SIZE), 12)
+    cd.text.fontflag = "OUTLINE"
+
+    cd.fontScale = fontScale
+
+    if fontScale < MIN_SCALE then
+        cd:Hide()
+    else
+        cd.text:SetFont(cd.text.font, cd.text.fontsize, cd.text.fontflag)
+        cd.text:SetShadowColor(0, 0, 0, 0.5)
+        cd.text:SetShadowOffset(2, -2)
+        if cd.enabled then
+            self:Timer_ForceUpdate(cd)
+        end
+    end
 end
 
 local function Cooldown_OnUpdate(cd, elapsed)
-	if cd.nextUpdate > 0 then
-		cd.nextUpdate = cd.nextUpdate - elapsed
-		return
-	end
+    if cd.nextUpdate > 0 then
+        cd.nextUpdate = cd.nextUpdate - elapsed
+        return
+    end
 
-	local remain = cd.duration - (GetTime() - cd.start)
-	if remain > 0.05 then
-		if (cd.fontScale * cd:GetEffectiveScale() / UIParent:GetScale()) < MIN_SCALE then
-			cd.text:SetText("")
-			cd.nextUpdate  = 500
-		else
-			local formatStr, time, nextUpdate = AB:GetTimeText(remain)
-			cd.text:SetFormattedText(formatStr, time)
-			cd.nextUpdate = nextUpdate
-		end
-	else
-		AB:Cooldown_StopTimer(cd)
-	end
+    local remain = cd.duration - (GetTime() - cd.start)
+    if remain > 0.05 then
+        if (cd.fontScale * cd:GetEffectiveScale() / UIParent:GetScale()) < MIN_SCALE then
+            cd.text:SetText("")
+            cd.nextUpdate  = 500
+        else
+            local formatStr, time, nextUpdate = AB:GetTimeText(remain)
+            cd.text:SetFormattedText(formatStr, time)
+            cd.nextUpdate = nextUpdate
+        end
+    else
+        AB:Cooldown_StopTimer(cd)
+    end
 end
 
 function AB:CreateCooldownTimer(parent)
-	local scaler = CreateFrame("Frame", nil, parent)
-	scaler:SetAllPoints()
+    local scaler = CreateFrame("Frame", nil, parent)
+    scaler:SetAllPoints()
 
-	local timer = CreateFrame("Frame", nil, scaler)
-	timer:Hide()
-	timer:SetAllPoints()
-	timer:SetScript("OnUpdate", Cooldown_OnUpdate)
+    local timer = CreateFrame("Frame", nil, scaler)
+    timer:Hide()
+    timer:SetAllPoints()
+    timer:SetScript("OnUpdate", Cooldown_OnUpdate)
 
-	local text = timer:CreateFontString(nil, "OVERLAY")
-	text:SetPoint("CENTER", 1, 1)
-	text:SetJustifyH("CENTER")
-	timer.text = text
+    local text = timer:CreateFontString(nil, "OVERLAY")
+    text:SetPoint("CENTER", 1, 1)
+    text:SetJustifyH("CENTER")
+    timer.text = text
 
-	self:Cooldown_OnSizeChanged(timer, parent:GetSize())
-	parent:SetScript("OnSizeChanged", function(_, ...) self:Cooldown_OnSizeChanged(timer, ...) end)
+    self:Cooldown_OnSizeChanged(timer, parent:GetSize())
+    parent:SetScript("OnSizeChanged", function(_, ...) self:Cooldown_OnSizeChanged(timer, ...) end)
 
-	-- prevent display of blizzard cooldown text
-	parent:SetHideCountdownNumbers(true)
+    -- prevent display of blizzard cooldown text
+    parent:SetHideCountdownNumbers(true)
 
-	parent.timer = timer
-	return timer
+    parent.timer = timer
+    return timer
 end
 
 function AB:OnSetCooldown(cd, start, duration, charges, maxCharges)
-	if cd.noOCC then return end
-	cd:SetHideCountdownNumbers(true)
+    if cd.noOCC then return end
+    local parent = cd:GetParent()
+    cd:SetHideCountdownNumbers(true)
 
-	local remainingCharges = charges or 0
-	--start timer
-	if start > 0 and duration > MIN_DURATION and remainingCharges == 0 then
-		local timer = cd.timer or self:CreateCooldownTimer(cd)
-		timer.start = start
-		timer.duration = duration
-		timer.enabled = true
-		timer.nextUpdate = 0
-		if timer.fontScale >= MIN_SCALE then timer:Show() end
-	--stop timer
-	else
-		local timer = cd.timer
-		if timer then
-			self:Cooldown_StopTimer(timer)
-		end
-	end
+    if parent.GetCharges then charges, maxCharges = parent:GetCharges() end
+    local timer = cd.timer or self:CreateCooldownTimer(cd)
+
+    charges = charges or 0
+    timer.charging = charges > 0
+
+    --start timer
+    if start > 0 and duration > MIN_DURATION then
+        timer.start = start
+        timer.duration = duration
+        timer.enabled = true
+        timer.nextUpdate = 0
+        if timer.fontScale >= MIN_SCALE then timer:Show() end
+    --stop timer
+    else
+        local timer = cd.timer
+        if timer then
+            self:Cooldown_StopTimer(timer)
+        end
+    end
+
+    if timer.charging then
+        timer.text:SetFont(timer.text.font, timer.text.fontsize * .75, timer.text.fontflag)
+    else
+        timer.text:SetFont(timer.text.font, timer.text.fontsize, timer.text.fontflag)
+    end
 end
 
 local active, hooked = {}, {}
 function AB:RegisterCooldown(frame)
-	if not hooked[frame.cooldown] then
-		frame.cooldown:HookScript("OnShow", function(cd) active[cd] = true end)
-		frame.cooldown:HookScript("OnHide", function(cd) active[cd] = nil end)
-		hooked[frame.cooldown] = true
-	end
+    if not hooked[frame.cooldown] then
+        frame.cooldown:HookScript("OnShow", function(cd) active[cd] = true end)
+        frame.cooldown:HookScript("OnHide", function(cd) active[cd] = nil end)
+        hooked[frame.cooldown] = true
+    end
 end
 
 function AB:UpdateCooldown(cd)
-	local button = cd:GetParent()
-	local start, duration, enable = GetActionCooldown(button.action)
+    local button = cd:GetParent()
+    local start, duration, enable = button.GetCooldown and button:GetCooldown() or GetActionCooldown(button.action)
 
-	self:OnSetCooldown(cd, start, duration)
+    self:OnSetCooldown(cd, start, duration)
 end
 
 function AB:ACTIONBAR_UPDATE_COOLDOWN()
-	for cooldown in pairs(active) do
-		self:UpdateCooldown(cooldown)
-		if AB.db.cooldownalpha then
-			self:UpdateCDAlpha(cooldown:GetParent())
-		end
-	end
+    for cooldown in pairs(active) do
+        self:UpdateCooldown(cooldown)
+        if AB.db.cooldownalpha then
+            self:UpdateCDAlpha(cooldown:GetParent())
+        end
+    end
 end
 
 local function CDStop(frame)
-	frame:SetScript("OnUpdate", nil)
-	frame:SetAlpha(AB.db.readyalpha)
-	local index = frame:GetName():match("MultiCastActionButton(%d)")
-	if index then
-		_G["MultiCastSlotButton"..index]:SetAlpha(AB.db.readyalpha)
-	end
+    frame:SetScript("OnUpdate", nil)
+    frame:SetAlpha(AB.db.readyalpha)
+    local index = frame:GetName():match("MultiCastActionButton(%d)")
+    if index then
+        _G["MultiCastSlotButton"..index]:SetAlpha(AB.db.readyalpha)
+    end
 end
 
 local function CDUpdate(frame)
-	if frame.StopTime < GetTime() then
-		CDStop(frame)
-	else
-		frame:SetAlpha(AB.db.cdalpha)
-		local index = frame:GetName():match("MultiCastActionButton(%d)")
-		if index then
-			_G["MultiCastSlotButton"..index]:SetAlpha(AB.db.cdalpha)
-		end
-	end
+    if frame.StopTime < GetTime() then
+        CDStop(frame)
+    else
+        frame:SetAlpha(AB.db.cdalpha)
+        local index = frame:GetName():match("MultiCastActionButton(%d)")
+        if index then
+            _G["MultiCastSlotButton"..index]:SetAlpha(AB.db.cdalpha)
+        end
+    end
 end
 
 function AB:UpdateCDAlpha(self)
-	if self:GetName():find("MultiCast") then return end
-	local start, duration, enable = GetActionCooldown(self.action)
-	if start>0 and duration > 1.5 then
-		self.StopTime = start + duration
-		self:SetScript("OnUpdate", CDUpdate)
-	else
-		CDStop(self)
-	end
+    if self:GetName():find("MultiCast") then return end
+    local start, duration, enable = GetActionCooldown(self.action)
+    if start>0 and duration > 1.5 then
+        self.StopTime = start + duration
+        self:SetScript("OnUpdate", CDUpdate)
+    else
+        CDStop(self)
+    end
 end
 
 function AB:CreateCooldown()
-	self:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
-	self:SecureHook("SetActionUIButton", "RegisterCooldown")
-	self:SecureHook("ActionBarButtonEventsFrame_RegisterFrame", "RegisterCooldown")
+    self:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
+    self:SecureHook("SetActionUIButton", "RegisterCooldown")
+    self:SecureHook("ActionBarButtonEventsFrame_RegisterFrame", "RegisterCooldown")
 
-	if ActionBarButtonEventsFrame.frames then
-		for _, frame in pairs(ActionBarButtonEventsFrame.frames) do
-			self:RegisterCooldown(frame)
-		end
-	end
+    if ActionBarButtonEventsFrame.frames then
+        for _, frame in pairs(ActionBarButtonEventsFrame.frames) do
+            self:RegisterCooldown(frame)
+        end
+    end
 
-	if not self.hooks[cooldown] then
-		self:SecureHook(cooldown, "SetCooldown", "OnSetCooldown")
-	end
+    if not self.hooks[cooldown] then
+        self:SecureHook(cooldown, "SetCooldown", "OnSetCooldown")
+    end
 
-	if self.db.cooldownalpha then
-		self:SecureHook("ActionButton_UpdateState", "UpdateCDAlpha")
-		self:SecureHook("ActionButton_UpdateAction", "UpdateCDAlpha")
-	end
+    if self.db.cooldownalpha then
+        self:SecureHook("ActionButton_UpdateState", "UpdateCDAlpha")
+        self:SecureHook("ActionButton_UpdateAction", "UpdateCDAlpha")
+    end
 end
