@@ -1,15 +1,15 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Raid")
 
 
-local RA = R:GetModule("Raid")
-local UF = R:GetModule("UnitFrames")
+local RA = _Raid
+local UF = R.UnitFrames
 
 local _, ns = ...
 local RayUF = ns.oUF
+
 
 function RA:Hex(r, g, b)
     if(type(r) == "table") then
@@ -101,9 +101,9 @@ function RA:PostHealth(unit)
         end
     end
 
-    if not owner:IsElementEnabled("ReadyCheck") then
+    if not owner:IsElementEnabled("ReadyCheckIndicator") then
         RA:Debug(2, "%s ReadyCheck Disabled", owner:GetName())
-        owner:EnableElement("ReadyCheck")
+        owner:EnableElement("ReadyCheckIndicator")
     end
 end
 
@@ -264,14 +264,14 @@ function RA:ConfigureAuraWatch(frame)
     local auras = frame.AuraWatch
     auras:Show()
 
-    if not R.global["Raid"].AuraWatch[R.myclass] then R.global["Raid"].AuraWatch[R.myclass] = {} end
+    if not _AuraWatchList[R.myclass] then _AuraWatchList[R.myclass] = {} end
 
-    if frame.unit == "pet" and R.global["Raid"].AuraWatch.PET then
-        for _, value in pairs(R.global["Raid"].AuraWatch.PET) do
+    if frame.unit == "pet" and _AuraWatchList.PET then
+        for _, value in pairs(_AuraWatchList.PET) do
             tinsert(buffs, value)
         end
     else
-        for _, value in pairs(R.global["Raid"].AuraWatch[R.myclass]) do
+        for _, value in pairs(_AuraWatchList[R.myclass]) do
             tinsert(buffs, value)
         end
     end
@@ -338,6 +338,7 @@ function RA:ConfigureAuraWatch(frame)
                     icon.cd = CreateFrame("Cooldown", nil, icon, "CooldownFrameTemplate")
                     icon.cd:SetAllPoints(icon)
                     icon.cd:SetReverse(true)
+                    icon.cd:SetDrawEdge(true)
                     icon.cd:SetFrameLevel(icon:GetFrameLevel())
                 end
 
