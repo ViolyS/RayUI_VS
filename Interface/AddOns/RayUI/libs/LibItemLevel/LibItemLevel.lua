@@ -7,24 +7,6 @@ local lib = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not lib then return end
 
---Cache global variables
---Lua functions
-local _G = _G
-local select, tonumber, string = select, tonumber, string
-local strtrim = strtrim
-local max = math.max
-local type = type
-
---WoW API / Variables
-local CreateFrame = CreateFrame
-local GetItemInfo = GetItemInfo
-local UnitExists = UnitExists
-local GetInventoryItemLink = GetInventoryItemLink
-local WrapTextInColorCode = WrapTextInColorCode
-
---Global variables that we don't cache, list them here for the mikk's Find Globals script
--- GLOBALS: UIParent
-
 --物品等級匹配規則
 local ItemLevelPattern = gsub(ITEM_LEVEL, "%%d", "(%%d+)")
 
