@@ -1,11 +1,10 @@
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Bags")
 
 
-local addon, ns = ...
-local cargBags = ns.cargBags
+local cargBags = _cargBags
 local LibItemLevel = LibStub:GetLibrary("LibItemLevel-RayUI")
 
 local function noop() end

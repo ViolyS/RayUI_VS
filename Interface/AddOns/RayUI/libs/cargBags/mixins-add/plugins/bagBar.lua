@@ -34,11 +34,10 @@ CALLBACKS
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Bags")
 
 
-local addon, ns = ...
-local cargBags = ns.cargBags
+local cargBags = _cargBags
 local Implementation = cargBags.classes.Implementation
 
 function Implementation:GetBagButtonClass()
@@ -54,7 +53,7 @@ BagButton.itemFadeAlpha = 0.1
 local buttonNum = 0
 function BagButton:Create(bagID)
 	buttonNum = buttonNum+1
-	local name = addon.."BagButton"..buttonNum
+	local name = "cargBagsBagButton"..buttonNum
 
 	local button = setmetatable(CreateFrame("CheckButton", name, nil, "ItemButtonTemplate"), self.__index)
 
@@ -184,11 +183,11 @@ function BagButton:OnClick()
 			if(self.bar.isGlobal) then
 				for i, container in pairs(container.implementation.contByID) do
 					container:SetFilter(self.filter, self.hidden)
-					container.implementation:OnEvent("BAG_UPDATE", self.bagID)
+					container.implementation:UpdateBag(self.bagID)
 				end
 			else
 				container:SetFilter(self.filter, self.hidden)
-				container.implementation:OnEvent("BAG_UPDATE", self.bagID)
+				container.implementation:UpdateBag(self.bagID)
 			end
 		end
 	end
@@ -210,7 +209,7 @@ local function onLock(self, event, bagID, slotID)
 	if(bagID == -1 and slotID > NUM_BANKGENERIC_SLOTS) then
 		bagID, slotID = ContainerIDToInventoryID(slotID-NUM_BANKGENERIC_SLOTS+NUM_BAG_SLOTS)
 	end
-	
+
 	if(slotID) then return end
 
 	for i, button in pairs(self.buttons) do
