@@ -1,18 +1,19 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("CombatText")
 
 
 local CT = R:NewModule("CombatText", "AceEvent-3.0", "AceHook-3.0", "AceTimer-3.0", "AceConsole-3.0")
 local xCP = LibStub("xCombatParser-1.0-RayUI", true)
 CT.modName = L["战斗文字"]
+_CombatText = CT
+
 
 local showreceived = true
 local showoutput = true
 
-local iconSize = 16
+local iconSize = 25
 local msgiconSize = 22
 
 local showdots = true
@@ -108,8 +109,8 @@ local format_spell_icon = " |T%s:%d:%d:0:0:64:64:5:59:5:59|t"
 
 local function IsMerged(spellID)
     local merged = false
-    spellID = CT.merge2h[spellID] or spellID
-    return CT.merges[spellID] ~= nil
+    spellID = _Merges2H[spellID] or spellID
+    return _Merges[spellID] ~= nil
 end
 
 function CT:GetSpellTextureFormatted( spellID, message, critical, iconSize, justify )
@@ -144,7 +145,7 @@ local spamHeap, spamStack, now = {}, {}, 0
 local spam_format = "%s |cffffffffx%s|r"
 function CT:AddSpamMessage(framename, mergeID, message, color, interval, prep)
     -- Check for a Secondary Spell ID
-    mergeID = CT.merge2h[mergeID] or mergeID
+    mergeID = _Merges2H[mergeID] or mergeID
 
     local heap, stack = spamHeap[framename], spamStack[framename]
     if heap[mergeID] then
@@ -155,7 +156,7 @@ function CT:AddSpamMessage(framename, mergeID, message, color, interval, prep)
             heap[mergeID].last = now
         end
     else
-        local db = CT.merges[mergeID]
+        local db = _Merges[mergeID]
         heap[mergeID] = {
             -- last update
             last = now,
@@ -431,7 +432,7 @@ function CT:Initialize()
     self.frames["power"]:SetPoint("TOP", R.UIParent, "CENTER", 0, -100)
 
     for _, frame in pairs(self.frames) do
-        R:CreateMover(frame, frame:GetName().." Mover", L[frame:GetName()], true, nil, "ALL,RAID")
+        R:CreateMover(frame, frame:GetName().." Mover", L[frame:GetName()], true, nil, "ALL,GENERAL")
     end
 
     xCP:RegisterCombat(self.CombatLogEvent)
