@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Bags")
 
 
-local B = R:GetModule("Bags")
+local B = _Bags
 
 local bankBags = {BANK_CONTAINER}
 local MAX_MOVE_TIME = 1.25
