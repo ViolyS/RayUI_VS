@@ -1,12 +1,12 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Reminder")
 
 
 local RM = R:NewModule("Reminder", "AceTimer-3.0")
-RM.CreatedReminders = {}
+_Reminder = RM
+_CreatedReminders = {}
 
 function RM:PlayerHasFilteredBuff(frame, db, checkPersonal)
 	for buff, value in pairs(db) do
@@ -59,7 +59,7 @@ end
 function RM:ReminderIcon_OnUpdate(elapsed)
 	if self.ForceShow and self.icon:GetTexture() then return; end
 	if(self.elapsed and self.elapsed > 0.2) then
-		local db = P["Reminder"].filters[R.myclass][self.groupName]
+		local db = _ReminderList[R.myclass][self.groupName]
 		if not db or not db.enable or UnitIsDeadOrGhost("player") then return; end
 		if db.CDSpell then
 			local filterCheck = RM:FilterCheck(self)
@@ -113,7 +113,7 @@ function RM:FilterCheck(frame, isReverse)
 	local _, instanceType = IsInInstance()
 	local roleCheck, treeCheck, combatCheck, instanceCheck, PVPCheck, talentCheck
 
-	local db = P["Reminder"].filters[R.myclass][frame.groupName]
+	local db = _ReminderList[R.myclass][frame.groupName]
 
 	if db.role then
 		if db.role == R:GetPlayerRole() or db.role == "ANY" then
@@ -174,7 +174,7 @@ end
 function RM:ReminderIcon_OnEvent(event, unit)
 	if (event == "UNIT_AURA" and unit ~= "player") then return end
 
-	local db = P["Reminder"].filters[R.myclass][self.groupName]
+	local db = _ReminderList[R.myclass][self.groupName]
 
 	self.cooldown:Hide()
 	self:SetAlpha(0)
@@ -186,7 +186,7 @@ function RM:ReminderIcon_OnEvent(event, unit)
 		self.icon:SetTexture(nil)
 
 		if not db then
-			RM.CreatedReminders[self.groupName] = nil
+			_CreatedReminders[self.groupName] = nil
 		end
 		return
 	end
@@ -341,7 +341,7 @@ function RM:ThrottleSound()
 end
 
 function RM:GetReminderIcon(name)
-	return self.CreatedReminders[name]
+	return _CreatedReminders[name]
 end
 
 function RM:ToggleIcon(name)
@@ -357,7 +357,7 @@ function RM:ToggleIcon(name)
 end
 
 function RM:CreateReminder(name, index)
-	if self.CreatedReminders[name] then return end
+	if _CreatedReminders[name] then return end
 
 	local frame = CreateFrame("Button", "ReminderIcon"..index, R.UIParent)
 	frame:CreateShadow("Background")
@@ -381,11 +381,11 @@ function RM:CreateReminder(name, index)
 	frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 	frame:SetScript("OnEvent", RM.ReminderIcon_OnEvent)
 
-	self.CreatedReminders[name] = frame
+	_CreatedReminders[name] = frame
 end
 
 function RM:CheckForNewReminders()
-	local db = P["Reminder"].filters[R.myclass]
+	local db = _ReminderList[R.myclass]
 	if not db then return end
 
 	local index = 0
