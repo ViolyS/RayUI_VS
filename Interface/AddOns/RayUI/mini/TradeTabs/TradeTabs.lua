@@ -1,7 +1,7 @@
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv()
 
 
 local TradeTabs = CreateFrame("Frame","TradeTabs")
@@ -88,7 +88,7 @@ function TradeTabs:Initialize()
     -- if player is a DK, insert runeforging at the top
     if select(2, UnitClass("player")) == "DEATHKNIGHT" then
         prev = self:CreateTab(i, parent, RUNEFORGING)
-        prev:SetPoint("TOPLEFT", parent, "TOPRIGHT", RayUI[1].Border, -44)
+        prev:SetPoint("TOPLEFT", parent, "TOPRIGHT", 10, -44)
         i = i + 1
     end
 
@@ -141,7 +141,6 @@ local function createClickStopper(button)
 end
 
 function TradeTabs:CreateTab(i, parent, spellID)
-    local S = R:GetModule("Skins")
     local spell, _, texture = GetSpellInfo(spellID)
     local button = CreateFrame("CheckButton","TradeTabsTab"..i,parent,"SpellBookSkillLineTabTemplate,SecureActionButtonTemplate")
     button.tooltip = spell

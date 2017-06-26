@@ -1,7 +1,9 @@
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv()
+
+
 
 
 local f = CreateFrame("Frame")
@@ -73,23 +75,21 @@ local function attachItemTooltip(self)
     local link = select(2,self:GetItem())
     if not link then return end
     local itemId = tonumber(string.match(link, "item:(%d+):"))
-    if (itemId == nil or itemId == 0) and TradeSkillFrame ~= nil and TradeSkillFrame:IsVisible() then
+    if (itemId == 0 and TradeSkillFrame ~= nil and TradeSkillFrame:IsVisible()) then
         local newItemId
-        if (GetMouseFocus() == TradeSkillFrame.DetailsFrame.Contents.ResultIcon) then
-            newItemId = tonumber(GetRecipeItemLink(TradeSkillFrame.RecipeList.selectedRecipeID):match("item:(%d+):"))
+        if ((GetMouseFocus():GetName()) == "TradeSkillSkillIcon") then
+            newItemId = tonumber(GetTradeSkillItemLink(TradeSkillFrame.selectedSkill):match("item:(%d+):"))
         else
             for i = 1, 12 do
-                if (GetMouseFocus() == TradeSkillFrame.DetailsFrame.Contents["Reagent" .. i]) then
-                    newItemId = tonumber(GetRecipeReagentItemLink(TradeSkillFrame.RecipeList.selectedRecipeID, i):match("item:(%d+):"))
+                if ((GetMouseFocus():GetName()) == "TradeSkillReagent"..i) then
+                    newItemId = tonumber(GetTradeSkillReagentItemLink(TradeSkillFrame.selectedSkill, i):match("item:(%d+):"))
                     break
                 end
             end
         end
-        if newItemId then
-            link = select(2, GetItemInfo(newItemId))
-        end
+        link = select(2, GetItemInfo(newItemId))
     end
-    local id = select(3,strfind(link, "item:(%d+):"))
+    local id = select(3,strfind(link, "^|%x+|Hitem:(%-?%d-):(%d-):(%d-):(%d-):(%d-):(%d-):(%-?%d-):(%-?%d-)"))
     if id then addLine(self,id,true) end
 end
 

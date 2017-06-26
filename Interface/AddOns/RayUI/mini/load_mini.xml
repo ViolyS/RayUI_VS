@@ -1,8 +1,8 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="DragEmAll\DragEmAll.lua"/>
-	<Script file="ExtraQuestButton\ExtraQuestButton.lua"/>
-	<Script file="TooltipItemID\TooltipItemID.lua"/>
-	<Script file="TooltipItemIcon\TooltipItemIcon.lua"/>
-	<Script file="TradeTabs\TradeTabs.lua"/>
-	<Include file="BonusRollPreview\BonusRollPreview.xml"/>
+    <Script file="DragEmAll\DragEmAll.lua"/>
+    <Script file="ExtraQuestButton\ExtraQuestButton.lua"/>
+    <Script file="TooltipItemID\TooltipItemID.lua"/>
+    <Script file="TooltipItemIcon\TooltipItemIcon.lua"/>
+    <Script file="TradeTabs\TradeTabs.lua"/>
+    <Include file="BonusRollPreview\BonusRollPreview.xml"/>
 </Ui>

@@ -13,6 +13,7 @@ local version = 1.59
 -- VARIABLES
 --------------------------------------------------------------------------------
 
+
 local IconDataTable = {}
 local LocationTable = {
     lefttop = {"TOPRIGHT", "TOPLEFT", 0, -3},
@@ -918,8 +919,8 @@ local function OnEvent(frame) -- only event is VARIABLES_LOADED
     end
 
     -- slash commands
-    _G["SLASH_TOOLTIPITEMICON1"] = "/tooltipitemicon"
-    _G["SLASH_TOOLTIPITEMICON2"] = "/ttii"
+    _G.SLASH_TOOLTIPITEMICON1 = "/tooltipitemicon"
+    _G.SLASH_TOOLTIPITEMICON2 = "/ttii"
     SlashCmdList["TOOLTIPITEMICON"] = SlashCommand
     -- unregister unneeded functions to free up memory
     frame:UnregisterEvent("VARIABLES_LOADED")

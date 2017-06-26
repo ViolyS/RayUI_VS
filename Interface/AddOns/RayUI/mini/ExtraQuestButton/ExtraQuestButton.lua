@@ -1,3 +1,4 @@
+
 local questAreas = {
     -- Global
     [24629] = true,
