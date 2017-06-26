@@ -2,10 +2,12 @@
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Alerts")
 
 
 local AL = R:NewModule("Alerts", "AceEvent-3.0", "AceHook-3.0", "AceConsole-3.0")
+_Alerts = AL
+
 
 local TITLE_NEED_TEMPLATE = "%s |cff00ff00%s|r|TInterface\\Buttons\\UI-GroupLoot-Dice-Up:0:0:0:0:32:32:0:32:0:31|t"
 local TITLE_GREED_TEMPLATE = "%s |cff00ff00%s|r|TInterface\\Buttons\\UI-GroupLoot-Coin-Up:0:0:0:0:32:32:0:32:0:31|t"
@@ -2521,7 +2523,7 @@ end
 function AL:Initialize()
     AL:RegisterEvent("PLAYER_LOGIN")
 
-    _G["SLASH_LSADDTOAST1"] = "/testalerts"
+    _G.SLASH_LSADDTOAST1 = "/testalerts"
     SlashCmdList["LSADDTOAST"] = SpawnTestToast
 end
 
