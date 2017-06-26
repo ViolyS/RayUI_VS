@@ -1,12 +1,12 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Misc")
 
 
-local M = R:GetModule("Misc")
+local M = _Misc
 local mod = M:NewModule("Cooldowns", "AceEvent-3.0", "AceHook-3.0")
+
 
 local spells, chargespells = { [BOOKTYPE_SPELL] = { }, [BOOKTYPE_PET] = { }, }, { [BOOKTYPE_SPELL] = { }, [BOOKTYPE_PET] = { }, }
 local visible = 0

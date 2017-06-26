@@ -1,23 +1,23 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Misc")
 
 
 local M = R:NewModule("Misc", "AceEvent-3.0", "AceTimer-3.0")
 
 M.modName = L["小玩意儿"]
-local error=error
-M.Modules = {}
+_Misc = M
+
+_Modules = {}
 
 function M:RegisterMiscModule(name)
-    table.insert(M.Modules, name)
+    table.insert(_Modules, name)
 end
 
 function M:Initialize()
     local errList, errText = {}, ""
-    for _, name in pairs(self.Modules) do
+    for _, name in pairs(_Modules) do
         local module = self:GetModule(name, true)
         if module then
             M:Debug(1, "%s Initializing...", name)

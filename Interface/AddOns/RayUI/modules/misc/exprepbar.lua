@@ -1,13 +1,12 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Misc")
 
 
-local M = R:GetModule("Misc")
+local M = _Misc
 local mod = M:NewModule("Exprepbar", "AceEvent-3.0")
---local libAD = LibStub("LibArtifactData-1.0")
+-- local libAD = LibStub("LibArtifactData-1.0")
 
 --[[
 local function AddPerks()
@@ -268,18 +267,17 @@ end
 function mod:CreateArtiBar()
     self.ArtiBar = self:CreateBar("RayUIArtiBar", self.RepBar, 8)
     self.ArtiBar:SetStatusBarColor(.901, .8, .601)
-    R:SetStatusBarGradient(self)
+    R:SetStatusBarGradient(self.ArtiBar)
     self.ArtiBar:Hide()
 
     libAD.RegisterCallback(self, "ARTIFACT_POWER_CHANGED", "UpdateArtiBar")
     libAD.RegisterCallback(self, "ARTIFACT_ADDED", "UpdateArtiBar")
     libAD.RegisterCallback(self, "ARTIFACT_ACTIVE_CHANGED", "UpdateArtiBar")
-    libAD.RegisterCallback(self, "ARTIFACT_EQUIPPED_CHANGED", "UpdateArtiBar")
     self.ArtiBar:SetScript("OnEvent", function() self:UpdateArtiBar() end)
     self.ArtiBar:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 
     self.ArtiBar:SetScript("OnEnter", function(self)
-            if HasArtifactEquipped() and not InCombatLockdown() then
+            if HasArtifactEquipped() then
                 local _, data = libAD:GetArtifactInfo()
 
                 GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -5)

@@ -1,11 +1,10 @@
-﻿--AlertSystem from ls: Toasts
-----------------------------------------------------------
+﻿----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Misc")
 
 
-local M = R:GetModule("Misc")
+local M = _Misc
 local mod = M:NewModule("AltPower", "AceEvent-3.0")
 
 function mod:Initialize()

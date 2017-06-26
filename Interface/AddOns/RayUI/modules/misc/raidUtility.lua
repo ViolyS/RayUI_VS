@@ -1,13 +1,13 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Misc")
 
 
-local M = R:GetModule("Misc")
+local M = _Misc
 local mod = M:NewModule("RaidUtility", "AceEvent-3.0")
-local S = R:GetModule("Skins")
+local S = R.Skins
+
 
 local function CheckRaidStatus()
     local inInstance, instanceType = IsInInstance()
@@ -212,7 +212,7 @@ function mod:Initialize()
     SlashCmdList["GROUPDISBAND"] = function()
         StaticPopup_Show("DISBAND_RAID")
     end
-    _G["SLASH_GROUPDISBAND1"] = "/rd"
+    _G.SLASH_GROUPDISBAND1 = "/rd"
 
     StaticPopupDialogs["DISBAND_RAID"] = {
         text = L["是否确定解散队伍?"],

@@ -1,12 +1,12 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Misc")
 
 
-local M = R:GetModule("Misc")
+local M = _Misc
 local mod = M:NewModule("LootRoll", "AceEvent-3.0")
+
 
 R.rollBars = {}
 local testMode = false
@@ -290,6 +290,9 @@ function mod:Initialize()
     self:RegisterEvent("START_LOOT_ROLL")
     self:RegisterEvent("LOOT_HISTORY_ROLL_CHANGED")
 
+    GetItemInfo(34334)
+    GetItemInfo(77949)
+
     SlashCmdList["LFrames"] = function()
         local items = { 34334, 77949 }
         for _, f in pairs(R.rollBars) do
@@ -317,7 +320,7 @@ function mod:Initialize()
             end
         end
     end
-    _G["SLASH_LFrames1"] = "/lframes"
+    _G.SLASH_LFrames1 = "/lframes"
 end
 
 M:RegisterMiscModule(mod:GetName())

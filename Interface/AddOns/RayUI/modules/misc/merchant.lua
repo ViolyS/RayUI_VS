@@ -1,12 +1,12 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Misc")
 
 
-local M = R:GetModule("Misc")
+local M = _Misc
 local mod = M:NewModule("Merchant", "AceEvent-3.0", "AceHook-3.0")
+
 
 function mod:MERCHANT_SHOW()
     local c = 0

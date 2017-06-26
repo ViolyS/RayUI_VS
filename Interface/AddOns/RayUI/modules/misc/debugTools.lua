@@ -1,12 +1,11 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Misc")
 
 
-local M = R:GetModule("Misc")
-local S = R:GetModule("Skins")
+local M = _Misc
+local S = R.Skins
 
 --Enhanced debugtools from ElvUI
 local D = M:NewModule("DebugTools", "AceEvent-3.0", "AceHook-3.0", "AceConsole-3.0")
@@ -28,7 +27,7 @@ function D:ModifyErrorFrame()
     ScriptErrorsFrame.ScrollFrame.Text:HookScript("OnEscapePressed", UnHighlightText)
 
     ScriptErrorsFrame:Size(500, 300)
-    ScriptErrorsFrame.ScrollFrame.Text:Size(ScriptErrorsFrame:GetWidth() - 45, ScriptErrorsFrame:GetHeight() - 71)
+    ScriptErrorsFrame.ScrollFrame:Size(ScriptErrorsFrame:GetWidth() - 45, ScriptErrorsFrame:GetHeight() - 71)
 
     local BUTTON_WIDTH = 75
     local BUTTON_HEIGHT = 24
@@ -85,8 +84,8 @@ function D:ScriptErrorsFrame_OnError(_, _, keepHidden)
 end
 
 function D:PLAYER_REGEN_ENABLED()
-	ScriptErrorsFrame:SetParent(UIParent)
-	D.MessagePrinted = nil
+    ScriptErrorsFrame:SetParent(UIParent)
+    D.MessagePrinted = nil
 end
 
 function D:PLAYER_REGEN_DISABLED()
@@ -105,9 +104,9 @@ function D:ShowScriptErrorsFrame()
 end
 
 function D:StaticPopup_Show(name)
-	if(name == "ADDON_ACTION_FORBIDDEN") then
-		StaticPopup_Hide(name)
-	end
+    if(name == "ADDON_ACTION_FORBIDDEN") then
+        StaticPopup_Hide(name)
+    end
 end
 
 function D:Initialize()
