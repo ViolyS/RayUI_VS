@@ -1524,4 +1524,4 @@ function UF:ToggleUF(msg)
 end
 
 SlashCmdList.TestUF = function(...) UF:ToggleUF(...) end
-SLASH_TestUF1 = "/testuf"
+_G["SLASH_TestUF1"] = "/testuf"
