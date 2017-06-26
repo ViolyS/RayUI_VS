@@ -99,7 +99,7 @@ function TradeTabs:Initialize()
 
         local point,relPoint,x,y = "TOPLEFT", "BOTTOMLEFT", 0, -17
         if not prev then
-            prev, relPoint, x, y = parent, "TOPRIGHT", RayUI[1].Border, -44
+            prev, relPoint, x, y = parent, "TOPRIGHT", R.Border, -44
         end
         tab:SetPoint(point, prev, relPoint, x, y)
 
