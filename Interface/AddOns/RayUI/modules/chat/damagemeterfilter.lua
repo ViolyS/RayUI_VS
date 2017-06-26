@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Chat")
 
 
-local CH = R:GetModule("Chat")
+local CH = _Chat
 
 -------------------------------------------------------------------------------
 -- By Lockslap (US, Bleeding Hollow)
@@ -15,7 +14,7 @@ local CH = R:GetModule("Chat")
 
 --[[ Module based on SpamageMeters by Wrug and Cybey ]]--
 
-CH.meters = {}
+_DamageMeters = {}
 
 local firstLines = {
     "^Recount - (.*)$", -- Recount
@@ -56,7 +55,7 @@ local function FilterLine(event, source, message, ...)
     for k, v in ipairs(nextLines) do
         if message:match(v) then
             local curTime = time()
-            for i, j in ipairs(CH.meters) do
+            for i, j in ipairs(_DamageMeters) do
                 local elapsed = curTime - j.time
                 if j.source == source and j.event == event and elapsed < 1 then
                     local toInsert = true
@@ -78,7 +77,7 @@ local function FilterLine(event, source, message, ...)
         if message:match(v) then
             local curTime = time()
 
-            for i, j in ipairs(CH.meters) do
+            for i, j in ipairs(_DamageMeters) do
                 local elapsed = curTime - j.time
                 if j.source == source and j.event == event and elapsed < 1 then
                     newID = i
@@ -86,7 +85,7 @@ local function FilterLine(event, source, message, ...)
                 end
             end
 
-            table.insert(CH.meters, {
+            table.insert(_DamageMeters, {
                     source = source,
                     event = event,
                     time = curTime,
@@ -94,7 +93,7 @@ local function FilterLine(event, source, message, ...)
                     title = message
                 })
 
-            for i, j in ipairs(CH.meters) do
+            for i, j in ipairs(_DamageMeters) do
                 if j.source == source and j.event == event and j.time == curTime then
                     newID = i
                 end

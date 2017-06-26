@@ -1,13 +1,14 @@
-﻿--AlertSystem from ls: Toasts
-----------------------------------------------------------
+﻿----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Chat")
 
 
 local CH = R:NewModule("Chat", "AceEvent-3.0", "AceHook-3.0", "AceTimer-3.0", "AceConsole-3.0")
-local D = R:GetModule("Debug")
+
 CH.modName = L["聊天栏"]
+_Chat = CH
+
 
 local ChatHistoryEvent = CreateFrame("Frame")
 local tokennum, matchTable = 1, {}
@@ -22,16 +23,15 @@ local sizes = {
     ":12:20",
     ":14",
 }
-
-CH.LinkHoverShow = {
-    ["achievement"] = true,
-    ["enchant"] = true,
-    ["glyph"] = true,
-    ["item"] = true,
-    ["quest"] = true,
-    ["spell"] = true,
-    ["talent"] = true,
-    ["unit"] = true,
+local linkHoverShow = {
+    achievement = true,
+    enchant = true,
+    glyph = true,
+    item = true,
+    quest = true,
+    spell = true,
+    talent = true,
+    unit = true,
 }
 
 local function GetTimeForSavedMessage()
@@ -100,7 +100,7 @@ function CH:GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8
 end
 
 local function CreatCopyFrame()
-    local S = R:GetModule("Skins")
+    local S = R.Skins
     frame = CreateFrame("Frame", "CopyChatFrame", R.UIParent)
     table.insert(UISpecialFrames, frame:GetName())
     S:SetBD(frame)
@@ -293,7 +293,7 @@ local hyperLinkEntered
 function CH:OnHyperlinkEnter(frame, linkData, link)
     if InCombatLockdown() then return; end
     local t = linkData:match("^(.-):")
-    if CH.LinkHoverShow[t] then
+    if linkHoverShow[t] then
         ShowUIPanel(GameTooltip)
         GameTooltip:SetOwner(RayUIChatBG, "ANCHOR_RIGHT", 6, 0)
         GameTooltip:SetHyperlink(link)
@@ -373,7 +373,7 @@ end
 
 function CH:AddMessage(text, ...)
     if text:find(INTERFACE_ACTION_BLOCKED) then return end
-    local isDebug = select(5,...)
+    local isDebug = select(7,...)
 
     if string.find(text, "EUI:.*") then return end
     if not text:find("BN_CONVERSATION") then
@@ -693,7 +693,7 @@ function CH:ApplyStyle(event, ...)
             end
             local bb = _G[frameName.."ButtonFrameBottomButton"]
             local flash = _G[frameName.."ButtonFrameBottomButtonFlash"]
-            R:GetModule("Skins"):ReskinArrow(bb, "down")
+            R.Skins:ReskinArrow(bb, "down")
             bb:SetParent(cf)
             bb:ClearAllPoints()
             bb:SetPoint("TOPRIGHT", cf, "TOPRIGHT", 0, -20)
@@ -812,9 +812,9 @@ function CH:SetItemRef(link, text, button, chatFrame)
             ItemRefTooltip:SetOwner(R.UIParent, "ANCHOR_PRESERVE")
         end
         ItemRefTooltip:ClearLines()
-        ItemRefTooltip:AddLine(CH.meters[meterID].title)
-        ItemRefTooltip:AddLine(string.format(L["发布者"]..": %s", CH.meters[meterID].source))
-        for k, v in ipairs(CH.meters[meterID].data) do
+        ItemRefTooltip:AddLine(_DamageMeters[meterID].title)
+        ItemRefTooltip:AddLine(string.format(L["发布者"]..": %s", _DamageMeters[meterID].source))
+        for k, v in ipairs(_DamageMeters[meterID].data) do
             local left, right = v:match("^(.*) (.*)$")
             if left and right then
                 ItemRefTooltip:AddDoubleLine(left, right, 1, 1, 1, 1, 1, 1)
