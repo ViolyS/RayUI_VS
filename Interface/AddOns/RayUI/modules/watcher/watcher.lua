@@ -1,23 +1,22 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Watcher")
 
 
 local RW = R:NewModule("Watcher", "AceEvent-3.0")
 
 RW.modName = L["法术监视"]
+_Watcher = RW
 
 local colors = R.colors.class
-RW.modules = {}
-
 local defaults = {}
 local watcherPrototype = {}
-local _G, UnitBuff, UnitDebuff = _G, UnitBuff, UnitDebuff
 local BUFF_FLASH_TIME_ON = 0.75
 local BUFF_FLASH_TIME_OFF = 0.75
 local BUFF_MIN_ALPHA = 0.2
+
+_Modules = {}
 
 function watcherPrototype:OnEnable()
     if self.parent then
@@ -480,17 +479,17 @@ function RW:Initialize()
     if not self.db.enable then return end
     SpellActivationOverlayFrame:SetFrameStrata("BACKGROUND")
     SpellActivationOverlayFrame:SetFrameLevel(0)
-    if type(R["Watcher"]["filters"][R.myclass]) == "table" then
-        for _, t in ipairs(R["Watcher"]["filters"][R.myclass]) do
+    if type(_WatcherList[R.myclass]) == "table" then
+        for _, t in ipairs(_WatcherList[R.myclass]) do
             self:NewWatcher(t)
         end
     end
-    if type(R["Watcher"]["filters"]["ALL"]) == "table" then
-        for _, t in ipairs(R["Watcher"]["filters"]["ALL"]) do
+    if type(_WatcherList["ALL"]) == "table" then
+        for _, t in ipairs(_WatcherList["ALL"]) do
             self:NewWatcher(t)
         end
     end
-    wipe(R["Watcher"]["filters"])
+    wipe(_WatcherList)
     self.AlphaFrame = CreateFrame("Frame")
     self.AlphaFrame.BuffAlphaValue = 1
     self.AlphaFrame.BuffFrameFlashState = 1
@@ -611,7 +610,7 @@ function RW:NewWatcher(data)
     else
         module.enable = true
     end
-    RW.modules[name] = module
+    _Modules[name] = module
 end
 
 R:RegisterModule(RW:GetName())
