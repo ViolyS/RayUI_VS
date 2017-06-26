@@ -1,13 +1,14 @@
 -- Notification from FreeUI
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Notification")
 
 
 local NF = R:NewModule("Notification", "AceEvent-3.0", "AceHook-3.0")
-local S = R:GetModule("Skins")
+local S = R.Skins
+_Notification = NF
+
 
 local bannerWidth = 300
 local max_active_toasts = 3
@@ -248,7 +249,7 @@ end
 SlashCmdList.TESTNOTIFICATION = function(b)
     NF:DisplayToast("RayUI", "This is an example of a notification.", testCallback, b == "true" and "INTERFACE\\ICONS\\SPELL_FROST_ARCTICWINDS" or nil, .08, .92, .08, .92)
 end
-_G["SLASH_TESTNOTIFICATION1"] = "/testnotification"
+_G.SLASH_TESTNOTIFICATION1 = "/testnotification"
 
 function NF:Initialize()
     anchorFrame = CreateFrame("Frame", nil, R.UIParent)
