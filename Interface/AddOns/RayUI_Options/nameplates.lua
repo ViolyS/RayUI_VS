@@ -1,4 +1,10 @@
-local R, L, P, G = unpack(RayUI) --Import: Engine, Locales, ProfileDB, GlobalDB
+--AlertSystem from ls: Toasts
+----------------------------------------------------------
+-- Load RayUI Environment
+----------------------------------------------------------
+_LoadRayUIEnv_()
+
+
 local NP = R:GetModule("NamePlates")
 
 R.Options.args.NamePlates = {

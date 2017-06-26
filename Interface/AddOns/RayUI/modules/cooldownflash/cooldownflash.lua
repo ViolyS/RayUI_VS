@@ -1,4 +1,10 @@
-local R, L, P, G = unpack(select(2, ...)) --Import: Engine, Locales, ProfileDB, GlobalDB
+--AlertSystem from ls: Toasts
+----------------------------------------------------------
+-- Load RayUI Environment
+----------------------------------------------------------
+_LoadRayUIEnv_()
+
+
 local CF = R:NewModule("CooldownFlash", "AceEvent-3.0", "AceHook-3.0")
 CF.modName = L["中部冷却闪光"]
 
