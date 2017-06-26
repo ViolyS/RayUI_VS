@@ -6,8 +6,9 @@ RayUI:LoadEnv()
 
 local LSM = LibStub("LibSharedMedia-3.0")
 
+
 SlashCmdList["RELOAD"] = function() ReloadUI() end
-_G["SLASH_RELOAD1"] = "/rl"
+_G.SLASH_RELOAD1 = "/rl"
 
 R["RegisteredModules"] = {}
 R.FrameLocks = {}
@@ -127,6 +128,7 @@ function R:LockCVar(cvarName, value)
 end
 
 function R:RegisterModule(name)
+    if not R[name] then R[name] = R:GetModule(name) end
     if self.initialized then
         R:Debug(1, "%s Initializing ...", name)
         R:GetModule(name):Initialize()
@@ -237,6 +239,8 @@ function R:InitializeModules()
     else
         for i = 1, #self["RegisteredModules"] do
             local module = self:GetModule(self["RegisteredModules"][i])
+            local name =  module.GetName and module:GetName() or module
+            if not R[name] then R[name] = module end
             if module.Initialize then
                 R:Debug(1, "%s Initializing...", name)
                 local _, catch = pcall(module.Initialize, module)
@@ -885,7 +889,7 @@ function R:GetTopCPUFunc(msg)
     delay = (delay == "nil" and nil) or tonumber(delay) or 5
     minCalls = (minCalls == "nil" and nil) or tonumber(minCalls) or 15
 
-    table.twipe(CPU_USAGE)
+    table.wipe(CPU_USAGE)
     if module == "all" then
         for _, registeredModule in pairs(self['RegisteredModules']) do
             mod = self:GetModule(registeredModule, true) or self

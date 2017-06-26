@@ -6,6 +6,7 @@ RayUI:LoadEnv()
 
 local D = R:NewModule("Debug", "AceEvent-3.0", "AceHook-3.0", "AceConsole-3.0", "AceTimer-3.0")
 
+
 D.Prefix = {
     [1] = "|cff808080[%s] [DEBUG] [%s] ",
     [2] = "|cff008000[%s] [INFO] [%s] ",
@@ -33,7 +34,7 @@ local function Debug(mod, logLevel, msg, ...)
                 break
             end
         end
-        ChatFrame:AddMessage(msg, nil, nil, nil, nil, true)
+        ChatFrame:AddMessage(msg, nil, nil, nil, nil, nil, nil, true)
         if ChatFrame ~= _G.ChatFrame1 then _G["FCF_StartAlertFlash"](ChatFrame) end
     end
 end
