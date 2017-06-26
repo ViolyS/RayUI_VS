@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("UnitFrames")
 
 
-local UF = R:GetModule("UnitFrames")
+local UF = _UnitFrames
 local oUF = RayUF or oUF
 
 function UF:Construct_ArenaFrame(frame, unit)

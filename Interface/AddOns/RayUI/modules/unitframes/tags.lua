@@ -1,13 +1,13 @@
-﻿--AlertSystem from ls: Toasts
-----------------------------------------------------------
+﻿----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("UnitFrames")
 
 
 
 local _, ns = ...
 local oUF = RayUF or oUF
+
 
 local utf8sub = function(string, i, dots)
     local bytes = string:len()

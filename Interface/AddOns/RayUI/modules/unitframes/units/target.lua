@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("UnitFrames")
 
 
-local UF = R:GetModule("UnitFrames")
+local UF = _UnitFrames
 local oUF = RayUF or oUF
 
 function UF:Construct_TargetFrame(frame, unit)
@@ -117,4 +116,4 @@ function UF:Construct_TargetFrame(frame, unit)
     self:ScheduleRepeatingTimer("RangeDisplayUpdate", 0.25, frame)
 end
 
-tinsert(UF["unitstoload"], "target")
+tinsert(_UnitsToLoad, "target")

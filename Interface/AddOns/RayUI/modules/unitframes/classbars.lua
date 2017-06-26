@@ -1,13 +1,13 @@
 -- ClassBar from ElvUI
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("UnitFrames")
 
 
-local UF = R:GetModule("UnitFrames")
+local UF = _UnitFrames
 local oUF = RayUF or oUF
+
 
 function UF:Configure_ClassBar(frame, cur)
     local bars = frame[frame.ClassBar]
@@ -26,7 +26,7 @@ function UF:Configure_ClassBar(frame, cur)
         if frame.ClassBar == "ClassPower" and not cur then
             cur = 0
         end
-        local maxClassBarButtons = max(UF.classMaxResourceBar[R.myclass] or 0, MAX_COMBO_POINTS)
+        local maxClassBarButtons = max(_ClassMaxResourceBar[R.myclass] or 0, MAX_COMBO_POINTS)
         for i = 1, maxClassBarButtons do
             bars[i]:Hide()
 
@@ -136,7 +136,7 @@ function UF:Construct_ClassBar(frame)
     local bars = CreateFrame("Frame", nil, frame)
     bars:Point("BOTTOM", frame, "TOP", 0, 2)
 
-    local maxBars = max(UF["classMaxResourceBar"][R.myclass] or 0, MAX_COMBO_POINTS)
+    local maxBars = max(_ClassMaxResourceBar[R.myclass] or 0, MAX_COMBO_POINTS)
     for i = 1, maxBars do
         bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassIconButton"..i, bars)
         bars[i]:CreateShadow("Background")
@@ -203,7 +203,7 @@ function UF:Construct_DeathKnightResourceBar(frame)
     local runes = CreateFrame("Frame", nil, frame)
     runes:Point("BOTTOM", frame, "TOP", 0, 2)
 
-    for i = 1, UF["classMaxResourceBar"][R.myclass] do
+    for i = 1, _ClassMaxResourceBar[R.myclass] do
         runes[i] = CreateFrame("StatusBar", frame:GetName().."RuneButton"..i, runes)
         runes[i]:CreateShadow("Background")
         runes[i]:SetStatusBarTexture(R["media"].normal)

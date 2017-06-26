@@ -1,12 +1,12 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("UnitFrames")
 
 
-local UF = R:GetModule("UnitFrames")
+local UF = _UnitFrames
 local oUF = RayUF or oUF
+
 
 function UF:Construct_PetFrame(frame, unit)
     frame.mouseovers = {}
@@ -58,4 +58,4 @@ function UF:Construct_PetFrame(frame, unit)
     frame.Debuffs:Point("BOTTOMRIGHT", frame, "TOPRIGHT", 0, 8)
 end
 
-tinsert(UF["unitstoload"], "pet")
+tinsert(_UnitsToLoad, "pet")

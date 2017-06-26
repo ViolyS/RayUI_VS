@@ -1,12 +1,12 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("UnitFrames")
 
 
-local UF = R:GetModule("UnitFrames")
+local UF = _UnitFrames
 local oUF = RayUF or oUF
+
 
 function UF:Construct_PlayerFrame(frame, unit)
     frame.mouseovers = {}
@@ -113,7 +113,7 @@ function UF:Construct_PlayerFrame(frame, unit)
         frame.AdditionalPower = self:Construct_AdditionalPowerBar(frame)
     end
     frame.USE_CLASSBAR = true
-    frame.MAX_CLASS_BAR = frame.MAX_CLASS_BAR or max(UF.classMaxResourceBar[R.myclass] or 0, MAX_COMBO_POINTS)
+    frame.MAX_CLASS_BAR = frame.MAX_CLASS_BAR or max(_ClassMaxResourceBar[R.myclass] or 0, MAX_COMBO_POINTS)
 
     if UF.db.aurabar then
         frame.AuraBars = self:Construct_AuraBarHeader(frame)
@@ -141,4 +141,4 @@ f:SetScript("OnEvent", function(self, event)
     UpdateClassBar()
 end)
 
-tinsert(UF["unitstoload"], "player")
+tinsert(_UnitsToLoad, "player")
