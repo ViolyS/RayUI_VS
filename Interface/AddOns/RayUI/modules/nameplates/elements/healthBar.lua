@@ -1,12 +1,12 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("NamePlates")
 
 
-local mod = R:GetModule('NamePlates')
+local mod = _NamePlates
 local LSM = LibStub("LibSharedMedia-3.0")
+
 
 local goodR, goodG, goodB = unpack(RayUF["colors"].reaction[5])
 local badR, badG, badB = unpack(RayUF["colors"].reaction[1])

@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("NamePlates")
 
 
-local mod = R:GetModule('NamePlates')
+local mod = _NamePlates
 
 --Cache detection buff names
 local DETECTION_BUFF = GetSpellInfo(203761) --Detector
