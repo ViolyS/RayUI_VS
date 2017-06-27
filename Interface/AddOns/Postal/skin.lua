@@ -1,6 +1,6 @@
 ﻿if not IsAddOnLoaded("RayUI") then return end
 local R, L, P = unpack(RayUI)
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local PostalSkin = CreateFrame("Frame")
 PostalSkin:RegisterEvent("MAIL_SHOW")

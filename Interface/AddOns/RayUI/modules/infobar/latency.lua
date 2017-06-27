@@ -2,7 +2,7 @@
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("InfoBar")
 
 
 local IF = R:GetModule("InfoBar")

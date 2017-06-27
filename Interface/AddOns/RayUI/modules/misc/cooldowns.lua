@@ -31,7 +31,7 @@ end
 
 function mod:CreateCooldownIcon(index)
     local button = CreateFrame("Button", "RayUI_CooldownsButton"..index, self.Holder)
-    button:SetSize(self.size, self.size)
+    button:SetSize(self.db.size, self.db.size)
     button:CreateShadow("Shadow")
 
     local cd = CreateFrame("Cooldown", "$parentCooldown", button, "CooldownFrameTemplate")
@@ -150,7 +150,7 @@ function mod:AddCooldown(type, spellID)
             icon.expirationTime = start + duration
             icon.spellID = spellID
             icon.type = type
-            CooldownFrame_Set(icon.cd, start, duration, true)
+            CooldownFrame_Set(icon.cd, start, duration, true, true)
             self:SetPosition()
             return
         end
@@ -161,7 +161,7 @@ function mod:AddCooldown(type, spellID)
         icon = self:CreateCooldownIcon(n)
         tinsert(self.icons, icon)
     end
-    CooldownFrame_Set(icon.cd, start, duration, true)
+    CooldownFrame_Set(icon.cd, start, duration, true, true)
     icon.icon:SetTexture(texture)
     icon.start = start
     icon.duration = duration

@@ -1,7 +1,7 @@
-﻿----------------------------------------------------------
+----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv()
 
 
 local AddOn = LibStub("AceAddon-3.0"):NewAddon(_AddOnName, "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0")
@@ -43,8 +43,8 @@ function AddOn:PositionGameMenuButton()
 end
 
 function AddOn:OnInitialize()
-    if not RayUICharacterData then
-        RayUICharacterData = {}
+    if not _G.RayUICharacterData then
+        _G.RayUICharacterData = {}
     end
 
     local configButton = CreateFrame("Button", nil, GameMenuFrame, "GameMenuButtonTemplate")

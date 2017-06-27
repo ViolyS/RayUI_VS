@@ -2,10 +2,10 @@
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Skins")
 
 
-local S = R:GetModule("Skins")
+local S = _Skins
 
 local function SkinWorldQuestTab()
     local tabs = {"BWQ_TabNormal", "BWQ_TabWorld"}
