@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("ActionBar")
 
 
-local AB = R:GetModule("ActionBar")
+local AB = _ActionBar
 
 R.Options.args.ActionBar = {
     type = "group",
@@ -80,25 +79,25 @@ R.Options.args.ActionBar = {
             type = "toggle",
             hidden = function() return not R.db.ActionBar.enable end,
         },
-		lockActionBars = {
-			order = 14,
-			type = "toggle",
-			name = LOCK_ACTIONBAR_TEXT,
+        lockActionBars = {
+            order = 14,
+            type = "toggle",
+            name = LOCK_ACTIONBAR_TEXT,
             hidden = function() return not R.db.ActionBar.enable end,
-		},
+        },
         movementModifier = {
-			order = 15,
-			type = "select",
-			name = PICKUP_ACTION_KEY_TEXT,
+            order = 15,
+            type = "select",
+            name = PICKUP_ACTION_KEY_TEXT,
             hidden = function() return not R.db.ActionBar.enable end,
-			disabled = function() return not R.db.ActionBar.lockActionBars end,
-			values = {
-				["NONE"] = NONE,
-				["SHIFT"] = SHIFT_KEY,
-				["ALT"] = ALT_KEY,
-				["CTRL"] = CTRL_KEY,
-			},
-		},
+            disabled = function() return not R.db.ActionBar.lockActionBars end,
+            values = {
+                ["NONE"] = NONE,
+                ["SHIFT"] = SHIFT_KEY,
+                ["ALT"] = ALT_KEY,
+                ["CTRL"] = CTRL_KEY,
+            },
+        },
         PetGroup = {
             order = 40,
             type = "group",

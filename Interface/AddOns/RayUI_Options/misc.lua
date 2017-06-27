@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Misc")
 
 
-local M = R:GetModule("Misc")
+local M = _Misc
 
 R.Options.args.Misc = {
     type = "group",

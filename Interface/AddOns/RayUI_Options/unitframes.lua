@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("UnitFrames")
 
 
-local UF = R:GetModule("UnitFrames")
+local UF = _UnitFrames
 
 R.Options.args.UnitFrames = {
     type = "group",

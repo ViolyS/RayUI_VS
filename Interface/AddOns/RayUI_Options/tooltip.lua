@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("Tooltip")
 
 
-local TT = R:GetModule("Tooltip")
+local TT = _Tooltip
 
 R.Options.args.Tooltip = {
     type = "group",

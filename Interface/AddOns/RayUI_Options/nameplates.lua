@@ -1,11 +1,10 @@
---AlertSystem from ls: Toasts
 ----------------------------------------------------------
 -- Load RayUI Environment
 ----------------------------------------------------------
-_LoadRayUIEnv_()
+RayUI:LoadEnv("NamePlates")
 
 
-local NP = R:GetModule("NamePlates")
+local NP = _NamePlates
 
 R.Options.args.NamePlates = {
     type = "group",
