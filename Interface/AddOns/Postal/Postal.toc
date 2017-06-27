@@ -37,7 +37,6 @@ Libs\AceLocale-3.0\AceLocale-3.0.xml
 
 Localization.lua
 Postal.lua
-skin.lua
 
 # Users can comment out any module (or delete the .lua) of any module they do not wish to load
 Modules\Express.lua
