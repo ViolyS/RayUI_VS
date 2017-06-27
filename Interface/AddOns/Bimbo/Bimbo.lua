@@ -6,88 +6,104 @@ local slots = {"BackSlot", "ChestSlot", "FeetSlot", "Finger0Slot", "Finger1Slot"
 local enchantables = {BackSlot = true, Finger0Slot = true, Finger1Slot = true, NeckSlot = true, MainHandSlot = true, SecondaryHandSlot = true}
 local _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, wands = GetAuctionItemSubClasses(1)
 local sockets = {
-	"EMPTY_SOCKET_META",
-	"EMPTY_SOCKET_RED",
-	"EMPTY_SOCKET_YELLOW",
-	"EMPTY_SOCKET_BLUE",
-	"EMPTY_SOCKET_PRISMATIC",
-	"EMPTY_SOCKET_NO_COLOR",
-	"EMPTY_SOCKET_COGWHEEL",
-	"EMPTY_SOCKET_HYDRAULIC",
+    "EMPTY_SOCKET_META",
+    "EMPTY_SOCKET_RED",
+    "EMPTY_SOCKET_YELLOW",
+    "EMPTY_SOCKET_BLUE",
+    "EMPTY_SOCKET_PRISMATIC",
+    "EMPTY_SOCKET_NO_COLOR",
+    "EMPTY_SOCKET_COGWHEEL",
+    "EMPTY_SOCKET_HYDRAULIC",
 }
 
 
 local function GetSocketCount(link)
-	local num, filled = 0, 0
-	local stats = GetItemStats(link)
+    local num, filled = 0, 0
+    local stats = GetItemStats(link)
 
-	for _,socket in pairs(sockets) do
-		num = num + (stats[socket] or 0)
-	end
-	for i=1,num do
-		if GetItemGem(link, i) then filled = filled + 1 end
-	end
+    for _,socket in pairs(sockets) do
+        num = num + (stats[socket] or 0)
+    end
+    for i=1,num do
+        if GetItemGem(link, i) then filled = filled + 1 end
+    end
 
-	return num, filled
+    return num, filled
 end
 
 
 local parentframes = {}
 local meta = {
-	__index = function(t,i)
-		local slot = _G[parentframes[t]..i]
-		local shine = LibStub("tekShiner").new(slot, 1, 0, 0)
-		shine:SetAllPoints(slot)
-		t[i] = shine
-		return shine
-	end
+    __index = function(t,i)
+        local slot = _G[parentframes[t]..i]
+        local shine = LibStub("tekShiner").new(slot, 1, 0, 0)
+        shine:SetAllPoints(slot)
+        t[i] = shine
+        return shine
+    end
 }
 local playerGlows, inspectGlows = setmetatable({}, meta), setmetatable({}, meta)
 parentframes[playerGlows], parentframes[inspectGlows] = "Character", "Inspect"
 
 local function Check(unit, report)
-	local glows = unit == "target" and inspectGlows or playerGlows
-	local isplayer = unit == "player"
-	local level = UnitLevel(unit)
+    local glows = unit == "target" and inspectGlows or playerGlows
+    local isplayer = unit == "player"
+    local level = UnitLevel(unit)
 
-	for i in pairs(links) do links[i] = nil end
-	for _,v in pairs(slots) do links[v] = GetInventoryItemLink(unit, GetInventorySlotInfo(v)) end
-	for _,f in pairs(glows) do f:Hide() end
+    for i in pairs(links) do links[i] = nil end
+    for _,v in pairs(slots) do links[v] = GetInventoryItemLink(unit, GetInventorySlotInfo(v)) end
+    for _,f in pairs(glows) do f:Hide() end
 
-	if links.MainHandSlot then
-		local _, _, itemRarity = GetItemInfo(links.MainHandSlot)
-		if itemRarity == 6 then
-			enchantables.MainHandSlot = false
-		end
-	end
+    if links.MainHandSlot then
+        local _, _, itemRarity = GetItemInfo(links.MainHandSlot)
+        if itemRarity == 6 then
+            enchantables.MainHandSlot = false
+        end
+    end
 
-	if links.SecondaryHandSlot then
-		local _, _, itemRarity, iLvl, _, _, _, _, slottype = GetItemInfo(links.SecondaryHandSlot)
-		if itemRarity == 6 or ((slottype == "INVTYPE_HOLDABLE" or slottype == "INVTYPE_SHIELD") and iLvl <= 600) then
-			enchantables.SecondaryHandSlot = false
-		end
-	end
+    if links.SecondaryHandSlot then
+        local _, _, itemRarity, iLvl, _, _, _, _, slottype = GetItemInfo(links.SecondaryHandSlot)
+        if itemRarity == 6 or ((slottype == "INVTYPE_HOLDABLE" or slottype == "INVTYPE_SHIELD") and iLvl <= 600) then
+            enchantables.SecondaryHandSlot = false
+        end
+    end
 
-	local found = false
-	for slot,check in pairs(enchantables) do
-		local link = check and links[slot]
-		if link and link:match("item:%d+::") then
-			found = true
-			glows[slot]:Show()
-			if report then print(link, "没有附魔") end
-		end
-	end
+    local found = false
+    for slot,check in pairs(enchantables) do
+        local link = check and links[slot]
+        if link and link:match("item:%d+::") then
+            found = true
+            glows[slot]:Show()
+            if report then print(link, "没有附魔") end
+        end
+    end
 
-	for slot,link in pairs(links) do
-		local num, filled = GetSocketCount(link)
-		if filled < num then
-			found = true
-			glows[slot]:Show()
-			if report then print(link, "没有宝石") end
-		end
-	end
+    for slot,link in pairs(links) do
+        local num, filled = GetSocketCount(link)
+        if filled < num then
+            found = true
+            glows[slot]:Show()
+            if report then print(link, "没有宝石") end
+        end
+    end
 
-	if not found and report then print("所有的装备都已经附魔并且镶嵌宝石") end
+    if not found and report then print("所有的装备都已经附魔并且镶嵌宝石") end
+end
+
+function Reskin(f)
+    f:SetNormalTexture("")
+    f:SetHighlightTexture("")
+    f:SetPushedTexture("")
+    f:SetDisabledTexture("")
+
+    if f.Left then f.Left:SetAlpha(0) end
+    if f.Middle then f.Middle:SetAlpha(0) end
+    if f.Right then f.Right:SetAlpha(0) end
+    if f.LeftSeparator then f.LeftSeparator:Hide() end
+    if f.RightSeparator then f.RightSeparator:Hide() end
+
+    f:SetTemplate("Default", true)
+    f.backdropTexture:SetAlpha(0.75)
 end
 
 
@@ -100,48 +116,46 @@ butt:SetScript("OnShow", function() Check("player") end)
 butt:SetScript("OnClick", function() Check("player", true) end)
 butt:SetScript("OnLeave", function() GameTooltip:Hide() end)
 butt:SetScript("OnEnter", function(self)
-	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
-	GameTooltip:ClearLines()
-	GameTooltip:SetText("点击以显示没有附魔及镶嵌宝石的装备。")
-	GameTooltip:Show()
+    GameTooltip:SetOwner(self, "ANCHOR_NONE")
+    GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
+    GameTooltip:ClearLines()
+    GameTooltip:SetText("点击以显示没有附魔及镶嵌宝石的装备。")
+    GameTooltip:Show()
 end)
 
 
 function butt:UNIT_INVENTORY_CHANGED(event, unit)
-	if unit == "player" and self:IsVisible() then Check("player") end
+    if unit == "player" and self:IsVisible() then Check("player") end
 end
 butt:RegisterEvent("UNIT_INVENTORY_CHANGED")
 
 
 function butt:PLAYER_TARGET_CHANGED()
-	if InspectFrame and InspectFrame:IsVisible() then Check("target") end
+    if InspectFrame and InspectFrame:IsVisible() then Check("target") end
 end
 
 function butt:PLAYER_ENTERING_WORLD()
-	local S = unpack(RayUI):GetModule("Skins")
-	S:Reskin(butt)
-	butt:UnregisterEvent("PLAYER_ENTERING_WORLD")
+    Reskin(butt)
+    butt:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end
 butt:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 function butt:ADDON_LOADED(event, addon)
-	if addon ~= "Blizzard_InspectUI" then return end
+    if addon ~= "Blizzard_InspectUI" then return end
 
-	local butt2 = LibStub("tekKonfig-Button").new_small(InspectPaperDollItemsFrame, "BOTTOMLEFT", 12, 12)
-	butt2:SetText("Bimbo")
-	butt2:SetWidth(45) butt2:SetHeight(18)
-	butt2:SetScript("OnShow", butt.PLAYER_TARGET_CHANGED)
-	butt2:SetScript("OnClick", function() Check("target", true) end)
-	butt2:SetScript("OnEnter", butt:GetScript("OnEnter"))
-	butt2:SetScript("OnLeave", butt:GetScript("OnLeave"))
+    local butt2 = LibStub("tekKonfig-Button").new_small(InspectPaperDollItemsFrame, "BOTTOMLEFT", 12, 12)
+    butt2:SetText("Bimbo")
+    butt2:SetWidth(45) butt2:SetHeight(18)
+    butt2:SetScript("OnShow", butt.PLAYER_TARGET_CHANGED)
+    butt2:SetScript("OnClick", function() Check("target", true) end)
+    butt2:SetScript("OnEnter", butt:GetScript("OnEnter"))
+    butt2:SetScript("OnLeave", butt:GetScript("OnLeave"))
 
-	self:RegisterEvent("PLAYER_TARGET_CHANGED")
+    self:RegisterEvent("PLAYER_TARGET_CHANGED")
 
-	local S = unpack(RayUI):GetModule("Skins")
-	S:Reskin(butt2)
-	self:UnregisterEvent("ADDON_LOADED")
-	self.ADDON_LOADED = nil
+    Reskin(butt2)
+    self:UnregisterEvent("ADDON_LOADED")
+    self.ADDON_LOADED = nil
 end
 butt:RegisterEvent("ADDON_LOADED")
 
