@@ -330,7 +330,7 @@ end
 do -- Initialize
     local info = {}
 
-    info.title = MONEY
+    info.title = CURRENCY
     info.icon = "Interface\\Icons\\inv_misc_coin_01"
     info.clickFunc = Money_OnClick
     info.initFunc = Money_ForceUpdate
@@ -338,5 +338,5 @@ do -- Initialize
     info.eventFunc = Money_OnEvent
     info.tooltipFunc = Money_OnEnter
 
-    IF:RegisterInfoBarType("Money", info)
+    IF:RegisterInfoBarType("Currency", info)
 end

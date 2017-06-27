@@ -44,7 +44,6 @@ do
     L["Arena Mover"] = "Arena"
     L["Boss Mover"] = "Boss"
     L["Raid Mover"] = "Raid"
-    L["Raid40 Mover"] = "Raid40"
     L["RaidPets Mover"] = "RaidPets"
     L["RaidTank Mover"] = "RaidTank"
 
@@ -68,6 +67,7 @@ do
     L["储存"] = "Save"
     L["放弃"] = "Discard"
 
+    L["你没有权限设置团队标记"] = "You don't have permission to mark targets."
     L["点击右键选择信息条"] = "Right-Click to open infobar list"
     L["清除"] = "Clear"
     L["自动隐藏信息条"] = "Auto hide infobar"

@@ -44,7 +44,6 @@ do
     L["Arena Mover"] = "竞技场头像"
     L["Boss Mover"] = "首领头像"
     L["Raid Mover"] = "团队头像"
-    L["Raid40 Mover"] = "40人团队头像"
     L["RaidPets Mover"] = "团队宠物头像"
     L["RaidTank Mover"] = "团队坦克头像"
 
@@ -68,6 +67,7 @@ do
     L["储存"] = true
     L["放弃"] = true
 
+    L["你没有权限设置团队标记"] = true
     L["点击右键选择信息条"] = true
     L["清除"] = true
     L["自动隐藏信息条"] = true
