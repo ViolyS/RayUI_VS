@@ -21,12 +21,12 @@ local function GetInfoBarList()
         R.db["InfoBar"]["List"] = {
             "Memory",
             "System",
-            "Talent",
             "Durability",
-            "Friends",
             "Guild",
-            "Money",
+            "Friends",
             "WorldQuests",
+            "Talent",
+            "Currency",
         }
     end
     return R.db["InfoBar"]["List"]
