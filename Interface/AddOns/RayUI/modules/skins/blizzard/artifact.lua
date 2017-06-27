@@ -29,7 +29,7 @@ local function LoadSkin()
     ArtifactFrameTab1:SetPoint("TOPLEFT", ArtifactFrame, "BOTTOMLEFT", 20, 3)
 
     ArtifactFrame.AppearancesTab:HookScript("OnShow", function()
-        for i = 1, 20 do
+        for i = 1, LE_FRAME_TUTORIAL_ARTIFACT_APPEARANCE_TAB do
             local bu = select(i, ArtifactFrame.AppearancesTab:GetChildren())
             if bu then
                 bu.Background:Hide()
