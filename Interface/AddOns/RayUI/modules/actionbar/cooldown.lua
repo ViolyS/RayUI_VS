@@ -26,7 +26,6 @@ local styles = {
     hours = { scale = 0.75 },
 }
 
-local _meta = getmetatable(ActionButton1Cooldown).__index
 local Timer = CreateFrame("Frame")
 local ScriptUpdater = CreateFrame("Frame")
 local Anim = CreateFrame("Frame")
@@ -110,7 +109,7 @@ function ScriptUpdater:Cleanup()
     self.delay = nil
 end
 
-function Timer:Start(start, duration, modRate, charge)
+function Timer:Start(start, duration, modRate, charges)
     self.start, self.duration = start, duration
     self.controlled = self.cooldown.currentCooldownType == COOLDOWN_TYPE_LOSS_OF_CONTROL
     self.visible = self.cooldown:IsVisible()
@@ -119,9 +118,9 @@ function Timer:Start(start, duration, modRate, charge)
     self.enabled = true
 
     local parent = self.cooldown:GetParent()
-    if parent and parent.GetCharges then charge, maxCharges = parent:GetCharges() end
-    charge = charge or 0
-    self.charging = charge > 0
+    if parent and parent.GetCharges then charges, maxCharges = parent:GetCharges() end
+    charges = charges or 0
+    self.charging = charges > 0
 
     -- hotfix for ChargeCooldowns
     local charge = parent and parent.chargeCooldown
@@ -154,7 +153,7 @@ function Timer:CancelUpdate()
 end
 
 function Timer:UpdateFontSize(width, height)
-    self.abRatio = R:Round(width) / 36
+    self.abRatio = R:Round(height) / 36
 
     self:SetSize(width, height)
     self.text:ClearAllPoints()
@@ -285,7 +284,7 @@ function Timer:ShouldShow()
 end
 
 function Timer:New(cooldown)
-    SetCVar("countdownForCooldowns", "0")
+    cooldown:SetHideCountdownNumbers(true)
 
     local timer = setmetatable(CreateFrame("Frame", nil, cooldown:GetParent()), {__index = Timer})
     timer:SetFrameLevel(cooldown:GetFrameLevel() + 5)
@@ -347,7 +346,7 @@ function AB:Cooldown_CanShow(cooldown, start, duration)
 end
 
 function AB:OnSetCooldown(cooldown, ...)
-    SetCVar("countdownForCooldowns", "0")
+    cooldown:SetHideCountdownNumbers(true)
 
     if self:Cooldown_CanShow(cooldown, ...) then
         self:Cooldown_Setup(cooldown)
@@ -370,6 +369,10 @@ function AB:Cooldown_Setup(cooldown)
 end
 
 function Anim:Run(cooldown)
+    local parent = cooldown:GetParent()
+    local charge = parent and parent.chargeCooldown
+    local chargeTimer = charge and charge.timer
+    if chargeTimer and chargeTimer ~= self then cooldown = parent.cooldown end
     local shine = self.instances[cooldown]
     if shine then
         shine:Start()
@@ -497,6 +500,7 @@ function AB:CreateCooldown()
         end
     end
 
+    local _meta = getmetatable(ActionButton1Cooldown).__index
     if not self.hooks[_meta] then
         self:SecureHook(_meta, "SetCooldown", "OnSetCooldown")
     end

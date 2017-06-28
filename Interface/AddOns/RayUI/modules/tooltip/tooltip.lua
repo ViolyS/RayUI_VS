@@ -3,7 +3,6 @@
 ----------------------------------------------------------
 RayUI:LoadEnv("Tooltip")
 
-
 local TT = R:NewModule("Tooltip", "AceEvent-3.0", "AceHook-3.0", "AceTimer-3.0")
 local LibItemLevel = LibStub:GetLibrary("LibItemLevel-RayUI")
 
@@ -177,6 +176,7 @@ TalentFrame:SetScript("OnUpdate", function(self, elapsed)
     end)
 
 function TT:GameTooltip_SetDefaultAnchor(tooltip, parent)
+    if tooltip:IsForbidden() then return end
     if self.db.cursor then
         if parent then
             tooltip:SetOwner(parent, "ANCHOR_CURSOR")
@@ -195,6 +195,7 @@ function TT:GameTooltip_SetDefaultAnchor(tooltip, parent)
         end
 
         tooltip:ClearAllPoints()
+        
         if RayUF_Raid and RayUF_Raid:IsVisible() and (GetScreenWidth() - RayUF_Raid:GetRight()) < 250  then
             tooltip:Point("BOTTOM", RayUF_Raid, "TOP", 0, 30)
         elseif RayUI_ContainerFrame and RayUI_ContainerFrame:IsVisible() and (GetScreenWidth() - RayUI_ContainerFrame:GetRight()) < 250 then
@@ -241,6 +242,7 @@ function TT:GameTooltip_UnitColor(unit)
 end
 
 function TT:GameTooltip_OnUpdate(tooltip)
+    if tooltip:IsForbidden() then return end
     if (tooltip.needRefresh and tooltip:GetAnchorType() == "ANCHOR_CURSOR" and not self.db.cursor) then
         tooltip:SetBackdropColor(0, 0, 0, 0.65)
         tooltip:SetBackdropBorderColor(0, 0, 0)
@@ -249,6 +251,7 @@ function TT:GameTooltip_OnUpdate(tooltip)
 end
 
 function TT:Hook_Reset(tooltip)
+    if tooltip:IsForbidden() then return end
     if tooltip.justify then
         for line, justify in pairs(tooltip.justify) do
             line:SetJustifyH("LEFT")
@@ -265,6 +268,7 @@ function TT:Hook_Reset(tooltip)
 end
 
 function TT:SetiLV()
+    if GameTooltip:IsForbidden() then return end
     self:CancelTimer(self.UpdateInspect)
     self.UpdateInspect = nil
     local _, unit = GameTooltip:GetUnit()
@@ -312,6 +316,7 @@ function TT:GetQuality(ItemScore)
 end
 
 function TT:iLVSetUnit()
+    if GameTooltip:IsForbidden() then return end
     local GMF = GetMouseFocus()
     local unit = (select(2, GameTooltip:GetUnit())) or (GMF and GMF:GetAttribute("unit"))
 
@@ -404,6 +409,7 @@ function TT:PLAYER_ENTERING_WORLD(event)
 end
 
 function TT:SetStyle(tooltip)
+    if tooltip:IsForbidden() then return end
     if self.db.hideincombat and InCombatLockdown() then
         return tooltip:Hide()
     end
@@ -463,6 +469,7 @@ function TT:SetStyle(tooltip)
 end
 
 function TT:OnTooltipSetUnit(tooltip)
+    if tooltip:IsForbidden() then return end
     local text
     local GMF = GetMouseFocus()
     local unit = (select(2, tooltip:GetUnit())) or (GMF and GMF:GetAttribute("unit"))
@@ -557,6 +564,7 @@ function TT:OnTooltipSetUnit(tooltip)
 end
 
 function TT:GameTooltip_ShowStatusBar(tooltip, min, max, value, text)
+    if tooltip:IsForbidden() then return end
     local statusBar = _G[tooltip:GetName().."StatusBar"..tooltip.shownStatusBars]
     if statusBar and not statusBar.styled then
         statusBar:StripTextures()
@@ -600,6 +608,7 @@ function TT:Initialize()
     GameTooltipStatusBar:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", 3, -2)
     GameTooltipStatusBar:SetPoint("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", -3, -2)
     GameTooltipStatusBar:HookScript("OnValueChanged", function(self, value)
+            if self:IsForbidden() then return end
             if not value then
                 return
             end
