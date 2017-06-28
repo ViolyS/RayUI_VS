@@ -6,9 +6,9 @@ RayUI:LoadEnv("Misc")
 
 local M = _Misc
 local mod = M:NewModule("Exprepbar", "AceEvent-3.0")
-local libAD = LibStub("LibArtifactData-1.0")
+-- local libAD = LibStub("LibArtifactData-1.0")
 
-
+--[[
 local function AddPerks()
     local _, traits = libAD:GetArtifactTraits()
     for _, data in pairs(traits) do
@@ -23,6 +23,7 @@ local function AddPerks()
         end
     end
 end
+]]
 
 local function Bar_OnShow(self)
     self:SetPoint("TOPLEFT", self.anchorFrame, "BOTTOMLEFT", 0, -4)
@@ -110,6 +111,7 @@ function mod:UpdateExpBar()
     end
 end
 
+--[[
 function mod:CreateHonorBar()
     self.HonorBar = self:CreateBar("RayUIHonorBar", self.ExpBar, 8)
 
@@ -182,9 +184,10 @@ function mod:UpdateHonorBar()
         end
     end
 end
+]]
 
 function mod:CreateRepBar()
-    self.RepBar = self:CreateBar("RayUIRepBar", self.HonorBar, 8)
+    self.RepBar = self:CreateBar("RayUIRepBar", self.ExpBar, 8)
 
     self.RepBar:SetScript("OnEvent", self.UpdateRepBar)
     self.RepBar:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
@@ -260,6 +263,7 @@ function mod:UpdateRepBar()
     end
 end
 
+--[[
 function mod:CreateArtiBar()
     self.ArtiBar = self:CreateBar("RayUIArtiBar", self.RepBar, 8)
     self.ArtiBar:SetStatusBarColor(.901, .8, .601)
@@ -315,12 +319,13 @@ function mod:UpdateArtiBar()
         self.ArtiBar:Hide()
     end
 end
+]]
 
 function mod:Initialize()
     self:CreateExpBar()
-    self:CreateHonorBar()
+    --self:CreateHonorBar()
     self:CreateRepBar()
-    self:CreateArtiBar()
+    --self:CreateArtiBar()
 end
 
 M:RegisterMiscModule(mod:GetName())

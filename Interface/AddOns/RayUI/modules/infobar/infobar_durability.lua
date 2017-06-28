@@ -47,8 +47,8 @@ local function Durability_OnEvent(self)
 end
 
 local function Durability_OnEnter(self)
-    GameTooltip:SetOwner(self, "ANCHOR_TOP",0,0)
-    GameTooltip:AddLine(DURABILITY,1,1,1)
+    GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 0)
+    GameTooltip:AddLine(DURABILITY, 1, 1, 1)
     GameTooltip:SetPrevLineJustify("CENTER")
     GameTooltip:AddDivider()
 
@@ -72,7 +72,7 @@ local function Durability_OnEnter(self)
                 perc = tostring("|cFFFF0000"..perc.."|r %")
             end
 
-            GameTooltip:AddDoubleLine(type, perc, 1,1,1, 1,1,1)
+            GameTooltip:AddDoubleLine(type, perc, 1, 1, 1, 1, 1, 1)
         end
     end
 

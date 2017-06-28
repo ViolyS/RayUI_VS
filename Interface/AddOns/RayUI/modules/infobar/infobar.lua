@@ -382,18 +382,19 @@ function IF:Initialize()
     brokerTooltip = CreateFrame("GameTooltip", "RayUI_InfoBar_BrokerTooltip", R.UIParent, "GameTooltipTemplate")
     local r, g, b = unpack(RayUF.colors.class[R.myclass])
     local font = CreateFont("RayUI_InfoBarFont")
-    font:SetFont(R["media"].font, R["media"].fontsize, R["media"].fontflag)
+    font:SetFont(R["media"].font, R["media"].fontsize - 2, R["media"].fontflag)
     font:SetTextColor(1, 1, 1)
     font:SetShadowColor(0, 0, 0)
     font:SetShadowOffset(R.mult, -R.mult)
 
-    for i = 1, 8 do
+    local BNUM = 10
+    for i = 1, BNUM do
         local infoBar = CreateFrame("Button", "RayUI_InfoBar"..i, R.UIParent, "RayUI_InfoBarButtonTemplate")
         infoBar:SetNormalFontObject(font)
         infoBar:SetSize(140, 35)
         infoBar:SetID(i)
         if i == 1 then
-            infoBar:Point("BOTTOMLEFT", R.UIParent, "BOTTOM", -140 * 4 - 6 * 3 - 3, -5)
+            infoBar:Point("BOTTOMLEFT", R.UIParent, "BOTTOM", -140 * ( BNUM / 2 ) - 6 * ( BNUM / 2 - 1 ) - 3, -5)
         else
             infoBar:Point("LEFT", _G["RayUI_InfoBar"..i-1], "RIGHT", 6, 0)
         end

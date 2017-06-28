@@ -171,11 +171,13 @@
         </Scripts>
     </Frame>
 
+    <Script file="infobar_artifact.lua"/>
     <Script file="infobar_currency.lua"/>
     <Script file="infobar_durability.lua"/>
     <Script file="infobar_fps.lua"/>
     <Script file="infobar_friends.lua"/>
     <Script file="infobar_guild.lua"/>
+    <Script file="infobar_honor.lua"/>
     <Script file="infobar_system.lua"/>
     <Script file="infobar_memory.lua"/>
     <Script file="infobar_talent.lua"/>
