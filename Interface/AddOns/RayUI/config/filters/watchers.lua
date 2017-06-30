@@ -792,7 +792,9 @@ _WatcherList = {
             -- 無私治療者
             { spellID = 114250, unitId = "player", caster = "player", filter = "BUFF" },
             -- 虔信信標
-            { spellID = 156910, unitId = "target", caster = "player", filter = "BUFF" },
+            { spellID = 156910, unitId = "player", caster = "player", filter = "BUFF" },
+            -- 正義裁決
+            { spellID = 238996, unitId = "player", caster = "player", filter = "BUFF" },
         },
         {
             name = "目标buff&debuff",
