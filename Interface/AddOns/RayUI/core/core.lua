@@ -463,7 +463,9 @@ end
 
 function R:ShortValue(v)
     if self.global.general.numberType == 1 then
-        if v >= 1e6 or v <= -1e6 then
+        if v >= 1e9 or v <= -1e9 then
+            return ("%.1fb"):format(v / 1e9):gsub("%.?0+([km])$", "%1")
+        elseif v >= 1e6 or v <= -1e6 then
             return ("%.1fm"):format(v / 1e6):gsub("%.?0+([km])$", "%1")
         elseif v >= 1e3 or v <= -1e3 then
             return ("%.1fk"):format(v / 1e3):gsub("%.?0+([km])$", "%1")
