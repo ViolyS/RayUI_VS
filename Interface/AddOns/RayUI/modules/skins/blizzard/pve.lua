@@ -141,6 +141,8 @@ local function LoadSkin()
 			button.bg2:SetPoint("TOPLEFT", na, "TOPLEFT", 10, 0)
 			button.bg2:SetPoint("BOTTOMRIGHT", na, "BOTTOMRIGHT", -2, 0)
 			S:CreateBD(button.bg2, 0)
+            
+            if button.IconBorder then button.IconBorder:Kill() end
 
 			button.reskinned = true
 		end
