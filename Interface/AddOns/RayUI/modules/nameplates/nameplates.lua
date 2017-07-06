@@ -87,6 +87,31 @@ function mod:PLAYER_ENTERING_WORLD()
     end
 end
 
+function mod:ClassBar_Update(frame)
+    if(not self.ClassBar) then return end
+
+    local targetFrame = self:GetNamePlateForUnit("target")
+
+    if(targetFrame and not UnitHasVehicleUI("player")) then
+        frame = targetFrame.UnitFrame
+        if(frame.UnitType == "FRIENDLY_NPC" or frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "HEALER") then
+            self.ClassBar:Hide()
+        else
+            if(frame.CastBar:IsShown()) then
+                frame.BottomLevelFrame = frame.CastBar
+            elseif(frame.PowerBar:IsShown()) then
+                frame.BottomLevelFrame = frame.PowerBar
+            else
+                frame.BottomLevelFrame = frame.HealthBar
+            end
+            self.ClassBar:SetPoint("TOP", frame.BottomLevelFrame or frame.CastBar, "BOTTOM", 0, -4)
+            self.ClassBar:Show()
+        end
+    else
+        self.ClassBar:Hide()
+    end
+end
+
 function mod:SetFrameScale(frame, scale)
     if(frame.HealthBar.currentScale ~= scale) then
         if(frame.HealthBar.scale:IsPlaying()) then
@@ -108,27 +133,12 @@ end
 function mod:SetTargetFrame(frame)
     --Match parent's frame level for targetting purposes. Best time to do it is here.
     local parent = self:GetNamePlateForUnit(frame.unit);
-    if(parent) then
-        if frame:GetFrameLevel() < 100 then
-            frame:SetFrameLevel(parent:GetFrameLevel() + 100)
-        end
-
-        frame:SetFrameLevel(parent:GetFrameLevel() + 3)
-        frame.Glow:SetFrameLevel(parent:GetFrameLevel() + 1)
-        frame.Buffs:SetFrameLevel(parent:GetFrameLevel() + 2)
-        frame.Debuffs:SetFrameLevel(parent:GetFrameLevel() + 2)
-    end
 
     local targetExists = UnitExists("target")
     if(UnitIsUnit(frame.unit, "target") and not frame.isTarget) then
-        frame:SetFrameLevel(parent:GetFrameLevel() + 5)
-        frame.Glow:SetFrameLevel(parent:GetFrameLevel() + 3)
-        frame.Buffs:SetFrameLevel(parent:GetFrameLevel() + 4)
-        frame.Debuffs:SetFrameLevel(parent:GetFrameLevel() + 4)
-
         self:SetFrameScale(frame, self.db.targetScale)
         frame.isTarget = true
-        if frame.UnitType == "FRIENDLY_NPC" then
+        if not self.db.units[frame.UnitType].healthbar then
             frame.Name:ClearAllPoints()
             frame.Level:ClearAllPoints()
             frame.HealthBar.r, frame.HealthBar.g, frame.HealthBar.b = nil, nil, nil
@@ -153,7 +163,7 @@ function mod:SetTargetFrame(frame)
     elseif (frame.isTarget) then
         self:SetFrameScale(frame, frame.ThreatScale or 1)
         frame.isTarget = nil
-        if frame.UnitType == "FRIENDLY_NPC" then
+        if self.db.units[frame.UnitType].healthbar ~= true then
             self:UpdateAllFrame(frame)
         end
 
@@ -169,6 +179,8 @@ function mod:SetTargetFrame(frame)
             frame:SetAlpha(1)
         end
     end
+
+    mod:ClassBar_Update(frame)
 
     if (self.db.displayStyle == "TARGET" and not frame.isTarget and frame.UnitType ~= "PLAYER") then
         frame:Hide()
@@ -248,7 +260,7 @@ function mod:NAME_PLATE_UNIT_ADDED(event, unit, frame)
         mod.PlayerFrame = frame
     end
 
-    if frame.UnitType ~= "FRIENDLY_NPC" or self.db.displayStyle ~= "ALL" then
+    if self.db.units[frame.UnitFrame.UnitType].healthbar or self.db.displayStyle ~= "ALL" then
         self:ConfigureElement_HealthBar(frame.UnitFrame)
         self:ConfigureElement_PowerBar(frame.UnitFrame)
         self:ConfigureElement_CastBar(frame.UnitFrame)
@@ -332,8 +344,8 @@ end
 function mod:SetBaseNamePlateSize()
     local self = mod
     local baseWidth = self.db.hpWidth
-    local baseHeight = self.db.cbHeight + self.db.hpHeight + 30
-    NamePlateDriverFrame:SetBaseNamePlateSize(baseWidth, baseHeight)
+    local baseHeight = self.db.cbHeight + self.db.hpHeight + 10
+    NamePlateDriverFrame:SetBaseNamePlateSize(baseWidth * R.global.general.uiscale, baseHeight * R.global.general.uiscale)
 end
 
 function mod:UpdateInVehicle(frame, noEvents)
@@ -364,7 +376,7 @@ function mod:UpdateInVehicle(frame, noEvents)
 end
 
 function mod:UpdateElement_All(frame, unit, noTargetFrame)
-    if (frame.UnitType ~= "FRIENDLY_NPC" or (self.db.displayStyle ~= "ALL") or frame.isTarget) then
+    if (self.db.units[frame.UnitType].healthbar or (self.db.displayStyle ~= "ALL") or frame.isTarget) then
         mod:UpdateElement_MaxHealth(frame)
         mod:UpdateElement_Health(frame)
         mod:UpdateElement_HealthColor(frame)
@@ -373,7 +385,7 @@ function mod:UpdateElement_All(frame, unit, noTargetFrame)
         mod:UpdateElement_Cast(frame)
         mod:UpdateElement_Auras(frame)
         mod:UpdateElement_HealPrediction(frame)
-        if frame.UnitType == "HEALER" or frame.UnitType == "FRIENDLY_PLAYER" then
+        if self.db.units[frame.UnitType].powerbar then
             frame.PowerBar:Show()
             mod.OnEvent(frame, "UNIT_DISPLAYPOWER", unit or frame.unit)
         else
@@ -393,12 +405,20 @@ function mod:UpdateElement_All(frame, unit, noTargetFrame)
     end
 end
 
+local function FrameOnUpdate(self)
+    self.UnitFrame:SetFrameLevel(self:GetFrameLevel())
+    self.UnitFrame.Glow:SetFrameLevel(self:GetFrameLevel())
+    self.UnitFrame.Buffs:SetFrameLevel(self:GetFrameLevel() + 1)
+    self.UnitFrame.Debuffs:SetFrameLevel(self:GetFrameLevel() + 1)
+end
+
 function mod:NAME_PLATE_CREATED(event, frame)
-    frame.UnitFrame = CreateFrame("BUTTON", frame:GetName().."UnitFrame", R.UIParent);
+    frame.UnitFrame = CreateFrame("BUTTON", "RayUI"..frame:GetName(), R.UIParent)
     frame.UnitFrame:EnableMouse(false)
     frame.UnitFrame:SetAllPoints(frame)
     frame.UnitFrame:SetFrameStrata("BACKGROUND")
     frame.UnitFrame:SetScript("OnEvent", mod.OnEvent)
+    frame:HookScript("OnUpdate", FrameOnUpdate)
 
     frame.UnitFrame.HealthBar = self:ConstructElement_HealthBar(frame.UnitFrame)
     frame.UnitFrame.PowerBar = self:ConstructElement_PowerBar(frame.UnitFrame)
@@ -413,6 +433,7 @@ function mod:NAME_PLATE_CREATED(event, frame)
     frame.UnitFrame.DetectionModel = self:ConstructElement_Detection(frame.UnitFrame)
     frame.UnitFrame.Elite = self:ConstructElement_Elite(frame.UnitFrame)
     frame.UnitFrame.NPCTitle = self:ConstructElement_NPCTitle(frame.UnitFrame)
+    frame.UnitFrame.Highlight = self:ConstructElement_Highlight(frame.UnitFrame)
 end
 
 function mod:OnEvent(event, unit, ...)
@@ -455,13 +476,20 @@ function mod:OnEvent(event, unit, ...)
         local arg1 = ...
         self.PowerToken = powerToken
         self.PowerType = powerType
+        if(event == "UNIT_POWER" or event == "UNIT_POWER_FREQUENT") then
+            if mod.ClassBar and arg1 == powerToken then
+                mod:ClassBar_Update(self)
+            end
+        end
 
         if arg1 == powerToken or event == "UNIT_DISPLAYPOWER" then
             mod:UpdateElement_Power(self)
         end
-    elseif ( event == "UNIT_ENTERED_VEHICLE" or event == "UNIT_EXITED_VEHICLE" or event == "UNIT_PET" ) then
+    elseif(event == "UNIT_ENTERED_VEHICLE" or event == "UNIT_EXITED_VEHICLE" or event == "UNIT_PET") then
         mod:UpdateInVehicle(self)
         mod:UpdateElement_All(self, unit, true)
+    elseif(event == "UPDATE_MOUSEOVER_UNIT") then
+        mod:UpdateElement_Highlight(self)
     else
         mod:UpdateElement_Cast(self, event, unit, ...)
     end
@@ -473,7 +501,7 @@ function mod:RegisterEvents(frame, unit)
         displayedUnit = frame.displayedUnit;
     end
 
-    if(frame.UnitType ~= "FRIENDLY_NPC" or frame.isTarget) then
+    if(self.db.units[frame.UnitType].healthbar or frame.isTarget) then
         frame:RegisterUnitEvent("UNIT_MAXHEALTH", unit, displayedUnit);
         frame:RegisterUnitEvent("UNIT_HEALTH", unit, displayedUnit);
         frame:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", unit, displayedUnit);
@@ -485,19 +513,19 @@ function mod:RegisterEvents(frame, unit)
     frame:RegisterEvent("UNIT_NAME_UPDATE");
     frame:RegisterUnitEvent("UNIT_LEVEL", unit, displayedUnit);
 
-    if(frame.UnitType ~= "FRIENDLY_NPC" or frame.isTarget) then
+    if(self.db.units[frame.UnitType].healthbar or frame.isTarget) then
         if(frame.UnitType == "ENEMY_NPC") then
             frame:RegisterUnitEvent("UNIT_THREAT_LIST_UPDATE", unit, displayedUnit);
         end
 
-        if frame.UnitType == "HEALER" or frame.UnitType == "FRIENDLY_PLAYER" then
+        if self.db.units[frame.UnitType].powerbar then
             frame:RegisterUnitEvent("UNIT_POWER", unit, displayedUnit)
             frame:RegisterUnitEvent("UNIT_POWER_FREQUENT", unit, displayedUnit)
             frame:RegisterUnitEvent("UNIT_DISPLAYPOWER", unit, displayedUnit)
             frame:RegisterUnitEvent("UNIT_MAXPOWER", unit, displayedUnit)
         end
 
-        if frame.UnitType ~= "FRIENDLY_NPC" then
+        if self.db.units[frame.UnitType].castbar then
             frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED");
             frame:RegisterEvent("UNIT_SPELLCAST_DELAYED");
             frame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START");
@@ -522,9 +550,10 @@ function mod:RegisterEvents(frame, unit)
     frame:RegisterEvent("UNIT_ENTERED_VEHICLE")
     frame:RegisterEvent("UNIT_EXITED_VEHICLE")
     frame:RegisterEvent("UNIT_PET")
-    frame:RegisterEvent("PLAYER_TARGET_CHANGED");
+    frame:RegisterEvent("PLAYER_TARGET_CHANGED")
     frame:RegisterEvent("PLAYER_ROLES_ASSIGNED")
     frame:RegisterEvent("UNIT_FACTION")
+    frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 end
 
 function mod:UpdateCVars()
@@ -576,6 +605,10 @@ function mod:PLAYER_REGEN_ENABLED()
     end
 end
 
+function mod:SetClassNameplateBar(frame)
+    mod.ClassBar = frame
+end
+
 function mod:Initialize()
     if not self.db.enable then return end
 
@@ -595,6 +628,9 @@ function mod:Initialize()
     self:RegisterEvent("UNIT_ENTERED_VEHICLE", "UpdateVehicleStatus")
     self:RegisterEvent("UNIT_EXITED_VEHICLE", "UpdateVehicleStatus")
     self:RegisterEvent("UNIT_PET", "UpdateVehicleStatus")
+
+    self.ClassBar = NamePlateDriverFrame.nameplateBar
+    hooksecurefunc(NamePlateDriverFrame, "SetClassNameplateBar", mod.SetClassNameplateBar)
 
     self:DISPLAY_SIZE_CHANGED() --Run once for good measure.
     self:SetBaseNamePlateSize()
