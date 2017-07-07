@@ -33,7 +33,7 @@ function mod:UpdateElement_CastBarOnUpdate(elapsed)
 end
 
 function mod:UpdateElement_Cast(frame, event, ...)
-    if not self.db.units[frame.UnitType].castbar ~= true then return end
+    if not self.db.units[frame.UnitType].castbar then return end
 
     local arg1 = ...;
     local unit = frame.displayedUnit
@@ -178,7 +178,7 @@ function mod:UpdateElement_Cast(frame, event, ...)
                 frame.CastBar:Hide();
                 return;
             end
-			frame.CastBar.canInterrupt = not notInterruptible
+            frame.CastBar.canInterrupt = not notInterruptible
             frame.CastBar.Name:SetText(name)
             frame.CastBar.value = ((endTime / 1000) - GetTime());
             frame.CastBar.maxValue = (endTime - startTime) / 1000;
@@ -247,9 +247,9 @@ function mod:ConstructElement_CastBar(parent)
     self:StyleFrame(frame.Icon)
 
     frame.Name = frame:CreateFontString(nil, "OVERLAY")
-	frame.Name:SetWordWrap(false)
+    frame.Name:SetWordWrap(false)
     frame.Time = frame:CreateFontString(nil, "OVERLAY")
-	frame.Time:SetWordWrap(false)
+    frame.Time:SetWordWrap(false)
     frame.Spark = frame:CreateTexture(nil, "OVERLAY")
     frame.Spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
     frame.Spark:SetBlendMode("ADD")
