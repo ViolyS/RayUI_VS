@@ -261,6 +261,7 @@ do
     L["仅显示目标"] = "Only target"
     L["敌对战斗开关"] = "Enemy combat toggle"
     L["友方战斗开关"] = "Friendly combat toggle"
+    L["职业副资源"] = "Classbar"
     L["禁用"] = "Disable"
     L["战斗中显示"] = "Toggle on in combat"
     L["战斗中隐藏"] = "Toggle off in combat"
