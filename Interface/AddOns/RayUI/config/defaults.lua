@@ -32,7 +32,7 @@ G["general"]={
 }
 
 P["InfoBar"]={
-    autoHide = false,
+    autoHide = true,
 }
 
 P["WorldMap"]={
@@ -164,7 +164,7 @@ P["UnitFrames"]={
             smartaura = {
                 enable = true,
                 size = 32,
-                growthx = "LEFT",
+                growthx = "RIGHT",
                 growthy = "UP",
             },
         },
@@ -172,12 +172,6 @@ P["UnitFrames"]={
             defaultPosition = { "TOPLEFT", "RayUF_Target", "TOPRIGHT", 6, 0 },
             width = 150,
             height = 16,
-            smartaura = {
-                enable = true,
-                size = 32,
-                growthx = "LEFT",
-                growthy = "UP",
-            },
         },
         focus = {
             defaultPosition = { "BOTTOMRIGHT", "RayUF_Player", "TOPLEFT", -20, 40 },
@@ -200,17 +194,17 @@ P["UnitFrames"]={
             defaultPosition = { "TOPRIGHT", "RayUF_Focus", "TOPLEFT", -6, 0 },
             width = 150,
             height = 16,
-            smartaura = {
-                enable = true,
-                size = 32,
-                growthx = "LEFT",
-                growthy = "UP",
-            },
         },
         pet = {
             defaultPosition = { "TOPRIGHT", "RayUF_Player", "TOPLEFT", -6, 0 },
             width = 150,
             height = 16,
+            smartaura = {
+                enable = true,
+                size = 30,
+                growthx = "LEFT",
+                growthy = "UP",
+            },
         },
         arena = {
             enable = true,
