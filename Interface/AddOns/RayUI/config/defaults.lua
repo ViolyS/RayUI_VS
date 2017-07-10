@@ -132,7 +132,6 @@ P["UnitFrames"]={
     alwaysShowHealth = false,
     aurabar = false,
     castBar = true,
-    smartAura = true,
     units = {
         player = {
             defaultPosition = { "BOTTOMRIGHT", R.UIParent, "BOTTOM", -80, 390 },
@@ -143,6 +142,12 @@ P["UnitFrames"]={
                 iconposition = "LEFT",
                 width = 350,
                 height = 7,
+            },
+            smartaura = {
+                enable = true,
+                size = 32,
+                growthx = "LEFT",
+                growthy = "UP",
             },
         },
         target = {
@@ -155,11 +160,23 @@ P["UnitFrames"]={
                 width = 220,
                 height = 20,
             },
+            smartaura = {
+                enable = true,
+                size = 32,
+                growthx = "LEFT",
+                growthy = "UP",
+            },
         },
         targettarget = {
             defaultPosition = { "TOPLEFT", "RayUF_Target", "TOPRIGHT", 6, 0 },
             width = 150,
             height = 16,
+            smartaura = {
+                enable = true,
+                size = 32,
+                growthx = "LEFT",
+                growthy = "UP",
+            },
         },
         focus = {
             defaultPosition = { "BOTTOMRIGHT", "RayUF_Player", "TOPLEFT", -20, 40 },
@@ -171,11 +188,23 @@ P["UnitFrames"]={
                 width = 250,
                 height = 5,
             },
+            smartaura = {
+                enable = true,
+                size = 32,
+                growthx = "LEFT",
+                growthy = "UP",
+            },
         },
         focustarget = {
             defaultPosition = { "TOPRIGHT", "RayUF_Focus", "TOPLEFT", -6, 0 },
             width = 150,
             height = 16,
+            smartaura = {
+                enable = true,
+                size = 32,
+                growthx = "LEFT",
+                growthy = "UP",
+            },
         },
         pet = {
             defaultPosition = { "TOPRIGHT", "RayUF_Player", "TOPLEFT", -6, 0 },
