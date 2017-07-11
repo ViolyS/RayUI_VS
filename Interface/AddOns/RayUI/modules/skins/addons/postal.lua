@@ -16,14 +16,14 @@ PostalSkin:SetScript("OnEvent", function(self, event)
     S:Reskin(PostalSelectReturnButton)
     OpenAllMail:Kill()
     S:Reskin(PostalOpenAllButton)
-
-    S:ReskinCheck(PostalInboxCB1)
-    S:ReskinCheck(PostalInboxCB2)
-    S:ReskinCheck(PostalInboxCB3)
-    S:ReskinCheck(PostalInboxCB4)
-    S:ReskinCheck(PostalInboxCB5)
-    S:ReskinCheck(PostalInboxCB6)
-    S:ReskinCheck(PostalInboxCB7)
+    
+    for i = 1, 7 do
+        local cb = _G["PostalInboxCB"..i]
+        S:ReskinCheck(cb)
+        
+        local mib = _G["MailItem"..i.."ButtonIconBorder"]
+        mib:Kill()
+    end
 
     S:Reskin(Postal_OpenAllMenuButton)
     Postal_OpenAllMenuButton:Size(PostalOpenAllButton:GetHeight())
