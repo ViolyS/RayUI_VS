@@ -10,4 +10,5 @@
 	<Script file="frame.lua"/>
 	<Script file="dropdown.lua"/>
 	<Script file="debug.lua"/>
+    <Script file="changelog.lua"/>
 </Ui>
