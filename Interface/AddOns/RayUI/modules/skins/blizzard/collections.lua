@@ -485,7 +485,7 @@ local function LoadSkin()
         select(1, model:GetRegions()):Hide()
     end
 
-    --Sets
+    -- Sets
     local SetsCollectionFrame = WardrobeCollectionFrame.SetsCollectionFrame
     SetsCollectionFrame.LeftInset:DisableDrawLayer("BACKGROUND")
     SetsCollectionFrame.LeftInset:DisableDrawLayer("BORDER")
@@ -508,24 +508,28 @@ local function LoadSkin()
         button.bg = bg
 
         button.Icon.bg = S:ReskinIcon(button.Icon)
-
-        button.SelectedTexture:SetTexture("")
-        button.HighlightTexture:SetTexture(R["media"].normal)
-        button.HighlightTexture:SetVertexColor(r, g, b, .25)
+        
+        button.SelectedTexture:SetTexture(R["media"].normal)
+        button.SelectedTexture:SetVertexColor(r, g, b, .25)
+        button.SelectedTexture:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+        button.SelectedTexture:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+        button.HighlightTexture:SetTexture("")
     end
 
     hooksecurefunc(ScrollFrame, "Update", function(self)
-        local buttons = self.buttons
+            local buttons = self.buttons
 
-        for i = 1, #buttons do
-            local button = buttons[i]
-            if button.SelectedTexture:IsShown() then
-                button.bg:SetBackdropBorderColor(1, 1, 1, 0.7)
-            else
-                button.bg:SetBackdropBorderColor(0, 0, 0)
+            for i = 1, #buttons do
+                local button = buttons[i]
+                if button.index ~= nil then
+                    if button.SelectedTexture:IsShown() then
+                        button.bg:SetBackdropBorderColor(1, 1, 1, 0.7)
+                    else
+                        button.bg:SetBackdropBorderColor(0, 0, 0)
+                    end
+                end
             end
-        end
-    end)
+        end)
 
     local DetailsFrame = SetsCollectionFrame.DetailsFrame
     DetailsFrame.ModelFadeTexture:Hide()

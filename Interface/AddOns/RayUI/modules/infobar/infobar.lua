@@ -391,10 +391,10 @@ function IF:Initialize()
     for i = 1, BNUM do
         local infoBar = CreateFrame("Button", "RayUI_InfoBar"..i, R.UIParent, "RayUI_InfoBarButtonTemplate")
         infoBar:SetNormalFontObject(font)
-        infoBar:SetSize(140, 35)
+        infoBar:SetSize(120 * R.mult, 35)
         infoBar:SetID(i)
         if i == 1 then
-            infoBar:Point("BOTTOMLEFT", R.UIParent, "BOTTOM", -140 * ( BNUM / 2 ) - 6 * ( BNUM / 2 - 1 ) - 3, -5)
+            infoBar:Point("BOTTOMLEFT", R.UIParent, "BOTTOM", -120 * R.mult * ( BNUM / 2 ) - 6 * ( BNUM / 2 - 1 ) - 3, -5)
         else
             infoBar:Point("LEFT", _G["RayUI_InfoBar"..i-1], "RIGHT", 6, 0)
         end
