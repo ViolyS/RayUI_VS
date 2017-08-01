@@ -30,9 +30,10 @@ function UF:Construct_TargetTargetFrame(frame, unit)
     frame.QuestIndicator = self:Construct_QuestIcon(frame)
     frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
     frame.Range = {
-            insideAlpha = 1,
-            outsideAlpha = 0.4
-        }
+        insideAlpha = 1,
+        outsideAlpha = 0.4
+    }
+    frame.Range.Override = UF.UpdateRange
 
     self:EnableHealPredictionAndAbsorb(frame)
 

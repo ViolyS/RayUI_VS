@@ -31,10 +31,11 @@ function UF:Construct_FocusFrame(frame, unit)
     frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
     frame.ThreatIndicator = self:Construct_Threat(frame)
     frame.Range = {
-            insideAlpha = 1,
-            outsideAlpha = 0.4
-        }
-
+        insideAlpha = 1,
+        outsideAlpha = 0.4
+    }
+    frame.Range.Override = UF.UpdateRange
+    
     self:EnableHealPredictionAndAbsorb(frame)
 
     frame.Health.value:Point("TOPRIGHT", frame.Health, "TOPRIGHT", -8, -2)
