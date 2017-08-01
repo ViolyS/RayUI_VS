@@ -46,9 +46,9 @@ local function CheckEquipmentSet(item)
     -- equipSetTip:Show()
     --
     -- for index = 1, equipSetTip:NumLines() do
-    --  if string.match(_G["RayUICheckEquipSetTipTextLeft" .. index]:GetText(), string.gsub(EQUIPMENT_SETS,"%%s\124r","")) then
-    --      return true
-    --  end
+    -- if string.match(_G["RayUICheckEquipSetTipTextLeft" .. index]:GetText(), string.gsub(EQUIPMENT_SETS,"%%s\124r","")) then
+    -- return true
+    -- end
     -- end
     return item.isInSet
 end
@@ -76,32 +76,32 @@ function B:Initialize()
         -- The filters control which items go into which container
         local INVERTED = -1 -- with inverted filters (using -1), everything goes into this bag when the filter returns false
         local onlyBags = function(item) return item.bagID >= BACKPACK_CONTAINER and item.bagID <= NUM_BAG_SLOTS and not CheckEquipmentSet(item) and not B:IsConsumableItem(item) end
-        local onlyBank =        function(item) return item.bagID == BANK_CONTAINER or item.bagID >= NUM_BAG_SLOTS+1 and item.bagID <= NUM_BAG_SLOTS + NUM_BANKBAGSLOTS and not CheckEquipmentSet(item) and not B:IsConsumableItem(item) end
-        local onlyReagent =     function(item) return item.bagID == REAGENTBANK_CONTAINER end
-        local onlyBagSets =     function(item) return CheckEquipmentSet(item) and not (item.bagID == BANK_CONTAINER or item.bagID >= NUM_BAG_SLOTS+1 and item.bagID <= NUM_BAG_SLOTS + NUM_BANKBAGSLOTS) end
-        local onlyBagConsumables =      function(item) return B:IsConsumableItem(item) and not (item.bagID == BANK_CONTAINER or item.bagID >= NUM_BAG_SLOTS+1 and item.bagID <= NUM_BAG_SLOTS + NUM_BANKBAGSLOTS) end
-        local onlyBankSets =    function(item) return CheckEquipmentSet(item) and not (item.bagID >= BACKPACK_CONTAINER and item.bagID <= NUM_BAG_SLOTS) end
-        local onlyBankConsumables =     function(item) return B:IsConsumableItem(item) and not (item.bagID >= BACKPACK_CONTAINER and item.bagID <= NUM_BAG_SLOTS) end
-        local onlyRareEpics =   function(item) return item.rarity and item.rarity > 3 end
-        local onlyEpics =       function(item) return item.rarity and item.rarity > 3 end
-        local hideJunk =        function(item) return not item.rarity or item.rarity > 0 end
-        local hideEmpty =       function(item) return item.texture ~= nil end
+        local onlyBank = function(item) return item.bagID == BANK_CONTAINER or item.bagID >= NUM_BAG_SLOTS+1 and item.bagID <= NUM_BAG_SLOTS + NUM_BANKBAGSLOTS and not CheckEquipmentSet(item) and not B:IsConsumableItem(item) end
+        local onlyReagent = function(item) return item.bagID == REAGENTBANK_CONTAINER end
+        local onlyBagSets = function(item) return CheckEquipmentSet(item) and not (item.bagID == BANK_CONTAINER or item.bagID >= NUM_BAG_SLOTS+1 and item.bagID <= NUM_BAG_SLOTS + NUM_BANKBAGSLOTS) end
+        local onlyBagConsumables = function(item) return B:IsConsumableItem(item) and not (item.bagID == BANK_CONTAINER or item.bagID >= NUM_BAG_SLOTS+1 and item.bagID <= NUM_BAG_SLOTS + NUM_BANKBAGSLOTS) end
+        local onlyBankSets = function(item) return CheckEquipmentSet(item) and not (item.bagID >= BACKPACK_CONTAINER and item.bagID <= NUM_BAG_SLOTS) end
+        local onlyBankConsumables = function(item) return B:IsConsumableItem(item) and not (item.bagID >= BACKPACK_CONTAINER and item.bagID <= NUM_BAG_SLOTS) end
+        local onlyRareEpics = function(item) return item.rarity and item.rarity > 3 end
+        local onlyEpics = function(item) return item.rarity and item.rarity > 3 end
+        local hideJunk = function(item) return not item.rarity or item.rarity > 0 end
+        local hideEmpty = function(item) return item.texture ~= nil end
 
         local MyContainer = RayUI_ContainerFrame:GetContainerClass()
         -- Bagpack
         f.main = MyContainer:New("Main", {
-            Columns = B.db.bagWidth,
-            Bags = "backpack+bags",
-            Movable = true,
-        })
+                Columns = B.db.bagWidth,
+                Bags = "backpack+bags",
+                Movable = true,
+            })
         f.main:SetFilter(onlyBags, true)
         f.main:SetPoint("BOTTOMRIGHT", R.UIParent, "BOTTOMRIGHT", -55, 30) -- bagpack position
 
         -- Bank frame and bank bags
         f.bank = MyContainer:New("Bank", {
-            Columns = B.db.bankWidth,
-            Bags = "bankframe+bank",
-        })
+                Columns = B.db.bankWidth,
+                Bags = "bankframe+bank",
+            })
         f.bank:SetFilter(onlyBank, true) -- Take only items from the bank frame
         f.bank:SetPoint("BOTTOMRIGHT", "RayUI_ContainerFrameMain", "BOTTOMLEFT", -25, 0) -- bank frame position
         f.bank:Hide() -- Hide at the beginning
@@ -165,7 +165,7 @@ function B:Initialize()
         end
     end
 
-    --  Class: BagButton is the template for all buttons on the BagBar
+    -- Class: BagButton is the template for all buttons on the BagBar
     local BagButton = RayUI_ContainerFrame:GetClass("BagButton", true, "BagButton")
     -- We color the CheckedTexture golden, not bright yellow
     function BagButton:OnCreate()
@@ -178,9 +178,9 @@ function B:Initialize()
     local UpdateDimensions = function(self)
         local width, height = self:LayoutButtons("grid", self.Settings.Columns, 3, 6, -45)
         --local width, height = self:GetWidth(), self:GetHeight()
-        local margin = 60           -- Normal margin space for infobar
+        local margin = 60 -- Normal margin space for infobar
         if self.BagBar and self.BagBar:IsShown() then
-            margin = margin + 40    -- Bag button space
+            margin = margin + 40 -- Bag button space
         end
         self:SetHeight(height + margin)
     end
@@ -247,11 +247,11 @@ function B:Initialize()
             self:SetMovable(true)
             self:RegisterForClicks("LeftButton", "RightButton")
             self:SetScript("OnMouseDown", function()
-                self:ClearAllPoints()
-                self:StartMoving()
-            end)
+                    self:ClearAllPoints()
+                    self:StartMoving()
+                end)
         end
-        self:SetScript("OnMouseUp",  self.StopMovingOrSizing)
+        self:SetScript("OnMouseUp", self.StopMovingOrSizing)
 
         settings.Columns = settings.Columns or 10
         if name == "Bank" or name == "Main" then -- don't need all that junk on "other" sections
@@ -285,13 +285,13 @@ function B:Initialize()
             self.bagsButton:SetScript("OnEnter", B.Tooltip_Show)
             self.bagsButton:SetScript("OnLeave", B.Tooltip_Hide)
             self.bagsButton:SetScript("OnClick", function()
-                if(self.BagBar:IsShown()) then
-                    self.BagBar:Hide()
-                else
-                    self.BagBar:Show()
-                end
-                self:UpdateDimensions()
-            end)
+                    if(self.BagBar:IsShown()) then
+                        self.BagBar:Hide()
+                    else
+                        self.BagBar:Show()
+                    end
+                    self:UpdateDimensions()
+                end)
             S:CreateBG(self.bagsButton)
 
             local infoFrame = CreateFrame("Button", nil, self)
@@ -341,12 +341,12 @@ function B:Initialize()
             closebutton:SetPoint("TOPRIGHT", -6, -3)
 
             closebutton:SetScript("OnClick", function(self)
-                if RayUI_ContainerFrame:AtBank() and self.name == "Bank" then
-                    CloseBankFrame()
-                else
-                    CloseAllBags()
-                end
-            end)
+                    if RayUI_ContainerFrame:AtBank() and self.name == "Bank" then
+                        CloseBankFrame()
+                    else
+                        CloseAllBags()
+                    end
+                end)
         elseif name == "ItemSets" or name == "BankItemSets" then
             local setname = self:CreateFontString(nil,"OVERLAY")
             setname:SetPoint("TOPLEFT", self, "TOPLEFT",5,-5)
@@ -371,10 +371,10 @@ function B:Initialize()
             closebutton:SetPoint("TOPRIGHT", -6, -3)
 
             closebutton:SetScript("OnClick", function(self)
-                if RayUI_ContainerFrame:AtBank() then
-                    CloseBankFrame()
-                end
-            end)
+                    if RayUI_ContainerFrame:AtBank() then
+                        CloseBankFrame()
+                    end
+                end)
 
             --Sort Button
             self.sortButton = CreateFrame("Button", nil, self)
@@ -422,12 +422,12 @@ function B:Initialize()
             self.reagentToggle:SetScript("OnLeave", B.Tooltip_Hide)
             S:CreateBG(self.reagentToggle)
             self.reagentToggle:SetScript("OnClick", function()
-                PlaySound("igCharacterInfoTab")
-                ReagentBankFrame:Hide()
-                BankFrame.selectedTab = 1
-                f.reagent:Hide()
-                f.bank:Show()
-            end)
+                    PlaySound("igCharacterInfoTab")
+                    ReagentBankFrame:Hide()
+                    BankFrame.selectedTab = 1
+                    f.reagent:Hide()
+                    f.bank:Show()
+                end)
 
             if not IsReagentBankUnlocked() then
                 local buyReagent = CreateFrame("Button", nil, self, "UIPanelButtonTemplate")
@@ -435,25 +435,25 @@ function B:Initialize()
                 buyReagent:SetWidth(buyReagent:GetTextWidth() + 20)
                 buyReagent:Point("TOPRIGHT", self, "TOPRIGHT", -6, -21)
                 buyReagent:SetScript("OnEnter", function(self)
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                    GameTooltip:AddLine(REAGENT_BANK_HELP, 1, 1, 1, true)
-                    GameTooltip:Show()
-                end)
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:AddLine(REAGENT_BANK_HELP, 1, 1, 1, true)
+                        GameTooltip:Show()
+                    end)
                 buyReagent:SetScript("OnLeave", function()
-                    GameTooltip:Hide()
-                end)
+                        GameTooltip:Hide()
+                    end)
                 buyReagent:SetScript("OnClick", function()
-                    StaticPopup_Show("CONFIRM_BUY_REAGENTBANK_TAB")
-                end)
+                        StaticPopup_Show("CONFIRM_BUY_REAGENTBANK_TAB")
+                    end)
                 buyReagent:SetScript("OnEvent", function(self, event)
-                    if event == "REAGENTBANK_PURCHASED" then
-                        f.reagent:OnContentsChanged()
-                    end
-                    if IsReagentBankUnlocked() then
-                        buyReagent:UnregisterAllEvents()
-                        buyReagent:Hide()
-                    end
-                end)
+                        if event == "REAGENTBANK_PURCHASED" then
+                            f.reagent:OnContentsChanged()
+                        end
+                        if IsReagentBankUnlocked() then
+                            buyReagent:UnregisterAllEvents()
+                            buyReagent:Hide()
+                        end
+                    end)
                 S:Reskin(buyReagent)
                 buyReagent:RegisterEvent("REAGENTBANK_PURCHASED")
                 buyReagent:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -483,23 +483,23 @@ function B:Initialize()
             self.reagentToggle:SetScript("OnLeave", B.Tooltip_Hide)
             S:CreateBG(self.reagentToggle)
             self.reagentToggle:SetScript("OnClick", function()
-                PlaySound("igCharacterInfoTab")
-                ReagentBankFrame:Show()
-                BankFrame.selectedTab = 2
-                f.reagent:Show()
-                if not IsReagentBankUnlocked() then
-                    f.reagent:SetSize(200, 50)
-                end
-                f.bank:Hide()
-            end)
+                    PlaySound("igCharacterInfoTab")
+                    ReagentBankFrame:Show()
+                    BankFrame.selectedTab = 2
+                    f.reagent:Show()
+                    if not IsReagentBankUnlocked() then
+                        f.reagent:SetSize(200, 50)
+                    end
+                    f.bank:Hide()
+                end)
         end
         if name == "Main" or name == "ItemSets" or name == "Consumables" then
             self:HookScript("OnShow", function()
-                R.Tooltip:GameTooltip_SetDefaultAnchor(GameTooltip)
-            end)
+                    R.Tooltip:GameTooltip_SetDefaultAnchor(GameTooltip)
+                end)
             self:HookScript("OnHide", function()
-                R.Tooltip:GameTooltip_SetDefaultAnchor(GameTooltip)
-            end)
+                    R.Tooltip:GameTooltip_SetDefaultAnchor(GameTooltip)
+                end)
         end
     end
 
